@@ -5,14 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
   <ItemGroup>
-=======
->>>>>>> af0355fbb98de53c4c4401f31c0b68a52e5937e5
     <ProjectReference Include="..\Entities\Entities.csproj" />
   </ItemGroup>
 
