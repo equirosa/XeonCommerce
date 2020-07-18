@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
-=======
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-<<<<<<< HEAD
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,13 +10,6 @@ using System.Threading.Tasks;
 //using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Dao
-=======
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.Dao
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae
 {
     public class SqlDao
     {
@@ -28,7 +20,6 @@ namespace DataAccessLayer.Dao
 
         private SqlDao()
         {
-<<<<<<< HEAD
             //var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             // CONNECTION_STRING = builder.Build().GetSection("ConnectionStrings").GetSection("CONN_STRING").Value;
@@ -37,17 +28,12 @@ namespace DataAccessLayer.Dao
 
             //CONNECTION_STRING = @"Data Source=.\SQLExpress;Initial Catalog=PROY_2;Integrated Security=True";
 
-
-        }
-
-
-=======
             CONNECTION_STRING = "Data Source=xeonsquad.database.windows.net;Initial Catalog=XeonSquad;Persist Security Info=True;User ID=proyectoxeonsquad;Password=XeonSquad2020";//ConfigurationManager.ConnectionStrings["CONN_STRING"].ConnectionString;
+
         }
 
         //IMPLEMENTA EL PATRON LLAMADO SINGLETON
         //INVESTIGAR EL PATRON
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae
         public static SqlDao GetInstance()
         {
             if (instance == null)
@@ -56,10 +42,6 @@ namespace DataAccessLayer.Dao
             return instance;
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae
         public void ExecuteProcedure(SqlOperation sqlOperation)
         {
             using (var conn = new SqlConnection(CONNECTION_STRING))
@@ -112,4 +94,5 @@ namespace DataAccessLayer.Dao
             return lstResult;
         }
     }
+
 }

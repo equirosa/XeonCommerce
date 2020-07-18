@@ -1,9 +1,8 @@
-﻿using DataAccessLayer.Dao;
-using DataAccessLayer.Mapper;
+﻿using DataAccess.Dao;
+using DataAccess.Mapper;
 using Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Mapper
 {

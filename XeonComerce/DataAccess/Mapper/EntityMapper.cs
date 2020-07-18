@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using System.Text;
 
 namespace DataAccess.Mapper
-=======
-
-namespace DataAccessLayer.Mapper
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae
 {
     public abstract class EntityMapper
     {
@@ -29,19 +24,18 @@ namespace DataAccessLayer.Mapper
             return -1;
         }
 
-<<<<<<< HEAD
         protected decimal GetDecimalValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];
             if (dic.ContainsKey(attName) && val is decimal)
                 return (decimal)dic[attName];
-=======
+            return -1;
+        }
         protected double GetDoubleValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];
             if (dic.ContainsKey(attName) && val is double)
                 return (double)dic[attName];
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae
 
             return -1;
         }
@@ -55,21 +49,6 @@ namespace DataAccessLayer.Mapper
             return DateTime.Now;
         }
 
-<<<<<<< HEAD
-        protected double GetDoubleValue(Dictionary<string, object> dic, string attName)
-        {
-            var val = dic[attName];
-            if (dic.ContainsKey(attName) && val is double)
-                return (double)dic[attName];
-
-            return -1;
-        }
-
 
     }
 }
-=======
-
-    }
-}
->>>>>>> f1f7444706474011f9237ab354395ed043deeeae

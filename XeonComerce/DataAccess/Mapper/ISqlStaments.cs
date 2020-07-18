@@ -1,9 +1,7 @@
-﻿
-
-using DataAccessLayer.Dao;
+﻿using DataAccess.Dao;
 using Entities;
 
-namespace DataAccessLayer.Mapper
+namespace DataAccess.Mapper
 {
     public interface ISqlStaments
     {
