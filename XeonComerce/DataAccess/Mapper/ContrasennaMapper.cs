@@ -1,10 +1,10 @@
-﻿using DataAccessLayer.Dao;
+﻿using DataAccess.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLayer.Mapper
+namespace DataAccess.Mapper
 {
     public class ContrasennaMapper : EntityMapper, ISqlStaments, IObjectMapper
     {
