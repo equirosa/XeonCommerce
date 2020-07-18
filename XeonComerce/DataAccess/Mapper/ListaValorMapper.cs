@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataAccess.Mapper
 {
-    public class ListaValorMapper: EntityMapper, ISqlStatements, IObjectMapper
+    public class ListaValorMapper: EntityMapper, ISqlStaments, IObjectMapper
     {
         private const string DB_COL_ID_LISTA = "ID_LISTA";
         private const string DB_COL_ID_VALOR = "ID_VALOR";

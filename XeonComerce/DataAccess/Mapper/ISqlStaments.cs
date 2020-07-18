@@ -5,7 +5,7 @@ using Entities;
 
 namespace DataAccessLayer.Mapper
 {
-    public interface ISqlStatements
+    public interface ISqlStaments
     {
         SqlOperation GetCreateStatement(BaseEntity entity);
         SqlOperation GetRetriveStatement(BaseEntity entity);

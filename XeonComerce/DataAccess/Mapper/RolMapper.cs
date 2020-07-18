@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataAccess.Mapper
 {
-    public class RolMapper: EntityMapper, ISqlStatements, IObjectMapper
+    public class RolMapper: EntityMapper, ISqlStaments, IObjectMapper
     {
         private const string DB_COL_ID = "ID";
         private const string DB_COL_ROL = "ROL";

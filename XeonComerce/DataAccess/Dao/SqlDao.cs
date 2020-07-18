@@ -18,7 +18,7 @@ namespace DataAccessLayer.Dao
 
         private SqlDao()
         {
-            CONNECTION_STRING = "Data Source=.;Initial Catalog=PROY_2;Integrated Security=True";//ConfigurationManager.ConnectionStrings["CONN_STRING"].ConnectionString;
+            CONNECTION_STRING = "Data Source=xeonsquad.database.windows.net;Initial Catalog=XeonSquad;Persist Security Info=True;User ID=proyectoxeonsquad;Password=XeonSquad2020";//ConfigurationManager.ConnectionStrings["CONN_STRING"].ConnectionString;
         }
 
         //IMPLEMENTA EL PATRON LLAMADO SINGLETON
