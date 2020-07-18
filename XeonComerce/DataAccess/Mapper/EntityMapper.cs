@@ -5,7 +5,7 @@ using System.Text;
 namespace DataAccess.Mapper
 {
     public abstract class EntityMapper
-    {
+    {      
         protected string GetStringValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];

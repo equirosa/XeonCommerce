@@ -17,3 +17,4 @@ namespace DataAccess.Crud
         public abstract void Delete(BaseEntity entity);
 
     }
+}
