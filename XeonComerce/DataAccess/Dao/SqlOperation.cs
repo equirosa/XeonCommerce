@@ -2,8 +2,12 @@
 using System.Data;
 using System.Data.SqlClient;
 
+<<<<<<< HEAD
 
 namespace DataAccess.Dao
+=======
+namespace DataAccessLayer.Dao
+>>>>>>> f1f7444706474011f9237ab354395ed043deeeae
 {
     public class SqlOperation
     {

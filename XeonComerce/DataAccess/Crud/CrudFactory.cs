@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using DataAccess.Dao;
 using Entities;
 using System;
@@ -5,6 +6,13 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace DataAccess.Crud
+=======
+﻿using System.Collections.Generic;
+using Entities;
+using DataAccessLayer.Dao;
+
+namespace DataAccessLayer.Crud
+>>>>>>> f1f7444706474011f9237ab354395ed043deeeae
 {
     public abstract class CrudFactory
     {
@@ -17,3 +25,7 @@ namespace DataAccess.Crud
         public abstract void Delete(BaseEntity entity);
 
     }
+<<<<<<< HEAD
+=======
+}
+>>>>>>> f1f7444706474011f9237ab354395ed043deeeae
