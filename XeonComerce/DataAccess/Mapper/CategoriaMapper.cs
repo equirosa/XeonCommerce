@@ -13,7 +13,7 @@ namespace DataAccess.Mapper
 
         public BaseEntity BuildObject(Dictionary<string, object> row)
         {
-            var categoria = new Categoria()
+            var categoria = new Categoria
             {
                 Id = getIntValue(row, DB_COL_ID),
                 Valor = getStringValue(row, DB_COL_VALOR)
@@ -24,7 +24,14 @@ namespace DataAccess.Mapper
 
         public List<BaseEntity> BuildObjects(List<Dictionary<string, object>> lstRows)
         {
-            throw new NotImplementedException();
+            var lstResults = new List<BaseEntity>();
+
+            foreach(var row in lstRows)
+            {
+                lstResults.Add(BuildObject(row));
+            }
+
+            return lstResults;
         }
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
