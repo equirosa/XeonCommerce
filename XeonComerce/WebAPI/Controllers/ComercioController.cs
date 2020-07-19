@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
         [HttpPut("{cedula}")]
@@ -59,13 +59,13 @@ namespace WebAPI.Controllers
                 }
                 else
                 {
-                    return StatusCode(500);
+                    return StatusCode(500, new { msg = "No se encontró dicho comercio" });
                 }
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -83,7 +83,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
     }

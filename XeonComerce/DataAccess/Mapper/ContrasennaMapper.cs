@@ -22,7 +22,7 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_CONTRASENNA, c.contrasenna);
             operation.AddVarcharParam(DB_COL_ESTADO, c.estado);
             operation.AddDateTimeParam(DB_COL_FECHA_ACTUALIZACION, c.FechaActualizacion);
-            operation.AddVarcharParam(DB_COL_ID, c.IdUsuario);
+            operation.AddVarcharParam(DB_COL_ID_USUARIO, c.IdUsuario);
             return operation;
         }
 
