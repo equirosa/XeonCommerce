@@ -10,7 +10,7 @@ namespace DataAccess.Mapper
     {
 
         private const string DB_COL_ID = "ID";
-        private const string DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL = "ID_EMPLEADO_COMERCIO_SUCURSAL";
+        private const string DB_COL_ID_EMPLEADO = "ID_EMPLEADO";
         private const string DB_COL_HORA_INICIO = "HORA_INICIO";
         private const string DB_COL_HORA_FINAL = "HORA_FINAL";
         private const string DB_COL_DIA_SEMANA = "DIA_SEMANA";
@@ -21,7 +21,7 @@ namespace DataAccess.Mapper
 
             var he = (HorarioEmpleado)entity;
             operation.AddIntParam(DB_COL_ID, he.Id);
-            operation.AddIntParam(DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL, he.IdEmpleadoComercioSucursal);
+            operation.AddIntParam(DB_COL_ID_EMPLEADO, he.IdEmpleadoComercioSucursal);
             operation.AddDateParam(DB_COL_HORA_INICIO, he.HoraInicio);
             operation.AddDateParam(DB_COL_HORA_FINAL, he.HoraFinal);
             operation.AddIntParam(DB_COL_DIA_SEMANA, he.DiaSemana);
@@ -53,7 +53,7 @@ namespace DataAccess.Mapper
 
             var he = (HorarioEmpleado)entity;
             operation.AddIntParam(DB_COL_ID, he.Id);
-            operation.AddIntParam(DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL, he.IdEmpleadoComercioSucursal);
+            operation.AddIntParam(DB_COL_ID_EMPLEADO, he.IdEmpleadoComercioSucursal);
             operation.AddDateParam(DB_COL_HORA_INICIO, he.HoraInicio);
             operation.AddDateParam(DB_COL_HORA_FINAL, he.HoraFinal);
             operation.AddIntParam(DB_COL_DIA_SEMANA, he.DiaSemana);
@@ -88,7 +88,7 @@ namespace DataAccess.Mapper
             var horarioEmpleado = new HorarioEmpleado
             {
                 Id = GetIntValue(row, DB_COL_ID),
-                IdEmpleadoComercioSucursal = GetIntValue(row, DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL),
+                IdEmpleadoComercioSucursal = GetIntValue(row, DB_COL_ID_EMPLEADO),
                 HoraInicio = GetDateValue(row, DB_COL_HORA_FINAL),
                 HoraFinal = GetDateValue(row, DB_COL_HORA_FINAL),
                 DiaSemana = GetIntValue(row, DB_COL_DIA_SEMANA)

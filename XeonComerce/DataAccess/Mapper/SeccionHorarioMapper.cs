@@ -58,6 +58,7 @@ namespace DataAccess.Mapper
             operation.AddDateParam(DB_COL_HORA_INICIO, sh.HoraInicio);
             operation.AddDateParam(DB_COL_HORA_FINAL, sh.HoraFinal);
             operation.AddVarcharParam(DB_COL_DESCRIPCION, sh.Descripcion);
+            operation.AddIntParam(DB_COL_TIPO, sh.Tipo);
 
             return operation;
         }

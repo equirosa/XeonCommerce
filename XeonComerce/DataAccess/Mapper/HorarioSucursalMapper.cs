@@ -9,7 +9,7 @@ namespace DataAccess.Mapper
     public class HorarioSucursalMapper : EntityMapper, ISqlStaments, IObjectMapper
     {
         private const string DB_COL_ID = "ID";
-        private const string DB_COL_ID_SUCURSAL = "ID__SUCURSAL";
+        private const string DB_COL_ID_SUCURSAL = "ID_SUCURSAL";
         private const string DB_COL_HORA_INICIO = "HORA_INICIO";
         private const string DB_COL_HORA_FINAL = "HORA_FINAL";
         private const string DB_COL_DIA_SEMANA = "DIA_SEMANA";
