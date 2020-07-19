@@ -5,12 +5,12 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Vista
+    public class Vista: BaseEntity
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("url")]
-        public int URL { get; set; }
+        public string URL { get; set; }
 
         public Vista() { }
     }

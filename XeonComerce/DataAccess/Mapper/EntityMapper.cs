@@ -5,7 +5,7 @@ using System.Text;
 namespace DataAccess.Mapper
 {
     public abstract class EntityMapper
-    {
+    {      
         protected string GetStringValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];
@@ -29,6 +29,13 @@ namespace DataAccess.Mapper
             var val = dic[attName];
             if (dic.ContainsKey(attName) && val is decimal)
                 return (decimal)dic[attName];
+            return -1;
+        }
+        protected double GetDoubleValue(Dictionary<string, object> dic, string attName)
+        {
+            var val = dic[attName];
+            if (dic.ContainsKey(attName) && val is double)
+                return (double)dic[attName];
 
             return -1;
         }
@@ -40,15 +47,6 @@ namespace DataAccess.Mapper
                 return (DateTime)dic[attName];
 
             return DateTime.Now;
-        }
-
-        protected double GetDoubleValue(Dictionary<string, object> dic, string attName)
-        {
-            var val = dic[attName];
-            if (dic.ContainsKey(attName) && val is double)
-                return (double)dic[attName];
-
-            return -1;
         }
 
 
