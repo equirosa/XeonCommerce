@@ -45,8 +45,12 @@ namespace DataAccess.Mapper
         protected double GetDoubleValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];
+
             if (dic.ContainsKey(attName) && val is double)
                 return (double)dic[attName];
+
+            if (dic.ContainsKey(attName) && val is decimal)
+                return (double)((decimal)dic[attName]);
 
             return -1;
         }

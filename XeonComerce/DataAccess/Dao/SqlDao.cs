@@ -14,7 +14,7 @@ namespace DataAccess.Dao
     public class SqlDao
     {
 
-        private string CONNECTION_STRING = "";
+        private string CONNECTION_STRING = "Data Source=xeonsquad.database.windows.net;Initial Catalog=XeonSquad;Persist Security Info=True;User ID=proyectoxeonsquad;Password=XeonSquad2020";
 
         private static SqlDao instance;
 
@@ -24,7 +24,7 @@ namespace DataAccess.Dao
 
             // CONNECTION_STRING = builder.Build().GetSection("ConnectionStrings").GetSection("CONN_STRING").Value;
 
-            CONNECTION_STRING=ConfigurationManager.ConnectionStrings["CONN_STRING"].ConnectionString;
+            //CONNECTION_STRING=ConfigurationManager.ConnectionStrings["CONN_STRING"].ConnectionString;
 
             //CONNECTION_STRING = @"Data Source=.\SQLExpress;Initial Catalog=PROY_2;Integrated Security=True";
 

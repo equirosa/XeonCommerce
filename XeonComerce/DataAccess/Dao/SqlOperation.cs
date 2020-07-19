@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -27,6 +28,15 @@ namespace DataAccess.Dao
         public void AddIntParam(string paramName, int paramValue)
         {
             var param = new SqlParameter("@P_" + paramName, SqlDbType.Int)
+            {
+                Value = paramValue
+            };
+            Parameters.Add(param);
+        }
+
+        public void AddDateParam(string paramName, DateTime paramValue)
+        {
+            var param = new SqlParameter("@P_" + paramName, SqlDbType.DateTime)
             {
                 Value = paramValue
             };
