@@ -5,12 +5,12 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Rol
+    public class Rol:BaseEntity
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("rol")]
-        public int rol { get; set; }
+        public string rol { get; set; }
         [JsonPropertyName("descripcion")]
         public string Descripcion { get; set; }
 
