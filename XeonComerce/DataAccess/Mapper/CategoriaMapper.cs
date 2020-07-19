@@ -15,8 +15,8 @@ namespace DataAccess.Mapper
         {
             var categoria = new Categoria
             {
-                Id = getIntValue(row, DB_COL_ID),
-                Valor = getStringValue(row, DB_COL_VALOR)
+                Id = GetIntValue(row, DB_COL_ID),
+                Valor = GetStringValue(row, DB_COL_VALOR)
             };
 
             return categoria;
