@@ -22,7 +22,8 @@ namespace DataAccessLayer.Dao
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             CONNECTION_STRING = builder.Build().GetSection("ConnectionStrings").GetSection("CONN_STRING").Value;*/
-            CONNECTION_STRING = @"Data Source=.;Initial Catalog=Laboratorio2;Integrated Security=True";
+            //CONNECTION_STRING = @"Data Source=.;Initial Catalog=Laboratorio2;Integrated Security=True";
+            CONNECTION_STRING = @"Data Source=DESKTOP-DPAKOVR;Initial Catalog=XeonSquad;Integrated Security=True";
         }
 
         //IMPLEMENTA EL PATRON LLAMADO SINGLETON

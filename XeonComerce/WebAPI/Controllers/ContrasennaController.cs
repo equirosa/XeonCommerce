@@ -38,11 +38,11 @@ namespace WebAPI.Controllers
             {
                 var cm = new ContrasennaManagement();
                 cm.Create(contrasenna);
-                return Ok("Se creó el contraseña");
+                return Ok("Se creó la contraseña");
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
         [HttpPut("{id}")]
@@ -55,17 +55,17 @@ namespace WebAPI.Controllers
                 if (GetById(id) != null)
                 {
                     cm.Update(contrasenna);
-                    return Ok("Se actualizó el contraseña");
+                    return Ok("Se actualizó la contraseña");
                 }
                 else
                 {
-                    return StatusCode(500);
+                    return StatusCode(500, new { msg = "No se encontró dicha contraseña" });
                 }
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -78,12 +78,12 @@ namespace WebAPI.Controllers
                 var contrasenna = new Contrasenna { Id = id };
                 cm.Delete(contrasenna);
 
-                return Ok("Se eliminó el contraseña");
+                return Ok("Se eliminó la contraseña");
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
     }
