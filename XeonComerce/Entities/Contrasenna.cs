@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Contrasenna
+    public class Contrasenna : BaseEntity
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
