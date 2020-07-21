@@ -22,7 +22,6 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_DIRECCION_PR" };
 
             var dir = (Direccion)entity;
-            operation.AddIntParam(DB_COL_Id, dir.Id);
             operation.AddIntParam(DB_COL_Provincia, dir.Provincia);
             operation.AddIntParam(DB_COL_Canton, dir.Canton);
             operation.AddIntParam(DB_COL_Distrito, dir.Distrito);

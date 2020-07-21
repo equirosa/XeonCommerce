@@ -20,7 +20,6 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_ARCHIVO_PR" };
 
             var arc = (Archivo)entity;
-            operation.AddIntParam(DB_COL_Id, arc.Id);
             operation.AddVarcharParam(DB_COL_Link, arc.Link);
             operation.AddVarcharParam(DB_COL_Tipo, arc.tipo);
             operation.AddVarcharParam(DB_COL_Nommbre, arc.Nommbre);
