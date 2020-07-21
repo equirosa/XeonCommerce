@@ -22,8 +22,8 @@ namespace DataAccess.Mapper
             var sh = (SeccionHorario)entity;
             operation.AddIntParam(DB_COL_ID, sh.Id);
             operation.AddIntParam(DB_COL_ID_HORARIO_EMPLEADO, sh.IdHorarioEmpleado);
-            operation.AddDateParam(DB_COL_HORA_INICIO, sh.HoraInicio);
-            operation.AddDateParam(DB_COL_HORA_FINAL, sh.HoraFinal);
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, sh.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, sh.HoraFinal);
             operation.AddVarcharParam(DB_COL_DESCRIPCION, sh.Descripcion);
             operation.AddIntParam(DB_COL_TIPO, sh.Tipo);
 
@@ -55,8 +55,8 @@ namespace DataAccess.Mapper
             var sh = (SeccionHorario)entity;
             operation.AddIntParam(DB_COL_ID, sh.Id);
             operation.AddIntParam(DB_COL_ID_HORARIO_EMPLEADO, sh.IdHorarioEmpleado);
-            operation.AddDateParam(DB_COL_HORA_INICIO, sh.HoraInicio);
-            operation.AddDateParam(DB_COL_HORA_FINAL, sh.HoraFinal);
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, sh.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, sh.HoraFinal);
             operation.AddVarcharParam(DB_COL_DESCRIPCION, sh.Descripcion);
             operation.AddIntParam(DB_COL_TIPO, sh.Tipo);
 

@@ -22,8 +22,8 @@ namespace DataAccess.Mapper
             var he = (HorarioEmpleado)entity;
             operation.AddIntParam(DB_COL_ID, he.Id);
             operation.AddIntParam(DB_COL_ID_EMPLEADO, he.IdEmpleadoComercioSucursal);
-            operation.AddDateParam(DB_COL_HORA_INICIO, he.HoraInicio);
-            operation.AddDateParam(DB_COL_HORA_FINAL, he.HoraFinal);
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, he.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, he.HoraFinal);
             operation.AddIntParam(DB_COL_DIA_SEMANA, he.DiaSemana);
 
 
@@ -54,8 +54,8 @@ namespace DataAccess.Mapper
             var he = (HorarioEmpleado)entity;
             operation.AddIntParam(DB_COL_ID, he.Id);
             operation.AddIntParam(DB_COL_ID_EMPLEADO, he.IdEmpleadoComercioSucursal);
-            operation.AddDateParam(DB_COL_HORA_INICIO, he.HoraInicio);
-            operation.AddDateParam(DB_COL_HORA_FINAL, he.HoraFinal);
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, he.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, he.HoraFinal);
             operation.AddIntParam(DB_COL_DIA_SEMANA, he.DiaSemana);
 
             return operation;

@@ -7,6 +7,8 @@ using Management;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
@@ -14,6 +16,32 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
+        private IUsuarioService _usuarioService;
+
+        public UsuarioController(IUsuarioService usuarioService)
+        {
+            usuarioService = _usuarioService;
+        }
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(AuthenticateRequest model)
+        {
+            var response = _usuarioService.Authenticate(model);
+
+            if (response == null)
+                return BadRequest(new { message = "Cedula o contraseña son incorrectas" });
+
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("test")]
+        public IActionResult GetAll()
+        {            return Ok("Tiene permisos");
+        }
+
+
+
 
         [HttpGet]
         public List<Usuario> Get()
@@ -21,6 +49,7 @@ namespace WebAPI.Controllers
             var cat = new UsuarioManagement();
             return cat.RetrieveAll();
         }
+
         [HttpGet("{id}")]
         public Usuario GetById(string id)
         {
