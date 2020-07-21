@@ -24,9 +24,6 @@ namespace WebAPI.Services
 
     public class UsuarioService : IUsuarioService
     {
-        // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-        private Contrasenna ultimaClave;
-
         private readonly AppSettings _appSettings;
 
         public UsuarioService(IOptions<AppSettings> appSettings)
@@ -38,10 +35,10 @@ namespace WebAPI.Services
         {
             var user = GetAll().SingleOrDefault(x => x.Id.Equals(model.Id));
             var clave = GetClave(user.Id);
-            // return null if user not found
+
             if (clave == null) return null;
-            if (!clave.Equals(model.Clave)) return null;
-            // authentication successful so generate jwt token
+            if (!clave.contrasenna.Equals(model.Clave)) return null;
+
             var token = generateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
@@ -56,8 +53,6 @@ namespace WebAPI.Services
         {
             return GetAll().FirstOrDefault(x => x.Id.Equals(id));
         }
-
-        // helper methods
 
         private string generateJwtToken(Usuario user)
         {
