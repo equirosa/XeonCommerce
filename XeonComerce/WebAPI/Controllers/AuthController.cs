@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
             var response = _usuarioService.Authenticate(model);
 
             if (response == null)
-                return BadRequest(new { message = "Cedula o contraseña son incorrectas" });
+                return BadRequest(new { message = "Email o contraseña son incorrectas" });
 
             return Ok(response);
         }

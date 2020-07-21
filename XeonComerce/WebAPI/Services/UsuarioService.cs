@@ -33,7 +33,8 @@ namespace WebAPI.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = GetAll().SingleOrDefault(x => x.Id.Equals(model.Id));
+            var user = GetAll().SingleOrDefault(x => x.CorreoElectronico.Equals(model.Email));
+            if (user == null) return null;
             var clave = GetClave(user.Id);
 
             if (clave == null) return null;
