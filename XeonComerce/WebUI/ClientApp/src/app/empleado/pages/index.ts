@@ -1,0 +1,1 @@
+export * from './empleado-admin/empleado-admin.component';
