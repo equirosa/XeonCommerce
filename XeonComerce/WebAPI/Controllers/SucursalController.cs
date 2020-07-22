@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         {
             var sucursal = new Sucursal()
             {
-                Id = Int32.Parse(id)
+                Id = id
             };
             return sm.RetriveById(sucursal);
         }
@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                sm.Update(s);
+                sm.Create(s);
                 return Ok();
             }
             catch (Exception e)
@@ -64,7 +64,7 @@ namespace WebAPI.Controllers
             try
             {
                 Sucursal s = new Sucursal();
-                s.Id = Int32.Parse(id);
+                s.Id = id;
                 sm.Delete(s);
                 return Ok();
             }

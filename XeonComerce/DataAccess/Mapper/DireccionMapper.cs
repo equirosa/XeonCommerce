@@ -8,13 +8,13 @@ namespace DataAccess.Mapper
 {
     public class DireccionMapper: EntityMapper, ISqlStaments, IObjectMapper
     {
-        private const string DB_COL_Id = "Id";
-        private const string DB_COL_Provincia = "Provincia";
-        private const string DB_COL_Canton = "Canton";
-        private const string DB_COL_Distrito = "Distrito";
-        private const string DB_COL_Sennas = "Sennas";
-        private const string DB_COL_Latitud = "Latitud";
-        private const string DB_COL_Longitud = "Longitud";
+        private const string DB_COL_ID = "ID";
+        private const string DB_COL_PROVINCIA = "PROVINCIA";
+        private const string DB_COL_CANTON = "CANTON";
+        private const string DB_COL_DISTRITO = "DISTRITO";
+        private const string DB_COL_SENNAS = "SENNAS";
+        private const string DB_COL_LATITUD = "LATITUD";
+        private const string DB_COL_LONGITUD = "LONGITUD";
 
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
@@ -22,12 +22,12 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_DIRECCION_PR" };
 
             var dir = (Direccion)entity;
-            operation.AddIntParam(DB_COL_Provincia, dir.Provincia);
-            operation.AddIntParam(DB_COL_Canton, dir.Canton);
-            operation.AddIntParam(DB_COL_Distrito, dir.Distrito);
-            operation.AddVarcharParam(DB_COL_Sennas, dir.Sennas);
-            operation.AddVarcharParam(DB_COL_Latitud, dir.Latitud);
-            operation.AddVarcharParam(DB_COL_Longitud, dir.Longitud);
+            operation.AddIntParam(DB_COL_PROVINCIA, dir.Provincia);
+            operation.AddIntParam(DB_COL_CANTON, dir.Canton);
+            operation.AddIntParam(DB_COL_DISTRITO, dir.Distrito);
+            operation.AddVarcharParam(DB_COL_SENNAS, dir.Sennas);
+            operation.AddVarcharParam(DB_COL_LATITUD, dir.Latitud);
+            operation.AddVarcharParam(DB_COL_LONGITUD, dir.Longitud);
 
             return operation;
         }
@@ -37,7 +37,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "RET_DIRECCION_PR" };
 
             var dir = (Direccion)entity;
-            operation.AddIntParam(DB_COL_Id, dir.Id);
+            operation.AddIntParam(DB_COL_ID, dir.Id);
 
             return operation;
         }
@@ -53,13 +53,13 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "UPD_DIRECCION_PR" };
 
             var dir = (Direccion)entity;
-            operation.AddIntParam(DB_COL_Id, dir.Id);
-            operation.AddIntParam(DB_COL_Provincia, dir.Provincia);
-            operation.AddIntParam(DB_COL_Canton, dir.Canton);
-            operation.AddIntParam(DB_COL_Distrito, dir.Distrito);
-            operation.AddVarcharParam(DB_COL_Sennas, dir.Sennas);
-            operation.AddVarcharParam(DB_COL_Latitud, dir.Latitud);
-            operation.AddVarcharParam(DB_COL_Longitud, dir.Longitud);
+            operation.AddIntParam(DB_COL_ID, dir.Id);
+            operation.AddIntParam(DB_COL_PROVINCIA, dir.Provincia);
+            operation.AddIntParam(DB_COL_CANTON, dir.Canton);
+            operation.AddIntParam(DB_COL_DISTRITO, dir.Distrito);
+            operation.AddVarcharParam(DB_COL_SENNAS, dir.Sennas);
+            operation.AddVarcharParam(DB_COL_LATITUD, dir.Latitud);
+            operation.AddVarcharParam(DB_COL_LONGITUD, dir.Longitud);
 
 
             return operation;
@@ -70,7 +70,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "DEL_DIRECCION_PR" };
 
             var dir = (Direccion)entity;
-            operation.AddIntParam(DB_COL_Id, dir.Id);
+            operation.AddIntParam(DB_COL_ID, dir.Id);
             return operation;
         }
 
@@ -91,13 +91,13 @@ namespace DataAccess.Mapper
         {
             var direccion = new Direccion
             {
-                Id = GetIntValue(row, DB_COL_Id),
-                Provincia = GetIntValue(row, DB_COL_Provincia),
-                Canton = GetIntValue(row, DB_COL_Canton),
-                Distrito = GetIntValue(row, DB_COL_Distrito),
-                Sennas = GetStringValue(row, DB_COL_Sennas),
-                Latitud = GetStringValue(row, DB_COL_Latitud),
-                Longitud = GetStringValue(row, DB_COL_Longitud)
+                Id = GetIntValue(row, DB_COL_ID),
+                Provincia = GetIntValue(row, DB_COL_PROVINCIA),
+                Canton = GetIntValue(row, DB_COL_CANTON),
+                Distrito = GetIntValue(row, DB_COL_DISTRITO),
+                Sennas = GetStringValue(row, DB_COL_SENNAS),
+                Latitud = GetStringValue(row, DB_COL_LATITUD),
+                Longitud = GetStringValue(row, DB_COL_LONGITUD)
             };
 
             return direccion;

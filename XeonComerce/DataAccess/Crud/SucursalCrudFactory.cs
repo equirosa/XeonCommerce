@@ -58,13 +58,13 @@ namespace DataAccess.Crud
 
         public override void Update(BaseEntity entity)
         {
-            var sucursal = (Direccion)entity;
+            var sucursal = (Sucursal)entity;
             dao.ExecuteProcedure(mapper.GetUpdateStatement(sucursal));
         }
 
         public override void Delete(BaseEntity entity)
         {
-            var sucursal = (Direccion)entity;
+            var sucursal = (Sucursal)entity;
             dao.ExecuteProcedure(mapper.GetDeleteStatement(sucursal));
         }
     }

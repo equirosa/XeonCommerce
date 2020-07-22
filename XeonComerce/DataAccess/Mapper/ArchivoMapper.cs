@@ -8,11 +8,11 @@ namespace DataAccess.Mapper
 {
     public class ArchivoMapper : EntityMapper, ISqlStaments, IObjectMapper
     {
-        private const string DB_COL_Id = "Id";
-        private const string DB_COL_Link = "Link";
-        private const string DB_COL_Tipo = "Tipo";
-        private const string DB_COL_Nommbre = "Nommbre";
-        private const string DB_COL_IdComercio = "IdComercio";
+        private const string DB_COL_ID = "ID";
+        private const string DB_COL_LINK = "LINK";
+        private const string DB_COL_TIPO = "TIPO";
+        private const string DB_COL_NOMBRE = "NOMBRE";
+        private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
 
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
@@ -20,10 +20,10 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_ARCHIVO_PR" };
 
             var arc = (Archivo)entity;
-            operation.AddVarcharParam(DB_COL_Link, arc.Link);
-            operation.AddVarcharParam(DB_COL_Tipo, arc.tipo);
-            operation.AddVarcharParam(DB_COL_Nommbre, arc.Nommbre);
-            operation.AddVarcharParam(DB_COL_IdComercio, arc.IdComercio);
+            operation.AddVarcharParam(DB_COL_LINK, arc.Link);
+            operation.AddVarcharParam(DB_COL_TIPO, arc.Tipo);
+            operation.AddVarcharParam(DB_COL_NOMBRE, arc.Nombre);
+            operation.AddVarcharParam(DB_COL_ID_COMERCIO, arc.IdComercio);
 
             return operation;
         }
@@ -33,7 +33,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "RET_ARCHIVO_PR" };
 
             var arc = (Archivo)entity;
-            operation.AddIntParam(DB_COL_Id, arc.Id);
+            operation.AddIntParam(DB_COL_ID, arc.Id);
 
             return operation;
         }
@@ -49,11 +49,11 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "UPD_ARCHIVO_PR" };
 
             var arc = (Archivo)entity;
-            operation.AddIntParam(DB_COL_Id, arc.Id);
-            operation.AddVarcharParam(DB_COL_Link, arc.Link);
-            operation.AddVarcharParam(DB_COL_Tipo, arc.tipo);
-            operation.AddVarcharParam(DB_COL_Nommbre, arc.Nommbre);
-            operation.AddVarcharParam(DB_COL_IdComercio, arc.IdComercio);
+            operation.AddIntParam(DB_COL_ID, arc.Id);
+            operation.AddVarcharParam(DB_COL_LINK, arc.Link);
+            operation.AddVarcharParam(DB_COL_TIPO, arc.Tipo);
+            operation.AddVarcharParam(DB_COL_NOMBRE, arc.Nombre);
+            operation.AddVarcharParam(DB_COL_ID_COMERCIO, arc.IdComercio);
 
             return operation;
         }
@@ -63,7 +63,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "DEL_ARCHIVO_PR" };
 
             var arc = (Archivo)entity;
-            operation.AddIntParam(DB_COL_Id, arc.Id);
+            operation.AddIntParam(DB_COL_ID, arc.Id);
             return operation;
         }
 
@@ -84,11 +84,11 @@ namespace DataAccess.Mapper
         {
             var archivo = new Archivo
             {
-                Id = GetIntValue(row, DB_COL_Id),
-                Link = GetStringValue(row, DB_COL_Link),
-                tipo = GetStringValue(row, DB_COL_Tipo),
-                Nommbre = GetStringValue(row, DB_COL_Nommbre),
-                IdComercio = GetStringValue(row, DB_COL_IdComercio)
+                Id = GetIntValue(row, DB_COL_ID),
+                Link = GetStringValue(row, DB_COL_LINK),
+                Tipo = GetStringValue(row, DB_COL_TIPO),
+                Nombre = GetStringValue(row, DB_COL_NOMBRE),
+                IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO)
         };
 
             return archivo;

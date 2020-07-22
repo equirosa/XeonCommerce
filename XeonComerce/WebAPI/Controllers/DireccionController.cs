@@ -35,7 +35,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                dm.Update(d);
+                var dm = new DireccionManagement();
+                dm.Create(d);
                 return Ok();
             }
             catch (Exception e)

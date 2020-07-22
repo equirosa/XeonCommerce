@@ -15,7 +15,7 @@ namespace DataAccess.Dao
 
         private SqlDao()
         {
-            CONNECTION_STRING = "Data Source=.;Initial Catalog=Lab_1;Integrated Security=True";
+            CONNECTION_STRING = "Data Source=xeonsquad.database.windows.net;Initial Catalog=XeonSquad;Persist Security Info=True;User ID=proyectoxeonsquad;Password=XeonSquad2020";
             //ConfigurationManager.ConnectionStrings["CONN_STRING"].ConnectionString;
         }
 

@@ -35,7 +35,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                am.Update(a);
+                var am = new ArchivoManagement();
+                am.Create(a);
                 return Ok();
             }
             catch (Exception e)

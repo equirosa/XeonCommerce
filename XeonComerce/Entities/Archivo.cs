@@ -10,9 +10,9 @@ namespace Entities
         [JsonPropertyName("link")]
         public string Link { get; set; }
         [JsonPropertyName("tipo")]
-        public string tipo { get; set; }
+        public string Tipo { get; set; }
         [JsonPropertyName("nombre")]
-        public string Nommbre { get; set; }
+        public string Nombre { get; set; }
         [JsonPropertyName("idComercio")]
         public string IdComercio { get; set; }
 
