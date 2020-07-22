@@ -52,7 +52,7 @@ namespace DataAccess
                 var cpn = (Cupon)entity;
 
                 operation.AddVarcharParam(DB_COL_ID_COMERCIO, cpn.IdComercio);
-                operation.AddDateParam(DB_COL_FECHA_EXPIRACION, cpn.FechaExpiracion);
+                operation.AddDateTimeParam(DB_COL_FECHA_EXPIRACION, cpn.FechaExpiracion);
                 operation.AddIntParam(DB_COL_VALOR, cpn.Valor);
 
                 return operation;
@@ -93,7 +93,7 @@ namespace DataAccess
 
                 operation.AddIntParam(DB_COL_ID, cpn.Id);
                 operation.AddVarcharParam(DB_COL_ID_COMERCIO, cpn.IdComercio);
-                operation.AddDateParam(DB_COL_FECHA_EXPIRACION, cpn.FechaExpiracion);
+                operation.AddDateTimeParam(DB_COL_FECHA_EXPIRACION, cpn.FechaExpiracion);
                 operation.AddIntParam(DB_COL_VALOR, cpn.Valor);
 
                 return operation;

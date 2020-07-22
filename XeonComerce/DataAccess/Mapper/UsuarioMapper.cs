@@ -15,13 +15,13 @@ namespace DataAccess.Mapper
         private const string DB_COL_GENERO = "GENERO";
         private const string DB_COL_FECHA_NACIMIENTO = "FECHA_NACIMIENTO";
         private const string DB_COL_CORREO_ELECTRONICO = "CORREO_ELECTRONICO";
-        private const string DB_COL_TELEFONO = "TELEFONO";
+        private const string DB_COL_TELEFONO = "NUMERO_TELEFONO";
         private const string DB_COL_ID_DIRECCION = "ID_DIRECCION";
         private const string DB_COL_ESTADO = "ESTADO";
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "CRE_COMERCIO_PR" };
+            var operation = new SqlOperation { ProcedureName = "CRE_USUARIO_PR" };
 
             var c = (Usuario)entity;
             operation.AddVarcharParam(DB_COL_ID, c.Id);
@@ -39,7 +39,7 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetRetriveStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "RET_COMERCIO_PR" };
+            var operation = new SqlOperation { ProcedureName = "RET_USUARIO_PR" };
 
             var c = (Usuario)entity;
             operation.AddVarcharParam(DB_COL_ID, c.Id);
@@ -49,13 +49,13 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetRetriveAllStatement()
         {
-            var operation = new SqlOperation { ProcedureName = "RET_ALL_COMERCIO_PR" };
+            var operation = new SqlOperation { ProcedureName = "RET_ALL_USUARIO_PR" };
             return operation;
         }
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "UPD_COMERCIO_PR" };
+            var operation = new SqlOperation { ProcedureName = "UPD_USUARIO_PR" };
 
             var c = (Usuario)entity;
             operation.AddVarcharParam(DB_COL_ID, c.Id);
@@ -73,7 +73,7 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetDeleteStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "DEL_COMERCIO_PR" };
+            var operation = new SqlOperation { ProcedureName = "DEL_USUARIO_PR" };
 
             var c = (Usuario)entity;
             operation.AddVarcharParam(DB_COL_ID, c.Id);

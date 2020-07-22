@@ -7,6 +7,8 @@ using Management;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
+using WebAPI.Services;
 
 namespace WebAPI.Controllers
 {
@@ -21,6 +23,7 @@ namespace WebAPI.Controllers
             var cat = new UsuarioManagement();
             return cat.RetrieveAll();
         }
+
         [HttpGet("{id}")]
         public Usuario GetById(string id)
         {
