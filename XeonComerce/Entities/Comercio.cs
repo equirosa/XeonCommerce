@@ -18,6 +18,9 @@ namespace Entities
         [JsonPropertyName("direccion")]
         public int Direccion { get; set; }
 
+        [JsonPropertyName("idUsuario")]
+        public string IdUsuario { get; set; }
+
         public Comercio() { }
     }
 }
