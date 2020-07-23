@@ -27,17 +27,16 @@ namespace AppCore
             };
 
             crudEmpleadoComercioSucursal.Create(empleadoComercioSucursal);
-
         }
 
 
-        //public List<Empleado> RetrieveAll()
-        //{
-        //    return crudAddress.RetrieveAll<Address>();
-        //}
+        public List<Empleado> GetEmpleadosByIdSucursal(string idSucursal)
+        {
+            return crudEmpleadoComercioSucursal.GetEmpleadosByIdSucursal<Empleado>(idSucursal);
+        }
 
 
-      
+
 
 
 

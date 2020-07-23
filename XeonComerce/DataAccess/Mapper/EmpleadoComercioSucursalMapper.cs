@@ -92,13 +92,13 @@ namespace DataAccess.Mapper
         }
 
 
-        public SqlOperation GetEmpleadosByIdSucursal(string idSucursal)
-        {
-            var operation = new SqlOperation { ProcedureName = "RET_EMPLEADO_COMERICO_SUCURSAL_ID_SUCURSAL_PR" };
+        //public SqlOperation GetEmpleadosByIdSucursal(string idSucursal)
+        //{
+        //    var operation = new SqlOperation { ProcedureName = "RET_EMPLEADO_COMERICO_SUCURSAL_ID_SUCURSAL_PR" };
 
-            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, idSucursal);
-            return operation; 
-        }
+        //    operation.AddVarcharParam(DB_COL_ID_SUCURSAL, idSucursal);
+        //    return operation; 
+        //}
 
 
     }

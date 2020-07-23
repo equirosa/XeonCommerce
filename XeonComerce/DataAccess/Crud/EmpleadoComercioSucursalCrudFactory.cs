@@ -9,11 +9,13 @@ namespace DataAccess.Crud
 {
     public class EmpleadoComercioSucursalCrudFactory : CrudFactory
     {
-        EmpleadoComercioSucursalMapper mapper; 
+        EmpleadoComercioSucursalMapper mapper;
+        EmpleadoMapper mapperEmpleado; 
 
         public EmpleadoComercioSucursalCrudFactory()
         {
             mapper = new EmpleadoComercioSucursalMapper();
+            mapperEmpleado = new EmpleadoMapper();
             dao = SqlDao.GetInstance();
         }
 
@@ -77,13 +79,13 @@ namespace DataAccess.Crud
         {
             var lisEmpleadosComercioSucursal = new List<T>();
 
-            var lstResult = dao.ExecuteQueryProcedure(mapper.GetEmpleadosByIdSucursal(idSucursal));
+            var lstResult = dao.ExecuteQueryProcedure(mapperEmpleado.GetEmpleadosByIdSucursal(idSucursal));
 
 
             var dic = new Dictionary<string, object>();
             if (lstResult.Count > 0)
             {
-                var objs = mapper.BuildObjects(lstResult);
+                var objs = mapperEmpleado.BuildObjects(lstResult);
                 foreach (var c in objs)
                 {
 

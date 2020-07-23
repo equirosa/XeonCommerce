@@ -88,8 +88,10 @@ namespace DataAccess.Mapper
         {
             var operation = new SqlOperation { ProcedureName = "RET_ALL_EMPLEADOS_ID_SUCURSAL_PR" };
 
-            operation.AddVarcharParam(DB_COL_NOMBRE, idSucursal);
+            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, idSucursal);
             return operation;
         }
+
+       
     }
 }

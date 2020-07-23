@@ -14,12 +14,12 @@ namespace WebAPI.Controllers
     public class EmpleadoController : ControllerBase
     {
 
-        //[HttpGet]
-        //public List<Empleado> RetrieveAll()
-        //{
-        //    var empleadoManag = new EmpleadoManagement();
-        //    return empleadoManag.;
-        //}
+        [HttpGet]
+        public List<Empleado> GetEmpleadosByIdSucursal(string idSucursal)
+        {
+            var empleadoManag = new EmpleadoManagement();
+            return empleadoManag.GetEmpleadosByIdSucursal(idSucursal);
+        }
 
         [HttpPost]
         public IActionResult Create(Empleado empleado)
