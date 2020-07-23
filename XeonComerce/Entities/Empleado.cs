@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Empleado
+    public class Empleado : BaseEntity
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
-        [JsonPropertyName("nommbre")]
+        [JsonPropertyName("nombre")]
         public string Nombre { get; set; }
         [JsonPropertyName("apellidoUno")]
         public string ApellidoUno { get; set; }
