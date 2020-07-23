@@ -1,3 +1,22 @@
-<mat-table class="mat-elevation-z8">
-
-</mat-table>
+<div class="mat-elevation-8">
+    <mat-table  [dataSource]="empleados" class="table-lg">
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="apellidoUno">
+            <mat-header-cell *matHeaderCellDef>Apellido</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.apellidoUno}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="numeroTelefono">
+            <mat-header-cell *matHeaderCellDef>Telefono</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.numeroTelefono}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="nombresColumnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: nombresColumnas;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="100"
+                  [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>    
+</div>
