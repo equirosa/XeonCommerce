@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
             {
                 var cm = new ComercioManagement();
                 cm.Create(comercio);
-                return Ok("Se creó el comercio");
+                return Ok(new { msg = "Se creó el comercio" });
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
                 if (GetById(cedula) != null)
                 {
                     cm.Update(comercio);
-                    return Ok("Se actualizó el comercio");
+                    return Ok(new { msg = "Se actualizó el comercio" });
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
                 var comercio = new Comercio { CedJuridica = cedula };
                 cm.Delete(comercio);
 
-                return Ok("Se eliminó el comercio");
+                return Ok(new { msg = "Se eliminó el comercio" });
 
             }
             catch (Exception ex)
