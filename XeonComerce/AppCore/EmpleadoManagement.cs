@@ -16,19 +16,7 @@ namespace AppCore
             crudUsuario = new UsuarioCrudFactory();
             crudEmpleadoComercioSucursal = new EmpleadoComercioSucursalCrudFactory();
         }
-
-        //public void Create(Empleado empleado)
-        //{
-        //    var empleadoComercioSucursal = new EmpleadoComercioSucursal()
-        //    {
-        //        IdUsuario = empleado.Id,
-        //        IdComercio = empleado.IdComercio,
-        //        IdSucursal = empleado.IdSucursal
-        //    };
-
-        //    crudEmpleadoComercioSucursal.Create(empleadoComercioSucursal);
-        //}
-
+            
         public void Create(EmpleadoComercioSucursal empleadoComercioSucursal)
         {
             crudEmpleadoComercioSucursal.Create(empleadoComercioSucursal);
