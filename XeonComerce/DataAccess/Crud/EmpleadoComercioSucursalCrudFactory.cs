@@ -73,7 +73,7 @@ namespace DataAccess.Crud
             var empleadoComercioSucursal = (EmpleadoComercioSucursal)entity;
             dao.ExecuteProcedure(mapper.GetDeleteStatement(empleadoComercioSucursal));
         }
-
+        
 
         public List<T> GetEmpleadosByIdSucursal<T>(string idSucursal)
         {

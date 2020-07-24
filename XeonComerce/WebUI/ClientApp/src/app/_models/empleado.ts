@@ -1,5 +1,5 @@
 export class Empleado {
-    id: string; 
+    idUsuario: string; 
     nombre: string;
     apellidoUno: string;
     apellidoDos: string;
@@ -11,6 +11,7 @@ export class Empleado {
     estado: string;
     idComercio: string;
     idSucursal: string; 
+    idEmpleado: string;
 
     constructor(){
 

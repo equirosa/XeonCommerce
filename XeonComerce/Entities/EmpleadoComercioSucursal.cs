@@ -19,6 +19,9 @@ namespace Entities
         [JsonPropertyName("idSucursal")]
         public string IdSucursal { get; set; }
 
+        [JsonPropertyName("estado")]
+        public string Estado { get; set; }
+
         public EmpleadoComercioSucursal() { }
 
     }

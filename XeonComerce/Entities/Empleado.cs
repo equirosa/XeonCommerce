@@ -7,8 +7,8 @@ namespace Entities
 {
     public class Empleado : BaseEntity
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
+        [JsonPropertyName("idUsuario")]
+        public string IdUsuario { get; set; }
         [JsonPropertyName("nombre")]
         public string Nombre { get; set; }
         [JsonPropertyName("apellidoUno")]
@@ -32,6 +32,8 @@ namespace Entities
         [JsonPropertyName("idSucursal")]
         public string IdSucursal { get; set; }
 
+        [JsonPropertyName("idEmpleado")]
+        public int IdEmpleado { get; set; }
 
 
         public Empleado() { }

@@ -1,4 +1,9 @@
 <div class="mat-elevation-8">
+    <mat-form-field>
+        <mat-label>Filtrar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar..." >
+    </mat-form-field>
+      
     <mat-table  [dataSource]="empleados" class="table-lg">
         <ng-container matColumnDef="nombre">
             <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
@@ -12,7 +17,24 @@
             <mat-header-cell *matHeaderCellDef>Telefono</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.numeroTelefono}}</mat-cell>
         </ng-container>
-        <mat-header-row *matHeaderRowDef="nombresColumnas"></mat-header-row>
+        <ng-container matColumnDef="editar">
+            <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-icon-button  (click)="editar()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-icon-button  (click)="eliminar(element)">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        
+        <mat-header-row class="toolbar" *matHeaderRowDef="nombresColumnas"></mat-header-row>
         <mat-row *matRowDef="let row; columns: nombresColumnas;"></mat-row>
     </mat-table>
     <mat-paginator [length]="100"

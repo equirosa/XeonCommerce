@@ -12,6 +12,7 @@ namespace DataAccess.Mapper
         private const string DB_COL_ID_USUARIO = "ID_USUARIO";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_ID_SUCURSAL = "ID_SUCURSAL";
+        private const string DB_COL_ESTADO = "ESTADO";
 
 
         public SqlOperation GetCreateStatement(BaseEntity entity)

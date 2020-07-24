@@ -1,1 +1,54 @@
-<p>form-empleado works!</p>
+
+<h2 mat-dialog-title>Install Angular</h2>
+<mat-dialog-content >
+<div class="mt-lg mb-lg">
+    <h2>Registro de Empleado</h2>
+</div>   
+<form [formGroup]="FormGroupEmpleado">
+    <mat-form-field>
+        <mat-label>Cédula del Usuario</mat-label>
+        <input matInput type="text" formControlName="Cedula" required />
+    </mat-form-field>
+    <!-- <button mat-flat-button (click)="verificarUsuario()" class="example-button-row">
+        Registrar Empleado
+    </button> -->
+</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close class="example-button-row" >Cancel</button>
+  <button 
+    mat-flat-button 
+    [mat-dialog-close]="true" 
+    (click)="verificarUsuario()" 
+    class="example-button-row" 
+    cdkFocusInitial
+    >
+     Registrar Empleado
+    </button>
+</mat-dialog-actions>
+
+
+<!-- Prueba de implementacion de Tabs -->
+
+<!-- <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Registro del Empleado">
+        <div class="mt-lg mb-lg">
+            <h2>Ingrese el Número de Cédula del Usuario</h2>
+        </div>        
+        <form [formGroup]="FormGroupEmpleado" >
+            <mat-form-field>
+                <mat-label>Cédula del Usuario</mat-label>
+                <input matInput type="text" formControlName="Cedula" required />
+            </mat-form-field>   
+            <button mat-flat-button (click)="verificarUsuario()" class="example-button-row" >
+                Registrar Empleado
+            </button>  
+        </form>        
+    </mat-tab>
+    <mat-tab label="Registro de horario">
+        
+    </mat-tab>
+    <mat-tab label="Registro de Rol">
+        
+    </mat-tab>
+</mat-tab-group> -->

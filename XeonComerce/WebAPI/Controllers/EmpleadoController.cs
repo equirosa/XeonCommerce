@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppCore;
 using Entities;
+using Management;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace WebAPI.Controllers
 {
@@ -21,8 +23,28 @@ namespace WebAPI.Controllers
             return empleadoManag.GetEmpleadosByIdSucursal(idSucursal);
         }
 
+        //[HttpPost]
+        //public IActionResult Create(Empleado empleado)
+        //{
+        //    try
+        //    {
+        //        var empleadoMang = new EmpleadoManagement();
+
+        //        empleadoMang.Create(empleado);
+
+        //        return Ok();
+
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, ex);
+        //    }
+        //}
+
+
         [HttpPost]
-        public IActionResult Create(Empleado empleado)
+        public IActionResult Create(EmpleadoComercioSucursal empleado)
         {
             try
             {
@@ -38,6 +60,33 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(500, ex);
             }
+        }
+
+
+        [HttpGet]
+        public string VerificarUsuario(string idUsuario)
+        {
+                   
+            var empleadoManag = new EmpleadoManagement();
+            return empleadoManag.VerificarUsuario(idUsuario);
+        }
+
+
+        [HttpDelete]
+        public IActionResult Delete(int idEmpleado)
+        {
+            try
+            {
+                var empleadoManag = new EmpleadoManagement();
+                empleadoManag.Delete(idEmpleado);
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+
         }
 
 

@@ -127,4 +127,17 @@ body {
     width: 90vw;
 }
 
+.toolbar{
+  background-color: #7DE2D1;
+}
 
+.example-button-row {
+  display: table-cell;
+  width: 140px;  
+  background-color: #339989 ;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

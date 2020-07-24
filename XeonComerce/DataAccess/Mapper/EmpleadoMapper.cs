@@ -8,7 +8,7 @@ namespace DataAccess.Mapper
 {
     public class EmpleadoMapper : EntityMapper, ISqlStaments, IObjectMapper
     {
-        private const string DB_COL_ID = "ID";
+        private const string DB_COL_ID_USUARIO = "ID_USUARIO";
         private const string DB_COL_NOMBRE = "NOMBRE";
         private const string DB_COL_APELLIDO1 = "APELLIDO1";
         private const string DB_COL_APELLIDO2 = "APELLIDO2";
@@ -20,6 +20,7 @@ namespace DataAccess.Mapper
         private const string DB_COL_ESTADO = "ESTADO";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_ID_SUCURSAL = "ID_SUCURSAL";
+        private const string DB_COL_ID_EMPLEADO = "ID_EMPLEADO";
 
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
@@ -66,7 +67,7 @@ namespace DataAccess.Mapper
 
             var empleado = new Empleado
             {
-                Id = GetStringValue(row, DB_COL_ID),
+                IdUsuario = GetStringValue(row, DB_COL_ID_USUARIO),
                 Nombre = GetStringValue(row, DB_COL_NOMBRE),
                 ApellidoUno = GetStringValue(row, DB_COL_APELLIDO1),
                 ApellidoDos = GetStringValue(row, DB_COL_APELLIDO2),
@@ -77,7 +78,8 @@ namespace DataAccess.Mapper
                 IdDireccion = GetIntValue(row, DB_COL_ID_DIRECCION),
                 Estado = GetStringValue(row, DB_COL_ESTADO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL)
+                IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL),
+                IdEmpleado = GetIntValue(row, DB_COL_ID_EMPLEADO)
             };
 
             return empleado;
