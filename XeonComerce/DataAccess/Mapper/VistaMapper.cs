@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataAccess.Mapper
 {
-    public class VistaMapper: EntityMapper, ISqlStatements, IObjectMapper
+    public class VistaMapper: EntityMapper, ISqlStaments, IObjectMapper
     {
         private const string DB_COL_ID = "ID";
         private const string DB_COL_URL = "URL";
