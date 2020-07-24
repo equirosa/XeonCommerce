@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public Sucursal RetriveById(string id)
+        public Sucursal RetriveById(int id)
         {
             var sucursal = new Sucursal()
             {
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
             try
             {

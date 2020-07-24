@@ -17,7 +17,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddVarcharParam(DB_COL_ID, suc.Id);
+            operation.AddIntParam(DB_COL_ID, suc.Id);
             operation.AddIntParam(DB_COL_ID_DIRECCION, suc.IdDireccion);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, suc.IdComercio);
 
@@ -29,7 +29,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "RET_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddVarcharParam(DB_COL_ID, suc.Id);
+            operation.AddIntParam(DB_COL_ID, suc.Id);
 
             return operation;
         }
@@ -45,7 +45,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "UPD_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddVarcharParam(DB_COL_ID, suc.Id);
+            operation.AddIntParam(DB_COL_ID, suc.Id);
             operation.AddIntParam(DB_COL_ID_DIRECCION, suc.IdDireccion);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, suc.IdComercio);
 
@@ -58,7 +58,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "DEL_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddVarcharParam(DB_COL_ID, suc.Id);
+            operation.AddIntParam(DB_COL_ID, suc.Id);
             return operation;
         }
 
@@ -79,7 +79,7 @@ namespace DataAccess.Mapper
         {
             var sucursal = new Sucursal
             {
-                Id = GetStringValue(row, DB_COL_ID),
+                Id = GetIntValue(row, DB_COL_ID),
                 IdDireccion = GetIntValue(row, DB_COL_ID_DIRECCION),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO)
             };

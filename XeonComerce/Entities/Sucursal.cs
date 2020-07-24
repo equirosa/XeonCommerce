@@ -5,10 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Sucursal: BaseEntity
+    public class Sucursal : BaseEntity
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [JsonPropertyName("idDireccion")]
         public int IdDireccion { get; set; }
         [JsonPropertyName("idComercio")]

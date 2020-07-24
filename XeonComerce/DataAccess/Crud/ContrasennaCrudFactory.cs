@@ -4,7 +4,6 @@ using DataAccess.Dao;
 using DataAccess.Mapper;
 using Entities;
 
-
 namespace DataAccess.Crud
 {
     public class ContrasennaCrudFactory : CrudFactory
