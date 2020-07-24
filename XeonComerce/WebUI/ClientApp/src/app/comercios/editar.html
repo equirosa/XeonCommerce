@@ -2,22 +2,22 @@
 <div mat-dialog-content>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Cédula Jurídica</mat-label>
-    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.cedJuridica">
+    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.cedJuridica" minlength="6">
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Nombre Comercial</mat-label>
-    <input required matInput [(ngModel)]="data.nombreComercial">
+    <input required matInput [(ngModel)]="data.nombreComercial" minlength="5">
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Correo Electrónico</mat-label>
-    <input required matInput [(ngModel)]="data.correoElectronico">
+    <input type="email" required matInput [(ngModel)]="data.correoElectronico">
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Teléfono</mat-label>
-    <input required matInput [(ngModel)]="data.telefono">
+    <input minlength="1" required matInput [(ngModel)]="data.telefono">
   </mat-form-field>
   <br>
 
@@ -52,18 +52,18 @@
   
   <mat-form-field appearance="fill" *ngIf="data.dir">
     <mat-label>Lat</mat-label>
-    <input required matInput [(ngModel)]="data.lat">
+    <input required matInput [(ngModel)]="data.latitud">
   </mat-form-field>
 
   
   <mat-form-field appearance="fill" *ngIf="data.dir">
     <mat-label>Long</mat-label>
-    <input required matInput [(ngModel)]="data.long">
+    <input required matInput [(ngModel)]="data.longitud">
   </mat-form-field>
 
   
   <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
-    <mat-label>Otrsa señas</mat-label>
+    <mat-label>Otras señas</mat-label>
     <textarea required matInput [(ngModel)]="data.sennas"> </textarea>
   </mat-form-field>
 

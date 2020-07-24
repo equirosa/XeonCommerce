@@ -64,6 +64,7 @@ export class ComerciosComponent implements OnInit {
 		  telefono: "",
 		  direccion: "",
 		  idUsuario: "",
+		  estado: "P",
 		  provincias: this.provincias,
 		  cantones: this.cantones,
 		  distritos: this.distritos,
@@ -92,7 +93,7 @@ export class ComerciosComponent implements OnInit {
 				distrito: result.distrito,
 				sennas: result.sennas,
 				latitud: result.lat,
-				longitud: result.long
+				longitud: result.long,
 			}
 
 			let direccionFinal: Direccion
@@ -112,7 +113,8 @@ export class ComerciosComponent implements OnInit {
 							"correoElectronico": result.correoElectronico,
 							"telefono": result.telefono,
 							"direccion": direccionFinal.id,
-							"idUsuario": result.idUsuario
+							"idUsuario": result.idUsuario,
+							"estado": result.estado
 						}
 					this.comercioService.create(comercioFinal)
 					.subscribe(() => {
@@ -151,6 +153,7 @@ export class ComerciosComponent implements OnInit {
 		  telefono: comercio.telefono,
 		  direccion: comercio.direccion,
 		  idUsuario: comercio.idUsuario,
+		  estado: comercio.estado,
 		  provincias: this.provincias,
 		  cantones: this.cantones,
 		  distritos: this.distritos,
@@ -183,6 +186,7 @@ export class ComerciosComponent implements OnInit {
 			this.comercios = comercios.sort((a, b) => {
 				return a.nombreComercial.localeCompare(b.nombreComercial);
 			  });
+			this.comercios = comercios.filter((a)=> a.estado == 'A');
 			this.datos = new MatTableDataSource(this.comercios);
 			this.datos.sort = this.sort;
 		});
@@ -194,7 +198,7 @@ export class ComerciosComponent implements OnInit {
 		const dialogRef = this.dialog.open(ConfirmDialogComponent, {
 			maxWidth: "500px",
 			data: {
-				title: "Está seguro?",
+				title: "¿Está seguro?",
 				message: "Usted está apunto de eliminar un comercio. "}
 		  });
 		
@@ -204,6 +208,22 @@ export class ComerciosComponent implements OnInit {
 		 });
 	}
   
+
+	
+  
+	verDireccion(comercio: Comercio): void {
+		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
+			const dialogRef = this.dialog.open(DialogDireccion, {
+				maxWidth: "500px",
+				data: Object.assign({
+					provincias: "",
+					cantones: "",
+					distritos: "",
+					permitir: !false
+				}, dir)
+			  });
+		});
+	}
 }
 
 
@@ -239,6 +259,58 @@ export class ComerciosComponent implements OnInit {
 		this.ubicacionService.getDistritos(this.data.provincia, canton)
 		.subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
 	  }
+
+  }
+  
+
+
+  
+@Component({
+	selector: 'dialog-direccion',
+	templateUrl: 'direccion.html',
+  })
+  export class DialogDireccion implements OnInit {
+  
+	constructor(
+	  public dialogRef: MatDialogRef<DialogComercio>,
+	  @Inject(MAT_DIALOG_DATA) public data: any, 
+	  private ubicacionService: UbicacionService) { }
+  
+	onNoClick(): void {
+	  this.dialogRef.close();
+	}
+	
+	ngOnInit(){
+		this.getProvincias();
+		this.getCantonesE({value:this.data.provincia});
+		this.getDistritosE({value: this.data.canton});
+	}
+
+	
+	getProvincias(): void {
+		console.log("provincias");
+		this.ubicacionService.getProvincias()
+		.subscribe(provincias => this.data.provincias = Object.keys(provincias).map(key => ({value: Number(key), nombre: provincias[key]})));
+	  }
+	
+		
+	  getCantonesE(event: any): void {
+		console.log("Recibido");
+		let provincia = event.value;
+		console.log(event.value)
+		this.ubicacionService.getCantones(provincia)
+		.subscribe(cantones => this.data.cantones = Object.keys(cantones).map(key => ({value: Number(key), nombre: cantones[key]})));
+	  }
+
+	
+	getDistritosE(event: any): void {
+		console.log("Recibido");
+		let canton = event.value;
+		console.log(event.value)
+		this.ubicacionService.getDistritos(this.data.provincia, canton)
+		.subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
+	  }
+
 
   }
   

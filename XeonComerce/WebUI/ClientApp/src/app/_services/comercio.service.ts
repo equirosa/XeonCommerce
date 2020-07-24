@@ -39,6 +39,15 @@ httpOptions = {
 	);
   }
 
+  
+  accion(comercio: Comercio): Observable<any> {
+	return this.http.put(`${this.urlApi}/${comercio.cedJuridica}`, comercio, this.httpOptions).pipe(
+	  tap(_ => this.log(`Se cambió el estado del comercio`)),
+	  catchError(this.handleError<any>('update'))
+	);
+  }
+
+
   create(comercio: Comercio): Observable<Comercio> {
     return this.http.post<Comercio>(this.urlApi, comercio, this.httpOptions).pipe(
       tap((nuevo: Comercio) => this.log(`Se creó`)),
@@ -61,11 +70,7 @@ httpOptions = {
   private handleError<T>(operation = 'operation', result?: T) {
 	return (error: any): Observable<T> => {
 	  console.error(error);
-	  
-	  if(error.error)
-		this.log(`${error.error.msg || error.message || "Algún dato no es correcto"}`);
-	  else
-	 	this.log(`${error.message || "Algún dato no es correcto"}`);
+	 	this.log(`${error}`);
 	  
 	  return of(result as T);
 	};

@@ -6,4 +6,5 @@ export interface Comercio {
 	telefono: string;
 	direccion: number;
 	idUsuario: number;
+	estado: string;
   }
