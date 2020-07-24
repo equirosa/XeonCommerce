@@ -30,8 +30,8 @@ namespace DataAccess.Mapper
 
             foreach (var row in lstRows)
             {
-                var address = BuildObject(row);
-                lstResults.Add(address);
+                var obj = BuildObject(row);
+                lstResults.Add(obj);
             }
 
             return lstResults;
@@ -76,7 +76,7 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "UPD_ADDRESS_PR" };
+            var operation = new SqlOperation { ProcedureName = "UPD_ROL_PR" };
             var o = (Rol)entity;
 
             operation.AddIntParam(DB_COL_ID, o.Id);
