@@ -22,6 +22,7 @@ namespace DataAccess.Crud
         public override void Create(BaseEntity entity)
         {
             var empleadoComercioSucursal = (EmpleadoComercioSucursal)entity;
+            
             var sqlOperation = mapper.GetCreateStatement(empleadoComercioSucursal);
             dao.ExecuteProcedure(sqlOperation);
         }

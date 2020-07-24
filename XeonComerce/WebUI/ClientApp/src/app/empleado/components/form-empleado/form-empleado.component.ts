@@ -38,7 +38,7 @@ export class FormEmpleadoComponent implements OnInit {
 
     this.empleadoService.verificarUsuario(this.idUsuario).subscribe({
       next: res => {
-        this.idUsuario = res;
+        this.idUsuario = res.toString();
         this.guardarUsuario();
       },
       error: err => console.log(err)

@@ -23,7 +23,8 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_ID_USUARIO, ecs.IdUsuario);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, ecs.IdComercio);
             operation.AddVarcharParam(DB_COL_ID_SUCURSAL, ecs.IdSucursal);
-            
+            operation.AddVarcharParam(DB_COL_ESTADO, ecs.Estado);
+
             return operation;
         }
 
@@ -52,6 +53,7 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_ID_USUARIO, ecs.IdUsuario);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, ecs.IdComercio);
             operation.AddVarcharParam(DB_COL_ID_SUCURSAL, ecs.IdSucursal);
+            
 
             return operation;
         }

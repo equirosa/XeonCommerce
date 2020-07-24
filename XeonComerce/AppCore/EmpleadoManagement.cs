@@ -64,7 +64,7 @@ namespace AppCore
 
             foreach( var e in empleados)
             {
-                if(e.IdUsuario == idUsuario)
+                if(e.IdUsuario == idUsuario && e.Estado == "A")
                 {
                     return false; 
                 }

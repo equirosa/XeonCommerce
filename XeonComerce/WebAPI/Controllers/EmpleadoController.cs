@@ -58,7 +58,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
