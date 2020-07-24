@@ -45,6 +45,8 @@ import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
+;
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component'
 
 @NgModule({
     imports: [
@@ -100,6 +102,9 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 		ConfirmDialogComponent,
 		DialogDireccion,
 		SolicitudesComponent
+,
+		ComerciosCardComponent,
+		FiltroComerciosPipe
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
