@@ -17,6 +17,10 @@
             <mat-header-cell *matHeaderCellDef>Telefono</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.numeroTelefono}}</mat-cell>
         </ng-container>
+        <ng-container matColumnDef="correoElectronico">
+            <mat-header-cell *matHeaderCellDef>Correo Eléctronico</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.correoElectronico}}</mat-cell>
+        </ng-container>
         <ng-container matColumnDef="editar">
             <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
             <mat-cell  *matCellDef="let element">

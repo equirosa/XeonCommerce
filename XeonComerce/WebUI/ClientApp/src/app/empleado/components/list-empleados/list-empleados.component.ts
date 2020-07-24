@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './list-empleados.component.html',
   styleUrls: ['./list-empleados.component.css']
 })
-export class ListEmpleadosComponent implements OnInit, OnChanges {
+export class ListEmpleadosComponent implements OnInit {
 
 
   @Input()
@@ -18,10 +18,17 @@ export class ListEmpleadosComponent implements OnInit, OnChanges {
 
   empleados = new MatTableDataSource<Empleado>();
 
+  nombresColumnas: string[];
+
+  // cargar: boolean; 
+
+
+  idSucursal = '3101555-1';
   columnas = [
     { header: 'Nombre', binding: 'nombre' },
     { header: 'Apellido', binding: 'apellidoUno'},
-    { header: 'Telefono', binding: 'numeroTelefono'}
+    { header: 'Telefono', binding: 'numeroTelefono'},
+    { header: 'Correo Eléctronico', binding: 'correoElectronico'}
   ];
 
   
@@ -31,10 +38,6 @@ export class ListEmpleadosComponent implements OnInit, OnChanges {
   }
 
 
-  nombresColumnas: string[];
-
-  idSucursal = '3101555-1';
-
   constructor(private empleadoService: EmpleadoService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -42,25 +45,26 @@ export class ListEmpleadosComponent implements OnInit, OnChanges {
     this.nombresColumnas = this.columnas.map(c => c.binding);
     this.nombresColumnas.push('editar');
     this.nombresColumnas.push('eliminar');
+
   }
 
   ngOnChanges(changes: SimpleChanges): void{
     if(changes.actualizarDatos.currentValue === true){
       this.cargarEmpleados();
+      this.actualizarDatos = false; 
     }
   }
 
   cargarEmpleados(): void {
     this.empleadoService.getEmpleados(this.idSucursal).subscribe({
       next: res => {
-        this.empleados.data = res;
+        this.empleados.data = res;        
       },
       error: err => console.log(err)
     });
   }
 
   eliminar(empleado): void {
-    
     this.empleadoService.eliminar(empleado.idEmpleado).subscribe({
       next: res => {
         this._snackBar.open('Se ha eliminado el empleado', '', {

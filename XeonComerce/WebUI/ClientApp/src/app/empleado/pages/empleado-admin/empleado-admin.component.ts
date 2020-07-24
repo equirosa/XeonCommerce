@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormEmpleadoComponent } from '../../components/form-empleado/form-empleado.component';
+import { EmpleadoService } from '../../../_services/empleado.service';
 
 @Component({
   selector: 'app-empleado-admin',
@@ -9,7 +10,9 @@ import { FormEmpleadoComponent } from '../../components/form-empleado/form-emple
 })
 export class EmpleadoAdminComponent implements OnInit {
 
-  constructor( public dialog: MatDialog ) { }
+  actualizarDatos = false;
+
+  constructor( public dialog: MatDialog, private empleadoService: EmpleadoService ) { }
 
   ngOnInit(): void {
   }
@@ -22,10 +25,7 @@ export class EmpleadoAdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( result => {
-      console.log(result);
-      console.log('aa');
+      this.actualizarDatos = true;
     });
   }
-
-  
 }

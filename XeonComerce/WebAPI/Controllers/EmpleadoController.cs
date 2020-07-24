@@ -23,25 +23,6 @@ namespace WebAPI.Controllers
             return empleadoManag.GetEmpleadosByIdSucursal(idSucursal);
         }
 
-        //[HttpPost]
-        //public IActionResult Create(Empleado empleado)
-        //{
-        //    try
-        //    {
-        //        var empleadoMang = new EmpleadoManagement();
-
-        //        empleadoMang.Create(empleado);
-
-        //        return Ok();
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, ex);
-        //    }
-        //}
-
 
         [HttpPost]
         public IActionResult Create(EmpleadoComercioSucursal empleado)
