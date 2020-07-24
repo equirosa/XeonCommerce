@@ -1,4 +1,4 @@
 ﻿export class Ubicacion {
-    id: number;
-    nombre: string;
+    value: number;
+    nombre: any;
 }

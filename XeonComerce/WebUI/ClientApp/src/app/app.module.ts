@@ -41,7 +41,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { ComerciosComponent, DialogComercio } from './comercios/comercios.component';
+import { ComerciosComponent, DialogComercio } from './comercios/comercios.component';;
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
 
 @NgModule({
     imports: [
@@ -84,14 +85,16 @@ import { ComerciosComponent, DialogComercio } from './comercios/comercios.compon
 		MatPaginatorModule
 	],
 	entryComponents: [
-		DialogComercio
+		DialogComercio,
+		ConfirmDialogComponent
 	],
     declarations: [
         AppComponent,
         AlertComponent,
         HomeComponent,
 		ComerciosComponent,
-		DialogComercio
+		DialogComercio,
+		ConfirmDialogComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

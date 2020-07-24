@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Entities;
@@ -37,6 +38,15 @@ namespace WebAPI.Controllers
             try
             {
                 var cm = new ComercioManagement();
+                var um = new UsuarioManagement();
+                Comercio existe = cm.RetrieveById(comercio);
+                if(existe.CedJuridica == comercio.CedJuridica) throw new Exception("¡Dicha cédula jurídica ya existe!");
+                if (!(new EmailAddressAttribute().IsValid(comercio.CorreoElectronico))) throw new Exception("¡Formato de correo erroneo!");
+                if(String.IsNullOrEmpty(comercio.NombreComercial) || comercio.NombreComercial.Length<=5) throw new Exception("¡El nombre comercial debe contener más de 5 letras!");
+                if(comercio.CedJuridica.Length<=6) throw new Exception("¡La cédula jurídica debe contener más de 6 caracteres!");
+                Usuario adminComercio = um.RetrieveById(new Usuario { Id = comercio.IdUsuario });
+                if(adminComercio.Id == comercio.IdUsuario) throw new Exception("¡Dicho usuario ya es administrador de un comercio!");
+                if (adminComercio == null) throw new Exception("¡Dicho usuario no existe!");
                 cm.Create(comercio);
                 return Ok(new { msg = "Se creó el comercio" });
             }
@@ -45,6 +55,7 @@ namespace WebAPI.Controllers
                 return StatusCode(500, new { msg = ex.Message });
             }
         }
+
         [HttpPut("{cedula}")]
         public IActionResult Update(Comercio comercio, string cedula)
         {

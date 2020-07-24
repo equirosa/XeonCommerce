@@ -4,6 +4,6 @@
     canton: number;
     distrito: number;
     sennas: string;
-    lat: number;
-    long: number;
+    latitud: number;
+    longitud: number;
 }
