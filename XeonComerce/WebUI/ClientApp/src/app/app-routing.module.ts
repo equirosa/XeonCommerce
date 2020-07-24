@@ -1,3 +1,4 @@
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -10,6 +11,7 @@ import { ComerciosComponent } from './comercios/comercios.component';
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'comercios', component: ComerciosComponent, canActivate: [AuthGuard] },
+    { path: 'solicitudes', component: SolicitudesComponent, canActivate: [AuthGuard] },
     { path: 'cuenta', loadChildren: accountModule },
 
     // otherwise redirect to home
