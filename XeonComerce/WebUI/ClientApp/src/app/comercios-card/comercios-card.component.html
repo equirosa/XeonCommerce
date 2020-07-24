@@ -1,0 +1,32 @@
+<div class="divComercios">
+	<h2>Comercios</h2>
+<mat-form-field>
+	<mat-label>Filter</mat-label>
+	<input matInput [(ngModel)]="filtro" placeholder="Ex. Lacoste" #input>
+  </mat-form-field>
+	<div class="mat-elevation-z8 center">
+			  
+			<mat-card class="card" *ngFor="let item of comercios | filtrocomercios:filtro |slice:((paginator.pageIndex)*pageSize):((paginator.pageIndex+1)*pageSize)">
+				<mat-card-header>
+				  <div mat-card-avatar><mat-icon aria-hidden="false" aria-label="Comercio">business</mat-icon></div>
+				  <mat-card-title>{{item.nombreComercial}}</mat-card-title>
+				  <mat-card-subtitle>{{item.cedJuridica}}</mat-card-subtitle>
+				</mat-card-header>
+				<mat-card-content class="datos">
+					<!--<strong>+506 </strong><span>{{item.telefono}}</span>
+					<br>
+					<strong>Contacto </strong><span><a href="mailto:{{item.correoElectronico}}">{{item.correoElectronico}}</a></span>-->
+				</mat-card-content>
+				<mat-card-actions>
+				  <button mat-button (click)=verDireccion(item)>Ver direccion</button>
+				  <button mat-button>Ir</button>
+				</mat-card-actions>
+			  </mat-card>
+		  
+		  <mat-paginator #paginator [length]="length"
+						[pageSize]="pageSize"
+						(page)="pageEvent = $event">
+		  </mat-paginator>
+
+</div>
+  

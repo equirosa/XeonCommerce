@@ -47,7 +47,7 @@ httpOptions = {
   }
 
   delete(direccion: Direccion): Observable<Direccion> {
-    const url = `${this.urlApi}//delete?id=${direccion.id}`;
+    const url = `${this.urlApi}/delete?id=${direccion.id}`;
     return this.http.delete<Direccion>(url, this.httpOptions).pipe(
       tap(_ => this.log(`Se eliminó`)),
       catchError(this.handleError<Direccion>('delete'))
