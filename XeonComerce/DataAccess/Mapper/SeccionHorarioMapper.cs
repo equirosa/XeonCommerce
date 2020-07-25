@@ -9,23 +9,25 @@ namespace DataAccess.Mapper
     public class SeccionHorarioMapper : EntityMapper, ISqlStaments, IObjectMapper
     {
         private const string DB_COL_ID = "ID";
-        private const string DB_COL_ID_HORARIO_EMPLEADO = "ID_HORARIO_EMPLEADO";
+        private const string DB_COL_ID_EMPLEADO = "ID_EMPLEADO";
         private const string DB_COL_HORA_INICIO = "HORA_INICIO";
         private const string DB_COL_HORA_FINAL = "HORA_FINAL";
+        private const string DB_COL_DIA_SEMANA = "DIA_SEMANA";
         private const string DB_COL_DESCRIPCION = "DESCRIPCION";
-        private const string DB_COL_TIPO = "TIPO";
+        private const string DB_COL_ESTADO = "ESTADO";
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
             var operation = new SqlOperation { ProcedureName = "CRE_SECCION_HORARIO_PR" };
 
             var sh = (SeccionHorario)entity;
-            operation.AddIntParam(DB_COL_ID, sh.Id);
-            operation.AddIntParam(DB_COL_ID_HORARIO_EMPLEADO, sh.IdHorarioEmpleado);
+           
+            operation.AddIntParam(DB_COL_ID_EMPLEADO, sh.IdEmpleado);
             operation.AddDateTimeParam(DB_COL_HORA_INICIO, sh.HoraInicio);
             operation.AddDateTimeParam(DB_COL_HORA_FINAL, sh.HoraFinal);
             operation.AddVarcharParam(DB_COL_DESCRIPCION, sh.Descripcion);
-            operation.AddIntParam(DB_COL_TIPO, sh.Tipo);
+            operation.AddIntParam(DB_COL_DIA_SEMANA, sh.DiaSemana);
+            operation.AddVarcharParam(DB_COL_ESTADO, sh.Estado);
 
 
             return operation;
@@ -54,11 +56,12 @@ namespace DataAccess.Mapper
 
             var sh = (SeccionHorario)entity;
             operation.AddIntParam(DB_COL_ID, sh.Id);
-            operation.AddIntParam(DB_COL_ID_HORARIO_EMPLEADO, sh.IdHorarioEmpleado);
+            operation.AddIntParam(DB_COL_ID_EMPLEADO, sh.IdEmpleado);
             operation.AddDateTimeParam(DB_COL_HORA_INICIO, sh.HoraInicio);
             operation.AddDateTimeParam(DB_COL_HORA_FINAL, sh.HoraFinal);
             operation.AddVarcharParam(DB_COL_DESCRIPCION, sh.Descripcion);
-            operation.AddIntParam(DB_COL_TIPO, sh.Tipo);
+            operation.AddIntParam(DB_COL_DIA_SEMANA, sh.DiaSemana);
+            operation.AddVarcharParam(DB_COL_ESTADO, sh.Estado);
 
             return operation;
         }
@@ -90,12 +93,12 @@ namespace DataAccess.Mapper
             var seccionHorario = new SeccionHorario
             {
                 Id = GetIntValue(row, DB_COL_ID),
-                IdHorarioEmpleado = GetIntValue(row, DB_COL_ID_HORARIO_EMPLEADO),
-                HoraInicio = GetDateValue(row, DB_COL_HORA_FINAL),
+                IdEmpleado = GetIntValue(row, DB_COL_ID_EMPLEADO),
+                HoraInicio = GetDateValue(row, DB_COL_HORA_INICIO),
                 HoraFinal = GetDateValue(row, DB_COL_HORA_FINAL),
+                DiaSemana = GetIntValue(row, DB_COL_DIA_SEMANA),
                 Descripcion = GetStringValue(row, DB_COL_DESCRIPCION),
-                Tipo = GetIntValue(row, DB_COL_TIPO)
-
+                Estado = GetStringValue(row, DB_COL_ESTADO)
             };
 
             return seccionHorario;
