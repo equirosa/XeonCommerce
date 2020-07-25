@@ -4,10 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home';
 import { AuthGuard } from './_helpers';
+import { EmpleadoAdminComponent } from  './empleado/pages/empleado-admin/empleado-admin.component';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
 import { ComerciosCardComponent } from './comercios-card/comercios-card.component'
+const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -15,6 +17,8 @@ const routes: Routes = [
     { path: 'solicitudes', component: SolicitudesComponent, canActivate: [AuthGuard] },
     { path: 'comercio', component: ComerciosCardComponent },
     { path: 'cuenta', loadChildren: accountModule },
+    { path: 'empleado', loadChildren: empleadoModule},
+  // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
