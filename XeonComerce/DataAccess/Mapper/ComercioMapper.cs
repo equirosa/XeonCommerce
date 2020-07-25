@@ -13,6 +13,8 @@ namespace DataAccess.Mapper
         private const string DB_COL_CORREO_ELECTRONICO = "CORREO_ELECTRONICO";
         private const string DB_COL_TELEFONO = "TELEFONO";
         private const string DB_COL_ID_DIRECCION = "ID_DIRECCION";
+        private const string DB_COL_ID_USUARIO = "ID_USUARIO";
+        private const string DB_COL_ESTADO = "ESTADO";
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
@@ -24,6 +26,8 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_CORREO_ELECTRONICO, c.CorreoElectronico);
             operation.AddVarcharParam(DB_COL_TELEFONO, c.Telefono);
             operation.AddIntParam(DB_COL_ID_DIRECCION, c.Direccion);
+            operation.AddVarcharParam(DB_COL_ID_USUARIO, c.IdUsuario);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
             return operation;
         }
 
@@ -54,6 +58,8 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_CORREO_ELECTRONICO, c.CorreoElectronico);
             operation.AddVarcharParam(DB_COL_TELEFONO, c.Telefono);
             operation.AddIntParam(DB_COL_ID_DIRECCION, c.Direccion);
+            operation.AddVarcharParam(DB_COL_ID_USUARIO, c.IdUsuario);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
 
             return operation;
         }
@@ -88,7 +94,9 @@ namespace DataAccess.Mapper
                 NombreComercial = GetStringValue(row, DB_COL_NOMBRE_COMERCIAL),
                 CorreoElectronico = GetStringValue(row, DB_COL_CORREO_ELECTRONICO),
                 Telefono = GetStringValue(row, DB_COL_TELEFONO),
-                Direccion = GetIntValue(row, DB_COL_ID_DIRECCION)
+                Direccion = GetIntValue(row, DB_COL_ID_DIRECCION),
+                IdUsuario = GetStringValue(row, DB_COL_ID_USUARIO),
+                Estado = GetStringValue(row, DB_COL_ESTADO)
             };
 
             return comercio;

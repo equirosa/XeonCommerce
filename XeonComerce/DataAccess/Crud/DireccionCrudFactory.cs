@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using DataAccess.Dao;
+﻿using DataAccess.Dao;
 using DataAccess.Mapper;
 using Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class ContrasennaCrudFactory : CrudFactory
+    public class DireccionCrudFactory: CrudFactory
     {
-        ContrasennaMapper mapper;
+        DireccionMapper mapper;
 
-        public ContrasennaCrudFactory() : base()
+        public DireccionCrudFactory() : base()
         {
-            mapper = new ContrasennaMapper();
+            mapper = new DireccionMapper();
             dao = SqlDao.GetInstance();
         }
 
         public override void Create(BaseEntity entity)
         {
-            var ent = (Contrasenna)entity;
-            var sqlOperation = mapper.GetCreateStatement(ent);
+            var direccion = (Direccion)entity;
+            var sqlOperation = mapper.GetCreateStatement(direccion);
             dao.ExecuteProcedure(sqlOperation);
         }
 
@@ -39,32 +40,32 @@ namespace DataAccess.Crud
 
         public override List<T> RetrieveAll<T>()
         {
-            var lst = new List<T>();
+            var lstDirecciones = new List<T>();
 
             var lstResult = dao.ExecuteQueryProcedure(mapper.GetRetriveAllStatement());
             var dic = new Dictionary<string, object>();
             if (lstResult.Count > 0)
             {
                 var objs = mapper.BuildObjects(lstResult);
-                foreach (var c in objs)
+                foreach (var dir in objs)
                 {
-                    lst.Add((T)Convert.ChangeType(c, typeof(T)));
+                    lstDirecciones.Add((T)Convert.ChangeType(dir, typeof(T)));
                 }
             }
 
-            return lst;
+            return lstDirecciones;
         }
 
         public override void Update(BaseEntity entity)
         {
-            var ent = (Contrasenna)entity;
-            dao.ExecuteProcedure(mapper.GetUpdateStatement(ent));
+            var direccion = (Direccion)entity;
+            dao.ExecuteProcedure(mapper.GetUpdateStatement(direccion));
         }
 
         public override void Delete(BaseEntity entity)
         {
-            var ent = (Contrasenna)entity;
-            dao.ExecuteProcedure(mapper.GetDeleteStatement(ent));
+            var direccion = (Direccion)entity;
+            dao.ExecuteProcedure(mapper.GetDeleteStatement(direccion));
         }
     }
 }

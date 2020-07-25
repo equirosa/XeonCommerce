@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_DTO", "1_DTO", "{9C598400
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_DataAccess", "2_DataAccess", "{2CFC05D6-8D4B-45DE-BF09-213217BAE1E6}"
 	ProjectSection(SolutionItems) = preProject
-		DataAccess\Class1.cs = DataAccess\Class1.cs
 		DataAccess\DataAccess.csproj = DataAccess\DataAccess.csproj
 	EndProjectSection
 EndProject

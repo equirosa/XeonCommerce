@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using DataAccess.Dao;
+﻿using DataAccess.Dao;
 using DataAccess.Mapper;
 using Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class ContrasennaCrudFactory : CrudFactory
+    public class ArchivoCrudFactory : CrudFactory
     {
-        ContrasennaMapper mapper;
+        ArchivoMapper mapper;
 
-        public ContrasennaCrudFactory() : base()
+        public ArchivoCrudFactory() : base()
         {
-            mapper = new ContrasennaMapper();
+            mapper = new ArchivoMapper();
             dao = SqlDao.GetInstance();
         }
 
         public override void Create(BaseEntity entity)
         {
-            var ent = (Contrasenna)entity;
-            var sqlOperation = mapper.GetCreateStatement(ent);
+            var archivo = (Archivo)entity;
+            var sqlOperation = mapper.GetCreateStatement(archivo);
             dao.ExecuteProcedure(sqlOperation);
         }
 
@@ -39,32 +40,33 @@ namespace DataAccess.Crud
 
         public override List<T> RetrieveAll<T>()
         {
-            var lst = new List<T>();
+            var lstArchivos = new List<T>();
 
             var lstResult = dao.ExecuteQueryProcedure(mapper.GetRetriveAllStatement());
             var dic = new Dictionary<string, object>();
             if (lstResult.Count > 0)
             {
                 var objs = mapper.BuildObjects(lstResult);
-                foreach (var c in objs)
+                foreach (var arc in objs)
                 {
-                    lst.Add((T)Convert.ChangeType(c, typeof(T)));
+                    lstArchivos.Add((T)Convert.ChangeType(arc, typeof(T)));
                 }
             }
 
-            return lst;
+            return lstArchivos;
         }
 
         public override void Update(BaseEntity entity)
         {
-            var ent = (Contrasenna)entity;
-            dao.ExecuteProcedure(mapper.GetUpdateStatement(ent));
+            var archivo = (Archivo)entity;
+            dao.ExecuteProcedure(mapper.GetUpdateStatement(archivo));
         }
 
         public override void Delete(BaseEntity entity)
         {
-            var ent = (Contrasenna)entity;
-            dao.ExecuteProcedure(mapper.GetDeleteStatement(ent));
+            var archivo = (Archivo)entity;
+            dao.ExecuteProcedure(mapper.GetDeleteStatement(archivo));
         }
+
     }
 }

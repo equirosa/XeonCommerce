@@ -1,12 +1,16 @@
-a {
-    cursor: pointer
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+code {
+  color: #e01a76;
 }
 
-.app-container {
-    min-height: 320px;
-    overflow: hidden;
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
 }
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .btn-delete-user {
     width: 40px;
     text-align: center;
