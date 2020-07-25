@@ -21,8 +21,7 @@ import { DialogDireccion } from '../comercios/comercios.component';
   export class SolicitudesComponent implements OnInit {
 
 	comercios: Comercio[];
-	comercioCrear: Comercio;
-	displayedColumns: string[] = ['cedJuridica', 'nombreComercial', 'correoElectronico', 'telefono', 'direccion', 'idUsuario', 'estado', 'aceptar', 'rechazar'];
+	displayedColumns: string[] = ['cedJuridica', 'nombreComercial', 'correoElectronico', 'telefono', 'direccion', 'idUsuario', 'estado','aceptar', 'rechazar'];
 	datos;
 	mostrar: boolean;
 	

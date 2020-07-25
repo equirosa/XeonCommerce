@@ -1,4 +1,4 @@
-﻿import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,6 +9,9 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
+
+import { EmpleadoModule } from './empleado/empleado.module';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -45,6 +48,8 @@ import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
+;
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component'
 
 @NgModule({
     imports: [
@@ -100,6 +105,9 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 		ConfirmDialogComponent,
 		DialogDireccion,
 		SolicitudesComponent
+,
+		ComerciosCardComponent,
+		FiltroComerciosPipe
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

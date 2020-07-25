@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Empleado
+    public class Empleado : BaseEntity
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-        [JsonPropertyName("nommbre")]
+        [JsonPropertyName("idUsuario")]
+        public string IdUsuario { get; set; }
+        [JsonPropertyName("nombre")]
         public string Nombre { get; set; }
         [JsonPropertyName("apellidoUno")]
         public string ApellidoUno { get; set; }
@@ -27,6 +27,14 @@ namespace Entities
         public int IdDireccion { get; set; }
         [JsonPropertyName("estado")]
         public string Estado { get; set; }
+        [JsonPropertyName("idComercio")]
+        public string IdComercio { get; set; }
+        [JsonPropertyName("idSucursal")]
+        public string IdSucursal { get; set; }
+
+        [JsonPropertyName("idEmpleado")]
+        public int IdEmpleado { get; set; }
+
 
         public Empleado() { }
     }
