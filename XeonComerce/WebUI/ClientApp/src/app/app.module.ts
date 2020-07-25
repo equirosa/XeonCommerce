@@ -10,11 +10,6 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
 
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material/table';
-
-
 import { EmpleadoModule } from './empleado/empleado.module';
 
 

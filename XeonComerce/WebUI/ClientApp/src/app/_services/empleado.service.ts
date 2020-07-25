@@ -3,12 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Empleado } from '../_models/empleado';
 import { Observable, Subject } from 'rxjs';
 import { EmpleadoComercioSucursal } from '../_models/empleado-comercio-sucursal';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpleadoService {
 
+  private urlApi = `${environment.apiUrl}/api/empleado`;
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -25,19 +27,19 @@ export class EmpleadoService {
   // }
 
   getEmpleados(idSucursal: string ): Observable<Empleado[]> {
-    return this.http.get<Empleado[]>(`https://localhost:44343/api/empleado/GetEmpleadosByIdSucursal?idSucursal=${idSucursal}`);
+    return this.http.get<Empleado[]>(this.urlApi+`/GetEmpleadosByIdSucursal?idSucursal=${idSucursal}`);
   }
 
   verificarUsuario(idUsuario: string): Observable<string>{
-    return this.http.get<string>(`https://localhost:44343/api/empleado/verificarUsuario?idUsuario=${idUsuario}`);
+    return this.http.get<string>(this.urlApi+`/verificarUsuario?idUsuario=${idUsuario}`);
   }
 
   create(data: EmpleadoComercioSucursal): Observable<EmpleadoComercioSucursal>{
     var empleado = JSON.stringify(data);
-    return this.http.post<EmpleadoComercioSucursal>('https://localhost:44343/api/empleado/create', empleado, {headers: this.headers});
+    return this.http.post<EmpleadoComercioSucursal>(this.urlApi+'/create', empleado, {headers: this.headers});
   }
 
   eliminar(idEmpleado: number): Observable<EmpleadoComercioSucursal>{
-    return this.http.delete<EmpleadoComercioSucursal>(`https://localhost:44343/api/empleado/delete?idEmpleado=${idEmpleado}`);
+    return this.http.delete<EmpleadoComercioSucursal>(this.urlApi+`/delete?idEmpleado=${idEmpleado}`);
   }
 }
