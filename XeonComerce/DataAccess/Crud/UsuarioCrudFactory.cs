@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DataAccess.Dao;
 using DataAccess.Mapper;
+using DataAccessLayer.Dao;
 using Entities;
 
 
@@ -36,6 +37,11 @@ namespace DataAccess.Crud
             }
 
             return default(T);
+        }
+
+        public void Verification(Usuario user)
+        {
+            var lstResult = dao.ExecuteQueryProcedure(mapper.Verification(user));
         }
 
         public override List<T> RetrieveAll<T>()

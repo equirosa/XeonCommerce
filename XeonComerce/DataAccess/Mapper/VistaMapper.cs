@@ -54,7 +54,7 @@ namespace DataAccess.Mapper
         public SqlOperation GetRetriveStatement(BaseEntity entity)
         {
             var operation = new SqlOperation { ProcedureName = "RET_VISTA_PR" };
-            var o = (Rol)entity;
+            var o = (Vista)entity;
 
             operation.AddIntParam(DB_COL_ID, o.Id);
 
