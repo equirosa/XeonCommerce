@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: 'comercios', component: ComerciosComponent, canActivate: [AuthGuard] },
     { path: 'solicitudes', component: SolicitudesComponent, canActivate: [AuthGuard] },
     { path: 'comercio', component: ComerciosCardComponent },
-    { path: 'registro', component: RegistroUsuarioComponent },
+    { path: 'cuenta/registro', component: RegistroUsuarioComponent },
     { path: 'cuenta', loadChildren: accountModule },
     { path: 'empleado', loadChildren: empleadoModule},
   // { path: 'empleado', component: EmpleadoAdminComponent },

@@ -1,4 +1,3 @@
-import { RegistroUsuarioComponent } from './../registro-usuario/registro-usuario.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -9,8 +8,7 @@ const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
-            { path: 'login', component: LoginComponent },
-            { path: 'registro', component: RegistroUsuarioComponent }
+            { path: 'login', component: LoginComponent }
         ]
     }
 ];

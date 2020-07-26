@@ -45,17 +45,25 @@ httpOptions = {
 
 
   emailVerification(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.urlApi+"/EmailVerification/"+usuario.id, usuario, this.httpOptions).pipe(
-      tap((nuevo: Usuario) => this.log(`Se envió la verificación al email.`)),
-      catchError(this.handleError<Usuario>('create'))
+    return this.http.put<Usuario>(this.urlApi+"/EmailVerification/"+usuario.id, usuario, this.httpOptions).pipe(
+      tap(_ => this.log(`Se envió la verificación al email.`)),
+      catchError(this.handleError<Usuario>('emailVerification'))
     );
   }
 
   phoneVerification(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.urlApi+"/PhoneVerification/"+usuario.id, usuario, this.httpOptions).pipe(
-      tap((nuevo: Usuario) => this.log(`Se envió la verificación al número de teléfono.`)),
-      catchError(this.handleError<Usuario>('create'))
+    return this.http.put<Usuario>(this.urlApi+"/PhoneVerification/"+usuario.id, usuario, this.httpOptions).pipe(
+      tap(_ => this.log(`Se envió la verificación al número de teléfono.`)),
+      catchError(this.handleError<Usuario>('phoneVerification'))
     );
+  }
+  
+  sendClave(cedula: string): Observable<Usuario> {
+	const url = `${environment.apiUrl}/api/Contrasenna/send/${cedula}/`;
+	return this.http.get<Usuario>(url).pipe(
+	  tap(),
+	  catchError(this.handleError<Usuario>(`getCedula`))
+	);
   }
 
 

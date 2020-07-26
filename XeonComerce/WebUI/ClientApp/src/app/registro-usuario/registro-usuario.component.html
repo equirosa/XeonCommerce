@@ -131,18 +131,10 @@
 	  </form>
 	</mat-step>
 	<mat-step>
-	  <ng-template matStepLabel>Done</ng-template>
-	  <p>You are now done.</p>
+	  <ng-template matStepLabel>Fin</ng-template>
+	  <p>Su contraseña fue enviada por correo electrónico.</p>
 	  <div>
-		<button mat-button matStepperNext>Siguiente</button>
-	  </div>
-	</mat-step>
-	<mat-step>
-	  <ng-template matStepLabel>Done</ng-template>
-	  <p>You are now done.</p>
-	  <div>
-		<button mat-button matStepperPrevious>Back</button>
-		<button mat-button (click)="stepper.reset()">Reset</button>
+		<button mat-button (click)="fin()">Ingresar</button>
 	  </div>
 	</mat-step>
   </mat-horizontal-stepper>

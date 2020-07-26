@@ -9,6 +9,7 @@ import { Direccion } from './../_models/direccion';
 import { Ubicacion } from './../_models/ubicacion';
 import { MensajeService } from '../_services/mensaje.service';
 import { MatStepper } from '@angular/material/stepper';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registro-usuario',
@@ -28,7 +29,7 @@ export class RegistroUsuarioComponent implements OnInit {
 	distritos: Ubicacion[];
 	direccion: Direccion;
 	usuarioFinal : Usuario;
-	constructor(private _formBuilder: FormBuilder, private usuarioService: UsuarioService, private direccionService: DireccionService, private mensajeService: MensajeService, private ubicacionService: UbicacionService) {}
+	constructor(private router: Router, private _formBuilder: FormBuilder, private usuarioService: UsuarioService, private direccionService: DireccionService, private mensajeService: MensajeService, private ubicacionService: UbicacionService) {}
   
 
 	ngOnInit() {
@@ -82,7 +83,7 @@ export class RegistroUsuarioComponent implements OnInit {
 				direccionFinal = dirs[0];
 				if(direccionFinal){
 					this.usuarioFinal = {
-						id: this.firstFormGroup.value.id,
+						id: this.firstFormGroup.value.cedula,
 						nombre: this.firstFormGroup.value.nombre,
 						apellidoUno: this.firstFormGroup.value.primerApellido,
 						apellidoDos: this.firstFormGroup.value.segundoApellido,
@@ -128,6 +129,9 @@ export class RegistroUsuarioComponent implements OnInit {
 		this.usuarioService.getBy(this.usuarioFinal.id).subscribe((retUsr) => {
 			if(retUsr.codigo == this.thirdFormGroup.value.codigo){
 				this.mensajeService.add("Código válido");
+				this.usuarioService.sendClave(this.usuarioFinal.id).subscribe();
+				retUsr.estado = 'A';
+				this.usuarioService.update(retUsr).subscribe(_ => this.mensajeService.add("Cuenta activa"));
 				this.stepperRef.next();
 			}else{
 				this.mensajeService.add("Código inválido");
@@ -135,6 +139,10 @@ export class RegistroUsuarioComponent implements OnInit {
 			}
 		});
 	}
+
+fin(): void{
+	this.router.navigate(['/cuenta/login']);
+}
 
 	getProvincias(): void {
 		this.ubicacionService.getProvincias()
