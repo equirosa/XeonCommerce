@@ -1,0 +1,45 @@
+<div class="divProducto">
+  <h2>Productos</h2>
+  <button mat-raised-button color="primary" (click)="openDialog()">Crear</button>
+
+  <div class="mat-elevation-z8">
+    <table mat-table matSort [dataSource]="dataSource">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>  Precio </th>
+        <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>  Cantidad en stock </th>
+        <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="descuento">
+        <th mat-header-cell *matHeaderCellDef> Descuento </th>
+        <td mat-cell *matCellDef="let element"> {{element.descuento}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="idComercio">
+        <th mat-header-cell *matHeaderCellDef> Id Comercio </th>
+        <td mat-cell *matCellDef="let element"> {{element.idComercio}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duracion">
+        <th mat-header-cell *matHeaderCellDef> Duración </th>
+        <td mat-cell *matCellDef="let element"> {{element.duracion}} </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No se han encontraron datos</td>
+      </tr>
+    </table>
+  </div>

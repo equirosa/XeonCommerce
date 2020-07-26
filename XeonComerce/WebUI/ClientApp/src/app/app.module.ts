@@ -51,6 +51,7 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
+import { ProductoFormComponent } from './producto-form/producto-form.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -113,10 +114,11 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
 		SolicitudesComponent
 ,
 		ComerciosCardComponent,
-		FiltroComerciosPipe,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
-		CambiarContrasennaComponent
+		CambiarContrasennaComponent,
+		FiltroComerciosPipe,
+		ProductoFormComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
