@@ -1,14 +1,12 @@
 ﻿using DataAccess.Dao;
 using DataAccess.Mapper;
-using DataAccessLayer.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class CategoriaCrudFactory : CrudFactory
+	public class CategoriaCrudFactory : CrudFactory
     {
         CategoriaMapper mapper;
 

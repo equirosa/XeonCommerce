@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using DataAccess.Dao;
 using DataAccess.Mapper;
-using DataAccessLayer.Dao;
 using Entities;
 
 namespace DataAccess.Crud
 {
-    public class ContrasennaCrudFactory : CrudFactory
+	public class ContrasennaCrudFactory : CrudFactory
     {
         ContrasennaMapper mapper;
 

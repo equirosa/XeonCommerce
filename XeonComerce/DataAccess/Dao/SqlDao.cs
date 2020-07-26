@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Dao
+namespace DataAccess.Dao
 {
     public class SqlDao
     {

@@ -1,15 +1,13 @@
 ﻿#region libraries
 using System;
 using System.Collections.Generic;
-using System.Text;
 using DataAccess.Dao;
-using DataAccessLayer.Dao;
 using Entities;
 #endregion
 
 namespace DataAccess.Crud
 {
-    public class CuponCrudFactory : CrudFactory
+	public class CuponCrudFactory : CrudFactory
     {
         #region properties
         CuponMapper mapper;

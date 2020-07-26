@@ -3,11 +3,10 @@ using DataAccess.Mapper;
 using Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class EmpleadoComercioSucursalCrudFactory : CrudFactory
+	public class EmpleadoComercioSucursalCrudFactory : CrudFactory
     {
         EmpleadoComercioSucursalMapper mapper;
         EmpleadoMapper mapperEmpleado; 
