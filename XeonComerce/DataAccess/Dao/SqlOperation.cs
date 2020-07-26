@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DataAccessLayer.Dao
+namespace DataAccess.Dao
 {
     public class SqlOperation
     {
@@ -11,7 +12,7 @@ namespace DataAccessLayer.Dao
 
         public SqlOperation()
         {
-            Parameters = new List<SqlParameter>();
+            Parameters=new List<SqlParameter>();
         }
 
         public void AddVarcharParam(string paramName, string paramValue)
@@ -35,6 +36,14 @@ namespace DataAccessLayer.Dao
         public void AddDoubleParam(string paramName, double paramValue)
         {
             var param = new SqlParameter("@P_" + paramName, SqlDbType.Decimal)
+            {
+                Value = paramValue
+            };
+            Parameters.Add(param);
+        }
+        public void AddDateTimeParam(string paramName, DateTime paramValue)
+        {
+            var param = new SqlParameter("@P_" + paramName, SqlDbType.DateTime)
             {
                 Value = paramValue
             };

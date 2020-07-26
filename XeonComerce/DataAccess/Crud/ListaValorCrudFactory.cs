@@ -1,10 +1,8 @@
 ﻿using DataAccess.Mapper;
-using DataAccessLayer.Crud;
-using DataAccessLayer.Dao;
+using DataAccess.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Crud
 {

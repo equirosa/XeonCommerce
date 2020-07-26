@@ -1,6 +1,6 @@
 ﻿using DataAccess.Mapper;
-using DataAccessLayer.Crud;
-using DataAccessLayer.Dao;
+using DataAccess.Crud;
+using DataAccess.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;

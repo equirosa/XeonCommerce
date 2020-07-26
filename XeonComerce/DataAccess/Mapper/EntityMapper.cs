@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace DataAccessLayer.Mapper
+namespace DataAccess.Mapper
 {
     public abstract class EntityMapper
-    {
+    {      
         protected string GetStringValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];
@@ -23,6 +24,13 @@ namespace DataAccessLayer.Mapper
             return -1;
         }
 
+        protected decimal GetDecimalValue(Dictionary<string, object> dic, string attName)
+        {
+            var val = dic[attName];
+            if (dic.ContainsKey(attName) && val is decimal)
+                return (decimal)dic[attName];
+            return -1;
+        }
         protected double GetDoubleValue(Dictionary<string, object> dic, string attName)
         {
             var val = dic[attName];

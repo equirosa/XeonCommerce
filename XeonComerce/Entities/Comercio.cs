@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Comercio
+    public class Comercio : BaseEntity
     {
         [JsonPropertyName("cedJuridica")]
         public string CedJuridica { get; set; }
@@ -17,6 +17,12 @@ namespace Entities
         public string Telefono { get; set; }
         [JsonPropertyName("direccion")]
         public int Direccion { get; set; }
+
+        [JsonPropertyName("idUsuario")]
+        public string IdUsuario { get; set; }
+
+        [JsonPropertyName("estado")]
+        public string Estado { get; set; }
 
         public Comercio() { }
     }

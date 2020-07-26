@@ -8,8 +8,7 @@ namespace Entities
 {
     public class BaseEntity
     {
-
-        public String GetEntityInformation()
+        public string GetEntityInformation()
         {
             var dump = ObjectDumper.Dump(this);
             return dump;

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Direccion
+    public class Direccion: BaseEntity
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

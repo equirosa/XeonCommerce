@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using DataAccess.Dao;
 using Entities;
-using DataAccessLayer.Dao;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace DataAccessLayer.Crud
+namespace DataAccess.Crud
 {
     public abstract class CrudFactory
     {
