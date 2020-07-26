@@ -73,21 +73,20 @@ namespace WebAPI.Controllers
             var management = new UsuarioManagement();
             Usuario usuario = management.MailVerification(user);
 
-            SendMail(user).Wait();
+            Excecute(user).Wait();
 
             return usuario;
         }
 
-        private static async Task SendMail(Usuario user)
+        private static async Task Excecute(Usuario user)
         {
-            Environment.SetEnvironmentVariable("APIKey", "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");
-            var apiKey = Environment.GetEnvironmentVariable("APIKey");
+            var apiKey = "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";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
             var subject = "Codigo de verificacion";
-            var to = new EmailAddress("brrumur@hotmail.es", user.Nombre);
-            var plainTextContent = "Bienvenido a GetItSafely su codigo de verificacion es: "+user.Token;
-            var htmlContent = "<strong>Bienvenido a GetItSafely su codigo de verificacion es:  + user.Token </strong>";
+            var to = new EmailAddress(user.CorreoElectronico, user.Nombre);
+            var plainTextContent = ("Bienvenido a GetItSafely su codigo de verificacion es: "+user.Token+".");
+            var htmlContent = "<strong>Bienvenido a GetItSafely su codigo de verificacion es: " + user.Token + "."+"</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
@@ -122,7 +121,7 @@ namespace WebAPI.Controllers
 
             TwilioClient.Init(accountSid, authToken);
 
-            var to = new PhoneNumber("+50683682520");//esto se cambia por le numero del usuario pero tiene que estar verificado en twilio
+            var to = new PhoneNumber(usuario.NumeroTelefono);//esto se cambia por le numero del usuario pero tiene que estar verificado en twilio
             var from = new PhoneNumber("+19168846897");
 
             var message = MessageResource.Create(
