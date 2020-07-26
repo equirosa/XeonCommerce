@@ -1,0 +1,35 @@
+<div class="mat-elevation-8">
+
+    <mat-table [dataSource]="horario" class="table-lg">
+        <ng-container matColumnDef="descripcion">          
+            <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.descripcion}}</mat-cell>          
+        </ng-container>        
+        <ng-container matColumnDef="horaInicio">          
+            <mat-header-cell *matHeaderCellDef>Hora Inicio</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaInicio}}</mat-cell>          
+        </ng-container>        
+        <ng-container matColumnDef="horaFinal">          
+            <mat-header-cell *matHeaderCellDef>Hora Final</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaFinal}}</mat-cell>          
+        </ng-container>                 
+        <ng-container matColumnDef="editar">
+            <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-icon-button  (click)="editar()">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-icon-button  (click)="eliminar()">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>      
+        <mat-header-row class="toolbar" *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+    </mat-table>
+</div>

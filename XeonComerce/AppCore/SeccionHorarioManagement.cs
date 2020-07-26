@@ -40,5 +40,11 @@ namespace AppCore
         {
             crudSeccionHorario.Delete(seccionHorario);
         }
+
+        public List<SeccionHorario> GetHorarioEmpleado(SeccionHorario seccionHorario)
+        {
+            return crudSeccionHorario.GetHorarioEmpleado<SeccionHorario>(seccionHorario);
+        }
+
     }
 }

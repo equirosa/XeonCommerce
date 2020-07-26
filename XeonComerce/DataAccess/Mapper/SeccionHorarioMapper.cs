@@ -103,5 +103,16 @@ namespace DataAccess.Mapper
 
             return seccionHorario;
         }
+
+        public SqlOperation GetRetriveHorarioEmpleado(BaseEntity entity)
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_SECCION_HORARIO_ID_EMPLEADO_PR" };
+
+            var sh = (SeccionHorario)entity;
+            operation.AddIntParam(DB_COL_ID_EMPLEADO, sh.IdEmpleado);
+            operation.AddIntParam(DB_COL_DIA_SEMANA, sh.DiaSemana);
+
+            return operation;
+        }
     }
 }

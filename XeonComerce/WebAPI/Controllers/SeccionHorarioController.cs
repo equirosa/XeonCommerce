@@ -94,5 +94,18 @@ namespace WebAPI.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+
+
+        [HttpGet]
+        public List<SeccionHorario> GetHorarioEmpleado(int idEmpleado, int diaSemana)
+        {
+            var seccionHorario = new SeccionHorario();
+            seccionHorario.IdEmpleado = idEmpleado;
+            seccionHorario.DiaSemana = diaSemana;
+
+            var seccionHorarioManag = new SeccionHorarioManagement();
+            return seccionHorarioManag.GetHorarioEmpleado(seccionHorario);
+        }
     }
 }
