@@ -1,6 +1,5 @@
 ﻿using DataAccess.Dao;
 using DataAccess.Mapper;
-using DataAccessLayer.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
