@@ -18,6 +18,7 @@ namespace DataAccess.Mapper
         private const string DB_COL_TELEFONO = "NUMERO_TELEFONO";
         private const string DB_COL_ID_DIRECCION = "ID_DIRECCION";
         private const string DB_COL_ESTADO = "ESTADO";
+        private const string DB_COL_TOKEN = "TOKEN";
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
@@ -37,6 +38,15 @@ namespace DataAccess.Mapper
             return operation;
         }
 
+        internal SqlOperation Verification(BaseEntity user)
+        {
+            var operation = new SqlOperation { ProcedureName = "MAIL_VERIFICATION" };
+            var u = (Usuario)user;
+
+            operation.AddVarcharParam(DB_COL_ID, u.Id);
+            operation.AddVarcharParam(DB_COL_TOKEN, u.Token);
+            return operation;
+        }
 
         public SqlOperation GetRetriveStatement(BaseEntity entity)
         {
@@ -107,7 +117,8 @@ namespace DataAccess.Mapper
                 CorreoElectronico = GetStringValue(row, DB_COL_CORREO_ELECTRONICO),
                 NumeroTelefono = GetStringValue(row, DB_COL_TELEFONO),
                 IdDireccion = GetIntValue(row, DB_COL_ID_DIRECCION),
-                Estado = GetStringValue(row, DB_COL_ESTADO)
+                Estado = GetStringValue(row, DB_COL_ESTADO),
+                Token = GetStringValue(row,DB_COL_TOKEN)
             };
 
             return comercio;
