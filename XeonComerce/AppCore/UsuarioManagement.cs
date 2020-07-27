@@ -30,6 +30,13 @@ namespace Management
             return crud.Retrieve<Usuario>(ent);
         }
 
+        public Usuario MailVerification(Usuario user) {
+            Usuario usuario = crud.Retrieve<Usuario>(user);
+            usuario.Token = user.Token;
+            crud.Verification(usuario);
+            return crud.Retrieve<Usuario>(usuario);
+        }
+
         public void Update(Usuario ent)
         {
                 crud.Update(ent);
@@ -39,6 +46,12 @@ namespace Management
         public void Delete(Usuario ent)
         {
             crud.Delete(ent);
+        }
+
+        public Usuario PhoneVerification(Usuario user)
+        {
+            crud.Verification(user);
+            return crud.Retrieve<Usuario>(user);
         }
     }
 }

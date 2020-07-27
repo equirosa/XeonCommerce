@@ -1,12 +1,10 @@
 ﻿using DataAccess.Dao;
 using Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Crud
 {
-    public abstract class CrudFactory
+	public abstract class CrudFactory
     {
         protected SqlDao dao;
 

@@ -7,7 +7,7 @@ using Entities;
 
 namespace DataAccess.Crud
 {
-    public class ComercioCrudFactory : CrudFactory
+	public class ComercioCrudFactory : CrudFactory
     {
         ComercioMapper mapper;
 

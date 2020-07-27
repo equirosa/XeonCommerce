@@ -1,0 +1,140 @@
+<mat-horizontal-stepper linear=true #stepper>
+	<mat-step [stepControl]="firstFormGroup">
+	  <form [formGroup]="firstFormGroup">
+		<ng-template matStepLabel>Datos</ng-template>
+		<mat-form-field>
+		  <mat-label>Cedula</mat-label>
+		  <input matInput placeholder="Cedula" formControlName="cedula" required>
+		</mat-form-field>
+		<br>
+		<mat-form-field>
+		  <mat-label>Nombre</mat-label>
+		  <input matInput placeholder="Nombre" formControlName="nombre" required>
+		</mat-form-field>
+		<br>
+		<mat-form-field>
+		  <mat-label>Primer Apellido</mat-label>
+		  <input matInput placeholder="Primer Apellido" formControlName="primerApellido" required>
+		</mat-form-field>
+		<br>
+		<mat-form-field>
+		  <mat-label>Segundo Apellido</mat-label>
+		  <input matInput placeholder="Segundo Apellido" formControlName="segundoApellido" required>
+		</mat-form-field>
+		<br>
+		<mat-form-field appearance="fill">
+			<mat-label>Género</mat-label>
+			<select matNativeControl formControlName="genero" required> 
+			  <option value="h">Hombre</option>
+			  <option value="m">Mujer</option>
+			  <option value="o">Otro</option>
+			</select>
+		  </mat-form-field>
+		<br>
+		<mat-form-field appearance="fill">
+			<mat-label>Fecha de nacimiento</mat-label>
+			<input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" required>
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		  </mat-form-field>
+		<br>
+		<mat-form-field>
+		  <mat-label>Correo Electrónico</mat-label>
+		  <input matInput placeholder="Correo Electronico" formControlName="correoElectronico" required>
+		</mat-form-field>
+		<br>
+		<mat-form-field>
+		  <mat-label>Número de teléfono</mat-label>
+		  <input matInput placeholder="Número de teléfono" formControlName="numeroTelefono" required>
+		</mat-form-field>
+		<br>
+		<br>
+
+
+
+
+		<mat-form-field appearance="fill">
+			<mat-label>Provincia</mat-label>
+			<mat-select formControlName="provincia" (selectionChange)="getCantonesE($event)">
+				<mat-option *ngFor="let provincia of provincias" [value]="provincia.value">
+				  {{provincia.nombre}}
+				</mat-option>
+			  </mat-select>
+		  </mat-form-field>
+		
+		  <mat-form-field appearance="fill">
+			<mat-label>Cantón</mat-label>
+			<mat-select formControlName="canton" (selectionChange)="getDistritosE($event)">
+				<mat-option *ngFor="let canton of cantones" [value]="canton.value">
+				  {{canton.nombre}}
+				</mat-option>
+			  </mat-select>
+		  </mat-form-field>
+		  <br>
+		
+		  <mat-form-field style="width:400px !important" appearance="fill">
+			<mat-label>Distrito</mat-label>
+			<mat-select formControlName="distrito">
+				<mat-option *ngFor="let distrito of distritos" [value]="distrito.value">
+				  {{distrito.nombre}}
+				</mat-option>
+			  </mat-select>
+		  </mat-form-field>
+		  <br>
+		
+		  
+		  <mat-form-field appearance="fill">
+			<mat-label>Latitud</mat-label>
+			<input required matInput formControlName="latitud">
+		  </mat-form-field>
+		
+		  
+		  <mat-form-field appearance="fill">
+			<mat-label>Longitud</mat-label>
+			<input required matInput formControlName="longitud">
+		  </mat-form-field>
+		  <br>
+		
+		  
+		  <mat-form-field style="width:400px !important" appearance="fill">
+			<mat-label>Otras señas</mat-label>
+			<textarea required matInput formControlName="otrasSennas"> </textarea>
+		  </mat-form-field>
+		  <br>
+		<div>
+			<button mat-button (click)="enviarPrimero()">Continuar</button>
+		</div>
+	  </form>
+	</mat-step>
+	<mat-step [stepControl]="secondFormGroup">
+	  <form [formGroup]="secondFormGroup">
+		<ng-template matStepLabel>Verificación de teléfono</ng-template>
+		<mat-form-field appearance="fill">
+			<mat-label>Código</mat-label>
+			<input required matInput formControlName="codigo">
+		  </mat-form-field>
+		<div>
+		  <button mat-button (click)="probarCodigoTelefono()">Validar</button>
+		</div>
+	  </form>
+	</mat-step>
+	<mat-step [stepControl]="thirdFormGroup">
+	  <form [formGroup]="thirdFormGroup">
+		<ng-template matStepLabel>Verificación de correo electrónico</ng-template>
+		<mat-form-field appearance="fill">
+			<mat-label>Código</mat-label>
+			<input required matInput formControlName="codigo">
+		  </mat-form-field>
+		<div>
+			<button mat-button (click)="probarCodigoCorreo()">Validar</button>
+		</div>
+	  </form>
+	</mat-step>
+	<mat-step>
+	  <ng-template matStepLabel>Fin</ng-template>
+	  <p>Su contraseña fue enviada por correo electrónico.</p>
+	  <div>
+		<button mat-button (click)="fin()">Ingresar</button>
+	  </div>
+	</mat-step>
+  </mat-horizontal-stepper>

@@ -49,7 +49,10 @@ import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dia
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
-import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component'
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
+import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
+
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
     imports: [
@@ -89,6 +92,7 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 		MatSnackBarModule,
 		MatTableModule,
 		MatSortModule,
+		MatNativeDateModule,
 		MatPaginatorModule
 	],
 	entryComponents: [
@@ -107,11 +111,14 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 		SolicitudesComponent
 ,
 		ComerciosCardComponent,
-		FiltroComerciosPipe
+		FiltroComerciosPipe,
+		RegistroUsuarioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+		MatDatepickerModule,
+		MatNativeDateModule  
     ],
     bootstrap: [AppComponent]
 })

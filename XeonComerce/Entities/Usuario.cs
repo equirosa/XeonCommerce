@@ -9,7 +9,7 @@ namespace Entities
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
-        [JsonPropertyName("nommbre")]
+        [JsonPropertyName("nombre")]
         public string Nombre { get; set; }
         [JsonPropertyName("apellidoUno")]
         public string ApellidoUno { get; set; }
@@ -27,6 +27,8 @@ namespace Entities
         public int IdDireccion { get; set; }
         [JsonPropertyName("estado")]
         public string Estado { get; set; }
+        [JsonPropertyName("codigo")]
+        public string Token { get; set; }
 
         public Usuario() { }
     }

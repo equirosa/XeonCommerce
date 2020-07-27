@@ -25,6 +25,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_WebUI", "5_WebUI", "{35E6E420-02E0-4EC6-B261-55BEC56DDAE3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebUI", "WebUI\WebUI.csproj", "{96DC43AD-E94C-4716-9362-132E9E235D8B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{092002B7-4074-43DB-A456-F18DE178DD94} = {092002B7-4074-43DB-A456-F18DE178DD94}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

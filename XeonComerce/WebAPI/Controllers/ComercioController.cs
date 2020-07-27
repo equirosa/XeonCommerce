@@ -69,6 +69,10 @@ namespace WebAPI.Controllers
                 if (GetById(cedula) != null)
                 {
                     cm.Update(comercio);
+
+                    if (!(new EmailAddressAttribute().IsValid(comercio.CorreoElectronico))) throw new Exception("¡Formato de correo erroneo!");
+                    if (String.IsNullOrEmpty(comercio.NombreComercial) || comercio.NombreComercial.Length <= 5) throw new Exception("¡El nombre comercial debe contener más de 5 letras!");
+
                     return Ok(new { msg = "Se actualizó el comercio" });
                 }
                 else

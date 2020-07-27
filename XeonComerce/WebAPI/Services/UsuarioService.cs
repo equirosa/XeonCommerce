@@ -38,13 +38,30 @@ namespace WebAPI.Services
             var clave = GetClave(user.Id);
 
             if (clave == null) return null;
-            if (!clave.contrasenna.Equals(model.Clave)) return null;
+            if (!clave.contrasenna.Equals(CreateMD5(model.Clave))) return null;
 
             var token = generateJwtToken(user);
 
             return new AuthenticateResponse(user, token);
         }
 
+        public static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
         public List<Usuario> GetAll()
         {
             return new UsuarioManagement().RetrieveAll();
@@ -72,7 +89,7 @@ namespace WebAPI.Services
         public Contrasenna GetClave(string id)
         {
             List < Contrasenna > claves = new ContrasennaManagement().RetrieveAll();
-            var clave = claves.FirstOrDefault(x => x.IdUsuario.Equals(id));
+            var clave = claves.FirstOrDefault(x => x.estado=="A" && x.IdUsuario.Equals(id));
             if (clave == null) return null;
             else
             return clave;

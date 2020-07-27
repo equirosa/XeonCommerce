@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Crud
 {
-    public class RolCrudFactory : CrudFactory
+	public class RolCrudFactory : CrudFactory
     {
         RolMapper mapper;
 

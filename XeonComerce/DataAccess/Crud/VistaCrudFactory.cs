@@ -1,14 +1,12 @@
 ﻿using DataAccess.Mapper;
-using DataAccess.Crud;
 using DataAccess.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class VistaCrudFactory: CrudFactory
+	public class VistaCrudFactory: CrudFactory
     {
         VistaMapper mapper;
 
