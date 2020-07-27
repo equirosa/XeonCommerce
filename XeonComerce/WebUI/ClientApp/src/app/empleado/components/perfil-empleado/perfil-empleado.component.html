@@ -1,0 +1,27 @@
+<h1>{{empleado.nombre}}</h1>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{empleado.nombre}}</mat-card-title>
+        <mat-card-subtitle>Mostrar Rol</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <mat-label>Nombe</mat-label>
+            <h3>{{empleado.nombre}} {{empleado.apellidoUno}} {{empleado.apellidoDos}}</h3>
+        </div>
+        <div>
+            <mat-label>Fecha Nacimiento</mat-label>
+            <h3>{{empleado.fechaNacimiento}}</h3>
+        </div>
+        <div>
+            <mat-label>Correo electrónico</mat-label>
+            <h3>{{empleado.correoElectronico}}</h3>
+        </div>
+        <div>
+            <mat-label>Teléfono</mat-label>
+            <h3>{{empleado.numeroTelefono}}</h3>
+            <mat-icon matSuffix>phone</mat-icon>
+        </div>
+
+    </mat-card-content>
+</mat-card>

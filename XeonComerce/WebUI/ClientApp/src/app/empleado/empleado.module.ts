@@ -19,6 +19,8 @@ import { EmpleadoHorarioComponent } from './pages/empleado-horario/empleado-hora
 import { ListHorarioComponent } from './components/list-horario/list-horario.component';
 import {MatSelectModule} from '@angular/material/select';
 import { FormHorarioComponent } from './components/form-horario/form-horario.component';
+import { PerfilEmpleadoComponent } from './components/perfil-empleado/perfil-empleado.component';
+import {MatCardModule} from '@angular/material/card'
 
 
 @NgModule({
@@ -28,7 +30,8 @@ import { FormHorarioComponent } from './components/form-horario/form-horario.com
     EmpleadoAdminComponent,
     EmpleadoHorarioComponent,
     ListHorarioComponent,
-    FormHorarioComponent],
+    FormHorarioComponent,
+    PerfilEmpleadoComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -43,6 +46,7 @@ import { FormHorarioComponent } from './components/form-horario/form-horario.com
     MatTabsModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatCardModule,
     FormsModule,
     ReactiveFormsModule
   ]
