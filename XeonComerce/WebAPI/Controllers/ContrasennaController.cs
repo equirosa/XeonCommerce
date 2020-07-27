@@ -88,8 +88,11 @@ namespace WebAPI.Controllers
             try
             {
                 var cm = new ContrasennaManagement();
+                contrasenna.FechaActualizacion = DateTime.Now;
+                contrasenna.contrasenna = CreateMD5(contrasenna.contrasenna);
+                contrasenna.estado = "A";
                 cm.Create(contrasenna);
-                return Ok("Se creó la contraseña");
+                return Ok(new { msg = "La contraseña cambió satisfactoriamente" });
             }
             catch (Exception ex)
             {

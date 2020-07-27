@@ -20,7 +20,8 @@ httpOptions = {
   constructor(private http: HttpClient, private mensajeService: MensajeService) { }
 
   get(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.urlApi+"/get").pipe(
+	const url = `${this.urlApi}/get`;
+	return this.http.get<Usuario>(url).pipe(
 		tap(),
 		catchError(this.handleError<Usuario[]>('get', []))
 	  );
@@ -62,7 +63,16 @@ httpOptions = {
 	const url = `${environment.apiUrl}/api/Contrasenna/send/${cedula}/`;
 	return this.http.get<Usuario>(url).pipe(
 	  tap(),
-	  catchError(this.handleError<Usuario>(`getCedula`))
+	  catchError(this.handleError<Usuario>(`sendClave`))
+	);
+  }
+
+
+  cambiarClave(contrasenna: string, cedula: string): Observable<Usuario> {
+	const url = `${environment.apiUrl}/api/Contrasenna/`;
+	return this.http.post<Usuario>(url, {contrasenna: contrasenna, idUsuario: cedula}).pipe(
+	  tap(),
+	  catchError(this.handleError<Usuario>(`cambiarClave`))
 	);
   }
 

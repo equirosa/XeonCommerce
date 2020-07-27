@@ -53,6 +53,7 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
+import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 
 @NgModule({
     imports: [
@@ -112,7 +113,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 ,
 		ComerciosCardComponent,
 		FiltroComerciosPipe,
-		RegistroUsuarioComponent
+		RegistroUsuarioComponent,
+		RecuperarContrasennaComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

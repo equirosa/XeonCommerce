@@ -1,0 +1,44 @@
+<mat-horizontal-stepper linear=true #stepper>
+	<mat-step [stepControl]="firstFormGroup">
+	  <form [formGroup]="firstFormGroup">
+		<ng-template matStepLabel>Datos</ng-template>
+		<mat-form-field>
+		  <mat-label>Correo Electrónico</mat-label>
+		  <input matInput placeholder="Correo Electronico" formControlName="correoElectronico" required>
+		</mat-form-field>
+		  <br>
+		<div>
+			<button mat-button (click)="enviarPrimero()">Continuar</button>
+		</div>
+	  </form>
+	</mat-step>
+	<mat-step [stepControl]="secondFormGroup">
+	  <form [formGroup]="secondFormGroup">
+		<ng-template matStepLabel>Verificación</ng-template>
+		<mat-form-field appearance="fill">
+			<mat-label>Código</mat-label>
+			<input required matInput formControlName="codigo">
+		  </mat-form-field>
+		  <br>
+		  <mat-form-field appearance="fill">
+			  <mat-label>Nueva contraseña</mat-label>
+			  <input type="password" matInput formControlName="contrasennaUno">
+			</mat-form-field>
+			<br>
+			<mat-form-field appearance="fill">
+				<mat-label>Repita la nueva contraseña</mat-label>
+				<input type="password" required matInput formControlName="contrasennaDos">
+			  </mat-form-field>
+		<div>
+		  <button mat-button (click)="probarCodigoCorreo()">Cambiar</button>
+		</div>
+	  </form>
+	</mat-step>
+	<mat-step>
+	  <ng-template matStepLabel>Fin</ng-template>
+	  <p>Listo, su contraseña se restableció. Puede ingresar.</p>
+	  <div>
+		<button mat-button (click)="fin()">Ingresar</button>
+	  </div>
+	</mat-step>
+  </mat-horizontal-stepper>
