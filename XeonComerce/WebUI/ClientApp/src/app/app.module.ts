@@ -62,6 +62,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
+import { SucursalesComponent } from './sucursales/sucursales.component';
 
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
 import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
@@ -171,7 +172,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogCategoria,
 		NavComponent,
 		NavlistComponent,
-		PromocionComponent
+		PromocionComponent,
+		SucursalesComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
