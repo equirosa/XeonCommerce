@@ -51,12 +51,16 @@ export class ListHorarioComponent implements OnInit {
 
   }
 
-  editar(empleado): void {
-    console.log(empleado);
+  editar(horario): void {
+    console.log(horario);
     const dialogRef = this.dialog.open(FormHorarioComponent, {
       width: '650px',
       height: '400px',
-      data: { tipo: 'editar', horario: empleado}
+      data: { tipo: 'editar', horario: horario}
+    });
+
+    dialogRef.afterClosed().subscribe( res => {
+      this.cargarHorario();
     });
   }
 

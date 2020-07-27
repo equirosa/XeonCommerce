@@ -13,12 +13,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class FormHorarioComponent implements OnInit {
 
+  horaInicio: string;
+  horaFinal: string;
 
  fechaHoraInicio = new Date(1900, 0, 1);
  fechaHoraFinal = new Date(1900, 0, 1);
  offset =  this.fechaHoraInicio.getTimezoneOffset();
 
- valid = false; 
+ valid = false;
 
   FormGroupHorario = new FormGroup({
     HoraInicio: new FormControl('', Validators.pattern(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/)),
@@ -45,9 +47,15 @@ export class FormHorarioComponent implements OnInit {
       this.fechaHoraFinal.setMinutes(this.fechaHoraFinal.getMinutes() + this.offset);
      }
 
+ 
+
   ngOnInit(): void {
     if( this.data.tipo === 'editar'){
       this.nuevaSeccionHorario = this.data.horario;
+      this.valid = true;
+   
+      this.horaInicio = this.convertir(this.nuevaSeccionHorario.horaInicio);
+      this.horaFinal = this.convertir(this.nuevaSeccionHorario.horaFinal);
       this.llenarFormulario();
     }
 
@@ -72,6 +80,17 @@ export class FormHorarioComponent implements OnInit {
     });
   }
 
+  convertir( hora: string): string {
+    const a = hora.split(' ');
+    const h = a[0].split(':'); 
+
+    if( a[1] === 'PM' && h[0] === '12'){
+      return hora;
+    }else {
+      const horas = Number(h[0]) + 12; 
+      return horas + ':' + h[1] + ' PM';
+    }
+  }
 
   guardar(): void {
     if(this.validar()){
@@ -120,14 +139,14 @@ export class FormHorarioComponent implements OnInit {
     const hf = this.nuevaSeccionHorario.horaFinal.split(' ');
     this.fechaHoraFinal.setHours(hf[0].split(':')[0], hf[0].split(':')[1]);
 
-    this.FormGroupHorario.get('HoraInicio').setValue(this.nuevaSeccionHorario.horaInicio.split(' ')[0]);
-    this.FormGroupHorario.get('HoraFinal').setValue(this.nuevaSeccionHorario.horaFinal.split(' ')[0]);
+    this.FormGroupHorario.get('HoraInicio').setValue(this.horaInicio.split(' ')[0]);
+    this.FormGroupHorario.get('HoraFinal').setValue(this.horaFinal.split(' ')[0]);
     this.FormGroupHorario.get('Descripcion').setValue(this.nuevaSeccionHorario.descripcion);
     this.FormGroupHorario.get('Estado').setValue(this.nuevaSeccionHorario.estado);
   }
 
   validar(): boolean {
-    if (this.FormGroupHorario && this.FormGroupHorario.valid && this.fechaHoraInicio < this.fechaHoraFinal  ){
+    if (this.FormGroupHorario && this.FormGroupHorario.valid && this.fechaHoraInicio.getTime() < this.fechaHoraFinal.getTime() ){
       this.valid = true;
      return true;
     } else {
