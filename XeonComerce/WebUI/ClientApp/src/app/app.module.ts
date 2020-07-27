@@ -54,9 +54,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
-import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios/comercios.component';
 import { DescuentosComponent, DialogPromocion } from './descuentos/descuentos.component';
-import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { DescuentosCardComponent} from './descuentos-card/descuentos-card.component';

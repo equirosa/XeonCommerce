@@ -1,9 +1,9 @@
 <div class="divPromociones">
   <h2>Promociones</h2>
-  <mat-form-field>
+  <math-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="filtrar($event.target.value)" #input>
-  </mat-form-field>
+    <input matInput (keyup)="filtrar($event)" #input>
+  </math-form-field>
   <div class="mat-elevation-z8">
     <table mat-table matSort [dataSource]="datos">
       <ng-container matColumnDef="id">
@@ -24,11 +24,6 @@
       <ng-container matColumnDef="precio">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
         <td mat-cell *matCellDef="let element"> {{element.precio}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="cantidad">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-        <td mat-cell *matCellDef="let element"> {{element.cantidad}}</td>
       </ng-container>
 
       <ng-container matColumnDef="descuento">
@@ -57,7 +52,7 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
       <tr class="mat-row" *matNoDataRow>
         <td class="mat-cell" colspan="4">No se ha encontrado datos</td>
