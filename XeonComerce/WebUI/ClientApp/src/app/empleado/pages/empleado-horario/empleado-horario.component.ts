@@ -3,6 +3,8 @@ import { FormEmpleadoComponent } from '../../components/form-empleado/form-emple
 import { MatDialog } from '@angular/material/dialog';
 import { FormHorarioComponent } from '../../components/form-horario/form-horario.component';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { EmpleadoService } from '../../../_services/empleado.service';
 
 @Component({
   selector: 'app-empleado-horario',
@@ -23,14 +25,18 @@ export class EmpleadoHorarioComponent implements OnInit {
 
   FormGroupHorario: FormGroup;
   diaSemana = this.dias[0].valor;
-  idEmpleado = 1;
+  idEmpleado: number; 
+  nombreEmpleado: string;
 
   actualizarDatos = false;
 
-  constructor( public dialog: MatDialog) { }
+  constructor( private empleadoService: EmpleadoService, public dialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    
+    this.idEmpleado = Number( this.route.snapshot.paramMap.get('idEmpleado') );
+    this.route.fragment.subscribe( res => {
+      this.nombreEmpleado = res;
+    });
   }
 
   selectDia(event: Event){

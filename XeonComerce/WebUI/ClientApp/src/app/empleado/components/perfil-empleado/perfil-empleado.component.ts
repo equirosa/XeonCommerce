@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Empleado } from '../../../_models/empleado';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-empleado',
@@ -9,15 +10,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class PerfilEmpleadoComponent implements OnInit {
 
-  empleado: Empleado;
+  empleado = new Empleado();
 
-  constructor( public dialogRef: MatDialogRef<PerfilEmpleadoComponent>, @Inject(MAT_DIALOG_DATA) public data: Empleado) { 
-    this.empleado = this.data; 
+  constructor( 
+    public dialogRef: MatDialogRef<PerfilEmpleadoComponent>, 
+    @Inject(MAT_DIALOG_DATA) public data: Empleado,
+    private router: Router) { 
   }
 
   ngOnInit(): void {    
-    
+    this.empleado = this.data;    
   }
 
 
+  
 }

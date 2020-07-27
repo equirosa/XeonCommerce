@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { PerfilEmpleadoComponent } from '../perfil-empleado/perfil-empleado.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-empleados',
@@ -40,12 +41,17 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
 
-  constructor(private empleadoService: EmpleadoService, private _snackBar: MatSnackBar, public dialog: MatDialog) { }
+  constructor(
+    private empleadoService: EmpleadoService, 
+    private _snackBar: MatSnackBar, 
+    public dialog: MatDialog, 
+    private router: Router) { }
 
   ngOnInit(): void {
     this.cargarEmpleados();
     this.nombresColumnas = this.columnas.map(c => c.binding);
-    this.nombresColumnas.push('editar');
+    this.nombresColumnas.push('horario');
+    this.nombresColumnas.push('perfil');
     this.nombresColumnas.push('eliminar');
 
   }
@@ -86,8 +92,11 @@ export class ListEmpleadosComponent implements OnInit {
     const dialogRef = this.dialog.open(PerfilEmpleadoComponent, {
       width: '800px',
       height: '550px',
-      data: {empleado}
+      data: empleado
     });
+  }
 
+  verHorario(empleado): void {
+    this.router.navigate([`/empleado/horario`, empleado.idEmpleado], { fragment: empleado.nombre});
   }
 }

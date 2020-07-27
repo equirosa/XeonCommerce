@@ -14,7 +14,7 @@ const routes: Routes = [
           ],
     },
     {
-        path: 'horario',
+        path: 'horario/:idEmpleado',
         component: EmpleadoHorarioComponent,
         canActivate: [AuthGuard]
     }
