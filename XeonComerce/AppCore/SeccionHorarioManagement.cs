@@ -18,7 +18,15 @@ namespace AppCore
 
         public void Create(SeccionHorario seccionHorario)
         {
-            crudSeccionHorario.Create(seccionHorario);
+            if (this.validaSeccionHorario(seccionHorario))
+            {
+                crudSeccionHorario.Create(seccionHorario);
+            }
+            else
+            {
+                throw new Exception( message: "Las horas selecionadas chocan con secciones de horario existentes");
+            }
+
         }
 
         public List<SeccionHorario> RetrieveAll()
@@ -46,5 +54,23 @@ namespace AppCore
             return crudSeccionHorario.GetHorarioEmpleado<SeccionHorario>(seccionHorario);
         }
 
+
+        private bool validaSeccionHorario(SeccionHorario seccionHorario)
+        {
+            var horario = crudSeccionHorario.GetHorarioEmpleado<SeccionHorario>(seccionHorario);
+
+            foreach (var h in horario)
+            {
+                if ((seccionHorario.HoraInicio > h.HoraInicio && seccionHorario.HoraInicio < h.HoraFinal) ||
+                    (seccionHorario.HoraFinal > h.HoraInicio &&
+                     seccionHorario.HoraFinal < h.HoraFinal))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
+
 }

@@ -3,8 +3,8 @@ import { NumberValueAccessor } from "@angular/forms";
 export class SeccionHorario {
     id?: number;
     idEmpleado?: number;
-    horaInicio?: Date;
-    horaFinal?: Date;
+    horaInicio?: any;
+    horaFinal?: any;
     diaSemana?: number;
     descripcion?: string;
     estado?: string;

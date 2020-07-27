@@ -21,4 +21,24 @@ export class HorarioEmpleadoService {
     return this.http.get<SeccionHorario[]>(
       this.urlApi + `/getHorarioEmpleado?idEmpleado=${idEmpleado}&diaSemana=${diaSemana}`);
   }
+
+  guardar(empleado: SeccionHorario): Observable<SeccionHorario> {
+    var e = JSON.stringify(empleado);
+    if( empleado.id === 0){
+      return this.http.post<SeccionHorario>(this.urlApi + `/create`, e,  {headers: this.headers});
+    }else{      
+      return this.http.put<SeccionHorario>(this.urlApi + `/update`, e, {headers: this.headers});
+    }
+  }
+
+  eliminar(idHorario: number): Observable<SeccionHorario> {
+    return this.http.delete<SeccionHorario>(this.urlApi + `/delete?id=${idHorario}`);
+  }
+  // create(empleado): Observable<SeccionHorario> {
+  //   return this.http.post<SeccionHorario>(this.urlApi + `/create`, empleado,  {headers: this.headers});
+  // }
+
+  // update(empleado): Observable<SeccionHorario> {
+  //   return this.http.put<SeccionHorario>(this.urlApi + `/update`, empleado, {headers: this.headers});
+  // }
 }

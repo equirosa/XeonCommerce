@@ -10,7 +10,7 @@ namespace Entities
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("idHorarioEmpleado")]
+        [JsonPropertyName("idEmpleado")]
         public int IdEmpleado { get; set; }
 
         [JsonPropertyName("horaInicio")]

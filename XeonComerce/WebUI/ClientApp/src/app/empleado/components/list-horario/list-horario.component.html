@@ -16,7 +16,7 @@
         <ng-container matColumnDef="editar">
             <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
-                <button mat-icon-button  (click)="editar()">
+                <button mat-icon-button  (click)="editar(element)">
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-cell>
@@ -24,7 +24,7 @@
         <ng-container matColumnDef="eliminar">
             <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
-                <button mat-icon-button  (click)="eliminar()">
+                <button mat-icon-button  (click)="eliminar(element)">
                     <mat-icon>cancel</mat-icon>
                 </button>
             </mat-cell>
