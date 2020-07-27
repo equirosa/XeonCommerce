@@ -46,9 +46,8 @@ export class FormHorarioComponent implements OnInit {
      }
 
   ngOnInit(): void {
-   
     if( this.data.tipo === 'editar'){
-      this.nuevaSeccionHorario = this.data.horario; 
+      this.nuevaSeccionHorario = this.data.horario;
       this.llenarFormulario();
     }
 
@@ -75,8 +74,6 @@ export class FormHorarioComponent implements OnInit {
 
 
   guardar(): void {
-    // if (this.FormGroupHorario && this.FormGroupHorario.valid && this.validarHoras()){
-
     if(this.validar()){
       if( this.nuevaSeccionHorario.id !== undefined){
         this.fechaHoraInicio.setMinutes( this.fechaHoraInicio.getMinutes() - this.offset);
@@ -117,10 +114,10 @@ export class FormHorarioComponent implements OnInit {
   }
 
   llenarFormulario(): void {
-    var hi = this.nuevaSeccionHorario.horaInicio.split(' ');
+    const hi = this.nuevaSeccionHorario.horaInicio.split(' ');
     this.fechaHoraInicio.setHours(hi[0].split(':')[0], hi[0].split(':')[1]);
 
-    var hf = this.nuevaSeccionHorario.horaFinal.split(' ');
+    const hf = this.nuevaSeccionHorario.horaFinal.split(' ');
     this.fechaHoraFinal.setHours(hf[0].split(':')[0], hf[0].split(':')[1]);
 
     this.FormGroupHorario.get('HoraInicio').setValue(this.nuevaSeccionHorario.horaInicio.split(' ')[0]);
@@ -131,18 +128,17 @@ export class FormHorarioComponent implements OnInit {
 
   validar(): boolean {
     if (this.FormGroupHorario && this.FormGroupHorario.valid && this.fechaHoraInicio < this.fechaHoraFinal  ){
-      this.valid = true; 
+      this.valid = true;
      return true;
     } else {
       this.valid = false;
       return false;
     }
-    
   }
 
   validarHoras(): boolean {
     if( this.fechaHoraInicio >= this.fechaHoraFinal ) {
-      return false; 
+      return false;
     }
     return true;
   }

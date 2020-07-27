@@ -25,6 +25,8 @@ export class EmpleadoHorarioComponent implements OnInit {
   diaSemana = this.dias[0].valor;
   idEmpleado = 1;
 
+  actualizarDatos = false;
+
   constructor( public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -42,13 +44,9 @@ export class EmpleadoHorarioComponent implements OnInit {
       data: {tipo: 'registrar', idEmpleado: this.idEmpleado, diaSemana : this.diaSemana}
     });
 
-    // dialogRef.afterClosed().subscribe( result => {
-    //   this.actualizarDatos = true;
-    // });
+    dialogRef.afterClosed().subscribe( result => {
+      this.actualizarDatos = !this.actualizarDatos;
+    });
   }
-
-  // guardar( formGroup ){
-  //   console.log(formGroup);
-  //   this.FormGroupHorario = formGroup;
-  // }
+ 
 }

@@ -5,6 +5,8 @@ import { HorarioEmpleadoService } from '../../../_services/horario-empleado.serv
 import * as moment from 'moment';
 import { FormHorarioComponent } from '../form-horario/form-horario.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../_components/confirm-dialog/confirm-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-horario',
@@ -22,21 +24,17 @@ export class ListHorarioComponent implements OnInit {
   @Input()
   diaSemana: number;
 
- // idEmpleado = 1;  // Se obtiene segun el empleado que incio sesion o segun el empleado que selecciono el admin 
+  @Input()
+  actualizarDatos: boolean;
 
-  //diaSemana  = 2; // Se obtiene segun el dia que se escoja en el component empleado-horario
 
-
-  constructor(private horarioEmpleadoService: HorarioEmpleadoService, public dialog: MatDialog) { }
+  constructor(private horarioEmpleadoService: HorarioEmpleadoService, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.cargarHorario();
   }
 
   ngOnChanges( changes: SimpleChanges): void {
-    console.log(changes);    
-    // this.diaSemana = changes.diaSemana.currentValue;
-    // this.idEmpleado = changes.idEmple    
     this.cargarHorario();
   }
 
@@ -63,13 +61,29 @@ export class ListHorarioComponent implements OnInit {
   }
 
   eliminar(horario): void {
-     console.log('horario', horario);
-    this.horarioEmpleadoService.eliminar(horario.id).subscribe({
-      next: res => {
-        console.log('Se ha eliminado la seccion horario');
-        this.cargarHorario();
-      },
-      error: err => console.log(err)
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+			data: {
+			title: "¿Está seguro?",
+				message: "Usted está apunto de eliminar una sección del horario."}
+    }); 
+
+    dialogRef.afterClosed().subscribe( dialogResult => {
+      if(dialogResult){
+        this.horarioEmpleadoService.eliminar(horario.id).subscribe({
+          next: res => {
+            this.cargarHorario();
+            this._snackBar.open('Se ha eliminado la sección del horario', '', {
+              duration: 2500,
+            });
+          },
+          error: err => {
+            this._snackBar.open('No se ha logrado eliminar la sección del horario', '', {
+              duration: 2500,
+            });
+          }
+        });
+      }
     });
   }
 
