@@ -44,16 +44,20 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios/comercios.component';;
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
-import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
+import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios/comercios.component';
+import { DescuentosComponent, DialogPromocion } from './descuentos/descuentos.component';
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
+import { DescuentosCardComponent, FiltroPromocionesPipe } from './descuentos-card/descuentos-card.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -111,7 +115,8 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
     DialogProducto,
     DialogImpuesto,
     DialogServicio,
-    DialogEditarProducto
+    DialogEditarProducto,
+    DialogPromocion
 	],
     declarations: [
         AppComponent,
@@ -121,8 +126,7 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
 		DialogComercio,
 		ConfirmDialogComponent,
 		DialogDireccion,
-		SolicitudesComponent
-,
+		SolicitudesComponent,
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
@@ -134,7 +138,9 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarProducto
+    DialogEditarProducto,
+      DescuentosComponent,
+      DialogPromocion
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
