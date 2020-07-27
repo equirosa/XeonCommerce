@@ -1,4 +1,4 @@
-export class Sucursal {
+export interface Sucursal {
   id: string;
   idDireccion: number;
   idComercio: string;
