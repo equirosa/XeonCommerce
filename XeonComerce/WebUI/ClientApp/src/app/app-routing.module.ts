@@ -1,3 +1,5 @@
+import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
+import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -10,7 +12,7 @@ const accountModule = () => import('./account/account.module').then(x => x.Accou
 import { ComerciosComponent } from './comercios/comercios.component';
 import { ComerciosCardComponent } from './comercios-card/comercios-card.component'
 const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
-import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
+import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -20,6 +22,8 @@ const routes: Routes = [
     { path: 'cuenta/registro', component: RegistroUsuarioComponent },
     { path: 'cuenta', loadChildren: accountModule },
     { path: 'empleado', loadChildren: empleadoModule},
+    { path: 'cuenta/recuperar', component: RecuperarContrasennaComponent},
+    { path: 'cambiarcontrasenna', component: CambiarContrasennaComponent},
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home

@@ -88,15 +88,26 @@ namespace WebAPI.Controllers
             try
             {
                 var cm = new ContrasennaManagement();
+                List<Contrasenna> claves = cm.RetrieveAll();
+                claves = claves.FindAll(x => x.estado == "I" && x.IdUsuario.Equals(contrasenna.IdUsuario));
+                claves.Sort((x, y) => DateTime.Compare(x.FechaActualizacion, y.FechaActualizacion));
+                claves.Reverse();
+                int num = 5;
+                for (int i = 0; i<num; i++)
+                {
+                    if (claves[i] != null && (CreateMD5(contrasenna.contrasenna).Equals(claves[i].contrasenna))) throw new Exception("La contraseña no puede ser igual a las " + num + " últimas");
+                }
+                contrasenna.FechaActualizacion = DateTime.Now;
+                contrasenna.contrasenna = CreateMD5(contrasenna.contrasenna);
+                contrasenna.estado = "A";
                 cm.Create(contrasenna);
-                return Ok("Se creó la contraseña");
+                return Ok(new { msg = "La contraseña cambió satisfactoriamente" });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, new { msg = ex.Message });
             }
         }
-
 
         [HttpGet("{id}")]
         public Contrasenna GetById(int id)
