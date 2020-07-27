@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Empleado } from '../../../_models/empleado';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { PerfilEmpleadoComponent } from '../perfil-empleado/perfil-empleado.component';
 
 @Component({
   selector: 'app-list-empleados',
@@ -38,7 +40,7 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
 
-  constructor(private empleadoService: EmpleadoService, private _snackBar: MatSnackBar) { }
+  constructor(private empleadoService: EmpleadoService, private _snackBar: MatSnackBar, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.cargarEmpleados();
@@ -77,6 +79,14 @@ export class ListEmpleadosComponent implements OnInit {
           duration: 2500,
         });
       }
+    });
+  }
+
+  verPerfil(empleado): void {
+    const dialogRef = this.dialog.open(PerfilEmpleadoComponent, {
+      width: '800px',
+      height: '550px',
+      data: {empleado}
     });
 
   }
