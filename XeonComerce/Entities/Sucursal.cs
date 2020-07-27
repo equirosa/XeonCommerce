@@ -13,6 +13,8 @@ namespace Entities
         public int IdDireccion { get; set; }
         [JsonPropertyName("idComercio")]
         public string IdComercio { get; set; }
+        [JsonPropertyName("disposiciones")]
+        public string Disposiciones { get; set; }
 
         public Sucursal() { }
     }
