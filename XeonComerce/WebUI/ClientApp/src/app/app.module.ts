@@ -50,11 +50,16 @@ import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dia
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
-import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
+import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios/comercios.component';
+import { DescuentosComponent, DialogPromocion } from './descuentos/descuentos.component';
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
+import { DescuentosCardComponent, FiltroPromocionesPipe } from './descuentos-card/descuentos-card.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -133,7 +138,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
-		DialogCategoria
+		DialogCategoria,
+    DialogPromocion
 	],
     declarations: [
         AppComponent,
@@ -143,8 +149,7 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogComercio,
 		ConfirmDialogComponent,
 		DialogDireccion,
-		SolicitudesComponent
-,
+		SolicitudesComponent,
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
@@ -165,6 +170,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogCategoria,
 		NavComponent,
 		NavlistComponent
+      DescuentosComponent,
+      DialogPromocion
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

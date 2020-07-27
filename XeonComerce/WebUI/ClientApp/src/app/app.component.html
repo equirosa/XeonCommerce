@@ -1,3 +1,17 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="user">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="nav-item nav-link" routerLink="/comercio" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Comercios (Todos)</a>
+        <a class="nav-item nav-link" routerLink="/comercios" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Comercios (Admin)</a>
+        <a class="nav-item nav-link" routerLink="/solicitudes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Solicitudes</a>
+        <a class="nav-item nav-link" routerLink="/cambiarcontrasenna" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cambiar contraseña</a>
+    <a class="nav-item nav-link" routerLink="/productos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Productos</a>
+    <a class="nav-item nav-link" routerLink="/servicios" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Servicios</a>
+    <a class="nav-item nav-link" routerLink="/impuestos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Impuestos</a>
+        <a class="nav-item nav-link" routerLink="/productosyservicios" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Promociones</a>
+        <a class="nav-item nav-link" (click)="logout()">Logout</a>
+    </div>
+</nav>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
 
   <mat-sidenav-container>
