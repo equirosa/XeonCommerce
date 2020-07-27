@@ -1,0 +1,88 @@
+<h1 mat-dialog-title>{{data.accion | titlecase}} comercio</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>ID</mat-label>
+    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.id" minlength="6">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>ID Direccion</mat-label>
+    <input required matInput [(ngModel)]="data.idDireccion" minlength="5">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>ID Comercio</mat-label>
+    <input required matInput [(ngModel)]="data.idComercio" minlenght="5">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Disposiciones</mat-label>
+    <input required matInput [(ngModel)]="data.disposiciones" minlenght="5">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Estado</mat-label>
+    <input required matInput [(ngModel)]="data.estado" minlenght="5">
+  </mat-form-field>
+  <br>
+
+
+  <mat-form-field appearance="fill" *ngIf="data.dir">
+    <mat-label>Provincia</mat-label>
+    <mat-select [(ngModel)]="data.provincia" (selectionChange)="getCantonesE($event)">
+      <mat-option *ngFor="let provincia of data.provincias" [value]="provincia.value">
+        {{provincia.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngIf="data.dir">
+    <mat-label>Cantón</mat-label>
+    <mat-select [(ngModel)]="data.canton" (selectionChange)="getDistritosE($event)">
+      <mat-option *ngFor="let canton of data.cantones" [value]="canton.value">
+        {{canton.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
+    <mat-label>Distrito</mat-label>
+    <mat-select [(ngModel)]="data.distrito">
+      <mat-option *ngFor="let distrito of data.distritos" [value]="distrito.value">
+        {{distrito.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill" *ngIf="data.dir">
+    <mat-label>Lat</mat-label>
+    <input required matInput [(ngModel)]="data.latitud">
+  </mat-form-field>
+
+
+  <mat-form-field appearance="fill" *ngIf="data.dir">
+    <mat-label>Long</mat-label>
+    <input required matInput [(ngModel)]="data.longitud">
+  </mat-form-field>
+
+
+  <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
+    <mat-label>Otras señas</mat-label>
+    <textarea required matInput [(ngModel)]="data.sennas"> </textarea>
+  </mat-form-field>
+
+  <br>
+
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Administrador</mat-label>
+    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.idUsuario">
+  </mat-form-field>
+
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data.accion | titlecase}}</button>
+</div>

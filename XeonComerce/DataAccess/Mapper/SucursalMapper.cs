@@ -12,6 +12,7 @@ namespace DataAccess.Mapper
         private const string DB_COL_ID_DIRECCION = "ID_DIRECCION";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_DISPOSICIONES = "DISPOSICIONES";
+        private const string DB_COL_ESTADO = "ESTADO";
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
@@ -22,6 +23,7 @@ namespace DataAccess.Mapper
             operation.AddIntParam(DB_COL_ID_DIRECCION, suc.IdDireccion);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, suc.IdComercio);
             operation.AddVarcharParam(DB_COL_DISPOSICIONES, suc.Disposiciones);
+            operation.AddVarcharParam(DB_COL_ESTADO, suc.Estado);
 
             return operation;
         }
@@ -51,6 +53,7 @@ namespace DataAccess.Mapper
             operation.AddIntParam(DB_COL_ID_DIRECCION, suc.IdDireccion);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, suc.IdComercio);
             operation.AddVarcharParam(DB_COL_DISPOSICIONES, suc.Disposiciones);
+            operation.AddVarcharParam(DB_COL_ESTADO, suc.Estado);
 
 
             return operation;
@@ -85,7 +88,8 @@ namespace DataAccess.Mapper
                 Id = GetStringValue(row, DB_COL_ID),
                 IdDireccion = GetIntValue(row, DB_COL_ID_DIRECCION),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                Disposiciones = GetStringValue(row, DB_COL_DISPOSICIONES)
+                Disposiciones = GetStringValue(row, DB_COL_DISPOSICIONES),
+                Estado = GetStringValue(row,DB_COL_ESTADO)
             };
 
             return sucursal;

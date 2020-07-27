@@ -15,6 +15,8 @@ namespace Entities
         public string IdComercio { get; set; }
         [JsonPropertyName("disposiciones")]
         public string Disposiciones { get; set; }
+        [JsonPropertyName("estado")]
+        public string Estado { get; set; }
 
         public Sucursal() { }
     }
