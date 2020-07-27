@@ -58,7 +58,7 @@ export class ListEmpleadosComponent implements OnInit {
   cargarEmpleados(): void {
     this.empleadoService.getEmpleados(this.idSucursal).subscribe({
       next: res => {
-        this.empleados.data = res;        
+        this.empleados.data = res;
       },
       error: err => console.log(err)
     });

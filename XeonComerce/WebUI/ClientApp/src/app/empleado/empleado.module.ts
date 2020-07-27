@@ -15,13 +15,20 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { EmpleadoHorarioComponent } from './pages/empleado-horario/empleado-horario.component';
+import { ListHorarioComponent } from './components/list-horario/list-horario.component';
+import {MatSelectModule} from '@angular/material/select';
+import { FormHorarioComponent } from './components/form-horario/form-horario.component';
 
 
 @NgModule({
   declarations: [
     ListEmpleadosComponent,
     FormEmpleadoComponent,
-    EmpleadoAdminComponent],
+    EmpleadoAdminComponent,
+    EmpleadoHorarioComponent,
+    ListHorarioComponent,
+    FormHorarioComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -35,6 +42,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatDialogModule,
     MatTabsModule,
     MatSnackBarModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule
   ]

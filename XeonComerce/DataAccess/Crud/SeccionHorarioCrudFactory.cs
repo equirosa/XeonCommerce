@@ -66,5 +66,23 @@ namespace DataAccess.Crud
             var seccionHorario = (SeccionHorario)entity;
             dao.ExecuteProcedure(mapper.GetDeleteStatement(seccionHorario));
         }
+
+        public List<T> GetHorarioEmpleado<T>(SeccionHorario seccionHorario)
+        {
+            var lstSeccionHorario = new List<T>();
+
+            var lstResult = dao.ExecuteQueryProcedure(mapper.GetRetriveHorarioEmpleado(seccionHorario));
+            var dic = new Dictionary<string, object>();
+            if (lstResult.Count > 0)
+            {
+                var objs = mapper.BuildObjects(lstResult);
+                foreach (var c in objs)
+                {
+                    lstSeccionHorario.Add((T)Convert.ChangeType(c, typeof(T)));
+                }
+            }
+
+            return lstSeccionHorario;
+        }
     }
 }
