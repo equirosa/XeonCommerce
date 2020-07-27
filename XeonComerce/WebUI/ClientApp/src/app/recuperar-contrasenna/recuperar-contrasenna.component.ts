@@ -4,9 +4,6 @@ import { UbicacionService } from './../_services/ubicacion.service';
 import { STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
-import { DireccionService } from '../_services/direccion.service';
-import { Direccion } from './../_models/direccion';
-import { Ubicacion } from './../_models/ubicacion';
 import { MensajeService } from '../_services/mensaje.service';
 import { MatStepper } from '@angular/material/stepper';
 import {Router} from '@angular/router';
@@ -27,7 +24,7 @@ export class RecuperarContrasennaComponent implements OnInit {
 	firstFormGroup: FormGroup;
 	secondFormGroup: FormGroup;
 	thirdFormGroup: FormGroup;
-	constructor(private router: Router, private _formBuilder: FormBuilder, private usuarioService: UsuarioService, private mensajeService: MensajeService, private ubicacionService: UbicacionService) {}
+	constructor(private router: Router, private _formBuilder: FormBuilder, private usuarioService: UsuarioService, private mensajeService: MensajeService) {}
   
 
 	ngOnInit() {
@@ -36,8 +33,8 @@ export class RecuperarContrasennaComponent implements OnInit {
 	  });
 	  this.secondFormGroup = this._formBuilder.group({
 		codigo: ['', Validators.required],
-		contrasennaUno: ['', Validators.required],
-		contrasennaDos: ['', Validators.required]
+		contrasennaUno: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+		contrasennaDos: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]]
 	  });
 	}
 

@@ -20,15 +20,19 @@
 			<input required matInput formControlName="codigo">
 		  </mat-form-field>
 		  <br>
-		  <mat-form-field appearance="fill">
+		  <mat-form-field appearance="fill" hintLabel="Min 8 car, 1 maysc, 1 número y 1 car esp.">
 			  <mat-label>Nueva contraseña</mat-label>
 			  <input type="password" matInput formControlName="contrasennaUno">
 			</mat-form-field>
 			<br>
-			<mat-form-field appearance="fill">
+			<br>
+			<mat-form-field appearance="fill" hintLabel="Min 8 car, 1 maysc, 1 número y 1 car esp.">
 				<mat-label>Repita la nueva contraseña</mat-label>
 				<input type="password" required matInput formControlName="contrasennaDos">
 			  </mat-form-field>
+			  <br>
+			  <br>
+			  <br>
 		<div>
 		  <button mat-button (click)="probarCodigoCorreo()">Cambiar</button>
 		</div>

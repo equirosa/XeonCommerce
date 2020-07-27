@@ -1,3 +1,4 @@
+import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { NgModule } from '@angular/core';
@@ -22,6 +23,7 @@ const routes: Routes = [
     { path: 'cuenta', loadChildren: accountModule },
     { path: 'empleado', loadChildren: empleadoModule},
     { path: 'cuenta/recuperar', component: RecuperarContrasennaComponent},
+    { path: 'cambiarcontrasenna', component: CambiarContrasennaComponent},
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home
