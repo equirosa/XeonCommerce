@@ -51,7 +51,9 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
-import { ProductoFormComponent } from './producto-form/producto-form.component'
+import { ProductoFormComponent, DialogProducto } from './producto-form/producto-form.component';
+import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
+import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -101,7 +103,10 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
 	entryComponents: [
 		DialogComercio,
 		ConfirmDialogComponent,
-		DialogDireccion
+    DialogDireccion,
+    DialogProducto,
+    DialogImpuesto,
+    DialogServicio
 	],
     declarations: [
         AppComponent,
@@ -118,7 +123,12 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
 		RecuperarContrasennaComponent,
 		CambiarContrasennaComponent,
 		FiltroComerciosPipe,
-		ProductoFormComponent
+     ProductoFormComponent,
+    DialogProducto,
+    ImpuestoComponent,
+    DialogImpuesto,
+    ServicioComponent,
+    DialogServicio
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

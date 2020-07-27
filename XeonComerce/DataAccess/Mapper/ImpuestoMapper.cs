@@ -13,6 +13,7 @@ namespace DataAccess
     {
         #region properties
         private const string DB_COL_ID = "ID_IMPUESTO";
+        private const string DB_COL_NOMBRE = "NOMBRE";
         private const string DB_COL_VALOR = "VALOR";
         #endregion
 
@@ -22,7 +23,8 @@ namespace DataAccess
             var impuesto = new Impuesto
             {
                 Id = GetIntValue(row, DB_COL_ID),
-                Valor = GetStringValue(row, DB_COL_VALOR)
+                Nombre = GetStringValue(row, DB_COL_NOMBRE),
+                Valor = GetIntValue(row, DB_COL_VALOR)
             };
 
             return impuesto;
@@ -47,7 +49,8 @@ namespace DataAccess
 
             var im = (Impuesto)entity;
 
-            operation.AddVarcharParam(DB_COL_VALOR, im.Valor);
+            operation.AddVarcharParam(DB_COL_NOMBRE, im.Nombre);
+            operation.AddIntParam(DB_COL_VALOR, im.Valor);
 
             return operation;
         }
@@ -88,7 +91,8 @@ namespace DataAccess
             var im = (Impuesto)entity;
 
             operation.AddIntParam(DB_COL_ID, im.Id);
-            operation.AddVarcharParam(DB_COL_VALOR, im.Valor);
+            operation.AddVarcharParam(DB_COL_NOMBRE, im.Nombre);
+            operation.AddIntParam(DB_COL_VALOR, im.Valor);
 
             return operation;
         }

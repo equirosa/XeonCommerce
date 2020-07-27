@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\producto-form\Crear.html" />
     <None Remove="ClientApp\src\app\ProductosServicios\producto-form\Producto.cs" />
   </ItemGroup>
 

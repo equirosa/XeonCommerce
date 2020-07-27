@@ -9,8 +9,10 @@ namespace Entities
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
+        [JsonPropertyName("nombre")]
+        public string Nombre { get; set; }
         [JsonPropertyName("valor")]
-        public string Valor { get; set; }
+        public int Valor { get; set; }
 
         public Impuesto()
         {

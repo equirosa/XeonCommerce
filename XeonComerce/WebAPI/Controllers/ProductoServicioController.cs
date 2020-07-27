@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return StatusCode(500);
@@ -111,7 +111,7 @@ namespace WebAPI.Controllers
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500);
             }
@@ -129,7 +129,7 @@ namespace WebAPI.Controllers
                 return Ok("Se ha eliminado eliminado el cupón");
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500);
             }

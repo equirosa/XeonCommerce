@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Crear producto</h1>
+<h1 mat-dialog-title>Crear servicio</h1>
 
 <div mat-dialog-content>
   <mat-form-field style="width:400px !important" appearance="standard">
@@ -11,11 +11,7 @@
     <input minlength="1" type="number" required matInput [(ngModel)]="data.precio">
   </mat-form-field>
   <br>
-  <mat-form-field style="width:400px !important" appearance="standard">
-    <mat-label>Cantidad</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.cantidad">
-  </mat-form-field>
-  <br>
+
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Descuento</mat-label>
     <input minlength="1" type="number" required matInput [(ngModel)]="data.descuento">
@@ -31,11 +27,8 @@
     <input minlength="1" type="number" matInput [(ngModel)]="data.duracion">
   </mat-form-field>
   <br>
-  </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancelar</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Crear</button>
-  </div>
-
-
-
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Crear</button>
+</div>
