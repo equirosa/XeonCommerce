@@ -60,6 +60,37 @@ export class SucursalesComponent implements OnInit {
     });
   }
 
+  editar(sucursal: Sucursal): void {
+    const dialogRef = this.dialog.open(DialogSucursal, {
+      width: '500px',
+      data: {
+        accion: 'editar',
+        permitir: true,
+        id: sucursal.id,
+        idComercio: sucursal.idComercio,
+        disposiciones: sucursal.disposiciones,
+        estado: sucursal.estado,
+        idDireccion: sucursal.idDireccion,
+        provincias: this.provincias,
+        cantones: this.cantones,
+        distritos: this.distritos,
+        provincia: "",
+        canton: "",
+        distrito: "",
+        lat: "",
+        long: "",
+        dir: false,
+        sennas: ""
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.sucursalService.update(result).subscribe(() => this.getSucursales());
+      }
+    })
+  }
+
   crear(): void {
     const dialogRef = this.dialog.open(DialogSucursal, {
       width: '500px',
