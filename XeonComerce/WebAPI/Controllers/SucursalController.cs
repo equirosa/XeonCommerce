@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SucursalController: ControllerBase
     {
@@ -20,8 +20,8 @@ namespace WebAPI.Controllers
             return sm.RetriveAll();
         }
 
-        [HttpGet]
-        public Sucursal RetriveById(int id)
+        [HttpGet("{id}")]
+        public Sucursal RetriveById(string id)
         {
             var sucursal = new Sucursal()
             {
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             try
             {
