@@ -70,7 +70,7 @@
 <br>
 
 
-  <mat-form-field style="width:400px !important" appearance="standard">
+  <mat-form-field style="width:400px !important" appearance="standard" *ngIf="!data.noEsAdmin">
     <mat-label>Administrador</mat-label>
     <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.idUsuario">
   </mat-form-field>
