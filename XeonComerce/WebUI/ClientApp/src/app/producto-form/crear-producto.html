@@ -16,22 +16,28 @@
     <input minlength="1" type="number" required matInput [(ngModel)]="data.cantidad">
   </mat-form-field>
   <br>
-  <mat-form-field style="width:400px !important" appearance="standard">
+  <mat-form-field style="width:400px" appearance="standard">
     <mat-label>Descuento</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.descuento">
+    <input minlength="1" type="number" matInput [(ngModel)]="data.descuento" disabled>
   </mat-form-field>
   <br>
-  <mat-form-field style="width:400px !important" appearance="standard">
-    <mat-label>Id comercio</mat-label>
-    <input required matInput [(ngModel)]="data.idComercio" minlength="6">
+
+  <mat-form-field style="width:400px !important" appearance="fill">
+    <mat-label>Comercio</mat-label>
+    <mat-select [(ngModel)]="data.comercio" required>
+      <mat-option></mat-option>
+      <mat-option *ngFor="let comercio of data.comercios" [value]="comercio">
+        {{comercio.nombreComercial}}
+      </mat-option>
+    </mat-select>
   </mat-form-field>
-  <br>
+
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Duracion en minutos estimados</mat-label>
-    <input minlength="1" type="number" matInput [(ngModel)]="data.duracion">
+    <input minlength="1" type="number" matInput [(ngModel)]="data.duracion" required>
   </mat-form-field>
   <br>
-  </div>
+</div>
   <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Cancelar</button>
     <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Crear</button>

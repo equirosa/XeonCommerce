@@ -20,8 +20,9 @@ export class ProductoService {
   }
 
   getProducto(): Observable<Producto[]> {
+    const urlProd = `${this.urlApi}/1`;
     return this.http
-      .get<Producto[]>(this.urlApi + "/1")
+      .get<Producto[]>(urlProd)
       .pipe(tap(), catchError(this.handleError<Producto[]>('get', []))
       );
   }
@@ -34,14 +35,14 @@ export class ProductoService {
 //    return this.post(prod);
 //  }
 
-//  delete(prod: Producto) {
-//    const headers = new Headers();
-//    headers.append('Content-Type', 'application/json');
+  delete(prod: Producto) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-//    const url = `${this.productoApi + "/delete"}/${prod.id}`;
+    const url = `${this.urlApi}/${prod.id}`;
 
-//    return this.http.delete<Producto>(url).pipe(catchError(this.handleError));
-//  }
+    return this.http.delete<Producto>(url).pipe(catchError(this.handleError));
+  }
 
     postProducto(producto: Producto) {
     const headers = new Headers({

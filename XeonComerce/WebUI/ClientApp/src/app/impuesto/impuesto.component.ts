@@ -4,6 +4,7 @@ import { Impuesto } from '../_models/impuesto';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ImpuestoService } from './../_services/impuesto.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-impuesto',
@@ -68,6 +69,24 @@ export class ImpuestoComponent implements OnInit {
     });
   }
 
+  //eliminar(impuesto: Impuesto): void {
+
+  //  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //    maxWidth: "500px",
+  //    data: {
+  //      title: "¿Está seguro?",
+  //      message: "Usted está apunto de eliminar un producto. "
+  //    }
+  //  });
+
+  //  dialogRef.afterClosed().subscribe(dialogResult => {
+  //    if (dialogResult) this.impuestoService.delete(impuesto)
+  //      .subscribe(() => {
+  //        this.getImpuestos();
+  //      });
+  //    window.location.reload();
+  //  });
+  //}
 
 }
 

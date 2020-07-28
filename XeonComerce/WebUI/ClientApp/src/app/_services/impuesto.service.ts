@@ -26,6 +26,15 @@ export class ImpuestoService {
       );
   }
 
+  delete(imp: Impuesto) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const url = `${this.urlApi}/${imp.id}`;
+
+    return this.http.delete<Impuesto>(url).pipe(catchError(this.handleError));
+  }
+
   postImpuesto(impuesto: Impuesto) {
     const headers = new Headers({
       'Content-Type': 'application/json'

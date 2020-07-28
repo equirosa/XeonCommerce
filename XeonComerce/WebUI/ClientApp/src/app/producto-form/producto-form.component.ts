@@ -3,7 +3,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Producto } from '../_models/producto';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ProductoService } from './../_services/producto.service';
+import { ComercioService } from '../_services/comercio.service';
+import { Comercio } from '../_models/comercio';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
 
 
 @Component({
@@ -15,7 +18,9 @@ export class ProductoFormComponent implements OnInit {
 
   producto: Producto;
   productos: Producto[];
-  displayedColumns: string[] = ['nombre', 'precio', 'cantidad', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
+  comercios: Comercio[];
+  datosComercios;
+  displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
   dataSource;
   public httpClient: HttpClient;
   public baseUrlApi: string;
@@ -23,16 +28,16 @@ export class ProductoFormComponent implements OnInit {
   public message: string;
   public serviceEndPoint: string;
 
-  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService) {
+  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService) {
     this.httpClient = http;
     this.prodService = prodService;
-
   }
 
  
 
   ngOnInit(): void {
     this.getProductos();
+    this.getComercios();
   }
 
   getProductos(): void {
@@ -40,6 +45,21 @@ export class ProductoFormComponent implements OnInit {
       .subscribe(productos => {
         this.dataSource = new MatTableDataSource(productos);
       });
+  }
+
+
+  getComercios(): void {
+    this.comercioService.get()
+      .subscribe(comercios => {
+        this.comercios = comercios;
+        console.log(this.comercios);
+      });
+  }
+
+
+  filtrar(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filtro.trim().toLowerCase();
   }
 
 
@@ -53,8 +73,9 @@ openDialog(): void {
       precio: "",
       cantidad: "",
       descuento: 0,
-      idComercio: "",
-      duracion: "",
+      comercios: this.comercios,
+      comercio: "",
+      duracion: ""
     }
 
   });
@@ -63,15 +84,18 @@ openDialog(): void {
     console.log(`Resultado: ${result}`); 
     console.log('The dialog was closed');
     if (result) {
+      let comercio: Comercio;
+      comercio = result.comercio;
+      console.log(comercio.cedJuridica);
       let producto: Producto;
       producto = {
         "id": result.id,
-        "tipo" : result.tipo,
+        "tipo": result.tipo,
         "nombre": result.nombre,
         "precio": result.precio,
         "cantidad": result.cantidad,
         "descuento": result.descuento,
-        "idComercio": result.idComercio,
+        "idComercio": comercio.cedJuridica,
         "duracion": result.duracion
       }
       console.log(producto);
@@ -79,11 +103,30 @@ openDialog(): void {
         .subscribe(() => {
           this.getProductos()
         });
-    }
+      window.location.reload();
+    } 
   });
- }
+}
 
- 
+  eliminar(producto: Producto): void {
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: {
+        title: "¿Está seguro?",
+        message: "Usted está apunto de eliminar un producto. "
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) this.prodService.delete(producto)
+        .subscribe(() => {
+            this.getProductos();
+        });
+      window.location.reload();
+    });
+  }
+
 }
 
 //export interface Producto {
@@ -105,10 +148,12 @@ export class DialogProducto {
 
   constructor(
     public dialogRef: MatDialogRef<DialogProducto>,
-    @Inject(MAT_DIALOG_DATA) public data: Producto) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private comercioService: ComercioService) { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+
 }
 

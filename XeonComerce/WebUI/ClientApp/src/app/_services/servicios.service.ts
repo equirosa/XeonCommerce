@@ -20,10 +20,20 @@ export class ServiciosService {
   }
 
   getServicio(): Observable<Servicio[]> {
+    const urlServ = `${this.urlApi}/2`;
     return this.http
-      .get<Servicio[]>(this.urlApi + "/2")
+      .get<Servicio[]>(urlServ)
       .pipe(tap(), catchError(this.handleError<Servicio[]>('get', []))
       );
+  }
+
+  delete(serv: Servicio) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    const url = `${this.urlApi}/${serv.id}`;
+
+    return this.http.delete<Servicio>(url).pipe(catchError(this.handleError));
   }
 
   postServicio(servicio: Servicio) {

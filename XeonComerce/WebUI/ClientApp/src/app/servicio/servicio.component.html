@@ -2,8 +2,19 @@
   <h2>Servicios</h2>
   <button mat-raised-button color="create" (click)="openDialog()">Crear</button>
 
+  <mat-form-field>
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="filtrar($event)" placeholder="Buscar...">
+  </mat-form-field>
+
   <div class="mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="nombre">
         <th mat-header-cell *matHeaderCellDef> Nombre </th>
         <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
@@ -20,13 +31,13 @@
       </ng-container>
 
       <ng-container matColumnDef="idComercio">
-        <th mat-header-cell *matHeaderCellDef> Id Comercio </th>
+        <th mat-header-cell *matHeaderCellDef> Ced.Jurídica del Comercio </th>
         <td mat-cell *matCellDef="let element"> {{element.idComercio}} </td>
       </ng-container>
 
       <ng-container matColumnDef="duracion">
         <th mat-header-cell *matHeaderCellDef> Duración </th>
-        <td mat-cell *matCellDef="let element"> {{element.duracion}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.duracion + " min"}} </td>
       </ng-container>
 
       <ng-container matColumnDef="editar">
@@ -36,7 +47,7 @@
 
       <ng-container matColumnDef="eliminar">
         <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)=delete(element)>Eliminar</button> </td>
+        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)=eliminar(element)>Eliminar</button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
