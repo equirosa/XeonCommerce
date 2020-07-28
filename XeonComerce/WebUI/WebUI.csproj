@@ -28,12 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\_models\config.ts" />
     <None Remove="ClientApp\src\app\_models\sucursal.ts" />
+    <None Remove="ClientApp\src\app\_services\config.service.ts" />
     <None Remove="ClientApp\src\app\_services\sucursal.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\_models\config.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_models\sucursal.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_services\config.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_services\sucursal.service.ts" />
   </ItemGroup>
 

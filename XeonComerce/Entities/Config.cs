@@ -10,7 +10,7 @@ namespace Entities
         [JsonPropertyName("id")]
         public string Id { get; set; }
         [JsonPropertyName("valor")]
-        public decimal Valor { get; set; }
+        public double Valor { get; set; }
 
         public Config() { }
 
