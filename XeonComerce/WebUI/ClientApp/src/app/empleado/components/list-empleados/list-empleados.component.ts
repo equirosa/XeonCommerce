@@ -90,8 +90,8 @@ export class ListEmpleadosComponent implements OnInit {
 
   verPerfil(empleado): void {
     const dialogRef = this.dialog.open(PerfilEmpleadoComponent, {
-      width: '800px',
-      height: '550px',
+      width: '600px',
+      height: '450px',
       data: empleado
     });
   }
