@@ -19,7 +19,7 @@ export class EmpleadoAdminComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(FormEmpleadoComponent, {
-      width: '650px',
+      width: '750px',
       height: '400px',
       data: { empleado: '1' }
     });
