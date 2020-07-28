@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { View, EventSettingsModel, ScheduleComponent} from '@syncfusion/ej2-angular-schedule';
 
 @Component({
@@ -13,6 +13,7 @@ export class CalendarioEmpleadoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
   title = 'my-scheduler-app';
