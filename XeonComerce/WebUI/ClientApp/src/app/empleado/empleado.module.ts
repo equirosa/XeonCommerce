@@ -20,8 +20,11 @@ import { ListHorarioComponent } from './components/list-horario/list-horario.com
 import {MatSelectModule} from '@angular/material/select';
 import { FormHorarioComponent } from './components/form-horario/form-horario.component';
 import { PerfilEmpleadoComponent } from './components/perfil-empleado/perfil-empleado.component';
-import {MatCardModule} from '@angular/material/card'
+import {MatCardModule} from '@angular/material/card';
+import { CalendarioEmpleadoComponent } from './components/calendario-empleado/calendario-empleado.component';
 
+
+import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import {MatCardModule} from '@angular/material/card'
     EmpleadoHorarioComponent,
     ListHorarioComponent,
     FormHorarioComponent,
-    PerfilEmpleadoComponent],
+    PerfilEmpleadoComponent,
+    CalendarioEmpleadoComponent,
+  ],
   imports: [
     CommonModule,
     MatTableModule,
@@ -48,7 +53,10 @@ import {MatCardModule} from '@angular/material/card'
     MatSelectModule,
     MatCardModule,
     FormsModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule, 
+    ScheduleModule,
+    RecurrenceEditorModule
+  ],
+  providers: [  DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService ],
 })
 export class EmpleadoModule { }
