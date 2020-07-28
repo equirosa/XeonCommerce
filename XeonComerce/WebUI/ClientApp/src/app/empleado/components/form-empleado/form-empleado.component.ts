@@ -3,9 +3,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Empleado } from '../../../_models/empleado';
 import { EmpleadoService } from '../../../_services/empleado.service';
-import { User } from '../../../_models/user';
 import { EmpleadoComercioSucursal } from '../../../_models/empleado-comercio-sucursal';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { UsuarioService } from '../../../_services/usuario.service';
+import { Usuario } from '../../../_models/usuario';
 
 @Component({
   selector: 'app-form-empleado',
@@ -20,16 +22,30 @@ export class FormEmpleadoComponent implements OnInit {
     Cedula: new FormControl('', Validators.required)
   });
 
+  columnas: string[] = ['correoElectronico', 'telefono', 'cedula'];
+  
   nuevoEmpleado = new EmpleadoComercioSucursal();
   idUsuario = '';
+
+  usuarios = new MatTableDataSource<Usuario>();
+
+  mostrarUsuarios = false;
+
 
   // Estos valores se obtienen segun el usuario comercio que inicia sesion y la sucursal a la  que ingresa
   idComercio = '3101555';
   idSucursal = '3101555-1';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private empleadoService: EmpleadoService, private _snackBar: MatSnackBar) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private empleadoService: EmpleadoService, private _snackBar: MatSnackBar, private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.usuarios.filter = filterValue.trim().toLowerCase();
+    this.mostrarUsuarios = true;
   }
 
   verificarUsuario(): void {
@@ -68,6 +84,21 @@ export class FormEmpleadoComponent implements OnInit {
         duration: 2500,
       });
     }
+  }
+
+  habilitarMostrarUsuarios(): void {
+    this.mostrarUsuarios = true; 
+
+  }
+
+  cargarUsuarios(): void {
+    this.usuarioService.get().subscribe({
+      next: res => {
+        this.usuarios.data = res;
+      },
+      error: err => console.log(err)
+    });
+
   }
 
 

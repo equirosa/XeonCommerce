@@ -116,6 +116,12 @@ body {
     text-align: right;
   }
   
+  .overflow-md {
+    overflow: scroll;
+    width: 700px;
+    height: 200px;
+
+  }
 
   /* Clases  */
 
