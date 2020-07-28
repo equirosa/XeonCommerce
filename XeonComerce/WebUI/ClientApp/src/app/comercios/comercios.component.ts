@@ -1,3 +1,4 @@
+import { ArchivoService } from './../_services/archivo.service';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
 import { filter } from 'rxjs/operators';
 import { Direccion } from './../_models/direccion';
@@ -11,6 +12,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import {MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
+import { UploadComercioFilesComponent } from '../crear-comercio/upload-comercio-files.dialog';
 
 @Component({
   selector: 'app-comercios',
@@ -21,14 +23,14 @@ export class ComerciosComponent implements OnInit {
 
 	comercios: Comercio[];
 	comercioCrear: Comercio;
-	displayedColumns: string[] = ['cedJuridica', 'nombreComercial', 'correoElectronico', 'telefono', 'direccion', 'idUsuario', 'editar', 'eliminar'];
+	displayedColumns: string[] = ['cedJuridica', 'nombreComercial', 'correoElectronico', 'telefono', 'documentos', 'direccion', 'idUsuario', 'editar', 'eliminar'];
 	datos;
 	provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
 	direccion: Direccion;
 	
-	constructor(public dialog: MatDialog, private comercioService: ComercioService, private direccionService: DireccionService, private mensajeService: MensajeService, private ubicacionService: UbicacionService) { }
+	constructor(public dialog: MatDialog, private archivoService: ArchivoService, private comercioService: ComercioService, private direccionService: DireccionService, private mensajeService: MensajeService, private ubicacionService: UbicacionService) { }
   
 
 	@ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -78,6 +80,7 @@ export class ComerciosComponent implements OnInit {
 		}
   
 	  });
+
   
 	  dialogRef.afterClosed().subscribe(result => {
 		console.log(`Resultado: ${result}`); 
@@ -224,6 +227,16 @@ export class ComerciosComponent implements OnInit {
 			  });
 		});
 	}
+
+	
+	verDocumentos(comercio: Comercio): void {
+		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
+			const dialogRef = this.dialog.open(DialogArchivo, {
+				maxWidth: "500px",
+				data: { cedJuridica: comercio.cedJuridica }
+			  });
+		});
+	}
 }
 
 
@@ -310,6 +323,36 @@ export class ComerciosComponent implements OnInit {
 		this.ubicacionService.getDistritos(this.data.provincia, canton)
 		.subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
 	  }
+
+
+  }
+  
+
+  
+  
+@Component({
+	selector: 'dialog-archivo',
+	templateUrl: 'archivo.html',
+  })
+  export class DialogArchivo implements OnInit {
+  
+	constructor(
+	  public dialogRef: MatDialogRef<DialogArchivo>,
+	  @Inject(MAT_DIALOG_DATA) public data: any, 
+	  private archivoService: ArchivoService) { }
+  
+	onNoClick(): void {
+	  this.dialogRef.close();
+	}
+	
+	ngOnInit(){
+		this.archivoService.get().subscribe(archivos=>{
+			//agregar esto para el otro componente.
+			archivos = archivos.filter((i)=>i.idComercio==this.data.cedJuridica);
+			this.data.archivos = archivos;
+		})
+	}
+
 
 
   }

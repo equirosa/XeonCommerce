@@ -1,0 +1,23 @@
+<div id="direct_upload" ng2FileDrop [uploader]="uploader" (fileOver)="fileOverBase($event)" [ngClass]="{'nv-file-over': hasBaseDropZoneOver}">
+	<form>
+		<div class="form_line">
+			<label>Papeles:</label>
+			<div class="form_controls">
+				<div class="upload_button_holder">
+					<input type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
+						multiple />
+				</div>
+
+			</div>
+		</div>
+	</form>
+	<h4>Estado</h4>
+	<div class="file" *ngFor="let response of responses; let i = index">
+		<h5>{{response.file.name}}</h5>
+		<div class="status">
+			Uploading... {{response.progress}}%
+			<div *ngIf="!response.status"><mat-spinner></mat-spinner></div>
+			<div class="status-code" *ngIf="response.status">El archivo se subió con éxito.</div>
+		</div>
+
+</div>
