@@ -55,6 +55,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
+import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 
 @NgModule({
     imports: [
@@ -95,7 +96,10 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
 		MatTableModule,
 		MatSortModule,
 		MatNativeDateModule,
-		MatPaginatorModule
+		MatPaginatorModule,
+		ScheduleModule, 
+		RecurrenceEditorModule,
+		EmpleadoModule
 	],
 	entryComponents: [
 		DialogComercio,
@@ -122,7 +126,13 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 		MatDatepickerModule,
-		MatNativeDateModule  
+		MatNativeDateModule,
+		DayService, 
+		WeekService,
+		WorkWeekService, 
+		MonthService, 
+		MonthAgendaService
+		
     ],
     bootstrap: [AppComponent]
 })
