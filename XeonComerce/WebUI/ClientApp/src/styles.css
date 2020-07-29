@@ -1,4 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+
 code {
   color: #e01a76;
 }
@@ -8,6 +10,7 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
 
 html, body { height: 100%; }
 
@@ -113,6 +116,12 @@ body {
     text-align: right;
   }
   
+  .overflow-md {
+    overflow: scroll;
+    width: 700px;
+    height: 200px;
+
+  }
 
   /* Clases  */
 

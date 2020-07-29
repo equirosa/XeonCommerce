@@ -11,6 +11,7 @@ import { Ubicacion } from './../_models/ubicacion';
 import { MensajeService } from '../_services/mensaje.service';
 import {Router} from '@angular/router';
 import { first } from 'rxjs/operators';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-cambiar-contrasenna',

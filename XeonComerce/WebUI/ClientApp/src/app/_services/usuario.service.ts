@@ -21,7 +21,7 @@ httpOptions = {
 
   get(): Observable<Usuario[]> {
 	const url = `${this.urlApi}/get`;
-	return this.http.get<Usuario>(url).pipe(
+	return this.http.get<Usuario[]>(url).pipe(
 		tap(),
 		catchError(this.handleError<Usuario[]>('get', []))
 	  );

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../_helpers/auth.guard';
 import { EmpleadoAdminComponent } from './pages/empleado-admin/empleado-admin.component';
 import { EmpleadoHorarioComponent } from './pages/empleado-horario/empleado-horario.component';
+import { CalendarioEmpleadoComponent } from './components/calendario-empleado/calendario-empleado.component';
 
 const routes: Routes = [
     {
@@ -14,8 +15,13 @@ const routes: Routes = [
           ],
     },
     {
-        path: 'horario',
+        path: 'horario/:idEmpleado',
         component: EmpleadoHorarioComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'calendario',
+        component: CalendarioEmpleadoComponent,
         canActivate: [AuthGuard]
     }
 ];
@@ -25,5 +31,6 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 export class EmpleadoRoutingModule { }
+
 
 
