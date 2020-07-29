@@ -9,6 +9,8 @@ import { EmpleadoAdminComponent } from  './empleado/pages/empleado-admin/emplead
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
 import { ComerciosCardComponent } from './comercios-card/comercios-card.component'
+import { DescuentosComponent } from './descuentos/descuentos.component';
+import { DescuentosCardComponent } from './descuentos-card/descuentos-card.component';
 const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
 
 const routes: Routes = [
@@ -17,7 +19,8 @@ const routes: Routes = [
     { path: 'solicitudes', component: SolicitudesComponent, canActivate: [AuthGuard] },
     { path: 'comercio', component: ComerciosCardComponent },
     { path: 'cuenta', loadChildren: accountModule },
-    { path: 'empleado', loadChildren: empleadoModule},
+    { path: 'empleado', loadChildren: empleadoModule },
+    { path: 'promociones', component: DescuentosComponent, canActivate: [AuthGuard] },
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home
