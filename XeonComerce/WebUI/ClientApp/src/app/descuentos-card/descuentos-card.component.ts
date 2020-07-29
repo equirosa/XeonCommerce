@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { ProductoServicio } from '../_models/productoServicio';
+import { Promocion } from '../_models/productoServicio';
 import { PromocionService } from '../_services/promocion.service';
 import { MensajeService } from '../_services/mensaje.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogPromocion } from '../descuentos/descuentos.component';
 import { PageEvent } from '@angular/material/paginator';
-import { Pipe, PipeTransform } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-descuentos-card',
@@ -14,7 +14,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DescuentosCardComponent implements OnInit {
 
-  promociones: ProductoServicio[];
+  promociones = new MatTableDataSource<Promocion>();
   length;
   pageSize = 5;
   filtro: string;
@@ -28,27 +28,13 @@ export class DescuentosCardComponent implements OnInit {
 
   getPromociones(): void {
     this.promocionService.get()
-      .subscribe(promociones => {
-        this.promociones = promociones.sort((a, b) => {
-          return a.nombre.localeCompare(b.nombre);
-        });
-        console.log(this.promociones)
-        this.promociones = promociones.filter((a) => a.estado == 'A' || a.estado == "");
-        this.length = this.promociones.length;
+      .subscribe({
+        next: res => {
+          this.promociones.data = res;
+        },
+        error: err => console.log(err)
       });
   }
 
 }
 
-@Pipe({
-  name: 'filtropromociones',
-  pure: false
-})
-export class FiltroPromocionesPipe implements PipeTransform {
-  transform(value: any, q: string) {
-    if (!q || q === '') {
-      return value;
-    }
-    return value.filter(item => item.nombre.toLowerCase().includes(q.toLowerCase()));
-  }
-}

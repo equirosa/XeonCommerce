@@ -1,4 +1,4 @@
-export class ProductoServicio {
+export interface Promocion {
   id: number;
   tipo: number;
   nombre: string;

@@ -57,7 +57,7 @@ import { DescuentosComponent, DialogPromocion } from './descuentos/descuentos.co
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
-import { DescuentosCardComponent, FiltroPromocionesPipe } from './descuentos-card/descuentos-card.component';
+import { DescuentosCardComponent} from './descuentos-card/descuentos-card.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -140,6 +140,7 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
     DialogServicio,
     DialogEditarProducto,
       DescuentosComponent,
+      DescuentosCardComponent,
       DialogPromocion
     ],
     providers: [

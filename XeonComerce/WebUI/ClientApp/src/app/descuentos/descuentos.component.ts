@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MensajeService } from '../_services/mensaje.service';
 import { PromocionService } from '../_services/promocion.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { productoServicio, ProductoServicio } from '../_models/productoServicio';
+import { Promocion } from '../_models/productoServicio';
 import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-dialog.component';
 
 @Component({
@@ -14,8 +14,8 @@ import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-di
 })
 export class DescuentosComponent implements OnInit {
 
-  promociones: ProductoServicio[];
-  promocionCrear: ProductoServicio;
+  promociones = new MatTableDataSource<Promocion>();
+  promocionCrear: Promocion;
   displayColumns: string[] = ['id', 'tipo', 'nombre', 'precio', 'cantidad', 'descuento', 'idComercio', 'duracion']
   datos;
 
@@ -27,23 +27,22 @@ export class DescuentosComponent implements OnInit {
     this.getPromociones();
   }
 
-  filtrar(event: Event) {
-    const filtro = (event.target as HTMLInputElement).value;
-    this.datos.filter = filtro.trim().toLowerCase();
+  filtrar(value: string) {
+    this.datos.filter = value.trim().toLowerCase();
   }
 
-  editar(promo: ProductoServicio): void {
+  editar(promo: Promocion): void {
     const dialogRef = this.dialog.open(DialogPromocion, {
       width: '500px',
       data: {
         accion: "editar",
-        permitir: !false,
+        permitir: !true,
         id: promo.id,
         tipo: promo.tipo,
         nombre: promo.nombre,
         precio: promo.precio,
         cantidad: promo.cantidad,
-        descuento: promo.descuento,
+        descuento: "",
         idComercio: promo.idComercio,
         duracion: promo.duracion
       }
@@ -59,17 +58,15 @@ export class DescuentosComponent implements OnInit {
 
   getPromociones(): void {
     this.promocionService.get()
-      .subscribe(promociones => {
-        this.promociones = promociones.sort((a, b) => {
-          return a.nombre.localeCompare(b.nombre);
-        });
-        this.promociones = promociones.filter((a) => a.estado == 'A');
-        this.datos = new MatTableDataSource(this.promociones);
-        this.datos.sort = this.sort;
+      .subscribe({
+        next: res => {
+          this.promociones.data = res;
+        },
+        error: err => console.log(err)
       });
   }
 
-  delete(promo: ProductoServicio): void {
+  delete(promo: Promocion): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
       data: {
@@ -78,7 +75,7 @@ export class DescuentosComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClose().subscribe(dialogResult => {
+    dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) this.promocionService.delete(promo)
         .subscribe(() => this.getPromociones());
     });
