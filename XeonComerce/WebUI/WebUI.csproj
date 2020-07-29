@@ -18,9 +18,18 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\ProductosServicios\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\ProductosServicios\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\ProductosServicios\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\ProductosServicios\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\producto-form\Crear.html" />
+    <None Remove="ClientApp\src\app\ProductosServicios\producto-form\Producto.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

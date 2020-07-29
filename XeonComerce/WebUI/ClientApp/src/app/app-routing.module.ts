@@ -6,7 +6,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home';
 import { AuthGuard } from './_helpers';
-import { EmpleadoAdminComponent } from  './empleado/pages/empleado-admin/empleado-admin.component';
+import { EmpleadoAdminComponent } from './empleado/pages/empleado-admin/empleado-admin.component';
+import { ProductoFormComponent } from './producto-form/producto-form.component'
+import { ImpuestoComponent } from './impuesto/impuesto.component'
+import { ServicioComponent } from './servicio/servicio.component'
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
@@ -24,6 +27,9 @@ const routes: Routes = [
     { path: 'empleado', loadChildren: empleadoModule},
     { path: 'cuenta/recuperar', component: RecuperarContrasennaComponent},
     { path: 'cambiarcontrasenna', component: CambiarContrasennaComponent},
+    { path: 'productos', component: ProductoFormComponent, canActivate: [AuthGuard] },
+    { path: 'impuestos', component: ImpuestoComponent, canActivate: [AuthGuard] },
+    { path: 'servicios', component: ServicioComponent, canActivate: [AuthGuard] },
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home

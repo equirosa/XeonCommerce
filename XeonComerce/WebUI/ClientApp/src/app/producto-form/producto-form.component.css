@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+}
+
+.divProducto {
+  padding: 2% 10%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-raised-button {
+  background-color: #339989;
+}
+
+.mat-create {
+  background-color: #4285F4;
+  color: #ffffff;
+}
+
+.mat-update {
+  background-color: #DB4437;
+}
+
+.mat-delete {
+  background-color: #DB4437;
+}
