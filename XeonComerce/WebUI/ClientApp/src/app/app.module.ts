@@ -66,6 +66,7 @@ import * as  Cloudinary from 'cloudinary-core';
 import { FileSelectDirective } from 'ng2-file-upload';
 import { FileUploadModule } from 'ng2-file-upload';
 import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-files.dialog';
+import { AgmCoreModule } from '@agm/core';
 @NgModule({
     imports: [
 		FormsModule,
@@ -108,6 +109,9 @@ import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-f
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
+		AgmCoreModule.forRoot({
+		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
+		}),
 		ScheduleModule, 
 		RecurrenceEditorModule,
 		EmpleadoModule

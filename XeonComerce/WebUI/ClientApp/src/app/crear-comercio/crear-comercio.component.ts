@@ -74,8 +74,8 @@ export class CrearComercioComponent implements OnInit {
 			provincia: "",
 			canton: "",
 			distrito: "",
-			lat: "",
-			long: "",
+			latitud: 9.7489,
+			longitud: -83.7534,
 			dir: true,
 			sennas: ""
 		  }
@@ -95,8 +95,8 @@ export class CrearComercioComponent implements OnInit {
 				canton: result.canton,
 				distrito: result.distrito,
 				sennas: result.sennas,
-				latitud: result.lat,
-				longitud: result.long,
+				latitud: result.latitud.toString(),
+				longitud: result.longitud.toString(),
 			}
 
 			let direccionFinal: Direccion

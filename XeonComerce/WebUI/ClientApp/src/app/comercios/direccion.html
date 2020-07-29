@@ -28,16 +28,11 @@
   </mat-form-field>
 
   
-  <mat-form-field appearance="fill">
-    <mat-label>Lat</mat-label>
-    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.latitud">
-  </mat-form-field>
 
-  
-  <mat-form-field appearance="fill">
-    <mat-label>Long</mat-label>
-    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.longitud">
-  </mat-form-field>
+
+  <agm-map  style="height: 300px;"  [latitude]="data.latitud" [longitude]="data.longitud">
+	<agm-marker [latitude]="data.latitud" [longitude]="data.longitud"></agm-marker>
+  </agm-map>
 
   
   <mat-form-field style="width:400px !important" appearance="fill">

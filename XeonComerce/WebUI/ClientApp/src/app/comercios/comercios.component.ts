@@ -73,8 +73,8 @@ export class ComerciosComponent implements OnInit {
 		  provincia: "",
 		  canton: "",
 		  distrito: "",
-		  lat: "",
-		  long: "",
+		  latitud: 9.7489,
+		  longitud: -83.7534,
 		  dir: true,
 		  sennas: ""
 		}
@@ -88,15 +88,14 @@ export class ComerciosComponent implements OnInit {
 			//Revisar si están los datos de dir y crearla retornar el id y ya.
 			console.log("Primero se crea una dirección");
 			
-
 			this.direccion = {
 				id: -1,
 				provincia: result.provincia,
 				canton: result.canton,
 				distrito: result.distrito,
 				sennas: result.sennas,
-				latitud: result.lat,
-				longitud: result.long,
+				latitud: result.latitud.toString(),
+				longitud: result.longitud.toString(),
 			}
 
 			let direccionFinal: Direccion
@@ -163,8 +162,8 @@ export class ComerciosComponent implements OnInit {
 		  provincia: "",
 		  canton: "",
 		  distrito: "",
-		  lat: "",
-		  long: "",
+		  latitud: "",
+		  longitud: "",
 		  dir: false,
 		  sennas: ""
 		}
@@ -216,6 +215,8 @@ export class ComerciosComponent implements OnInit {
   
 	verDireccion(comercio: Comercio): void {
 		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
+			dir.latitud = Number(dir.latitud);
+			dir.longitud = Number(dir.longitud);
 			const dialogRef = this.dialog.open(DialogDireccion, {
 				maxWidth: "500px",
 				data: Object.assign({
@@ -230,12 +231,10 @@ export class ComerciosComponent implements OnInit {
 
 	
 	verDocumentos(comercio: Comercio): void {
-		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
 			const dialogRef = this.dialog.open(DialogArchivo, {
 				maxWidth: "500px",
 				data: { cedJuridica: comercio.cedJuridica }
 			  });
-		});
 	}
 }
 
@@ -347,7 +346,6 @@ export class ComerciosComponent implements OnInit {
 	
 	ngOnInit(){
 		this.archivoService.get().subscribe(archivos=>{
-			//agregar esto para el otro componente.
 			archivos = archivos.filter((i)=>i.idComercio==this.data.cedJuridica);
 			this.data.archivos = archivos;
 		})
