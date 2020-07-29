@@ -1,3 +1,4 @@
+import { DialogArchivo } from './../comercios/comercios.component';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
 import { filter } from 'rxjs/operators';
 import { Direccion } from './../_models/direccion';
@@ -21,7 +22,7 @@ import { DialogDireccion } from '../comercios/comercios.component';
   export class SolicitudesComponent implements OnInit {
 
 	comercios: Comercio[];
-	displayedColumns: string[] = ['cedJuridica', 'nombreComercial', 'correoElectronico', 'telefono', 'direccion', 'idUsuario', 'estado','aceptar', 'rechazar'];
+	displayedColumns: string[] = ['cedJuridica', 'nombreComercial', 'correoElectronico', 'telefono', 'documentos', 'direccion', 'idUsuario', 'estado','aceptar', 'rechazar'];
 	datos;
 	mostrar: boolean;
 	
@@ -36,6 +37,13 @@ import { DialogDireccion } from '../comercios/comercios.component';
 	  this.getComercios();
 	}
 	
+	verDocumentos(comercio: Comercio): void {
+		const dialogRef = this.dialog.open(DialogArchivo, {
+			maxWidth: "500px",
+			data: { cedJuridica: comercio.cedJuridica }
+		  });
+}
+
 	filtrar(event: Event) {
 		const filtro = (event.target as HTMLInputElement).value;
 		this.datos.filter = filtro.trim().toLowerCase();
@@ -94,6 +102,8 @@ import { DialogDireccion } from '../comercios/comercios.component';
 	
 	verDireccion(comercio: Comercio): void {
 		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
+			dir.latitud = Number(dir.latitud);
+			dir.longitud = Number(dir.longitud);
 			const dialogRef = this.dialog.open(DialogDireccion, {
 				maxWidth: "500px",
 				data: Object.assign({
