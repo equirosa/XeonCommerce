@@ -83,7 +83,7 @@ namespace WebAPI.Controllers
             usuario.Token = codigo;
             usuario = um.MailVerification(usuario);
 
-            Excecute(usuario).Wait();
+                Execute(usuario).Wait();
             return Ok(new { msg = "Se envió el código al correo" });
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        private static async Task Excecute(Usuario user)
+        private static async Task Execute(Usuario user)
         {
             var apiKey = "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";
             var client = new SendGridClient(apiKey);
