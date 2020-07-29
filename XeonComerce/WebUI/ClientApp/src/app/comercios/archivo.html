@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Documentos</h1>
+<div mat-dialog-content>
+
+  <div *ngFor="let item of data.archivos">
+		<a href="{{item.link}}" target="_blank">{{item.nombre | lowercase}}.{{item.tipo}}</a>
+  </div>
+  <div *ngIf="!data.archivos.length">
+	  <span>No existen archivos para este comercio.</span>
+  </div>
+
+
+</div>

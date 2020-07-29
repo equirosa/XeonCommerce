@@ -5,6 +5,6 @@ export interface Comercio {
 	correoElectronico: string;
 	telefono: string;
 	direccion: number;
-	idUsuario: number;
+	idUsuario: string;
 	estado: string;
   }

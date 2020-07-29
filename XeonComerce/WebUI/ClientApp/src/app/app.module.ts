@@ -44,7 +44,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios/comercios.component';;
+import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
@@ -60,9 +60,18 @@ import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 
+import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
+import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
+import { FileSelectDirective } from 'ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload';
+import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-files.dialog';
+import { AgmCoreModule } from '@agm/core';
 @NgModule({
     imports: [
 		FormsModule,
+		CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'de99h9v43', api_secret: 'szrKGouDzr9bgYSTXF_a8LO7nMI', api_key: '664882358892716'}),
+        FileUploadModule,
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
@@ -100,6 +109,9 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
+		AgmCoreModule.forRoot({
+		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
+		}),
 		ScheduleModule, 
 		RecurrenceEditorModule,
 		EmpleadoModule
@@ -111,7 +123,9 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
     DialogProducto,
     DialogImpuesto,
     DialogServicio,
-    DialogEditarProducto
+    DialogEditarProducto,
+		UploadComercioFilesComponent,
+		DialogArchivo
 	],
     declarations: [
         AppComponent,
@@ -126,7 +140,6 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
-		CambiarContrasennaComponent,
 		FiltroComerciosPipe,
      ProductoFormComponent,
     DialogProducto,
@@ -134,7 +147,10 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarProducto
+    DialogEditarProducto,
+		CambiarContrasennaComponent,
+		UploadComercioFilesComponent,
+		DialogArchivo
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

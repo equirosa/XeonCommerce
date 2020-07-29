@@ -8,6 +8,9 @@ using Management;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace WebAPI.Controllers
 {
@@ -64,15 +67,25 @@ namespace WebAPI.Controllers
         {
             try
             {
+                string estadoViejo = "P";
                 var cm = new ComercioManagement();
                 comercio.CedJuridica = cedula;
-                if (GetById(cedula) != null)
+                Comercio com = GetById(cedula);
+                if (com != null)
                 {
-                    cm.Update(comercio);
-
+                    estadoViejo = com.Estado;
                     if (!(new EmailAddressAttribute().IsValid(comercio.CorreoElectronico))) throw new Exception("¡Formato de correo erroneo!");
                     if (String.IsNullOrEmpty(comercio.NombreComercial) || comercio.NombreComercial.Length <= 5) throw new Exception("¡El nombre comercial debe contener más de 5 letras!");
-
+                    if(estadoViejo != comercio.Estado)
+                    {
+                        var um = new UsuarioManagement();
+                        Usuario user = um.RetrieveById(new Usuario { Id = comercio.IdUsuario });
+                        if(user != null)
+                        {
+                            Execute(user, comercio).Wait();
+                        }
+                    }
+                    cm.Update(comercio);
                     return Ok(new { msg = "Se actualizó el comercio" });
                 }
                 else
@@ -85,6 +98,28 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(500, new { msg = ex.Message });
             }
+        }
+
+        private static async Task Execute(Usuario usuario, Comercio comercio)
+        {
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
+            var subject = "Solicitud de su comercio";
+            var to = new EmailAddress(usuario.CorreoElectronico.ToString(), usuario.Nombre.ToString());
+            var plainTextContent = "";
+            var htmlContent = "";
+            if (comercio.Estado == "A") {
+            plainTextContent = ("Su solicitud del comercio " + comercio.NombreComercial + " | " + comercio.CedJuridica + " fue aceptada.");
+            htmlContent = "<strong>Su solicitud del comercio " + comercio.NombreComercial + " | " + comercio.CedJuridica + " fue aceptada. </strong>";
+            }
+            else
+            {
+            plainTextContent = ("Su solicitud del comercio " + comercio.NombreComercial + " | " + comercio.CedJuridica + " fue rechazada.");
+            htmlContent = "<strong>Su solicitud del comercio " + comercio.NombreComercial + " | " + comercio.CedJuridica + " fue rechazada. </strong>";
+            }
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
 
         [HttpDelete("{cedula}")]
