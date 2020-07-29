@@ -12,7 +12,7 @@ namespace DataAccess
     public class ImpuestoMapper : EntityMapper, ISqlStaments, IObjectMapper
     {
         #region properties
-        private const string DB_COL_ID = "ID_IMPUESTO";
+        private const string DB_COL_ID = "ID";
         private const string DB_COL_NOMBRE = "NOMBRE";
         private const string DB_COL_VALOR = "VALOR";
         #endregion

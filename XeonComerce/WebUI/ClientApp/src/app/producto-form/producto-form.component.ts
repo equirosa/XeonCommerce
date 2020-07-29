@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Producto } from '../_models/producto';
+import { Impuesto } from '../_models/impuesto';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ProductoService } from './../_services/producto.service';
 import { ComercioService } from '../_services/comercio.service';
+import { ImpuestoService } from './../_services/impuesto.service';
 import { Comercio } from '../_models/comercio';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
@@ -19,18 +21,21 @@ export class ProductoFormComponent implements OnInit {
   producto: Producto;
   productos: Producto[];
   comercios: Comercio[];
+  impuestos: Impuesto[];
   datosComercios;
   displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
   dataSource;
   public httpClient: HttpClient;
   public baseUrlApi: string;
   private prodService: ProductoService;
+  private impuestoService: ImpuestoService;
   public message: string;
   public serviceEndPoint: string;
 
-  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService) {
+  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService) {
     this.httpClient = http;
     this.prodService = prodService;
+    this.impuestoService = impService;
   }
 
  
@@ -38,6 +43,7 @@ export class ProductoFormComponent implements OnInit {
   ngOnInit(): void {
     this.getProductos();
     this.getComercios();
+    this.getImpuestos();
   }
 
   getProductos(): void {
@@ -56,6 +62,14 @@ export class ProductoFormComponent implements OnInit {
       });
   }
 
+  getImpuestos(): void {
+    this.impuestoService.getImpuesto()
+      .subscribe(impuestos => {
+        this.impuestos = impuestos;
+        console.log(this.impuestos);
+      });
+  }
+
 
   filtrar(event: Event) {
     const filtro = (event.target as HTMLInputElement).value;
@@ -71,6 +85,8 @@ openDialog(): void {
       tipo: 1,
       nombre: "",
       precio: "",
+      impuestos: this.impuestos,
+      impuesto: "",
       cantidad: "",
       descuento: 0,
       comercios: this.comercios,
@@ -106,7 +122,47 @@ openDialog(): void {
       window.location.reload();
     } 
   });
-}
+  }
+
+
+
+  editarDialog(producto: Producto): void {
+    function checkComercio() {
+      return producto.idComercio;
+    }
+
+    let comercioDelProducto = this.comercios.find(checkComercio);
+
+    console.log(comercioDelProducto);
+
+    const dialogRef = this.dialog.open(DialogEditarProducto, {
+      width: '500px',
+      data: {
+        id: producto.id,
+        tipo: 1,
+        nombre: producto.nombre,
+        precio: producto.precio,
+        cantidad: producto.cantidad,
+        descuento: 0,
+        comercio: comercioDelProducto.nombreComercial,
+        duracion: producto.duracion
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Resultado: ${result}`);
+      if (result) {
+
+        this.prodService.putProducto(producto)
+          .subscribe(() => {
+            this.getProductos()
+          });
+      }
+
+    });
+  }
+
 
   eliminar(producto: Producto): void {
 
@@ -148,6 +204,24 @@ export class DialogProducto {
 
   constructor(
     public dialogRef: MatDialogRef<DialogProducto>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private comercioService: ComercioService) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+
+@Component({
+  selector: 'dialog-editar-producto',
+  templateUrl: './editar-producto.html',
+})
+export class DialogEditarProducto {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditarProducto>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private comercioService: ComercioService) { }
 

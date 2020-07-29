@@ -29,15 +29,15 @@ export class ImpuestoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getImpuestos();
+    this.getImpuestos();
   }
 
-  //getImpuestos(): void {
-  //  this.impuestoService.getImpuestos()
-  //    .subscribe(impuestos => {
-  //      this.dataSource = new MatTableDataSource(impuestos);
-  //    });
-  //}
+  getImpuestos(): void {
+    this.impuestoService.getImpuesto()
+      .subscribe(impuestos => {
+        this.dataSource = new MatTableDataSource(impuestos);
+      });
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogImpuesto, {
@@ -53,40 +53,41 @@ export class ImpuestoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
       console.log('The dialog was closed');
-      //if (result) {
-      //  let impuesto: Impuesto;
-      //  impuesto = {
-      //    "id": result.id,
-      //    "nombre": result.nombre,
-      //    "valor": result.valor
-      //  }
-      //  console.log(impuesto);
-      //  this.impuestoService.postImpuesto(impuesto)
-      //    .subscribe(() => {
-      //      this.getImpuestos()
-      //    });
-      //}
+      if (result) {
+        let impuesto: Impuesto;
+        impuesto = {
+          "id": result.id,
+          "nombre": result.nombre,
+          "valor": result.valor
+        }
+        console.log(impuesto);
+        this.impuestoService.postImpuesto(impuesto)
+          .subscribe(() => {
+            this.getImpuestos()
+          });
+        window.location.reload();
+      }
     });
   }
 
-  //eliminar(impuesto: Impuesto): void {
+  eliminar(impuesto: Impuesto): void {
 
-  //  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-  //    maxWidth: "500px",
-  //    data: {
-  //      title: "¿Está seguro?",
-  //      message: "Usted está apunto de eliminar un producto. "
-  //    }
-  //  });
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: {
+        title: "¿Está seguro?",
+        message: "Usted está apunto de eliminar el impuesto. "
+      }
+    });
 
-  //  dialogRef.afterClosed().subscribe(dialogResult => {
-  //    if (dialogResult) this.impuestoService.delete(impuesto)
-  //      .subscribe(() => {
-  //        this.getImpuestos();
-  //      });
-  //    window.location.reload();
-  //  });
-  //}
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) this.impuestoService.delete(impuesto)
+        .subscribe(() => {
+          this.getImpuestos();
+        });
+      window.location.reload();
+    });
+  }
 
 }
 

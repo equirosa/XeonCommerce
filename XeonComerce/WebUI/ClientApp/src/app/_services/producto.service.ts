@@ -35,7 +35,7 @@ export class ProductoService {
 //    return this.post(prod);
 //  }
 
-  delete(prod: Producto) {
+   delete(prod: Producto) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -61,14 +61,21 @@ export class ProductoService {
   //  );
   //}
 
-//  private put(prod: Producto) {
-//    const headers = new Headers();
-//    headers.append('Content-Type', 'application/json');
+  //  putProducto(prod: Producto) {
+  //  const headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
 
-//    const url = `${this.productoApi + "/update"}/${prod.id}`;
+  //    const url = `${this.urlApi}/${prod.id}`;
 
-//    return this.http.put<Producto>(url, prod).pipe(catchError(this.handleError));
-//  }
+  //  return this.http.put<Producto>().pipe(catchError(this.handleError));
+  //}
+
+  putProducto(prod: Producto): Observable<any> {
+    return this.http.put(`${this.urlApi}/${prod.id}`, prod, this.httpOptions).pipe(
+      tap(_ => this.log(`Se actualizó`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
 
   private log(message: string) {
     this.mensajeService.add(`productosyservicios: ${message}`);

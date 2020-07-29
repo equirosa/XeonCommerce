@@ -51,7 +51,7 @@ import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
-import { ProductoFormComponent, DialogProducto } from './producto-form/producto-form.component';
+import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
 
@@ -106,7 +106,8 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
     DialogDireccion,
     DialogProducto,
     DialogImpuesto,
-    DialogServicio
+    DialogServicio,
+    DialogEditarProducto
 	],
     declarations: [
         AppComponent,
@@ -128,7 +129,8 @@ import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contr
     ImpuestoComponent,
     DialogImpuesto,
     ServicioComponent,
-    DialogServicio
+    DialogServicio,
+    DialogEditarProducto
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
