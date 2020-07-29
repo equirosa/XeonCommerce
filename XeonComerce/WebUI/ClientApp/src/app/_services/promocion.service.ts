@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { environment } from '@environments/environment';
 import { MensajeService } from './mensaje.service';
-import { ProductoServicio } from '../_models/productoServicio';
+import { Promocion } from '../_models/productoServicio';
 
 @Injectable({
   providedIn: 'root'
@@ -18,40 +18,33 @@ export class PromocionService {
   };
   constructor(private http: HttpClient, private mensajeService: MensajeService) { }
 
-  get(): Observable<ProductoServicio[]> {
-    return this.http.get<ProductoServicio[]>(this.urlApi).pipe(
+  get(): Observable<Promocion[]> {
+    return this.http.get<Promocion[]>(this.urlApi + "/1").pipe(
       tap(),
-      catchError(this.handleError<ProductoServicio[]>('get', []))
+      catchError(this.handleError<Promocion[]>('get', []))
     );
   }
 
-  getBy(descuento: string): Observable<ProductoServicio> {
-    const url = `${this.urlApi}/${descuento}`;
-    return this.http.get<ProductoServicio>(url).pipe(
+  getBy(id: string): Observable<Promocion> {
+    const url = `${this.urlApi}/${id}`;
+    return this.http.get<Promocion>(url).pipe(
       tap(),
-      catchError(this.handleError<ProductoServicio>(`getById`))
+      catchError(this.handleError<Promocion>(`getById`))
     );
   }
 
-  update(promo: ProductoServicio): Observable<any> {
-    return this.http.put(`${this.urlApi}/${promo.descuento}`, promo, this.httpOptions).pipe(
+  update(promo: Promocion): Observable<any> {
+    return this.http.put(`${this.urlApi}/${promo.id}`, promo, this.httpOptions).pipe(
       tap(_ => this.log(`updated`)),
       catchError(this.handleError<any>('update'))
     );
   }
 
-  accion(promo: ProductoServicio): Observable<any> {
-    return this.http.put(`${this.urlApi}/${promo.descuento}`, promo, this.httpOptions).pipe(
-      tap(_ => this.log(`updated descuento`)),
-      catchError(this.handleError<any>('update'))
-    );
-  }
-
-  delete(promo: ProductoServicio): Observable<ProductoServicio> {
-    const url = `${this.urlApi}/${promo.descuento}`;
-    return this.http.delete<ProductoServicio>(url, this.httpOptions).pipe(
+  delete(promo: Promocion): Observable<Promocion> {
+    const url = `${this.urlApi}/${promo.id}`;
+    return this.http.delete<Promocion>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted`)),
-      catchError(this.handleError<ProductoServicio>('delete'))
+      catchError(this.handleError<Promocion>('delete'))
     );
   }
 
