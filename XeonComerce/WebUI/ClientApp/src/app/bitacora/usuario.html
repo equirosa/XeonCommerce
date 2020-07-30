@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Usuario</h1>
+<div mat-dialog-content>
+	<strong>Nombre</strong> <br> {{data.nombre}} {{data.apellidoUno}} {{data.apellidoDos}}
+	<br>
+    <strong>Correo</strong> <br> {{data.correoElectronico}}
+	<br>
+    <strong>Fecha de nacimiento</strong> <br> {{data.fechaNacimiento | date :'dd-MMM-yy hh:mm a '}}
+	<br>
+    <strong>Teléfono</strong> <br> {{data.numeroTelefono}}
+</div>

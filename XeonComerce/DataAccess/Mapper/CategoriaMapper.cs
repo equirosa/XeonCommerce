@@ -10,13 +10,16 @@ namespace DataAccess.Mapper
     {
         private const string DB_COL_ID = "ID";
         private const string DB_COL_VALOR = "VALOR";
+        private const string DB_COL_DESCRIPCION = "DESCRIPCION";
+
 
         public BaseEntity BuildObject(Dictionary<string, object> row)
         {
             var categoria = new Categoria
             {
                 Id = GetIntValue(row, DB_COL_ID),
-                Valor = GetStringValue(row, DB_COL_VALOR)
+                Valor = GetStringValue(row, DB_COL_VALOR),
+                Descripcion = GetStringValue(row, DB_COL_DESCRIPCION)
             };
 
             return categoria;
@@ -40,7 +43,7 @@ namespace DataAccess.Mapper
 
             var c = (Categoria)entity;
             operation.AddVarcharParam(DB_COL_VALOR, c.Valor);
-            // TODO: determinar si es necesario tambien agregar el Id de la categoria a crear
+            operation.AddVarcharParam(DB_COL_DESCRIPCION, c.Descripcion);
             return operation;
         }
 
@@ -68,10 +71,11 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "RET_CATEGORIA_PR" };
+            var operation = new SqlOperation { ProcedureName = "UPD_CATEGORIA_PR" };
             var c = (Categoria)entity;
             operation.AddIntParam(DB_COL_ID, c.Id);
             operation.AddVarcharParam(DB_COL_VALOR, c.Valor);
+            operation.AddVarcharParam(DB_COL_DESCRIPCION, c.Descripcion);
             return operation;
         }
     }
