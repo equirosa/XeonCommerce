@@ -1,3 +1,4 @@
+import { MatPaginator } from '@angular/material/paginator';
 import { User } from './../_models/user';
 import { AccountService } from '@app/_services';
 import { BitacoraService } from './../_services/bitacora.service';
@@ -37,6 +38,7 @@ import { DialogDireccion } from '../comercios/comercios.component';
 		}
   
 
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild(MatSort, {static: true}) sort: MatSort;
 
 	
@@ -67,6 +69,7 @@ import { DialogDireccion } from '../comercios/comercios.component';
 			  if(!this.mostrar) this.comercios = comercios.filter((a)=> a.estado == 'P' || a.estado == "");
 			this.datos = new MatTableDataSource(this.comercios);
 			this.datos.sort = this.sort;
+			this.datos.paginator = this.paginator;
 		});
 	}
   

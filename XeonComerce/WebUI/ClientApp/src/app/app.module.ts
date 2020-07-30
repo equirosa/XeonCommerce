@@ -68,6 +68,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-files.dialog';
 import { AgmCoreModule } from '@agm/core';
 import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component';
+import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -127,7 +128,8 @@ import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component'
     DialogEditarProducto,
 		UploadComercioFilesComponent,
 		DialogArchivo,
-		DialogUsuario
+		DialogUsuario,
+		DialogCategoria
 	],
     declarations: [
         AppComponent,
@@ -154,7 +156,9 @@ import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component'
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
-		DialogUsuario
+		DialogUsuario,
+		CategoriaComponent,
+		DialogCategoria
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,3 +1,4 @@
+import { MatPaginator } from '@angular/material/paginator';
 import { Usuario } from './../_models/usuario';
 import { UsuarioService } from './../_services/usuario.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -23,6 +24,7 @@ export class BitacoraComponent implements OnInit {
 	private ubicacionService: UbicacionService, private bitacoraService : BitacoraService) { }
   
 
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
@@ -41,6 +43,7 @@ export class BitacoraComponent implements OnInit {
 		  console.log(this.logs)
 		this.datos = new MatTableDataSource(this.logs);
 		this.datos.sort = this.sort;
+		this.datos.paginator = this.paginator;
 	});
 
 }
