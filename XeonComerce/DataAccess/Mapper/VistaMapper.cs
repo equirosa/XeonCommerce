@@ -11,13 +11,15 @@ namespace DataAccess.Mapper
     {
         private const string DB_COL_ID = "ID";
         private const string DB_COL_URL = "URL";
+        private const string DB_COL_NOMBRE = "NOMBRE";
 
         public BaseEntity BuildObject(Dictionary<string, object> row)
         {
             var vista = new Vista()
             {
                 Id = GetIntValue(row, DB_COL_ID),
-                URL = GetStringValue(row, DB_COL_URL)
+                URL = GetStringValue(row, DB_COL_URL),
+                Nombre = GetStringValue(row, DB_COL_NOMBRE)
             };
             return vista;
         }
