@@ -4,11 +4,13 @@
         <a class="nav-item nav-link" routerLink="/comercio" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Comercios (Todos)</a>
         <a class="nav-item nav-link" routerLink="/comercios" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Comercios (Admin)</a>
         <a class="nav-item nav-link" routerLink="/solicitudes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Solicitudes</a>
-        <a class="nav-item nav-link" routerLink="/cambiarcontrasenna" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cambiar contraseña</a>
+        <a class="nav-item nav-link" routerLink="/categoria" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Categorias</a>
+        <a class="nav-item nav-link" routerLink="/cambiarcontrasenna" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Cambiar contraseÃ±a</a>
     <a class="nav-item nav-link" routerLink="/productos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Productos</a>
     <a class="nav-item nav-link" routerLink="/servicios" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Servicios</a>
     <a class="nav-item nav-link" routerLink="/impuestos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Impuestos</a>
         <a class="nav-item nav-link" routerLink="/crearcomercio" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngIf="yaTieneComercio">Crear comercio</a>
+		<a class="nav-item nav-link" routerLink="/bitacora" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Bitacora</a>
         <a class="nav-item nav-link" (click)="logout()">Logout</a>
     </div>
 </nav>

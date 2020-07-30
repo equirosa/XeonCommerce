@@ -1,3 +1,7 @@
+import { CategoriaComercioService } from './../_services/categoriaComercio.service';
+import { CategoriaService } from './../_services/categoria.service';
+import { Bitacora } from './../_models/bitacora';
+import { BitacoraService } from './../_services/bitacora.service';
 import { AccountService } from './../_services/account.service';
 import { User } from './../_models/user';
 import { UploadComercioFilesComponent } from './upload-comercio-files.dialog';
@@ -12,6 +16,7 @@ import { Direccion } from './../_models/direccion';
 import { DialogComercio } from './../comercios/comercios.component';
 import { Component, OnInit, Input, NgZone, Inject } from '@angular/core';
 import { MensajeService } from '../_services/mensaje.service';
+import { CategoriaComercio } from '../_models/categoriaComercio';
 
 @Component({
 	selector: 'app-crear-comercio',
@@ -21,8 +26,8 @@ import { MensajeService } from '../_services/mensaje.service';
 export class CrearComercioComponent implements OnInit {
     user: User;
 
-	constructor(private accountService: AccountService, private router: Router, public dialog: MatDialog, private comercioService: ComercioService, private direccionService: DireccionService, private mensajeService: MensajeService,
-		 private ubicacionService: UbicacionService) { 
+	constructor(private categoriaComercioService : CategoriaComercioService, private categoriaService : CategoriaService, private accountService: AccountService, private router: Router, public dialog: MatDialog, private comercioService: ComercioService, private direccionService: DireccionService, private mensajeService: MensajeService,
+		 private ubicacionService: UbicacionService, private bitacoraService: BitacoraService) { 
 			this.user = this.accountService.userValue; }
   
 
@@ -41,20 +46,27 @@ export class CrearComercioComponent implements OnInit {
 				
 		let usr = comercios.find(c=>c.idUsuario == this.user.id);
 		if(usr){
-			this.dialog.closeAll();
 			this.router.navigate(['/']);
 			this.mensajeService.add("¡Usted ya tiene un comercio!");
+			this.dialog.closeAll();
 		}
 	});
    
     }
 
    
+	estaCompleto(a){
+		let obj = Object.keys(a);
+		for(let i = 0; i<obj.length; i++){
+		  if(obj[i] != "direccion" && (a[obj[i]] === "" || a[obj[i]] === " ")) return false;
+		  }
+		return true;
+	}
 
    getProvincias(): void {
 	this.ubicacionService.getProvincias()
 	.subscribe(provincias => {this.provincias = Object.keys(provincias).map(key => ({value: Number(key), nombre: provincias[key]}))
-
+	this.categoriaService.get().subscribe((categorias)=>{
 	const dialogRef = this.dialog.open(DialogComercio, {
 		width: '500px',
 		data: {
@@ -77,13 +89,20 @@ export class CrearComercioComponent implements OnInit {
 			latitud: 9.7489,
 			longitud: -83.7534,
 			dir: true,
-			sennas: ""
+			sennas: "",
+			categorias: categorias,
+			categoriasPreferidas: []
 		  }
   
 	  });
   
 	  dialogRef.afterClosed().subscribe(result => {
 		console.log(`Resultado: ${result}`); 
+		
+		if(!this.estaCompleto(result)){
+			this.mensajeService.add("Favor llene todos los datos");
+			return;
+		}
 		if (result) {
 			//Revisar si están los datos de dir y crearla retornar el id y ya.
 			console.log("Primero se crea una dirección");
@@ -131,7 +150,12 @@ export class CrearComercioComponent implements OnInit {
 							  comFinal = comercios[0];
 							if(comFinal){
 
-								this.dialog.open(UploadComercioFilesComponent, {
+								for(let i = 0; i<result.categoriasPreferidas.length; i++){
+									let cat : CategoriaComercio;
+									cat = { idCategoria: result.categoriasPreferidas[i], idComercio: result.cedJuridica };
+									this.categoriaComercioService.create(cat).subscribe();
+								}
+								const dialogRef2 = this.dialog.open(UploadComercioFilesComponent, {
 									width: '500px',
 									data: {
 									  idComercio: comFinal.cedJuridica
@@ -139,9 +163,18 @@ export class CrearComercioComponent implements OnInit {
 							  
 								  });
 							  
-								  dialogRef.afterClosed().subscribe(result => {
+								  dialogRef2.afterClosed().subscribe(result => {
 									console.log(`Resultado: ${result}`); 
 									this.mensajeService.add("Se creó la solicitud de comercio");
+									var log: Bitacora;
+									log = {
+										idUsuario: this.user.id,
+										accion: "Crear",
+										detalle: `Se creó solicitud del comercio (${comFinal.cedJuridica}) ${comFinal.nombreComercial}`,
+										id: -1,
+										fecha: new Date()
+									}
+									this.bitacoraService.create(log).subscribe();
 									this.router.navigate(["/"]);
 								  });
 
@@ -162,6 +195,7 @@ export class CrearComercioComponent implements OnInit {
   
 	  });
 
+	});
 });
   }
   

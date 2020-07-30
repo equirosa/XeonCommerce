@@ -70,6 +70,13 @@
     <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.idUsuario">
   </mat-form-field>
 
+  <mat-form-field appearance="fill">
+	<mat-label>Categorias</mat-label>
+	<mat-select [(ngModel)]="data.categoriasPreferidas" multiple name="type_list">
+		<mat-option *ngFor="let categoria of data.categorias" [value]="categoria.id"> {{categoria.valor}}</mat-option>
+	 </mat-select>
+  </mat-form-field>
+
 
 </div>
 <div mat-dialog-actions>
