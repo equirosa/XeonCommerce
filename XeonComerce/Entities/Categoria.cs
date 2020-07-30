@@ -12,6 +12,9 @@ namespace Entities
         [JsonPropertyName("valor")]
         public string Valor { get; set; }
 
+        [JsonPropertyName("descripcion")]
+        public string Descripcion { get; set; }
+
         public Categoria() { }
     }
 }

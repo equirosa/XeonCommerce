@@ -37,8 +37,10 @@ namespace WebAPI.Controllers
             try
             {
                 var cat = new CategoriaManagement();
+                Categoria a = cat.RetrieveAll().Find(e => e.Valor == categoria.Valor);
+                if (a != null) throw new Exception("Esa categoria ya existe");
                 cat.Create(categoria);
-                return Ok("Se creó la categoria");
+                return Ok(new { msg = "Se creó la categoria" });
             }
             catch (Exception ex)
             {
@@ -52,10 +54,16 @@ namespace WebAPI.Controllers
             {
                 var cat = new CategoriaManagement();
                 categoria.Id = id;
-                if (GetById(id) != null)
+                Categoria a = GetById(id);
+                if (a != null)
                 {
+                    if(a.Valor != categoria.Valor)
+                    {
+                    Categoria b = cat.RetrieveAll().Find(e => e.Valor == categoria.Valor);
+                    if (b != null) throw new Exception("Esa categoria ya existe");
+                    }
                     cat.Update(categoria);
-                    return Ok("Se actualizó la categoria");
+                    return Ok(new { msg = "Se actualizó la categoria" });
                 }
                 else
                 {
@@ -78,7 +86,7 @@ namespace WebAPI.Controllers
                 var categoria = new Categoria { Id = id };
                 cat.Delete(categoria);
 
-                return Ok("Se eliminó la categoria");
+                return Ok(new { msg = "Se eliminó la categoria" });
 
             }
             catch (Exception ex)

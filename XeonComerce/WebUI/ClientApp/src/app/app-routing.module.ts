@@ -1,3 +1,4 @@
+import { CategoriaComponent } from './categoria/categoria.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
@@ -34,6 +35,7 @@ const routes: Routes = [
     { path: 'servicios', component: ServicioComponent, canActivate: [AuthGuard] },
     { path: 'crearcomercio', component: CrearComercioComponent, canActivate: [AuthGuard]},
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
+    { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home
