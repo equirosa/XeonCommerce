@@ -1,5 +1,6 @@
 import { AccountService } from '@app/_services';
 import { Usuario } from './../_models/usuario';
+import { User } from './../_models/user';
 import { UsuarioService } from './../_services/usuario.service';
 import { UbicacionService } from './../_services/ubicacion.service';
 import { STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angular/cdk/stepper';

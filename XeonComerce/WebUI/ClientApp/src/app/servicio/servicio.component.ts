@@ -58,7 +58,7 @@ export class ServicioComponent implements OnInit {
   filtrar(event: Event) {
     const filtro = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filtro.trim().toLowerCase();
-  }  
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogServicio, {
@@ -121,6 +121,54 @@ export class ServicioComponent implements OnInit {
     });
   }
 
+
+  editarDialog(servicio: Servicio): void {
+    function checkComercio() {
+      return servicio.idComercio;
+    }
+
+    let comercioDelServicio = this.comercios.find(checkComercio);
+
+    console.log(comercioDelServicio);
+
+    const dialogRef = this.dialog.open(DialogEditarServicio, {
+      width: '500px',
+      data: {
+        id: servicio.id,
+        tipo: 2,
+        nombre: servicio.nombre,
+        precio: servicio.precio,
+        descuento: 0,
+        comercio: comercioDelServicio.nombreComercial,
+        duracion: servicio.duracion
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Resultado: ${result}`);
+      if (result) {
+        servicio = {
+          "id": servicio.id,
+          "tipo": 2,
+          "nombre": result.nombre,
+          "precio": result.precio,
+          "descuento": result.descuento,
+          "idComercio": servicio.idComercio,
+          "duracion": result.duracion
+        }
+
+        console.log(servicio);
+
+        this.servService.putServicio(servicio)
+          .subscribe(() => {
+            this.getServicios()
+          });
+      }
+      window.location.reload();
+
+    });
+  }
 }
 
 
@@ -139,3 +187,21 @@ export class DialogServicio {
     this.dialogRef.close();
   }
 }
+
+@Component({
+  selector: 'dialog-editar-servicio',
+  templateUrl: './editar-servicio.html',
+})
+export class DialogEditarServicio {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditarServicio>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private comercioService: ComercioService) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+

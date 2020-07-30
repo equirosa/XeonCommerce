@@ -153,12 +153,26 @@ openDialog(): void {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
       if (result) {
+        let cambiosProducto: Producto;
+        producto = {
+          "id": producto.id,
+          "tipo": 1,
+          "nombre": result.nombre,
+          "precio": result.precio,
+          "cantidad": result.cantidad,
+          "descuento": result.descuento,
+          "idComercio": producto.idComercio,
+          "duracion": result.duracion
+        }
+
+        console.log(producto);
 
         this.prodService.putProducto(producto)
           .subscribe(() => {
             this.getProductos()
           });
       }
+      window.location.reload();
 
     });
   }
