@@ -1,3 +1,5 @@
+import { Bitacora } from './../_models/bitacora';
+import { BitacoraService } from './../_services/bitacora.service';
 import { AccountService } from './../_services/account.service';
 import { User } from './../_models/user';
 import { UploadComercioFilesComponent } from './upload-comercio-files.dialog';
@@ -22,7 +24,7 @@ export class CrearComercioComponent implements OnInit {
     user: User;
 
 	constructor(private accountService: AccountService, private router: Router, public dialog: MatDialog, private comercioService: ComercioService, private direccionService: DireccionService, private mensajeService: MensajeService,
-		 private ubicacionService: UbicacionService) { 
+		 private ubicacionService: UbicacionService, private bitacoraService: BitacoraService) { 
 			this.user = this.accountService.userValue; }
   
 
@@ -142,6 +144,15 @@ export class CrearComercioComponent implements OnInit {
 								  dialogRef.afterClosed().subscribe(result => {
 									console.log(`Resultado: ${result}`); 
 									this.mensajeService.add("Se creó la solicitud de comercio");
+									var log: Bitacora;
+									log = {
+										idUsuario: this.user.id,
+										accion: "Crear",
+										detalle: `Se creó solicitud del comercio (${comFinal.cedJuridica}) ${comFinal.nombreComercial}`,
+										id: -1,
+										fecha: new Date()
+									}
+									this.bitacoraService.create(log).subscribe();
 									this.router.navigate(["/"]);
 								  });
 
