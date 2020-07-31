@@ -1,3 +1,4 @@
+import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
 import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -135,7 +136,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogArchivo,
 		DialogUsuario,
 		DialogCategoria,
-		PromocionDialog
+		PromocionDialog,
+		DialogDiaFeriado
 	],
     declarations: [
         AppComponent,
@@ -145,8 +147,9 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogComercio,
 		ConfirmDialogComponent,
 		DialogDireccion,
-		SolicitudesComponent
-,
+		SolicitudesComponent,
+		DialogDiaFeriado,
+		DiaFeriadoComponent,
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,

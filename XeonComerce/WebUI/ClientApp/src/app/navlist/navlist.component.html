@@ -19,9 +19,13 @@
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/solicitudes">Solicitudes</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/productos">Productos</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/servicios">Servicios</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/promocion">Promociones</button>
 </mat-menu>
 <a mat-list-item routerLink="/categoria" (click)="onSidenavClose()">
 	<mat-icon>category</mat-icon><span class="nav-caption">Categorias</span>
+</a>
+<a mat-list-item routerLink="/diaferiado" (click)="onSidenavClose()">
+	<mat-icon>calendar_today</mat-icon><span class="nav-caption">Día Feriado</span>
 </a>
 <a mat-list-item routerLink="/bitacora" (click)="onSidenavClose()">
 	<mat-icon>library_books</mat-icon><span class="nav-caption">Bitácora</span>
