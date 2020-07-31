@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Rol:BaseEntity
+    public class VistaRol
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -19,6 +19,10 @@ namespace Entities
         [JsonPropertyName("descripcion")]
         public string Descripcion { get; set; }
 
-        public Rol() { }
+        [JsonPropertyName("vistas")]
+        public Vista[] Vistas { get; set; }
+        public VistaRol () { }
+
+
     }
 }

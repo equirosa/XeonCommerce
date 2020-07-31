@@ -77,6 +77,12 @@ namespace DataAccess.Mapper
             return operation;
         }
 
+        public SqlOperation GetUltimoRol()
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_ULTIMO_ROL_PR" };
+            return operation;
+        }
+
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
             var operation = new SqlOperation { ProcedureName = "UPD_ROL_PR" };
@@ -87,6 +93,13 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_NOMBRE, o.Nombre);
             operation.AddVarcharParam(DB_COL_DESCRIPCION, o.Descripcion);
 
+            return operation;
+        }
+
+        public SqlOperation GetRolesByIdComercio(string IdComercio)
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_ROLES_ID_COMERCIO_PR"};
+            operation.AddVarcharParam(DB_COL_ID_COMERCIO, IdComercio);
 
             return operation;
         }
