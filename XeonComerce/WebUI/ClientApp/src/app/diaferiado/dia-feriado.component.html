@@ -1,6 +1,7 @@
 <div class="divDiaFeriado">
 	<h2>Días Feriados</h2>
 	<button mat-raised-button color="primary" (click)="abrirCrear()">Crear</button>
+	<button mat-raised-button color="primary" (click)="pdf(datos)" style="margin-left:1%;">Descargar</button>
 <mat-form-field>
 	<mat-label>Filter</mat-label>
 	<input matInput (keyup)="filtrar($event)" placeholder="Ex. Lacoste" #input>
