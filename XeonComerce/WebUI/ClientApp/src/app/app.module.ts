@@ -55,6 +55,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
