@@ -25,6 +25,8 @@
     <EmbeddedResource Remove="ClientApp\src\app\cupones\**" />
     <Content Remove="ClientApp\src\app\ProductosServicios\**" />
     <EmbeddedResource Remove="ClientApp\src\app\ProductosServicios\**" />
+    <Content Remove="ClientApp\src\app\cupones\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\cupones\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\ProductosServicios\**" />
     <None Remove="ClientApp\src\app\cupones\**" />
