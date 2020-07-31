@@ -1,3 +1,4 @@
+import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
 import { PromocionComponent } from './promocion/promocion.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
@@ -38,6 +39,7 @@ const routes: Routes = [
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
+    { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home
