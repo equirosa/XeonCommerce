@@ -9,6 +9,7 @@ using Management;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SelectPdf;
 
 namespace WebAPI.Controllers
 {
@@ -59,7 +60,7 @@ namespace WebAPI.Controllers
                 DiaFeriado a = GetById(id);
                 if (a != null)
                 {
-                    if(a.Fecha != diaF.Fecha)
+                    if (a.Fecha != diaF.Fecha)
                     {
                         DiaFeriado b = dF.RetrieveAll().Find((e) => e.Fecha.ToString("D", DateTimeFormatInfo.InvariantInfo) == diaF.Fecha.ToString("D", DateTimeFormatInfo.InvariantInfo));
                         if (b != null) throw new Exception("Esa día ya existe como feriado");
