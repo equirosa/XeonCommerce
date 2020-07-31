@@ -1,6 +1,6 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
 
+@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+@import "theme.css";
 code {
   color: #e01a76;
 }
@@ -12,7 +12,11 @@ code {
 }
 
 
-html, body { height: 100%; }
+html, body { 
+	min-height: 100vh;
+	height: auto;
+	margin: 0;
+}
 
 .btn-delete-user {
     width: 40px;
@@ -22,7 +26,6 @@ html, body { height: 100%; }
 
 
 body {
-    margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -150,4 +153,3 @@ body {
   font-size: 14px;
   width: 100%;
 }
-

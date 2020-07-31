@@ -1,6 +1,6 @@
 <div class="divComercios">
 	<h2>Solicitudes</h2>
-	<mat-button-toggle value="bold" (click)=mostrarT()>Mostrar todos</mat-button-toggle>
+	<mat-button-toggle value="bold" (click)="mostrarT()">Mostrar todos</mat-button-toggle>
 <mat-form-field>
 	<mat-label>Filter</mat-label>
 	<input matInput (keyup)="filtrar($event)" placeholder="Ex. Lacoste" #input>
@@ -29,12 +29,12 @@
   
 	<ng-container matColumnDef="documentos">
 		<th mat-header-cell *matHeaderCellDef> Documentos </th>
-		<td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)=verDocumentos(element)>Ver</button> </td>
+		<td mat-cell *matCellDef="let element"> <button mat-raised-button color="ver" (click)=verDocumentos(element)>Ver</button> </td>
 	  </ng-container>
 	  
 	<ng-container matColumnDef="direccion">
 	  <th mat-header-cell *matHeaderCellDef> Dirección </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)=verDireccion(element)>Ver</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="ver" (click)=verDireccion(element)>Ver</button> </td>
 	</ng-container>
   
 	<ng-container matColumnDef="idUsuario">
@@ -49,12 +49,12 @@
 
 	<ng-container matColumnDef="aceptar">
 	  <th mat-header-cell *matHeaderCellDef> Aceptar </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="accent" (click)=aceptar(element)>Aceptar</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="crear" (click)=aceptar(element)>Aceptar</button> </td>
 	</ng-container>
   
 	<ng-container matColumnDef="rechazar">
 	  <th mat-header-cell *matHeaderCellDef> Rechazar </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)=rechazar(element)>Rechazar</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="eliminar" (click)=rechazar(element)>Rechazar</button> </td>
 	</ng-container>
   
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
