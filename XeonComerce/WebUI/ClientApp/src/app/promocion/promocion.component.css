@@ -1,0 +1,17 @@
+:host{
+	display: block;
+	height: calc(100vh - 5rem);
+  }
+  
+table {
+	width: 100%;
+  }
+  
+  .mat-form-field {
+	font-size: 14px;
+	width: 100%;
+  }
+
+.divPromociones {
+	padding: 2% 10%;
+}

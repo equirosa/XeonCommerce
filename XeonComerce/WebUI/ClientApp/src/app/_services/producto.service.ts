@@ -27,6 +27,14 @@ export class ProductoService {
       );
   }
 
+  
+  getProductoById(id: number): Observable<Producto> {
+    const urlProd = `${this.urlApi}/${id}/1`;
+    return this.http
+      .get<Producto>(urlProd)
+      .pipe(tap(), catchError(this.handleError<Producto>('getById'))
+      );
+  }
 
 //  save(prod: Producto) {
 //    if (prod.id) {

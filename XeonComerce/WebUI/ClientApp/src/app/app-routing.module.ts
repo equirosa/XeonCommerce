@@ -1,3 +1,4 @@
+import { PromocionComponent } from './promocion/promocion.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
@@ -36,6 +37,7 @@ const routes: Routes = [
     { path: 'crearcomercio', component: CrearComercioComponent, canActivate: [AuthGuard]},
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
+    { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
 
     // otherwise redirect to home

@@ -1,3 +1,4 @@
+import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -133,7 +134,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
-		DialogCategoria
+		DialogCategoria,
+		PromocionDialog
 	],
     declarations: [
         AppComponent,
@@ -155,7 +157,8 @@ import { NavlistComponent } from './navlist/navlist.component';
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarProducto,
+	DialogEditarProducto,
+	PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
@@ -164,7 +167,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		CategoriaComponent,
 		DialogCategoria,
 		NavComponent,
-		NavlistComponent
+		NavlistComponent,
+		PromocionComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
