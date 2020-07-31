@@ -1,7 +1,7 @@
 import { Config } from './../_models/config';
 import { ConfigService } from './../_services/config.service';
 import { STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent } from '@angular/cdk/stepper';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { MensajeService } from '../_services/mensaje.service';
 import { MatStepper } from '@angular/material/stepper';
@@ -20,6 +20,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ConfigComponent implements OnInit {
   configs: Config[];
   configFinal: Config;
+  displayedColumns: string[] = ['id', 'valor'];
   datos;
 
   constructor(public dialog: MatDialog, private router: Router, private _formBuilder: FormBuilder, private configService: ConfigService, private mensajeService: MensajeService) { }
@@ -43,6 +44,34 @@ export class ConfigComponent implements OnInit {
   filtrar(event: Event) {
     const filtro = (event.target as HTMLInputElement).value;
     this.datos.filter = filtro.trim().toLowerCase();
+  }
+
+  crear(): void {
+    const dialogRef = this.dialog.open(DialogConfig, {
+      width: '500px',
+      data: {
+        accion: "crear",
+        permitir: !true,
+        id: "",
+        valor: "",
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Resultado ${result}`);
+      if (result) {
+        console.log("Agregando configuracion...");
+
+        let configFinal: Config
+        configFinal = {
+          "id": result.id,
+          "valor": result.valor
+        }
+        this.configService.create(configFinal).subscribe(() => {
+          this.getConfigs()
+        });
+      }
+    });
   }
 
   editar(config: Config): void {
@@ -71,7 +100,7 @@ export class ConfigComponent implements OnInit {
 export class DialogConfig {
   constructor(
     public dialogRef: MatDialogRef<DialogConfig>,
-    @Inject(MAT_DIAlOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   onNoClick(): void {

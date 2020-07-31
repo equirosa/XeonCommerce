@@ -22,6 +22,7 @@ import { ComerciosCardComponent } from './comercios-card/comercios-card.componen
 const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { SucursalesComponent } from './sucursales/sucursales.component';
+import { ConfigComponent } from './config/config.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -43,6 +44,7 @@ const routes: Routes = [
     { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

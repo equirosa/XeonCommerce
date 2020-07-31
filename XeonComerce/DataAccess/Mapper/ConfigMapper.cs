@@ -16,7 +16,7 @@ namespace DataAccess.Mapper
             var config = new Config
             {
                 Id = GetStringValue(row, DB_COL_ID),
-                Valor = GetDecimalValue(row, DB_COL_VALOR)
+                Valor = GetDoubleValue(row, DB_COL_VALOR)
             };
 
             return config;

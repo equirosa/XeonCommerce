@@ -63,7 +63,7 @@ import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
-import { ConfigComponent } from './config/config.component';
+import { ConfigComponent, DialogConfig } from './config/config.component';
 
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
 import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
@@ -179,7 +179,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogSucursal,
 		DialogDireccionSucursal,
 		PromocionComponent,
-		ConfigComponent
+		ConfigComponent,
+		DialogConfig
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
