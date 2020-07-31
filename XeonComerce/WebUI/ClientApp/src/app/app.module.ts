@@ -1,3 +1,5 @@
+import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
+import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -133,7 +135,9 @@ import { NavlistComponent } from './navlist/navlist.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
-		DialogCategoria
+		DialogCategoria,
+		PromocionDialog,
+		DialogDiaFeriado
 	],
     declarations: [
         AppComponent,
@@ -143,8 +147,9 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogComercio,
 		ConfirmDialogComponent,
 		DialogDireccion,
-		SolicitudesComponent
-,
+		SolicitudesComponent,
+		DialogDiaFeriado,
+		DiaFeriadoComponent,
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
@@ -155,7 +160,8 @@ import { NavlistComponent } from './navlist/navlist.component';
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarProducto,
+	DialogEditarProducto,
+	PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
@@ -164,7 +170,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		CategoriaComponent,
 		DialogCategoria,
 		NavComponent,
-		NavlistComponent
+		NavlistComponent,
+		PromocionComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
