@@ -43,6 +43,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
@@ -69,6 +70,8 @@ import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-f
 import { AgmCoreModule } from '@agm/core';
 import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component';
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
+import { NavComponent } from './nav/nav.component';
+import { NavlistComponent } from './navlist/navlist.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -111,6 +114,7 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
+		MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -160,7 +164,9 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 		BitacoraComponent,
 		DialogUsuario,
 		CategoriaComponent,
-		DialogCategoria
+		DialogCategoria,
+		NavComponent,
+		NavlistComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

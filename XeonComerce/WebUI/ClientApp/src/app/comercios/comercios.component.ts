@@ -69,6 +69,7 @@ export class ComerciosComponent implements OnInit {
 
 
 	  estaCompleto(a){
+		  if(!a) return false;
 		  let obj = Object.keys(a);
 		  for(let i = 0; i<obj.length; i++){
 			if(obj[i] != "direccion" && (a[obj[i]] === "" || a[obj[i]] === " ")) return false;

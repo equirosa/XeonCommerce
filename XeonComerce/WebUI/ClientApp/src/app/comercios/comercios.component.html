@@ -1,6 +1,6 @@
 <div class="divComercios">
 	<h2>Comercios</h2>
-	<button mat-raised-button color="primary" (click)="abrirCrear()">Crear</button>
+	<button mat-raised-button color="success" (click)="abrirCrear()">Crear</button>
 <mat-form-field>
 	<mat-label>Filter</mat-label>
 	<input matInput (keyup)="filtrar($event)" placeholder="Ex. Lacoste" #input>
@@ -29,12 +29,12 @@
   
 	<ng-container matColumnDef="documentos">
 	  <th mat-header-cell *matHeaderCellDef> Documentos </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)=verDocumentos(element)>Ver</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="neutral" (click)=verDocumentos(element)>Ver</button> </td>
 	</ng-container>
   
 	<ng-container matColumnDef="direccion">
 	  <th mat-header-cell *matHeaderCellDef> Dirección </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click)=verDireccion(element)>Ver</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="neutral" (click)=verDireccion(element)>Ver</button> </td>
 	</ng-container>
   
 	<ng-container matColumnDef="idUsuario">
@@ -44,12 +44,12 @@
   
 	<ng-container matColumnDef="editar">
 	  <th mat-header-cell *matHeaderCellDef> Editar </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="accent" (click)=abrirEditar(element)>Editar</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warning" (click)=abrirEditar(element)>Editar</button> </td>
 	</ng-container>
   
 	<ng-container matColumnDef="eliminar">
 	  <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)=delete(element)>Eliminar</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="danger" (click)=delete(element)>Eliminar</button> </td>
 	</ng-container>
   
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

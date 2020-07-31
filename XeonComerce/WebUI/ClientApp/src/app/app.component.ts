@@ -14,7 +14,7 @@ export class AppComponent {
 			this.user = x;
 			this.load();
 		});
-    }
+	}
 
     logout() {
         this.accountService.logout();

@@ -1,7 +1,9 @@
 <div class="divImpuesto">
   <h2>Impuestos</h2>
-  <button mat-raised-button color="create" (click)="abrirCrear()">Crear</button>
+  <button mat-raised-button color="crear" (click)="abrirCrear()">Crear</button>
 
+  <br>
+  <br>
   <div class="mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource">
 
@@ -22,12 +24,12 @@
 
       <ng-container matColumnDef="editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
-        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="accent" (click)=abrirEditar(element)>Editar</button> </td>
+        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="editar" (click)=abrirEditar(element)>Editar</button> </td>
       </ng-container>
 
       <ng-container matColumnDef="eliminar">
         <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="delete" (click)=eliminar(element)>Eliminar</button> </td>
+        <td mat-cell *matCellDef="let element"> <button mat-raised-button color="eliminar" (click)=eliminar(element)>Eliminar</button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
