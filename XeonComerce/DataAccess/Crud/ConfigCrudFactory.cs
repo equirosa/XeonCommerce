@@ -6,22 +6,20 @@ using System.Collections.Generic;
 
 namespace DataAccess.Crud
 {
-	public class SucursalCrudFactory: CrudFactory
+	public class ConfigCrudFactory : CrudFactory
     {
-        SucursalMapper mapper;
+        ConfigMapper mapper;
 
-        public SucursalCrudFactory(): base()
+        public ConfigCrudFactory() : base()
         {
-            mapper = new SucursalMapper();
+            mapper = new ConfigMapper();
             dao = SqlDao.GetInstance();
         }
 
         public override void Create(BaseEntity entity)
         {
-            var sucursal = (Sucursal)entity;
-            var count = RetrieveAll<Sucursal>().Count;
-            sucursal.Id = sucursal.IdComercio + "-" + count;
-            var sqlOperation = mapper.GetCreateStatement(sucursal);
+            var ent = (Config)entity;
+            var sqlOperation = mapper.GetCreateStatement(ent);
             dao.ExecuteProcedure(sqlOperation);
         }
 
@@ -41,32 +39,33 @@ namespace DataAccess.Crud
 
         public override List<T> RetrieveAll<T>()
         {
-            var lstSucursales = new List<T>();
+            var lst = new List<T>();
 
             var lstResult = dao.ExecuteQueryProcedure(mapper.GetRetriveAllStatement());
             var dic = new Dictionary<string, object>();
             if (lstResult.Count > 0)
             {
                 var objs = mapper.BuildObjects(lstResult);
-                foreach (var suc in objs)
+                foreach (var c in objs)
                 {
-                    lstSucursales.Add((T)Convert.ChangeType(suc, typeof(T)));
+                    lst.Add((T)Convert.ChangeType(c, typeof(T)));
                 }
             }
 
-            return lstSucursales;
+            return lst;
         }
 
         public override void Update(BaseEntity entity)
         {
-            var sucursal = (Sucursal)entity;
-            dao.ExecuteProcedure(mapper.GetUpdateStatement(sucursal));
+            var ent = (Config)entity;
+            dao.ExecuteProcedure(mapper.GetUpdateStatement(ent));
         }
 
         public override void Delete(BaseEntity entity)
         {
-            var sucursal = (Sucursal)entity;
-            dao.ExecuteProcedure(mapper.GetDeleteStatement(sucursal));
+            var ent = (Config)entity;
+            dao.ExecuteProcedure(mapper.GetDeleteStatement(ent));
         }
+
     }
 }
