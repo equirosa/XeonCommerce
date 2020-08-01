@@ -132,7 +132,7 @@ import { NavlistComponent } from './navlist/navlist.component';
     DialogImpuesto,
     DialogServicio,
     DialogEditarProducto,
-    DialogEditarServicio
+    DialogEditarServicio,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
@@ -161,7 +161,7 @@ import { NavlistComponent } from './navlist/navlist.component';
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarServicio
+    DialogEditarServicio,
 	DialogEditarProducto,
 	PromocionDialog,
 		CambiarContrasennaComponent,
