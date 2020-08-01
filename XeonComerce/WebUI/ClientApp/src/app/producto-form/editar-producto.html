@@ -1,0 +1,60 @@
+<h1 mat-dialog-title>Editar producto</h1>
+
+<div mat-dialog-content>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Id</mat-label>
+    <input matInput [(ngModel)]="data.id" disabled>
+  </mat-form-field>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Nombre</mat-label>
+    <input required matInput [(ngModel)]="data.nombre">
+  </mat-form-field>
+
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Precio</mat-label>
+    <input minlength="1" type="number" required matInput [(ngModel)]="data.precio">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="fill">
+    <mat-label>Impuesto</mat-label>
+    <mat-select [(ngModel)]="data.impuesto" required>
+      <mat-option></mat-option>
+      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto">
+        {{impuesto.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Cantidad</mat-label>
+    <input minlength="1" type="number" required matInput [(ngModel)]="data.cantidad">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px" appearance="standard">
+    <mat-label>Descuento</mat-label>
+    <input minlength="1" type="number" matInput [(ngModel)]="data.descuento" disabled>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px" appearance="standard">
+    <mat-label>Comercio</mat-label>
+    <input matInput [(ngModel)]="data.comercio" disabled>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Duracion en minutos estimados</mat-label>
+    <input minlength="1" type="number" matInput [(ngModel)]="data.duracion" required>
+  </mat-form-field>
+  <br>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Editar</button>
+</div>

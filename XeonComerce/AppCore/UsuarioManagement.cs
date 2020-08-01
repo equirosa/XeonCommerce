@@ -50,9 +50,8 @@ namespace Management
 
         public Usuario PhoneVerification(Usuario user)
         {
-            Usuario usuario = crud.Retrieve<Usuario>(user);
-            crud.Verification(usuario);
-            return crud.Retrieve<Usuario>(usuario);
+            crud.Verification(user);
+            return crud.Retrieve<Usuario>(user);
         }
     }
 }

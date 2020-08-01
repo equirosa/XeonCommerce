@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Registro de Empleado</h2>
+<mat-dialog-content >
+<form [formGroup]="FormGroupHorario">
+    <mat-form-field>
+        <mat-label>Hora Inicio</mat-label>
+        <input matInput type="time" formControlName="HoraInicio" required />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Hora Final</mat-label>
+        <input matInput type="time" formControlName="HoraFinal" required />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Descripción</mat-label>
+        <input matInput type="text" formControlName="Descripcion" required />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="Estado">
+            <mat-option
+             *ngFor="let estado of estados"
+              [value]="estado.valor"              
+            >
+             {{ estado.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close class="example-button-row" >Cancel</button>
+    <button 
+      mat-flat-button 
+      [mat-dialog-close]="true" 
+      (click)="guardar()" 
+      class="example-button-row" 
+      cdkFocusInitial
+      [disabled]="!valid"
+    >
+       Registrar Sección
+      </button>
+  </mat-dialog-actions>
+  

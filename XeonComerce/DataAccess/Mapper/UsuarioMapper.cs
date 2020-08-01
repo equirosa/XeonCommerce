@@ -34,6 +34,7 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_CORREO_ELECTRONICO, c.CorreoElectronico);
             operation.AddVarcharParam(DB_COL_TELEFONO, c.NumeroTelefono);
             operation.AddIntParam(DB_COL_ID_DIRECCION, c.IdDireccion);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
             return operation;
         }
 

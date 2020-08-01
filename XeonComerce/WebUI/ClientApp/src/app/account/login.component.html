@@ -1,4 +1,10 @@
-﻿<div class="card">
+﻿<style>
+	:host{
+	display: block;
+	height: calc(100vh - 5rem);
+  }
+</style>
+<div class="card">
     <h4 class="card-header">Login</h4>
     <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -15,13 +21,14 @@
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                     <div *ngIf="f.password.errors.required">Se requiere la contraseña</div>
                 </div>
+                <a routerLink="/cuenta/recuperar" class="btn btn-link">Recuperar contraseña</a>
             </div>
             <div class="form-group">
                 <button [disabled]="loading" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     Login
                 </button>
-                <!-- <a routerLink="../register" class="btn btn-link">Registrar</a> -->
+                <a routerLink="/cuenta/registro" class="btn btn-link">Registrar</a>
             </div>
         </form>
     </div>

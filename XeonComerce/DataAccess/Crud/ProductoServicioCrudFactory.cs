@@ -1,16 +1,13 @@
 ﻿#region libraries
 using System;
 using System.Collections.Generic;
-using System.Text;
 using DataAccess.Dao;
-using DataAccessLayer.Dao;
 using Entities;
-using Microsoft.VisualBasic.CompilerServices;
 #endregion
 
 namespace DataAccess.Crud
 {
-    public class ProductoServicioCrudFactory : CrudFactory
+	public class ProductoServicioCrudFactory : CrudFactory
     {
         #region properties
         ProductoServicioMapper mapper;

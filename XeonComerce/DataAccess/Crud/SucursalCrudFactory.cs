@@ -1,14 +1,12 @@
 ﻿using DataAccess.Dao;
 using DataAccess.Mapper;
-using DataAccessLayer.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class SucursalCrudFactory: CrudFactory
+	public class SucursalCrudFactory: CrudFactory
     {
         SucursalMapper mapper;
 

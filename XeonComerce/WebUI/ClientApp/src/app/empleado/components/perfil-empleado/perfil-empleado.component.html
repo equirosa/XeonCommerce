@@ -1,0 +1,41 @@
+<!-- <div class="mb-lg">
+    <h2>Perfil Empleado</h2>
+</div> -->
+
+<mat-dialog-content>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{empleado.nombre}} {{empleado.apellidoUno}} {{empleado.apellidoDos}}</mat-card-title>
+            <mat-card-subtitle>Mostrar Rol</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- <div class="mb-md">
+                <mat-label>Nombe</mat-label>
+                <h4>{{empleado.nombre}} {{empleado.apellidoUno}} {{empleado.apellidoDos}}</h4>
+            </div> -->
+            <div class="mb-md">
+                <mat-label>Fecha Nacimiento</mat-label>
+                <h4>{{empleado.fechaNacimiento}}</h4>
+            </div>
+            <div class="mb-md">
+                <mat-label>Correo electrónico</mat-label>
+                <h4>{{empleado.correoElectronico}}</h4>
+            </div>
+            <div class="mb-md">
+                <mat-label>Teléfono</mat-label>
+                <h4>{{empleado.numeroTelefono}}
+                    <mat-icon matSuffix>phone</mat-icon>
+                </h4>
+            </div>
+            <!-- <div>
+                <button mat-flat-button class="example-button-row" (click)="verHorario()">
+                    Ver Horario
+                </button>
+            </div> -->
+        </mat-card-content>
+       
+    </mat-card>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close class="example-button-row">Cerrar</button>
+</mat-dialog-actions>

@@ -1,0 +1,13 @@
+<!-- <ejs-schedule  height="850" width="1250" [currentView]="setView" [selectedDate]="setDate" [eventSettings]="eventObject" ></ejs-schedule> -->
+<div class="pt-lg mb-lg">
+    <h2 class="text-center">Calendario</h2>    
+</div>
+<div class="page-container">
+    <ejs-schedule #schedule [currentView]="setView">
+        <e-views>            
+            <e-view option="Day" displayName="Día"></e-view>
+            <e-view option="Week" displayName="Semana"></e-view>
+            <e-view option="Month" displayName="Mes" isSelected='true'></e-view>
+        </e-views>
+    </ejs-schedule>
+</div>

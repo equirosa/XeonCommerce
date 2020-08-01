@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using DataAccess.Dao;
 using DataAccess.Mapper;
-using DataAccessLayer.Dao;
 using Entities;
 
 
 namespace DataAccess.Crud
 {
-    public class UsuarioCrudFactory : CrudFactory
+	public class UsuarioCrudFactory : CrudFactory
     {
         UsuarioMapper mapper;
 

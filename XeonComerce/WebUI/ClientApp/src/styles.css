@@ -1,4 +1,6 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+@import "theme.css";
 code {
   color: #e01a76;
 }
@@ -9,5 +11,145 @@ code {
   border-color: #1861ac;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { 
+	min-height: 100vh;
+	height: auto;
+	margin: 0;
+}
+
+.btn-delete-user {
+    width: 40px;
+    text-align: center;
+    box-sizing: content-box;
+}
+
+
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+/* Helpers */
+
+.mb-0 {
+    margin-bottom: 0 !important;
+  }
+  
+  .mb-sm {
+      margin-bottom: 0.5em !important;
+    }
+  
+  .mb-md {
+    margin-bottom: 1em !important;
+  }
+  
+  .mb-lg {
+    margin-bottom: 1.5em !important;
+  }
+  
+  .ml-0 {
+    margin-left: 0 !important;
+  }
+  
+  .ml-sm {
+    margin-left: 0.5em !important;
+  }
+  
+  .ml-md {
+    margin-left: 1em !important;
+  }
+  
+  .ml-lg {
+    margin-left: 1.5em !important;
+  }
+  
+  .mt-0 {
+    margin-top: 0 !important;
+  }
+  .mt-sm {
+    margin-top: 0.5em !important;
+  }
+  
+  .mt-md {
+    margin-top: 1em !important;
+  }
+  
+  .mt-lg {
+    margin-top: 1.5em !important;
+  }
+  
+  .mr-sm {
+    margin-right: 0.5em !important;
+  }
+  
+  .mr-md {
+    margin-right: 1em !important;
+  }
+  
+  .mr-lg {
+    margin-right: 1.5em !important;
+  }
+  
+  .pr-md {
+    padding-right: 1em !important;
+  }
+  .pt-md {
+    padding-top: 1em !important;
+  }
+  .pb-md {
+    padding-bottom: 1em !important;
+  }
+  .pt-sm {
+    padding-top: 0.5em !important;
+  }
+  .pb-sm {
+    padding-bottom: 0.5em !important;
+  }
+  .pl-sm{
+    padding-left: 0.5em !important;
+  }
+  .pl-md{
+    padding-left: 1em !important;
+  }
+  .text-center {
+    text-align: center !important;
+  }
+  .text-right {
+    text-align: right;
+  }
+  
+  .overflow-md {
+    overflow: scroll;
+    width: 700px;
+    height: 200px;
+
+  }
+
+  /* Clases  */
+
+
+.page-container {
+    width: 90vw;
+    margin: 1rem auto;
+    background-color: white;
+}
+
+.table-lg {
+    width: 90vw;
+}
+
+.toolbar{
+  background-color: #7DE2D1;
+}
+
+.example-button-row {
+  display: table-cell;
+  width: 140px;  
+  background-color: #339989 ;
+}
+
+.mmat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

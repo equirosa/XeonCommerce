@@ -17,9 +17,9 @@
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Teléfono</mat-label>
-    <input minlength="1" required matInput [(ngModel)]="data.telefono">
+    <input minlength="1"required matInput [(ngModel)]="data.telefono">
   </mat-form-field>
-  <br>
+  <br *ngIf="data.dir">
 
 
   <mat-form-field appearance="fill" *ngIf="data.dir">
@@ -49,17 +49,12 @@
 	  </mat-select>
   </mat-form-field>
 
-  
-  <mat-form-field appearance="fill" *ngIf="data.dir">
-    <mat-label>Lat</mat-label>
-    <input required matInput [(ngModel)]="data.latitud">
-  </mat-form-field>
+  <br *ngIf="data.dir">
+  <agm-map  style="height: 300px;"  [latitude]="data.latitud" [longitude]="data.longitud" *ngIf="data.dir">
+	<agm-marker [latitude]="data.latitud" [longitude]="data.longitud" [markerDraggable]="true"></agm-marker>
+  </agm-map>
 
-  
-  <mat-form-field appearance="fill" *ngIf="data.dir">
-    <mat-label>Long</mat-label>
-    <input required matInput [(ngModel)]="data.longitud">
-  </mat-form-field>
+  <br *ngIf="data.dir">
 
   
   <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
@@ -70,9 +65,16 @@
 <br>
 
 
-  <mat-form-field style="width:400px !important" appearance="standard">
+  <mat-form-field style="width:400px !important" appearance="standard" *ngIf="!data.noEsAdmin">
     <mat-label>Administrador</mat-label>
     <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.idUsuario">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+	<mat-label>Categorias</mat-label>
+	<mat-select [(ngModel)]="data.categoriasPreferidas" multiple name="type_list">
+		<mat-option *ngFor="let categoria of data.categorias" [value]="categoria.id"> {{categoria.valor}}</mat-option>
+	 </mat-select>
   </mat-form-field>
 
 

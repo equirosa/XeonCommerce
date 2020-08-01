@@ -3,11 +3,10 @@ using DataAccess.Dao;
 using Entities;
 using System;
 using System.Collections.Generic;
-using DataAccessLayer.Dao;
 
 namespace DataAccess.Crud
 {
-    public class ListaValorCrudFactory:CrudFactory
+	public class ListaValorCrudFactory:CrudFactory
     {
         ListaValorMapper mapper;
 

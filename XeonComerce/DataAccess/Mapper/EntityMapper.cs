@@ -37,6 +37,9 @@ namespace DataAccess.Mapper
             if (dic.ContainsKey(attName) && val is double)
                 return (double)dic[attName];
 
+            if (dic.ContainsKey(attName) && val is decimal)
+                return (double)((decimal)dic[attName]);
+
             return -1;
         }
 

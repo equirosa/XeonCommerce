@@ -44,6 +44,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 	
 	verDireccion(comercio: Comercio): void {
 		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
+			dir.latitud = Number(dir.latitud);
+			dir.longitud = Number(dir.longitud);
 			const dialogRef = this.dialog.open(DialogDireccion, {
 				maxWidth: "500px",
 				data: Object.assign({

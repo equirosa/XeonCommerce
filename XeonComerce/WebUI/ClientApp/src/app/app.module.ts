@@ -1,4 +1,6 @@
-﻿import { NgModule } from '@angular/core';
+import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
+import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,6 +11,9 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
+
+import { EmpleadoModule } from './empleado/empleado.module';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -40,18 +45,40 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { ComerciosComponent, DialogComercio, DialogDireccion } from './comercios/comercios.component';;
+import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
 ;
-import { SolicitudesComponent } from './solicitudes/solicitudes.component'
-;
-import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
-import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component'
+import { SolicitudesComponent } from './solicitudes/solicitudes.component;
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
+import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
+import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
+import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
+import { ServicioComponent, DialogServicio } from './servicio/servicio.component';
 
+import { MatNativeDateModule } from '@angular/material/core';
+import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
+import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
+import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
+
+import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
+import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
+import { FileSelectDirective } from 'ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload';
+import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-files.dialog';
+import { AgmCoreModule } from '@agm/core';
+import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component';
+import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
+import { NavComponent } from './nav/nav.component';
+import { NavlistComponent } from './navlist/navlist.component';
 @NgModule({
     imports: [
 		FormsModule,
+		CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'de99h9v43', api_secret: 'szrKGouDzr9bgYSTXF_a8LO7nMI', api_key: '664882358892716'}),
+        FileUploadModule,
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
@@ -87,12 +114,30 @@ import { LandingPageAppComponent } from './landing-page-app/landing-page-app.com
 		MatSnackBarModule,
 		MatTableModule,
 		MatSortModule,
-		MatPaginatorModule
+		MatNativeDateModule,
+		MatPaginatorModule,
+		MatDividerModule,
+		AgmCoreModule.forRoot({
+		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
+		}),
+		ScheduleModule, 
+		RecurrenceEditorModule,
+		EmpleadoModule
 	],
 	entryComponents: [
 		DialogComercio,
 		ConfirmDialogComponent,
-		DialogDireccion
+    DialogDireccion,
+    DialogProducto,
+    DialogImpuesto,
+    DialogServicio,
+    DialogEditarProducto,
+		UploadComercioFilesComponent,
+		DialogArchivo,
+		DialogUsuario,
+		DialogCategoria,
+		PromocionDialog,
+		DialogDiaFeriado
 	],
     declarations: [
         AppComponent,
@@ -102,15 +147,44 @@ import { LandingPageAppComponent } from './landing-page-app/landing-page-app.com
 		DialogComercio,
 		ConfirmDialogComponent,
 		DialogDireccion,
-		SolicitudesComponent
-,
+		SolicitudesComponent,
+		DialogDiaFeriado,
+		DiaFeriadoComponent,
 		ComerciosCardComponent,
-		FiltroComerciosPipe,
+		RegistroUsuarioComponent,
+		RecuperarContrasennaComponent,
+		FiltroComerciosPipe,
+     ProductoFormComponent,
+    DialogProducto,
+    ImpuestoComponent,
+    DialogImpuesto,
+    ServicioComponent,
+    DialogServicio,
+	DialogEditarProducto,
+	PromocionDialog,
+		CambiarContrasennaComponent,
+		UploadComercioFilesComponent,
+		DialogArchivo,
+		BitacoraComponent,
+		DialogUsuario,
+		CategoriaComponent,
+		DialogCategoria,
+		NavComponent,
+		NavlistComponent,
+		PromocionComponent,
 		LandingPageAppComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+		MatDatepickerModule,
+		MatNativeDateModule,
+		DayService, 
+		WeekService,
+		WorkWeekService, 
+		MonthService, 
+		MonthAgendaService
+		
     ],
     bootstrap: [AppComponent]
 })
