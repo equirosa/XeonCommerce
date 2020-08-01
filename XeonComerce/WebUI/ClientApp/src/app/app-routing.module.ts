@@ -19,6 +19,7 @@ import { ComerciosComponent } from './comercios/comercios.component';
 import { ComerciosCardComponent } from './comercios-card/comercios-card.component'
 const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
+import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -36,7 +37,7 @@ const routes: Routes = [
     { path: 'crearcomercio', component: CrearComercioComponent, canActivate: [AuthGuard]},
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
-  // { path: 'empleado', component: EmpleadoAdminComponent },
+    { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

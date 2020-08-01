@@ -69,6 +69,9 @@ import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-f
 import { AgmCoreModule } from '@agm/core';
 import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component';
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
+import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { ListRolComponent } from './list-rol/list-rol.component';
+import { FormRolComponent } from './form-rol/form-rol.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -158,7 +161,10 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 		BitacoraComponent,
 		DialogUsuario,
 		CategoriaComponent,
-		DialogCategoria
+		DialogCategoria,
+		ComercioRolComponent,
+		ListRolComponent,
+		FormRolComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

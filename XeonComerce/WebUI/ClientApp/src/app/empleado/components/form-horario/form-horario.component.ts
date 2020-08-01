@@ -47,7 +47,6 @@ export class FormHorarioComponent implements OnInit {
       this.fechaHoraFinal.setMinutes(this.fechaHoraFinal.getMinutes() + this.offset);
      }
 
- 
 
   ngOnInit(): void {
     if( this.data.tipo === 'editar'){
