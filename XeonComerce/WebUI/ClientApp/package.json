@@ -28,6 +28,7 @@
     "@syncfusion/ej2-material-theme": "^18.2.47",
     "cloudinary": "^1.22.0",
     "cloudinary-core": "^2.11.1",
+    "file-saver": "^2.0.2",
     "moment": "^2.27.0",
     "ng2-file-upload": "^1.4.0",
     "rxjs": "^6.5.5",

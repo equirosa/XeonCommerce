@@ -83,16 +83,10 @@
 		  <br>
 		
 		  
-		  <mat-form-field appearance="fill">
-			<mat-label>Latitud</mat-label>
-			<input required matInput formControlName="latitud">
-		  </mat-form-field>
-		
-		  
-		  <mat-form-field appearance="fill">
-			<mat-label>Longitud</mat-label>
-			<input required matInput formControlName="longitud">
-		  </mat-form-field>
+		  <br>
+		  <agm-map  style="height: 400px;"  [latitude]="latitud" [longitude]="longitud">
+			<agm-marker [latitude]="latitud" [longitude]="longitud" [markerDraggable]="true"></agm-marker>
+		  </agm-map>
 		  <br>
 		
 		  
