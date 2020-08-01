@@ -1,3 +1,5 @@
+import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
+import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -63,6 +65,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
+import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
+import { ConfigComponent, DialogConfig } from './config/config.component';
 
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
 import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
@@ -137,7 +141,10 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogArchivo,
 		DialogUsuario,
 		DialogCategoria,
-    DialogPromocion
+		PromocionDialog,
+		DialogDiaFeriado,
+		DialogSucursal,
+		DialogDireccionSucursal
 	],
     declarations: [
         AppComponent,
@@ -148,6 +155,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		ConfirmDialogComponent,
 		DialogDireccion,
 		SolicitudesComponent,
+		DialogDiaFeriado,
+		DiaFeriadoComponent,
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
@@ -158,7 +167,8 @@ import { NavlistComponent } from './navlist/navlist.component';
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarProducto,
+	DialogEditarProducto,
+	PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
@@ -167,10 +177,13 @@ import { NavlistComponent } from './navlist/navlist.component';
 		CategoriaComponent,
 		DialogCategoria,
 		NavComponent,
-		NavlistComponent
-      DescuentosComponent,
-      DescuentosCardComponent,
-      DialogPromocion
+		NavlistComponent,
+		SucursalesComponent,
+		DialogSucursal,
+		DialogDireccionSucursal,
+		PromocionComponent,
+		ConfigComponent,
+		DialogConfig
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

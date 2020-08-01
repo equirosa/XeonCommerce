@@ -48,7 +48,6 @@ namespace WebAPI.Controllers
             {
                 var cat = new UsuarioManagement();
                 Usuario existe = cat.RetrieveById(usuario);
-
                 if (existe != null && existe.Id == usuario.Id) throw new Exception("¡Dicha cédula ya existe!");
                 if (!(new EmailAddressAttribute().IsValid(usuario.CorreoElectronico))) throw new Exception("¡Formato de correo erroneo!");
                 if (String.IsNullOrEmpty(usuario.Nombre) || usuario.Nombre.Length <= 1) throw new Exception("¡Nombre debe tener más de 1 letra!");

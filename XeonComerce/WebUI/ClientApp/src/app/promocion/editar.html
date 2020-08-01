@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>{{data.accion | titlecase}} producto</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width:400px !important" appearance="standard" *ngIf="data.permitir">
+    <mat-label>Nombre</mat-label>
+    <input disabled="{{data.permitir}}" required matInput [(value)]="data.nombre">
+  </mat-form-field>
+  <br *ngIf="data.permitir">
+  <mat-form-field style="width:400px !important" appearance="standard" *ngIf="!data.permitir">
+	<mat-label>Producto</mat-label>
+	<mat-select [(ngModel)]="data.productoSelecionado" name="type_list">
+		<mat-option *ngFor="let prod of data.productos" [value]="prod.id"> {{prod.id}} {{prod.nombre}}</mat-option>
+	 </mat-select>
+  </mat-form-field>
+  <br *ngIf="!data.permitir">
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Descuento</mat-label>
+    <input required matInput [(ngModel)]="data.descuento" type="number" min=0.1>
+  </mat-form-field>
+  <br>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data.accion | titlecase}}</button>
+</div>

@@ -27,8 +27,10 @@ export class RegistroUsuarioComponent implements OnInit {
 	provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
-	direccion: Direccion;
+	direccion: any;
 	usuarioFinal : Usuario;
+	latitud: number = 9.7489;
+	longitud: number = -83.7534;
 	constructor(private router: Router, private _formBuilder: FormBuilder, private usuarioService: UsuarioService, private direccionService: DireccionService, private mensajeService: MensajeService, private ubicacionService: UbicacionService) {}
   
 
@@ -47,8 +49,6 @@ export class RegistroUsuarioComponent implements OnInit {
 		provincia: ['', Validators.required],
 		canton: ['', Validators.required],
 		distrito: ['', Validators.required],
-		latitud: ['', [Validators.required, Validators.pattern(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/)]],
-		longitud: ['', [Validators.required, Validators.pattern(/^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/)]],
 		otrasSennas: ['', Validators.required]
 	  });
 	  this.secondFormGroup = this._formBuilder.group({
@@ -67,9 +67,13 @@ export class RegistroUsuarioComponent implements OnInit {
 			canton: this.firstFormGroup.value.canton,
 			distrito: this.firstFormGroup.value.distrito,
 			sennas: this.firstFormGroup.value.otrasSennas,
-			latitud: this.firstFormGroup.value.latitud,
-			longitud: this.firstFormGroup.value.longitud
+			latitud: this.latitud.toString(),
+			longitud: this.longitud.toString()
 		}
+
+		this.usuarioService.get().subscribe(usuarios=>{
+			usuarios = usuarios.filter((a)=>a.correoElectronico==this.firstFormGroup.value.correoElectronico);
+			if(usuarios[0] != null) return this.mensajeService.add("Ese correo ya existe");
 
 
 		console.log("Direccion a registrar es: ", this.direccion);
@@ -107,6 +111,8 @@ export class RegistroUsuarioComponent implements OnInit {
 			});
 
 		});
+		
+	});
 	}
 
 
@@ -179,25 +185,3 @@ export const espacioValidator: ValidatorFn = (control: FormControl) => {
 	}
 	return null;
   };
-
-  
-
-  export const esLongitud: ValidatorFn = (control: FormControl) => {
-	if (isFinite(control.value) && Math.abs(control.value) <= 180) {
-	  return {
-		'longitud': { value: 'no es valida' }
-	  };
-	}
-	return null;
-  };
-
-  export const esLatitud: ValidatorFn = (control: FormControl) => {
-	  if (isFinite(control.value) && Math.abs(control.value) <= 90) {
-		return {
-		  'latitud': { value: 'no es valida' }
-		};
-	  }
-	  return null;
-	};
-
-  

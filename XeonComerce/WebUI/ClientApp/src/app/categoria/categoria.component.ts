@@ -57,7 +57,6 @@ export class CategoriaComponent implements OnInit {
 	  dialogRef.afterClosed().subscribe(result => {
 		console.log(`Resultado: ${result}`); 
 		if (result) {
-			debugger;
 			this.categoriaCrear = {
 				id: result.id,
 				valor: result.valor,
