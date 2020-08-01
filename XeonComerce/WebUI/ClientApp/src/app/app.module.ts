@@ -76,6 +76,7 @@ import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component'
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -180,7 +181,8 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
-		DialogConfig
+		DialogConfig,
+		PerfilComercioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
