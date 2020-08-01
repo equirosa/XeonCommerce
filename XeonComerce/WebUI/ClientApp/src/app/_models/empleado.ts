@@ -12,6 +12,7 @@ export class Empleado {
     idComercio: string;
     idSucursal: string; 
     idEmpleado: string;
+    
 
     constructor(){
 
