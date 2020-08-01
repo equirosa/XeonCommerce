@@ -1,3 +1,6 @@
+import { PageEvent } from '@angular/material/paginator';
+import { Sucursal } from './../../_models/sucursal';
+import { SucursalService } from './../../_services/sucursal.service';
 import { Ubicacion } from './../../_models/ubicacion';
 import { UbicacionService } from './../../_services/ubicacion.service';
 import { DireccionService } from './../../_services/direccion.service';
@@ -20,14 +23,19 @@ export class PerfilComercioComponent implements OnInit {
 	provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
+	sucursales: Sucursal[];
+	length = 0;
+	pageSize = 1;
+	filtro: string;
+	pageEvent: PageEvent;
 
   constructor(private route : ActivatedRoute, private comercioService : ComercioService, private mensajeService : MensajeService,
-	 private router : Router, private direccionService:DireccionService, private ubicacionService: UbicacionService) { }
+	 private router : Router, private direccionService:DireccionService, private ubicacionService: UbicacionService,
+	 private sucursalService:SucursalService) { }
 
   ngOnInit(): void {
 	this.getProvincias();
 	let id = this.route.snapshot.params['id'];
-	console.log(id);
 	this.comercioService.getBy(id).subscribe((comercio)=>{
 		if(comercio!=null){
 			this.comercio=comercio;
@@ -38,6 +46,13 @@ export class PerfilComercioComponent implements OnInit {
 					this.direccion.latitud = Number(this.direccion.latitud);
 					this.getCantonesE();
 					this.getDistritosE();
+
+					this.sucursalService.get().subscribe((sucursales)=>{
+						this.sucursales = sucursales.filter((i)=>i.idComercio==this.comercio.cedJuridica);
+						if(this.sucursales.length==0) this.sucursales = null;
+						this.length = this.sucursales.length;
+					});
+
 				}else{
 					this.mensajeService.add("Ha ocurrido un error");
 					this.router.navigate(["/comercio"]);
@@ -81,3 +96,4 @@ getDistritosE(): void {
 
 
 }
+

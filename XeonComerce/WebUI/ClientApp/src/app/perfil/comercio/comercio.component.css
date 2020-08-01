@@ -18,3 +18,23 @@
 	  text-align: center;
 	  background-color: #f3f3f3;
   }
+
+  .sucursalesCard{
+	width: 80%;
+	height: auto;
+	background-color: #f3f3f3;
+	text-align: center;
+	margin: 0 auto;
+  }
+
+  .cardDiv{
+	text-align: center;
+	margin: 0 auto;
+	padding: 5%;
+  }
+
+  .card{
+	padding: 2% !important;
+	text-align: center;
+	margin: 0 auto;
+  }
