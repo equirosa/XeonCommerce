@@ -76,6 +76,7 @@ import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
 import { ConfigComponent, DialogConfig } from './config/config.component';
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -171,20 +172,20 @@ import { ConfigComponent, DialogConfig } from './config/config.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
+		DialogConfig,
+    	DialogEditarServicio,
+		DialogUsuario,
+		CategoriaComponent,
+		DialogCategoria,
+		NavComponent,
+		NavlistComponent,
 		SucursalesComponent,
 		DialogSucursal,
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
 		DialogConfig,
-    	DialogEditarServicio,
-		DialogArchivo,
-		DialogUsuario,
-		CategoriaComponent,
-		DialogCategoria,
-		NavComponent,
-		NavlistComponent,
-		PromocionComponent
+		PerfilComercioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

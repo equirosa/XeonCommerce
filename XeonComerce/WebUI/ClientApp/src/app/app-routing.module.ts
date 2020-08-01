@@ -1,3 +1,4 @@
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
 import { PromocionComponent } from './promocion/promocion.component';
 import { CategoriaComponent } from './categoria/categoria.component';
@@ -42,6 +43,7 @@ const routes: Routes = [
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
     { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
+    { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
