@@ -6,25 +6,20 @@
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
-    <mat-label>ID Direccion</mat-label>
-    <input required matInput [(ngModel)]="data.idDireccion" minlength="5">
+    <mat-label>Comercio</mat-label>
+    <input required matInput [(ngModel)]="data.idComercio" minlength="5">
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
-    <mat-label>ID Comercio</mat-label>
-    <input required matInput [(ngModel)]="data.idComercio" minlenght="5">
+    <mat-label>Dirección</mat-label>
+    <input type="email" required matInput [(ngModel)]="data.idDireccion">
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Disposiciones</mat-label>
-    <input required matInput [(ngModel)]="data.disposiciones" minlenght="5">
+    <input minlength="1" required matInput [(ngModel)]="data.disposiciones">
   </mat-form-field>
-  <br>
-  <mat-form-field style="width:400px !important" appearance="standard">
-    <mat-label>Estado</mat-label>
-    <input required matInput [(ngModel)]="data.estado" minlenght="5">
-  </mat-form-field>
-  <br>
+  <br *ngIf="data.dir">
 
 
   <mat-form-field appearance="fill" *ngIf="data.dir">
@@ -54,17 +49,12 @@
     </mat-select>
   </mat-form-field>
 
+  <br *ngIf="data.dir">
+  <agm-map style="height: 300px;" [latitude]="data.latitud" [longitude]="data.longitud" *ngIf="data.dir">
+    <agm-marker [latitude]="data.latitud" [longitude]="data.longitud" [markerDraggable]="true"></agm-marker>
+  </agm-map>
 
-  <mat-form-field appearance="fill" *ngIf="data.dir">
-    <mat-label>Lat</mat-label>
-    <input required matInput [(ngModel)]="data.latitud">
-  </mat-form-field>
-
-
-  <mat-form-field appearance="fill" *ngIf="data.dir">
-    <mat-label>Long</mat-label>
-    <input required matInput [(ngModel)]="data.longitud">
-  </mat-form-field>
+  <br *ngIf="data.dir">
 
 
   <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
@@ -73,14 +63,6 @@
   </mat-form-field>
 
   <br>
-
-
-  <mat-form-field style="width:400px !important" appearance="standard">
-    <mat-label>Administrador</mat-label>
-    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.idUsuario">
-  </mat-form-field>
-
-
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancelar</button>

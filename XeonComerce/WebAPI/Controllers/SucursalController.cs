@@ -10,7 +10,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SucursalController: ControllerBase
+    public class SucursalController : ControllerBase
     {
         private SucursalManagement sm = new SucursalManagement();
 
@@ -36,29 +36,29 @@ namespace WebAPI.Controllers
             try
             {
                 sm.Create(s);
-                return Ok();
+                return Ok(new { msg = "Se creó" });
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msg = e.Message });
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Update(Sucursal s)
         {
             try
             {
                 sm.Update(s);
-                return Ok();
+                return Ok(new { msg = "Se actualizó la sucursal" });
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msg = e.Message });
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
             try
@@ -66,11 +66,11 @@ namespace WebAPI.Controllers
                 Sucursal s = new Sucursal();
                 s.Id = id;
                 sm.Delete(s);
-                return Ok();
+                return Ok(new { msg = "Sucursal eliminada" });
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msg = e.Message });
             }
         }
     }
