@@ -56,14 +56,12 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
-import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
+import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
 import { CambiarContrasennaComponent } from './cambiar-contrasenna/cambiar-contrasenna.component';
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
-import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
-import { ConfigComponent, DialogConfig } from './config/config.component';
 
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
 import {CloudinaryModule, CloudinaryConfiguration, provideCloudinary} from '@cloudinary/angular-5.x';
@@ -76,6 +74,8 @@ import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component'
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
+import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
+import { ConfigComponent, DialogConfig } from './config/config.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -139,9 +139,10 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
-		DialogDiaFeriado,
 		DialogSucursal,
-		DialogDireccionSucursal
+		DialogDireccionSucursal,
+    DialogEditarServicio,
+		DialogDiaFeriado
 	],
     declarations: [
         AppComponent,
@@ -170,17 +171,20 @@ import { NavlistComponent } from './navlist/navlist.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
-		DialogUsuario,
-		CategoriaComponent,
-		DialogCategoria,
-		NavComponent,
-		NavlistComponent,
 		SucursalesComponent,
 		DialogSucursal,
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
-		DialogConfig
+		DialogConfig,
+    	DialogEditarServicio,
+		DialogArchivo,
+		DialogUsuario,
+		CategoriaComponent,
+		DialogCategoria,
+		NavComponent,
+		NavlistComponent,
+		PromocionComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

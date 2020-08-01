@@ -39,10 +39,16 @@ export class ImpuestoComponent implements OnInit {
       });
   }
 
-  openDialog(): void {
+  filtrar(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
+  abrirCrear(): void {
     const dialogRef = this.dialog.open(DialogImpuesto, {
       width: '500px',
       data: {
+        accion: "Crear",
         id: 0,
         nombre: "",
         valor: "",
@@ -85,10 +91,42 @@ export class ImpuestoComponent implements OnInit {
         .subscribe(() => {
           this.getImpuestos();
         });
-      window.location.reload();
+      this.getImpuestos();
     });
   }
 
+  abrirEditar(impuesto: Impuesto): void {
+
+    const dialogRef = this.dialog.open(DialogImpuesto, {
+      width: '500px',
+      data: {
+        accion: "Editar",
+        id: impuesto.id,
+        nombre: impuesto.nombre,
+        valor: impuesto.valor
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Resultado: ${result}`);
+      if (result) {
+        impuesto = {
+          "id": result.id,
+          "nombre": result.nombre,
+          "valor": result.valor
+        }
+
+        console.log(impuesto);
+
+        this.impuestoService.putImpuesto(impuesto)
+          .subscribe(() => {
+            this.getImpuestos()
+          });
+        this.getImpuestos();
+      }
+    });
+  }
 }
 
 
@@ -100,7 +138,7 @@ export class DialogImpuesto {
 
   constructor(
     public dialogRef: MatDialogRef<DialogImpuesto>,
-    @Inject(MAT_DIALOG_DATA) public data: Impuesto) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
     this.dialogRef.close();

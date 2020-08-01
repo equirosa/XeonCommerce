@@ -47,9 +47,11 @@ export class ProductoFormComponent implements OnInit {
   }
 
   getProductos(): void {
+
     this.prodService.getProducto()
       .subscribe(productos => {
         this.dataSource = new MatTableDataSource(productos);
+        debugger;
       });
   }
 
@@ -117,10 +119,10 @@ openDialog(): void {
       console.log(producto);
       this.prodService.postProducto(producto)
         .subscribe(() => {
-          this.getProductos()
+          this.getProductos();
         });
-      window.location.reload();
-    } 
+      this.getProductos();
+    }
   });
   }
 
@@ -153,13 +155,26 @@ openDialog(): void {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
       if (result) {
+        let cambiosProducto: Producto;
+        producto = {
+          "id": producto.id,
+          "tipo": 1,
+          "nombre": result.nombre,
+          "precio": result.precio,
+          "cantidad": result.cantidad,
+          "descuento": result.descuento,
+          "idComercio": producto.idComercio,
+          "duracion": result.duracion
+        }
+
+        console.log(producto);
 
         this.prodService.putProducto(producto)
           .subscribe(() => {
             this.getProductos()
           });
+        this.getProductos();
       }
-
     });
   }
 
@@ -179,7 +194,7 @@ openDialog(): void {
         .subscribe(() => {
             this.getProductos();
         });
-      window.location.reload();
+      this.getProductos();
     });
   }
 
