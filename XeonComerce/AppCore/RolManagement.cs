@@ -53,9 +53,21 @@ namespace AppCore
             return crud.RetrieveAll<Rol>();
         }
 
-        public Rol RetriveById(Rol obj)
+        public VistaRol RetriveById(Rol obj)
         {
-            return crud.Retrieve<Rol>(obj);
+            
+
+            var rol = crud.Retrieve<Rol>(obj);
+            var vistaRol = new VistaRol()
+            {
+                Id = rol.Id,
+                IdComercio = rol.IdComercio,
+                Nombre = rol.Nombre,
+                Descripcion = rol.Descripcion,
+                Vistas = new List<Vista>().ToArray()
+             };
+
+            return vistaRol;
         }
 
         public void Update(VistaRol vistaRol)

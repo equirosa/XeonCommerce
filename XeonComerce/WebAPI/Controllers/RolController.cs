@@ -24,11 +24,11 @@ namespace WebAPI.Controllers
 
         
         [HttpGet]
-        public Rol RetriveById(string id)
+        public VistaRol RetriveById(int id)
         {
             var rol = new Rol()
             {
-                Id = Int32.Parse(id)
+                Id = id
             };
             return rm.RetriveById(rol);
         }

@@ -70,6 +70,21 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpPut]
+        public IActionResult Update(EmpleadoComercioSucursal empleado)
+        {
+            try
+            {
+                var empleadoManag = new EmpleadoManagement();
+                empleadoManag.Update(empleado);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { msj = e.Message });
+            }
+        }
+
 
 
 

@@ -69,6 +69,10 @@ namespace AppCore
             crudEmpleadoComercioSucursal.Delete(empleadoComercioSucursal);
         }
 
+        public void Update(EmpleadoComercioSucursal empleado)
+        {
+            crudEmpleadoComercioSucursal.Update(empleado);
+        }
 
 
 

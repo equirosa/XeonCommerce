@@ -27,6 +27,9 @@ export class RolService {
     return this.http.get<Vista[]>(`${environment.apiUrl}/api/vista/RetriveAll`);
   }
   
+  getRol(id: number): Observable<VistaRol> {
+    return this.http.get<VistaRol>( this.urlApi + `/RetriveById?id=${id}`);
+  }
 
   guardar( vistaRol: VistaRol): Observable<VistaRol> {
     var r = JSON.stringify(vistaRol);

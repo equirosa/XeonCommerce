@@ -51,10 +51,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "UPD_EMPLEADO_COMERICO_SUCURSAL_PR" };
 
             var ecs = (EmpleadoComercioSucursal)entity;
-            operation.AddIntParam(DB_COL_ID, ecs.Id);
-            operation.AddVarcharParam(DB_COL_ID_USUARIO, ecs.IdUsuario);
-            operation.AddVarcharParam(DB_COL_ID_COMERCIO, ecs.IdComercio);
-            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, ecs.IdSucursal);
+            operation.AddIntParam(DB_COL_ID, ecs.Id);            
             operation.AddIntParam(DB_COL_ID_ROL, ecs.IdRol);
 
 

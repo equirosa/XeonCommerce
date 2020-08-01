@@ -21,6 +21,7 @@ namespace DataAccess.Mapper
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_ID_SUCURSAL = "ID_SUCURSAL";
         private const string DB_COL_ID_EMPLEADO = "ID_EMPLEADO";
+        private const string DB_COL_ID_ROL = "ID_ROL";
 
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
@@ -79,7 +80,8 @@ namespace DataAccess.Mapper
                 Estado = GetStringValue(row, DB_COL_ESTADO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
                 IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL),
-                IdEmpleado = GetIntValue(row, DB_COL_ID_EMPLEADO)
+                IdEmpleado = GetIntValue(row, DB_COL_ID_EMPLEADO),
+                IdRol = GetIntValue(row, DB_COL_ID_ROL)
             };
 
             return empleado;
