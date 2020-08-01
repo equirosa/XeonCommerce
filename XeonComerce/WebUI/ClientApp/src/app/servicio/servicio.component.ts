@@ -117,7 +117,7 @@ export class ServicioComponent implements OnInit {
         .subscribe(() => {
           this.getServicios();
         });
-      window.location.reload();
+      this.getServicios();
     });
   }
 
@@ -164,8 +164,8 @@ export class ServicioComponent implements OnInit {
           .subscribe(() => {
             this.getServicios()
           });
+        this.getServicios();
       }
-      window.location.reload();
 
     });
   }

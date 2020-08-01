@@ -39,6 +39,11 @@ export class ImpuestoComponent implements OnInit {
       });
   }
 
+  filtrar(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
   abrirCrear(): void {
     const dialogRef = this.dialog.open(DialogImpuesto, {
       width: '500px',
@@ -86,7 +91,7 @@ export class ImpuestoComponent implements OnInit {
         .subscribe(() => {
           this.getImpuestos();
         });
-      window.location.reload();
+      this.getImpuestos();
     });
   }
 
@@ -118,9 +123,8 @@ export class ImpuestoComponent implements OnInit {
           .subscribe(() => {
             this.getImpuestos()
           });
+        this.getImpuestos();
       }
-      window.location.reload();
-
     });
   }
 }
@@ -134,7 +138,7 @@ export class DialogImpuesto {
 
   constructor(
     public dialogRef: MatDialogRef<DialogImpuesto>,
-    @Inject(MAT_DIALOG_DATA) public data: Impuesto) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
     this.dialogRef.close();

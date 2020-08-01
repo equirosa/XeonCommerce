@@ -47,9 +47,11 @@ export class ProductoFormComponent implements OnInit {
   }
 
   getProductos(): void {
+
     this.prodService.getProducto()
       .subscribe(productos => {
         this.dataSource = new MatTableDataSource(productos);
+        debugger;
       });
   }
 
@@ -117,10 +119,10 @@ openDialog(): void {
       console.log(producto);
       this.prodService.postProducto(producto)
         .subscribe(() => {
-          this.getProductos()
+          this.getProductos();
         });
-      window.location.reload();
-    } 
+      this.getProductos();
+    }
   });
   }
 
@@ -171,9 +173,8 @@ openDialog(): void {
           .subscribe(() => {
             this.getProductos()
           });
+        this.getProductos();
       }
-      window.location.reload();
-
     });
   }
 
@@ -193,7 +194,7 @@ openDialog(): void {
         .subscribe(() => {
             this.getProductos();
         });
-      window.location.reload();
+      this.getProductos();
     });
   }
 
