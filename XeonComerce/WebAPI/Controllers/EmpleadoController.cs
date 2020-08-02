@@ -33,6 +33,7 @@ namespace WebAPI.Controllers
                 var usuarioMang = new UsuarioManagement();
 
                 Usuario usuario = usuarioMang.RetrieveById(new Usuario { Id = empleado.IdUsuario });
+                if (usuario.Tipo == "E") throw new Exception("El usuario ya es empleado de otra sucursal");
                 usuario.Tipo = "E";
                 empleadoMang.Create(empleado);
                 usuarioMang.Update(usuario);

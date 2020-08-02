@@ -109,7 +109,7 @@ export class FormEmpleadoComponent implements OnInit {
   cargarUsuarios(): void {
     this.usuarioService.get().subscribe({
       next: res => {
-        this.usuarios.data = res;
+        this.usuarios.data = res.filter( u => u.tipo === 'U');
       },
       error: err => console.log(err)
     });
