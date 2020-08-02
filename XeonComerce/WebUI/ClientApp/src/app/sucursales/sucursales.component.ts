@@ -26,7 +26,7 @@ export class SucursalesComponent implements OnInit {
   user: User;
   sucursales: Sucursal[];
   sucursalCrear: Sucursal;
-  displayedColumns: string[] = ['id', 'idComercio', 'idDireccion', 'disposiciones', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'editar', 'eliminar'];
   datos;
   provincias: Ubicacion[];
   cantones: Ubicacion[];
@@ -79,6 +79,7 @@ export class SucursalesComponent implements OnInit {
         permitir: true,
         id: "123",
         idComercio: "",
+        nombre:"",
         idDireccion: "",
         disposiciones: "",
         estado: "A",
@@ -132,6 +133,7 @@ export class SucursalesComponent implements OnInit {
               sucursalFinal = {
                 "id": result.id,
                 "idComercio": result.idComercio,
+                "nombre": result.nombre,
                 "idDireccion": direccionFinal.id,
                 "disposiciones": result.disposiciones,
                 "estado": result.estado
@@ -166,6 +168,7 @@ export class SucursalesComponent implements OnInit {
         permitir: !false,
         id: sucursal.id,
         idComercio: sucursal.idComercio,
+        nombre: sucursal.nombre,
         disposiciones: sucursal.disposiciones,
         idDireccion: sucursal.idDireccion,
         estado: sucursal.estado,
