@@ -45,6 +45,13 @@ export class ImpuestoService {
       .pipe(catchError(this.handleError));
   }
 
+  putImpuesto(impuesto: Impuesto): Observable<any> {
+    return this.http.put(`${this.urlApi}/${impuesto.id}`, impuesto, this.httpOptions).pipe(
+      tap(_ => this.log(`Se actualizó`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
   private log(message: string) {
     this.mensajeService.add(`impuesto: ${message}`);
   }

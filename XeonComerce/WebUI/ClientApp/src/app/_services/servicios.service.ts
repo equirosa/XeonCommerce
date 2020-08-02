@@ -46,6 +46,13 @@ export class ServiciosService {
       .pipe(catchError(this.handleError));
   }
 
+  putServicio(serv: Servicio): Observable<any> {
+    return this.http.put(`${this.urlApi}/${serv.id}`, serv, this.httpOptions).pipe(
+      tap(_ => this.log(`Se actualizó`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
   private log(message: string) {
     this.mensajeService.add(`productosyservicios: ${message}`);
   }

@@ -1,3 +1,5 @@
+import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
+import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -43,6 +45,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
+import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
@@ -53,7 +56,7 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
-import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
+import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -69,6 +72,11 @@ import { UploadComercioFilesComponent } from './crear-comercio/upload-comercio-f
 import { AgmCoreModule } from '@agm/core';
 import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component';
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
+import { NavComponent } from './nav/nav.component';
+import { NavlistComponent } from './navlist/navlist.component';
+import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
+import { ConfigComponent, DialogConfig } from './config/config.component';
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
@@ -114,6 +122,7 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
+		MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -132,7 +141,12 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
-		DialogCategoria
+		DialogCategoria,
+		PromocionDialog,
+		DialogSucursal,
+		DialogDireccionSucursal,
+    DialogEditarServicio,
+		DialogDiaFeriado
 	],
     declarations: [
         AppComponent,
@@ -142,8 +156,9 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		DialogComercio,
 		ConfirmDialogComponent,
 		DialogDireccion,
-		SolicitudesComponent
-,
+		SolicitudesComponent,
+		DialogDiaFeriado,
+		DiaFeriadoComponent,
 		ComerciosCardComponent,
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
@@ -154,14 +169,26 @@ import { FormRolComponent } from './form-rol/form-rol.component';
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarProducto,
+	DialogEditarProducto,
+	PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
+		DialogConfig,
+    	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
 		DialogCategoria,
+		NavComponent,
+		NavlistComponent,
+		SucursalesComponent,
+		DialogSucursal,
+		DialogDireccionSucursal,
+		PromocionComponent,
+		ConfigComponent,
+		DialogConfig,
+		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
 		FormRolComponent

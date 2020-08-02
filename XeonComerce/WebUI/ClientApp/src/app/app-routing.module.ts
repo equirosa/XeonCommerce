@@ -1,3 +1,6 @@
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
+import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
+import { PromocionComponent } from './promocion/promocion.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { BitacoraComponent } from './bitacora/bitacora.component';
 import { CrearComercioComponent } from './crear-comercio/crear-comercio.component';
@@ -19,6 +22,8 @@ import { ComerciosComponent } from './comercios/comercios.component';
 import { ComerciosCardComponent } from './comercios-card/comercios-card.component'
 const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
+import { SucursalesComponent } from './sucursales/sucursales.component';
+import { ConfigComponent } from './config/config.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 
 const routes: Routes = [
@@ -37,6 +42,12 @@ const routes: Routes = [
     { path: 'crearcomercio', component: CrearComercioComponent, canActivate: [AuthGuard]},
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
+    { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
+    { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
+    { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard]},
+  // { path: 'empleado', component: EmpleadoAdminComponent },
+  { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
     { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
 
     // otherwise redirect to home

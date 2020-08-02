@@ -19,7 +19,7 @@
     <mat-label>Teléfono</mat-label>
     <input minlength="1"required matInput [(ngModel)]="data.telefono">
   </mat-form-field>
-  <br>
+  <br *ngIf="data.dir">
 
 
   <mat-form-field appearance="fill" *ngIf="data.dir">
@@ -49,12 +49,12 @@
 	  </mat-select>
   </mat-form-field>
 
-  <br>
+  <br *ngIf="data.dir">
   <agm-map  style="height: 300px;"  [latitude]="data.latitud" [longitude]="data.longitud" *ngIf="data.dir">
 	<agm-marker [latitude]="data.latitud" [longitude]="data.longitud" [markerDraggable]="true"></agm-marker>
   </agm-map>
 
-  <br>
+  <br *ngIf="data.dir">
 
   
   <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">

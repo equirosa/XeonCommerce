@@ -8,11 +8,17 @@ namespace Entities
     public class Sucursal : BaseEntity
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [JsonPropertyName("idDireccion")]
         public int IdDireccion { get; set; }
         [JsonPropertyName("idComercio")]
         public string IdComercio { get; set; }
+        [JsonPropertyName("disposiciones")]
+        public string Disposiciones { get; set; }
+        [JsonPropertyName("estado")]
+        public string Estado { get; set; }
+        [JsonPropertyName("nombre")]
+        public string Nombre { get; set; }
 
         public Sucursal() { }
     }

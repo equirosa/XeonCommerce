@@ -1,4 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { MensajeService } from './../_services/mensaje.service';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private alertService: AlertService
+        private mensajeService: MensajeService
     ) { }
 
     ngOnInit() {
@@ -34,10 +35,7 @@ export class LoginComponent implements OnInit {
     get f() { return this.form.controls; }
 
     onSubmit() {
-        this.submitted = true;
-
-        // reset alerts on submit
-        this.alertService.clear();
+        this.submitted = true; 
 
         // stop here if form is invalid
         if (this.form.invalid) {
@@ -52,7 +50,7 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.mensajeService.add(error);
                     this.loading = false;
                 });
     }

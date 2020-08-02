@@ -68,11 +68,11 @@ httpOptions = {
   }
 
 
-  cambiarClave(contrasenna: string, cedula: string): Observable<Usuario> {
+  cambiarClave(contrasenna: string, cedula: string): Observable<any> {
 	const url = `${environment.apiUrl}/api/Contrasenna/`;
-	return this.http.post<Usuario>(url, {contrasenna: contrasenna, idUsuario: cedula}).pipe(
-	  tap(),
-	  catchError(this.handleError<Usuario>(`cambiarClave`))
+	return this.http.post<any>(url, {contrasenna: contrasenna, idUsuario: cedula}, this.httpOptions).pipe(
+	  tap((any: any) => this.log(`Se actualizó la contraseña.`)),
+	  catchError(this.handleError<any>(`cambiarClave`))
 	);
   }
 
