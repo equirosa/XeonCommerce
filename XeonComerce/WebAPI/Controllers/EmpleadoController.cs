@@ -30,8 +30,12 @@ namespace WebAPI.Controllers
             try
             {
                 var empleadoMang = new EmpleadoManagement();
+                var usuarioMang = new UsuarioManagement();
 
+                Usuario usuario = usuarioMang.RetrieveById(new Usuario { Id = empleado.IdUsuario });
+                usuario.Tipo = "E";
                 empleadoMang.Create(empleado);
+                usuarioMang.Update(usuario);
 
                 return Ok();
 
@@ -60,7 +64,7 @@ namespace WebAPI.Controllers
             {
                 var empleadoManag = new EmpleadoManagement();
                 empleadoManag.Delete(idEmpleado);
-
+                
                 return Ok();
             }
             catch(Exception ex)

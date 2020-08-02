@@ -63,10 +63,15 @@ namespace AppCore
 
         public void Delete(int idEmpleado)
         {
-            var empleadoComercioSucursal = new EmpleadoComercioSucursal();
-            empleadoComercioSucursal.Id = idEmpleado;
+            //var empleadoComercioSucursal = new EmpleadoComercioSucursal();
+            //empleadoComercioSucursal.Id = idEmpleado;
+
+            var empleadoComercioSucursal = crudEmpleadoComercioSucursal.Retrieve<EmpleadoComercioSucursal>(new EmpleadoComercioSucursal { Id = idEmpleado });
+            Usuario usuario = crudUsuario.Retrieve<Usuario>(new Usuario { Id = empleadoComercioSucursal.IdUsuario });
+            usuario.Tipo = "U";
 
             crudEmpleadoComercioSucursal.Delete(empleadoComercioSucursal);
+            crudUsuario.Update(usuario);
         }
 
         public void Update(EmpleadoComercioSucursal empleado)
