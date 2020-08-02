@@ -81,8 +81,7 @@ httpOptions = {
     return this.http.post<Usuario>(this.urlApi+"/create", usuario, this.httpOptions).pipe(
       tap((nuevo: Usuario) => this.log(`Se creó`)),
       catchError(this.handleError<Usuario>('create'))
-    );
-  }
+    );  }
 
   delete(usuario: Usuario): Observable<Usuario> {
     const url = `${this.urlApi}/Update/${usuario.id}`;

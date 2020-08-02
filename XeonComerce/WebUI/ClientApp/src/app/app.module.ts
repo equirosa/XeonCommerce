@@ -77,6 +77,9 @@ import { NavlistComponent } from './navlist/navlist.component';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
 import { ConfigComponent, DialogConfig } from './config/config.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
+import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { ListRolComponent } from './list-rol/list-rol.component';
+import { FormRolComponent } from './form-rol/form-rol.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -185,7 +188,10 @@ import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 		PromocionComponent,
 		ConfigComponent,
 		DialogConfig,
-		PerfilComercioComponent
+		PerfilComercioComponent,
+		ComercioRolComponent,
+		ListRolComponent,
+		FormRolComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

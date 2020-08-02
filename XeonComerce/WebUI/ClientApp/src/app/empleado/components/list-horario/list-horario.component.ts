@@ -52,7 +52,7 @@ export class ListHorarioComponent implements OnInit {
   }
 
   editar(horario): void {
-    console.log(horario);
+    
     const dialogRef = this.dialog.open(FormHorarioComponent, {
       width: '650px',
       height: '400px',

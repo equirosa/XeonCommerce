@@ -42,4 +42,10 @@ export class EmpleadoService {
   eliminar(idEmpleado: number): Observable<EmpleadoComercioSucursal>{
     return this.http.delete<EmpleadoComercioSucursal>(this.urlApi+`/delete?idEmpleado=${idEmpleado}`);
   }
+
+  actualizar(empleado: EmpleadoComercioSucursal): Observable<EmpleadoComercioSucursal> {
+    var e = JSON.stringify(empleado);
+    return this.http.put<EmpleadoComercioSucursal>( this.urlApi + `/update`, e, { headers: this.headers});
+  }
+
 }

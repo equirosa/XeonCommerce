@@ -30,6 +30,9 @@ namespace Entities
         [JsonPropertyName("codigo")]
         public string Token { get; set; }
 
+        [JsonPropertyName("tipo")]
+        public string Tipo { get; set; }
+
         public Usuario() { }
     }
 }

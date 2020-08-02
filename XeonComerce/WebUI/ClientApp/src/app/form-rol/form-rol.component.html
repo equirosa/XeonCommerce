@@ -1,0 +1,35 @@
+<mat-dialog-content >
+    <form [formGroup]="FormGroupRol">
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput type="text" formControlName="Nombre" required/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Descripción</mat-label>
+            <input matInput type="text" formControlName="Descripcion" required/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Vistas</mat-label>
+            <mat-select formControlName="Vistas" [compareWith]="compararOpciones" multiple>
+                <mat-option *ngFor="let v of vistas"  [value]="v">
+                    {{v.nombre}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>  
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close class="example-button-row" >Cancel</button>
+    <button 
+      mat-flat-button 
+      [mat-dialog-close]="true" 
+      (click)="guardar()" 
+      class="example-button-row" 
+      cdkFocusInitial
+      [disabled]="!valid"
+    >
+       Registrar Rol
+      </button>
+  </mat-dialog-actions>
+
+

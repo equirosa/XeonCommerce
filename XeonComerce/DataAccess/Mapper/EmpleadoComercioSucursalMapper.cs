@@ -13,6 +13,7 @@ namespace DataAccess.Mapper
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_ID_SUCURSAL = "ID_SUCURSAL";
         private const string DB_COL_ESTADO = "ESTADO";
+        private const string DB_COL_ID_ROL = "ID_ROL";
 
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
@@ -24,6 +25,7 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, ecs.IdComercio);
             operation.AddVarcharParam(DB_COL_ID_SUCURSAL, ecs.IdSucursal);
             operation.AddVarcharParam(DB_COL_ESTADO, ecs.Estado);
+            operation.AddIntParam(DB_COL_ID_ROL, ecs.IdRol);
 
             return operation;
         }
@@ -49,11 +51,9 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "UPD_EMPLEADO_COMERICO_SUCURSAL_PR" };
 
             var ecs = (EmpleadoComercioSucursal)entity;
-            operation.AddIntParam(DB_COL_ID, ecs.Id);
-            operation.AddVarcharParam(DB_COL_ID_USUARIO, ecs.IdUsuario);
-            operation.AddVarcharParam(DB_COL_ID_COMERCIO, ecs.IdComercio);
-            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, ecs.IdSucursal);
-            
+            operation.AddIntParam(DB_COL_ID, ecs.Id);            
+            operation.AddIntParam(DB_COL_ID_ROL, ecs.IdRol);
+
 
             return operation;
         }
@@ -88,7 +88,8 @@ namespace DataAccess.Mapper
                 Id = GetIntValue(row, DB_COL_ID),
                 IdUsuario = GetStringValue(row, DB_COL_ID_USUARIO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL)                
+                IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL),
+                IdRol = GetIntValue(row, DB_COL_ID_ROL)
             };
 
             return empleadoComercioSucursal;
