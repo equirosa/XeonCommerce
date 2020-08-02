@@ -48,7 +48,6 @@ export class RecuperarContrasennaComponent implements OnInit {
 			this.usuarioService.emailVerification(this.usuarioFinal).subscribe(_=>this.stepperRef.next());
 		});
 	}
-//Kamil ahora debuggé acá para ver si el _ del l:57 contiene algo importante en caso que la clave sea igual a N antes.
 	probarCodigoCorreo(): void{
 		this.usuarioService.getBy(this.usuarioFinal.id).subscribe((retUsr) => {
 			if(retUsr.codigo == this.secondFormGroup.value.codigo){
