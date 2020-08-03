@@ -1,3 +1,5 @@
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Producto } from '../_models/producto';
@@ -31,8 +33,12 @@ export class ProductoFormComponent implements OnInit {
   private impuestoService: ImpuestoService;
   public message: string;
   public serviceEndPoint: string;
+  user: User;
 
-  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService) {
+  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService, private accountService: AccountService) {
+	this.accountService.user.subscribe(x => {
+		this.user = x;
+	});
     this.httpClient = http;
     this.prodService = prodService;
     this.impuestoService = impService;
@@ -51,7 +57,6 @@ export class ProductoFormComponent implements OnInit {
     this.prodService.getProducto()
       .subscribe(productos => {
         this.dataSource = new MatTableDataSource(productos);
-        debugger;
       });
   }
 
@@ -59,7 +64,13 @@ export class ProductoFormComponent implements OnInit {
   getComercios(): void {
     this.comercioService.get()
       .subscribe(comercios => {
-        this.comercios = comercios;
+		  if(this.user.comercio) {
+			  debugger;
+			let com = comercios.find((i)=>i.cedJuridica == this.user.comercio.cedJuridica);
+			this.comercios.push(com);
+		  }else{
+			this.comercios = comercios;
+		  }
         console.log(this.comercios);
       });
   }
