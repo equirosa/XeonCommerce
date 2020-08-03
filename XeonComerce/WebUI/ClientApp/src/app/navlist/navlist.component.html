@@ -110,6 +110,9 @@
 <a mat-list-item routerLink="/promocion" (click)="onSidenavClose()">
 	<span class="nav-caption">Promociones</span>
 </a>
+<a mat-list-item routerLink="/rol" (click)="onSidenavClose()">
+	<span class="nav-caption">Roles</span>
+</a>
 
 <mat-divider></mat-divider>
 
@@ -169,7 +172,7 @@
 </mat-nav-list>
 
 
-<mat-nav-list *ngIf="user.tipo == 'U'">
+<mat-nav-list *ngIf=" user && user.tipo == 'U'">
 	<mat-list-item [matMenuTriggerFor]="menu2">
 		<mat-icon>account_circle</mat-icon>
 		<a matline>Mi Cuenta</a>

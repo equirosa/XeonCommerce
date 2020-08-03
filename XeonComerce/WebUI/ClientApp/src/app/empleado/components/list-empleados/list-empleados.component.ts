@@ -44,9 +44,9 @@ export class ListEmpleadosComponent implements OnInit {
 
 
   constructor(
-    private empleadoService: EmpleadoService, 
-    private _snackBar: MatSnackBar, 
-    public dialog: MatDialog, 
+    private empleadoService: EmpleadoService,
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -59,13 +59,8 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void{
-    if(changes.actualizarDatos.currentValue === true){
-      this.cargarEmpleados();
-      this.actualizarDatos = false; 
-    }
-
+  
     this.cargarEmpleados();
-    
   }
 
   cargarEmpleados(): void {

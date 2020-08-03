@@ -13,7 +13,7 @@
         </mat-form-field>
     </div>
     <div class="ml-md" >
-        <button mat-flat-button class="example-button-row" (click)="openDialog()" >
+        <button mat-raised-button color="success" (click)="openDialog()" [disabled]="!idSucursal" >
             Crear Empleado     
         </button>
     </div>

@@ -24,13 +24,12 @@ export class EmpleadoComercioComponent implements OnInit {
     private empleadoService: EmpleadoService, 
     private sucursalService: SucursalService, 
     private comercioService: ComercioService ) { 
-      this.buscarComercio();
      
+      this.idComercio = JSON.parse(localStorage.getItem('user')).comercio.cedJuridica;
+      this.cargarSucursales();
     }
 
   ngOnInit(): void {
-    this.cargarSucursales();
-   
   }
 
 
@@ -60,15 +59,15 @@ export class EmpleadoComercioComponent implements OnInit {
   }
 
 
-  buscarComercio(): void {    
-    this.comercioService.get().subscribe({
-      next: res => {
-        var comercio = res.filter( c => c.idUsuario === JSON.parse(localStorage.getItem('user')).id );
-        this.idComercio = comercio[0].cedJuridica;
-      }, 
-      error: err => console.log(err)
-    });
+  // buscarComercio(): void {    
+  //   this.comercioService.get().subscribe({
+  //     next: res => {
+  //       var comercio = res.filter( c => c.idUsuario === JSON.parse(localStorage.getItem('user')).id );
+  //       this.idComercio = comercio[0].cedJuridica;
+  //     }, 
+  //     error: err => console.log(err)
+  //   });
 
-  }
+  // }
 
 }
