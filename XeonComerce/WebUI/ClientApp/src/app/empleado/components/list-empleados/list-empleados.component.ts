@@ -19,14 +19,16 @@ export class ListEmpleadosComponent implements OnInit {
   @Input()
   actualizarDatos = false; 
 
+  @Input()
+  idSucursal = '';
+
+  // idSucursal = '3101555-1';
+
   empleados = new MatTableDataSource<Empleado>();
 
   nombresColumnas: string[];
 
-  // cargar: boolean; 
-
-
-  idSucursal = '3101555-1';
+  
   columnas = [
     { header: 'Nombre', binding: 'nombre' },
     { header: 'Apellido', binding: 'apellidoUno'},
@@ -61,6 +63,9 @@ export class ListEmpleadosComponent implements OnInit {
       this.cargarEmpleados();
       this.actualizarDatos = false; 
     }
+
+    this.cargarEmpleados();
+    
   }
 
   cargarEmpleados(): void {

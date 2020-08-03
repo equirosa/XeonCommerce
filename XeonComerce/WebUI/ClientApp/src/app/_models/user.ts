@@ -9,5 +9,6 @@
     numeroTelefono: string;
     idDireccion: number;
     estado: string;
+    tipo: string;
     token: string;
 }

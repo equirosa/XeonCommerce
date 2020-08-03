@@ -37,8 +37,10 @@ export class FormEmpleadoComponent implements OnInit {
 
 
   // Estos valores se obtienen segun el usuario comercio que inicia sesion y la sucursal a la  que ingresa
-  idComercio = '3101555';
-  idSucursal = '3101555-1';
+  // idComercio = '3101555';
+  // idSucursal = '3101555-1';
+  idComercio = '';
+  idSucursal = '';
 
   constructor( 
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,9 +50,11 @@ export class FormEmpleadoComponent implements OnInit {
     private rolService: RolService) { }
 
   ngOnInit(): void {
+    this.idComercio = this.data.idComercio;
+    this.idSucursal = this.data.idSucursal;
+
     this.cargarUsuarios();
     this.cargarRoles();
-    
   }
 
   applyFilter(event: Event) {
