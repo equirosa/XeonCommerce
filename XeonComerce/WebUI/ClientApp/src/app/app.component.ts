@@ -1,9 +1,36 @@
+﻿import { ComercioService } from './_services/comercio.service';
 import { Component } from '@angular/core';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
-})
+import { AccountService } from './_services';
+import { User } from './_models';
+
+@Component({ selector: 'app', templateUrl: 'app.component.html' })
 export class AppComponent {
-  title = 'app';
+	user: User;
+	yaTieneComercio: boolean;
+
+    constructor(private accountService: AccountService, private comercioService: ComercioService) {
+        this.accountService.user.subscribe(x => {
+			this.user = x;
+			this.load();
+		});
+	}
+
+    logout() {
+        this.accountService.logout();
+	}
+	
+	load(): void{
+		if(this.user){
+			this.comercioService.get().subscribe((comercios)=>{
+				
+				let usr = comercios.find(c=>c.idUsuario == this.user.id);
+				if(usr){
+					this.yaTieneComercio = false;
+				}else{
+					this.yaTieneComercio = true;
+				}
+			});
+		}
+	}
 }

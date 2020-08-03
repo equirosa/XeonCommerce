@@ -1,0 +1,85 @@
+<h1 mat-dialog-title>{{data.accion | titlecase}} comercio</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Cédula Jurídica</mat-label>
+    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.cedJuridica" minlength="6">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Nombre Comercial</mat-label>
+    <input required matInput [(ngModel)]="data.nombreComercial" minlength="5">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Correo Electrónico</mat-label>
+    <input type="email" required matInput [(ngModel)]="data.correoElectronico">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Teléfono</mat-label>
+    <input minlength="1"required matInput [(ngModel)]="data.telefono">
+  </mat-form-field>
+  <br *ngIf="data.dir">
+
+
+  <mat-form-field appearance="fill" *ngIf="data.dir">
+    <mat-label>Provincia</mat-label>
+    <mat-select [(ngModel)]="data.provincia" (selectionChange)="getCantonesE($event)">
+		<mat-option *ngFor="let provincia of data.provincias" [value]="provincia.value">
+		  {{provincia.nombre}}
+		</mat-option>
+	  </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngIf="data.dir">
+    <mat-label>Cantón</mat-label>
+    <mat-select [(ngModel)]="data.canton" (selectionChange)="getDistritosE($event)">
+		<mat-option *ngFor="let canton of data.cantones" [value]="canton.value">
+		  {{canton.nombre}}
+		</mat-option>
+	  </mat-select>
+  </mat-form-field>
+
+  <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
+    <mat-label>Distrito</mat-label>
+    <mat-select [(ngModel)]="data.distrito">
+		<mat-option *ngFor="let distrito of data.distritos" [value]="distrito.value">
+		  {{distrito.nombre}}
+		</mat-option>
+	  </mat-select>
+  </mat-form-field>
+
+  <br *ngIf="data.dir">
+  <agm-map  style="height: 300px;"  [latitude]="data.latitud" [longitude]="data.longitud" *ngIf="data.dir">
+	<agm-marker [latitude]="data.latitud" [longitude]="data.longitud" [markerDraggable]="true"></agm-marker>
+  </agm-map>
+
+  <br *ngIf="data.dir">
+
+  
+  <mat-form-field style="width:400px !important" appearance="fill" *ngIf="data.dir">
+    <mat-label>Otras señas</mat-label>
+    <textarea required matInput [(ngModel)]="data.sennas"> </textarea>
+  </mat-form-field>
+
+<br>
+
+
+  <mat-form-field style="width:400px !important" appearance="standard" *ngIf="!data.noEsAdmin">
+    <mat-label>Administrador</mat-label>
+    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.idUsuario">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+	<mat-label>Categorias</mat-label>
+	<mat-select [(ngModel)]="data.categoriasPreferidas" multiple name="type_list">
+		<mat-option *ngFor="let categoria of data.categorias" [value]="categoria.id"> {{categoria.valor}}</mat-option>
+	 </mat-select>
+  </mat-form-field>
+
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data.accion | titlecase}}</button>
+</div>

@@ -1,0 +1,17 @@
+:host{
+	display: block;
+	height: calc(100vh - 5rem);
+  }
+
+table {
+  width: 100%;
+}
+
+.divServicio {
+  padding: 2% 10%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

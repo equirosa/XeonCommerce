@@ -1,0 +1,25 @@
+<div fxLayout="column" fxLayoutAlign="start center">
+    <div class="mb-lg mt-lg">
+        <h2 class="text-center">Horario de {{nombreEmpleado}}</h2>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Día de la Semana</mat-label>
+            <select matNativeControl (change)="selectDia($event)" class="selectDia">
+                <option value=""></option>
+                <option *ngFor="let option of dias" [value]="option.valor" [selected]="diaSemana === option.valor">
+                    {{option.nombre}}
+                </option>
+            </select>
+        </mat-form-field>
+    </div>   
+</div>
+<div class="ml-md">
+    <button mat-flat-button class="example-button-row" (click)="openDialog()">
+        Crear Sección
+    </button>
+</div>
+
+<div class="page-container">
+    <app-list-horario [diaSemana]="diaSemana" [idEmpleado]="idEmpleado" [actualizarDatos]="actualizarDatos"></app-list-horario>
+</div>

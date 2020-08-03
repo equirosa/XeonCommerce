@@ -1,6 +1,13 @@
-<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
-  </div>
-</body>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav role="navigation">
+		<app-nav-list (sidenavClose)="sidenav.close()"></app-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+		<app-nav (sidenavToggle)="sidenav.toggle()"></app-nav>
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

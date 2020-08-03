@@ -18,9 +18,32 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\ProductosServicios\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\ProductosServicios\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\ProductosServicios\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\ProductosServicios\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\_models\config.ts" />
+    <None Remove="ClientApp\src\app\_models\sucursal.ts" />
+    <None Remove="ClientApp\src\app\_services\config.service.ts" />
+    <None Remove="ClientApp\src\app\_services\sucursal.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\_models\config.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_models\sucursal.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_services\config.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_services\sucursal.service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\producto-form\Crear.html" />
+    <None Remove="ClientApp\src\app\ProductosServicios\producto-form\Producto.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

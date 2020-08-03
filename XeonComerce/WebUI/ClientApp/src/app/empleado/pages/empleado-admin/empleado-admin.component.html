@@ -1,0 +1,15 @@
+<div>
+    <div class="mb-lg mt-lg">
+        <h2 class="text-center">Empleados</h2>
+    </div>
+    <div class="ml-md" >
+        <button mat-flat-button class="example-button-row" (click)="openDialog()" >
+            Crear Empleado     
+        </button>
+    </div>
+</div>
+
+<div class="page-container ">
+    <app-list-empleados [actualizarDatos]="actualizarDatos"></app-list-empleados>
+    <!-- <app-list-empleados ></app-list-empleados> -->
+</div>
