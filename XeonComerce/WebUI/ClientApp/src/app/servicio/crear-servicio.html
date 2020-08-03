@@ -12,6 +12,18 @@
   </mat-form-field>
   <br>
 
+  <mat-form-field style="width:400px !important" appearance="fill">
+    <mat-label>Impuesto</mat-label>
+    <mat-select [(ngModel)]="data.impuesto" required>
+      <mat-option></mat-option>
+      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto">
+        {{impuesto.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
   <mat-form-field style="width:400px" appearance="standard">
     <mat-label>Descuento</mat-label>
     <input minlength="1" type="number" matInput [(ngModel)]="data.descuento" disabled>
