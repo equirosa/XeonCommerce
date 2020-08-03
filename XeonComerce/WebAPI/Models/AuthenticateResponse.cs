@@ -19,6 +19,8 @@ namespace WebApi.Models
         public string Token { get; set; }
 
 
+
+
         public AuthenticateResponse(Usuario usuario, string token)
         {
             Id = usuario.Id;
