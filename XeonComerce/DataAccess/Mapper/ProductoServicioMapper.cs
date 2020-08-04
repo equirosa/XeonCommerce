@@ -21,6 +21,7 @@ namespace DataAccess
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_IMPUESTO = "IMPUESTO";
         private const string DB_COL_DURACION = "DURACION";
+        private const string DB_COL_IMPUESTO = "IMPUESTO";
         #endregion
 
         #region methods

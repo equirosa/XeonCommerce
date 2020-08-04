@@ -14,9 +14,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
 import { AuthGuard } from './_helpers';
 import { EmpleadoAdminComponent } from './empleado/pages/empleado-admin/empleado-admin.component';
-import { ProductoFormComponent } from './producto-form/producto-form.component'
-import { ImpuestoComponent } from './impuesto/impuesto.component'
-import { ServicioComponent } from './servicio/servicio.component'
+import { ProductoFormComponent } from './producto-form/producto-form.component';
+import { ImpuestoComponent } from './impuesto/impuesto.component';
+import { ServicioComponent } from './servicio/servicio.component';
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+import { LandingPageXeonSquadComponent } from './landingPageXeonSquad/landingPageXeonSquad.component';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
@@ -48,7 +50,9 @@ const routes: Routes = [
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
-    { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
+    { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard] },
+    { path: 'dashboardComercio', component: DashboardComercioComponent, canActivate: [AuthGuard] },
+    { path: 'landingEquipo', component: LandingPageXeonSquadComponent, canActivate: [AuthGuard] },
     { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },

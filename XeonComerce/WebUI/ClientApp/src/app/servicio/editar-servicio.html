@@ -15,7 +15,7 @@
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Precio</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.precio">
+    <input min="1" type="number" required matInput [(ngModel)]="data.precio">
   </mat-form-field>
   <br>
 
@@ -37,7 +37,7 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Duracion en minutos estimados</mat-label>
-    <input minlength="1" type="number" matInput [(ngModel)]="data.duracion" required>
+    <input min="1" type="number" matInput [(ngModel)]="data.duracion" required>
   </mat-form-field>
   <br>
 </div>

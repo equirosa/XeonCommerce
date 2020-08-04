@@ -46,7 +46,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
 import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
@@ -55,6 +55,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
+import { LandingPageXeonSquadComponent } from './landingPageXeonSquad/landingPageXeonSquad.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -82,6 +83,7 @@ import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuari
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -124,7 +126,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
-		MatDividerModule,
+    MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -200,7 +202,9 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		CrearSucursalComponent,
 		CarritoComponent,
 		PerfilSucursalComponent,
-		
+    PromocionComponent,
+    LandingPageXeonSquadComponent,
+    DashboardComercioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
