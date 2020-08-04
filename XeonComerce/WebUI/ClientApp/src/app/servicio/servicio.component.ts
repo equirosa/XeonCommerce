@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Servicio } from '../_models/servicio';
+import { Impuesto } from '../_models/impuesto';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ServiciosService } from './../_services/servicios.service';
+import { ImpuestoService } from './../_services/impuesto.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ComercioService } from '../_services/comercio.service';
 import { Comercio } from '../_models/comercio';
@@ -19,31 +21,45 @@ export class ServicioComponent implements OnInit {
   servicio: Servicio;
   servicios: Servicio[];
   comercios: Comercio[];
-  displayedColumns: string[] = ['id', 'nombre', 'precio', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
+  impuestos: Impuesto[];
+  displayedColumns: string[] = ['id', 'nombre', 'precio', 'impuesto', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
   dataSource;
   public httpClient: HttpClient;
   public baseUrlApi: string;
   private servService: ServiciosService;
+  private impuestoService: ImpuestoService;
   public message: string;
   public serviceEndPoint: string;
 
-  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService) {
+  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, impService: ImpuestoService) {
     this.httpClient = http;
     this.servService = servService;
+    this.impuestoService = impService;
 
   }
 
 
 
   ngOnInit(): void {
-    this.getServicios();
     this.getComercios();
+    this.getImpuestos();
+    this.getServicios();
   }
 
   getServicios(): void {
     this.servService.getServicio()
       .subscribe(servicio => {
-        this.dataSource = new MatTableDataSource(servicio);
+        let datosServicios: Servicio[] = servicio;
+        let impuestos: Impuesto[] = this.impuestos;
+        for (var i = 0; i < datosServicios.length; i++) {
+          for (var j = 0; j < impuestos.length; j++) {
+            let impuestoId = impuestos[j].id;
+            if (datosServicios[i].impuesto == impuestoId) {
+              datosServicios[i].impuesto = impuestos[j].valor;
+            }
+          }
+        }
+        this.dataSource = new MatTableDataSource(datosServicios);
       });
   }
 
@@ -52,6 +68,14 @@ export class ServicioComponent implements OnInit {
       .subscribe(comercios => {
         this.comercios = comercios;
         console.log(this.comercios);
+      });
+  }
+
+  getImpuestos(): void {
+    this.impuestoService.getImpuesto()
+      .subscribe(impuestos => {
+        this.impuestos = impuestos;
+        console.log(this.impuestos);
       });
   }
 
@@ -68,6 +92,8 @@ export class ServicioComponent implements OnInit {
         tipo: 2,
         nombre: "",
         precio: "",
+        impuestos: this.impuestos,
+        impuesto: "",
         descuento: 0,
         comercios: this.comercios,
         comercio: "",
@@ -82,6 +108,9 @@ export class ServicioComponent implements OnInit {
       if (result) {
         let comercio: Comercio;
         comercio = result.comercio;
+        let impuesto: Impuesto;
+        impuesto = result.impuesto;
+        console.log(impuesto.id);
         let servicio: Servicio;
         servicio = {
           "id": result.id,
@@ -90,7 +119,8 @@ export class ServicioComponent implements OnInit {
           "precio": result.precio,
           "descuento": result.descuento,
           "idComercio": comercio.cedJuridica,
-          "duracion": result.duracion
+          "duracion": result.duracion,
+          "impuesto": impuesto.id
         }
         console.log(servicio);
         this.servService.postServicio(servicio)
@@ -131,6 +161,15 @@ export class ServicioComponent implements OnInit {
 
     console.log(comercioDelServicio);
 
+    function checkImpuesto() {
+      return servicio.impuesto;
+    }
+
+    let impuestoDelServicio = this.impuestos.find(checkImpuesto);
+    let impuestoServicio = impuestoDelServicio.nombre;
+
+    console.log(impuestoDelServicio);
+
     const dialogRef = this.dialog.open(DialogEditarServicio, {
       width: '500px',
       data: {
@@ -138,9 +177,10 @@ export class ServicioComponent implements OnInit {
         tipo: 2,
         nombre: servicio.nombre,
         precio: servicio.precio,
-        descuento: 0,
         comercio: comercioDelServicio.nombreComercial,
-        duracion: servicio.duracion
+        duracion: servicio.duracion,
+        impuestos: this.impuestos,
+        impuestoServ: impuestoServicio
       }
 
     });
@@ -148,14 +188,18 @@ export class ServicioComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
       if (result) {
+        let impuesto: Impuesto;
+        impuesto = result.impuestoProd;
+        console.log(impuesto.id);
         servicio = {
           "id": servicio.id,
           "tipo": 2,
           "nombre": result.nombre,
           "precio": result.precio,
-          "descuento": result.descuento,
+          "descuento": servicio.descuento,
           "idComercio": servicio.idComercio,
-          "duracion": result.duracion
+          "duracion": result.duracion,
+          "impuesto": impuesto.id
         }
 
         console.log(servicio);

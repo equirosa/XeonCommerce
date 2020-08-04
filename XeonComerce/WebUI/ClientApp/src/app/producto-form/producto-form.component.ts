@@ -23,7 +23,7 @@ export class ProductoFormComponent implements OnInit {
   comercios: Comercio[];
   impuestos: Impuesto[];
   datosComercios;
-  displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'nombre', 'precio', 'impuesto', 'cantidad', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
   dataSource;
   public httpClient: HttpClient;
   public baseUrlApi: string;
@@ -37,21 +37,29 @@ export class ProductoFormComponent implements OnInit {
     this.prodService = prodService;
     this.impuestoService = impService;
   }
-
  
 
   ngOnInit(): void {
-    this.getProductos();
     this.getComercios();
     this.getImpuestos();
+    this.getProductos();
   }
 
   getProductos(): void {
 
     this.prodService.getProducto()
       .subscribe(productos => {
-        this.dataSource = new MatTableDataSource(productos);
-        debugger;
+        let datosProducto: Producto[] = productos;
+        let infoImpuestos: Impuesto[] = this.impuestos;
+        for (var i = 0; i < datosProducto.length; i++) {
+          for (var j = 0; j < infoImpuestos.length; j++) {
+            let impuestoId = infoImpuestos[j].id;
+            if (datosProducto[i].impuesto == impuestoId) {
+              datosProducto[i].impuesto = infoImpuestos[j].valor;
+            }
+          }
+        }
+        this.dataSource = new MatTableDataSource(datosProducto);
       });
   }
 
@@ -105,6 +113,9 @@ openDialog(): void {
       let comercio: Comercio;
       comercio = result.comercio;
       console.log(comercio.cedJuridica);
+      let impuesto: Impuesto;
+      impuesto = result.impuesto;
+      console.log(impuesto.id);
       let producto: Producto;
       producto = {
         "id": result.id,
@@ -114,14 +125,15 @@ openDialog(): void {
         "cantidad": result.cantidad,
         "descuento": result.descuento,
         "idComercio": comercio.cedJuridica,
-        "duracion": result.duracion
+        "duracion": result.duracion,
+        "impuesto": impuesto.id
       }
       console.log(producto);
       this.prodService.postProducto(producto)
         .subscribe(() => {
           this.getProductos();
         });
-      this.getProductos();
+      window.location.reload();
     }
   });
   }
@@ -137,6 +149,19 @@ openDialog(): void {
 
     console.log(comercioDelProducto);
 
+
+    let impuestos: Impuesto[] = this.impuestos;
+    let nombreImpuesto = "";
+    for (var i = 0; i < impuestos.length; i++) {
+      if (producto.impuesto == impuestos[i].valor)
+      {
+        nombreImpuesto = impuestos[i].nombre;
+      }
+    }
+    //let impuestoDelProducto = this.impuestos.find(checkImpuesto);
+    //let impuestoProd = impuestoDelProducto.nombre;
+    console.log(nombreImpuesto);
+
     const dialogRef = this.dialog.open(DialogEditarProducto, {
       width: '500px',
       data: {
@@ -145,9 +170,10 @@ openDialog(): void {
         nombre: producto.nombre,
         precio: producto.precio,
         cantidad: producto.cantidad,
-        descuento: 0,
         comercio: comercioDelProducto.nombreComercial,
-        duracion: producto.duracion
+        duracion: producto.duracion,
+        impuestos: this.impuestos,
+        impuestoProd: nombreImpuesto
       }
 
     });
@@ -155,6 +181,9 @@ openDialog(): void {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
       if (result) {
+        let impuesto: Impuesto;
+        impuesto = result.impuestoProd;
+        console.log(impuesto.id);
         let cambiosProducto: Producto;
         producto = {
           "id": producto.id,
@@ -162,9 +191,10 @@ openDialog(): void {
           "nombre": result.nombre,
           "precio": result.precio,
           "cantidad": result.cantidad,
-          "descuento": result.descuento,
+          "descuento": producto.descuento,
           "idComercio": producto.idComercio,
-          "duracion": result.duracion
+          "duracion": result.duracion,
+          "impuesto": impuesto.id
         }
 
         console.log(producto);

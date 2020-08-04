@@ -15,14 +15,13 @@
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Precio</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.precio">
+    <input min="1" type="number" required matInput [(ngModel)]="data.precio">
   </mat-form-field>
   <br>
 
   <mat-form-field style="width:400px !important" appearance="fill">
     <mat-label>Impuesto</mat-label>
-    <mat-select [(ngModel)]="data.impuesto" required>
-      <mat-option></mat-option>
+    <mat-select [(ngModel)]="data.impuestoServ">
       <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto">
         {{impuesto.nombre}}
       </mat-option>
@@ -37,7 +36,7 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Duracion en minutos estimados</mat-label>
-    <input minlength="1" type="number" matInput [(ngModel)]="data.duracion" required>
+    <input min="1" type="number" matInput [(ngModel)]="data.duracion" required>
   </mat-form-field>
   <br>
 </div>

@@ -20,6 +20,7 @@ namespace DataAccess
         private const string DB_COL_DESCUENTO = "DESCUENTO";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_DURACION = "DURACION";
+        private const string DB_COL_IMPUESTO = "IMPUESTO";
         #endregion
 
         #region methods
@@ -38,7 +39,8 @@ namespace DataAccess
                 Cantidad = GetIntValue(row, DB_COL_CANTIDAD),
                 Descuento = GetDoubleValue(row, DB_COL_DESCUENTO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                Duracion = GetIntValue(row, DB_COL_DURACION)
+                Duracion = GetIntValue(row, DB_COL_DURACION),
+                Impuesto = GetIntValue(row, DB_COL_IMPUESTO)
             };
 
             return producto;
@@ -53,7 +55,8 @@ namespace DataAccess
                 Precio = GetDoubleValue(row, DB_COL_PRECIO),
                 Descuento = GetDoubleValue(row, DB_COL_DESCUENTO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                Duracion = GetIntValue(row, DB_COL_DURACION)
+                Duracion = GetIntValue(row, DB_COL_DURACION),
+                Impuesto = GetIntValue(row, DB_COL_IMPUESTO)
             };
 
             return servicio;
@@ -103,7 +106,8 @@ namespace DataAccess
             operation.AddDoubleParam(DB_COL_DESCUENTO, prodAndServ.Descuento);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, prodAndServ.IdComercio);
             operation.AddIntParam(DB_COL_DURACION, prodAndServ.Duracion);
-           
+            operation.AddIntParam(DB_COL_IMPUESTO, prodAndServ.Impuesto);
+
             return operation;
         }
 
@@ -175,6 +179,7 @@ namespace DataAccess
             operation.AddDoubleParam(DB_COL_DESCUENTO, pys.Descuento);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, pys.IdComercio);
             operation.AddIntParam(DB_COL_DURACION, pys.Duracion);
+            operation.AddIntParam(DB_COL_IMPUESTO, pys.Impuesto);
 
             return operation;
         }

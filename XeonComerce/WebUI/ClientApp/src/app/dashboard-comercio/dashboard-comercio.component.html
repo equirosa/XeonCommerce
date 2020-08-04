@@ -1,0 +1,68 @@
+<div>
+  <h1 class="titulo-dashboard">Dashboard comercio</h1>
+</div>
+<div class="dashboard-container">
+  <div class="ventas">
+    <div class="cantidad-ventas">
+      <div class="ventas-titulo">Cantidad de ventas</div>
+      <i class="fa fa-line-chart" aria-hidden="true"></i>
+      <div class="ventas-valores">0</div>
+    </div>
+    <div class="total-vendido">
+      <div class="ventas-titulo">Monto total en ventas</div>
+      <i class="moneda" aria-hidden="true">₡</i>
+      <div class="ventas-valores">0.00</div>
+    </div>
+  </div>
+  <div class="citas">
+    <div class="citas-titulo">Citas</div>
+    <div class="citas-realizadas">
+      <p>Citas realizadas</p>
+      <div class="barra-porcentaje">
+        <div class="valor-porcentaje" [style.width.px]='widthPorcentajeCitasRealizadas'></div>
+      </div>
+    </div>
+    <div class="citas-canceladas">
+      <p>Citas canceladas</p>
+      <div class="barra-porcentaje">
+        <div class="valor-porcentaje" [style.width.px]='widthPorcentajeCitasRealizadas'></div>
+      </div>
+    </div>
+  </div>
+  <div class="pagos">
+    <div>
+      <div class="pagos-titulo">
+        <div>0  <i class="fa fa-mobile" aria-hidden="true"></i></div>
+      </div>
+      <div class="pagos-descripcion">
+        <p>Cantidad de pagos</p>
+        <p class="simpemovil">Simpe Móvil</p>
+      </div>
+    </div>
+    <div>
+      <div class="pagos-titulo">
+        <div>0.00</div>
+      </div>
+      <div class="pagos-descripcion">
+        <p>Monto total</p>
+        <p class="simpemovil2">Simpe Móvil</p>
+      </div>
+    </div>
+    <div>
+      <div class="pagos-titulo">
+        <div>0  <i class="fa fa-paypal" aria-hidden="true"></i></div>
+        </div>
+        <div class="pagos-descripcion">
+          <p>Cantida de pagos</p>
+          <p class="paypall">PayPal</p>
+        </div>
+    </div>
+    <div>
+      <div class="pagos-titulo">0.00 </div>
+      <div class="pagos-descripcion">
+        <p>Monto total</p>
+        <p class="paypall2">PayPal</p>
+      </div>
+    </div>
+  </div>
+</div>
