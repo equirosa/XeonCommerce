@@ -47,7 +47,7 @@ httpOptions = {
   }
 
   delete(car: Carrito): Observable<Carrito> {
-    return this.http.delete<Carrito>(this.urlApi, this.httpOptions).pipe(
+    return this.http.delete<Carrito>(this.urlApi, Object.assign(this.httpOptions, {body:car})).pipe(
       tap(_ => this.log(`Se eliminó`)),
       catchError(this.handleError<Carrito>('delete'))
     );
@@ -67,11 +67,7 @@ httpOptions = {
   private handleError<T>(operation = 'operation', result?: T) {
 	return (error: any): Observable<T> => {
 	  console.error(error);
-	  
-	  if(error.error)
-		this.log(`${error.error.msg || error.message || "Algún dato no es correcto"}`);
-	  else
-	 	this.log(`${error.message || "Algún dato no es correcto"}`);
+	 	this.log(`${error}`);
 	  
 	  return of(result as T);
 	};
