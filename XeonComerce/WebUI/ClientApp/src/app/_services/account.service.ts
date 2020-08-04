@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
+import { ComercioService } from './comercio.service';
+import { EmpleadoService } from './empleado.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -16,7 +18,9 @@ export class AccountService {
     constructor(
 		private comercioService: ComercioService,
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient,
+        private comercioService: ComercioService,
+        private empleadoService: EmpleadoService
     ) {
         this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
         this.user = this.userSubject.asObservable();
@@ -28,23 +32,35 @@ export class AccountService {
 
     login(email, clave) {
         return this.http.post<User>(`${environment.apiUrl}/auth/authenticate`, { email, clave })
-            .pipe(map(user => {
-				// store user details and jwt token in local storage to keep user logged in between page refreshes
-				if(user.tipo == "C"){
-					this.comercioService.get().subscribe((comercios)=>{
-						
-						let comercio = comercios.find((i)=>i.idUsuario==user.id);
-						if(comercio) user = Object.assign(user, {"comercio": comercio});
-						else
-						console.log("No se encontró el comercio de dicho usuario.")
-						localStorage.setItem('user', JSON.stringify(user));
-					});
-				}else{
-					localStorage.setItem('user', JSON.stringify(user));
-				}
-                this.userSubject.next(user);
-                return user;
-            }));
+        .pipe(map(user => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            if(user.tipo == "C"){
+                this.comercioService.get().subscribe((comercios)=>{
+                    
+                    let comercio = comercios.find((i)=>i.idUsuario==user.id);
+                    if(comercio) user = Object.assign(user, {"comercio": comercio});
+                    else
+                    console.log("No se encontró el comercio de dicho usuario.")
+                    localStorage.setItem('user', JSON.stringify(user));
+                });
+            }else if(user.tipo == "E") {
+                this.empleadoService.get().subscribe({
+                    next: res => {
+                        let empleado = res.find( (e) => e.idUsuario === user.id && e.estado === 'A' );
+                        if(empleado) user = Object.assign(user, {"empleado": empleado});
+                        else 
+                        console.log("No se encontró el comercio de dicho empleado.")
+                        localStorage.setItem('user', JSON.stringify(user));
+                    },
+                    error: err => console.log(err)
+                });
+
+            }else{
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+            this.userSubject.next(user);
+            return user;
+        }));
     }
 
     logout() {
@@ -92,4 +108,6 @@ export class AccountService {
                 return x;
             }));
     }
+
+
 }

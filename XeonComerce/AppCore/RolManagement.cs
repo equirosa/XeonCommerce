@@ -55,7 +55,7 @@ namespace AppCore
 
         public VistaRol RetriveById(Rol obj)
         {
-            
+            var vistas = crudRolVista.GetVistasRol<Vista>(obj.Id);
 
             var rol = crud.Retrieve<Rol>(obj);
             var vistaRol = new VistaRol()
@@ -64,7 +64,7 @@ namespace AppCore
                 IdComercio = rol.IdComercio,
                 Nombre = rol.Nombre,
                 Descripcion = rol.Descripcion,
-                Vistas = new List<Vista>().ToArray()
+                Vistas = vistas.ToArray()
              };
 
             return vistaRol;
