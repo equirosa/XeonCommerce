@@ -47,9 +47,9 @@ export class ProductoFormComponent implements OnInit {
  
 
   ngOnInit(): void {
+    this.getImpuestos();
     this.getProductos();
     this.getComercios();
-    this.getImpuestos();
   }
 
   getProductos(): void {
