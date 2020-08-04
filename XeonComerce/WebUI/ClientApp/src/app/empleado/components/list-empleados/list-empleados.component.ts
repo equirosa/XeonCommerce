@@ -59,8 +59,14 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void{
+
+    if(changes.idSucursal.currentValue !== ''){
+      this.cargarEmpleados();
+    }else {
+      this.empleados.data = [];
+    }
   
-    this.cargarEmpleados();
+   
   }
 
   cargarEmpleados(): void {

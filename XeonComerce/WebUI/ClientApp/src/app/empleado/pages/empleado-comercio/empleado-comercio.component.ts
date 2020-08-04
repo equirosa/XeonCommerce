@@ -25,7 +25,13 @@ export class EmpleadoComercioComponent implements OnInit {
     private sucursalService: SucursalService, 
     private comercioService: ComercioService ) { 
      
-      this.idComercio = JSON.parse(localStorage.getItem('user')).comercio.cedJuridica;
+      const user = JSON.parse(localStorage.getItem('user'));
+      if(user.tipo === 'C'){
+        this.idComercio = user.comercio.cedJuridica;
+      } else {
+        this.idComercio = user.empleado.idComercio;
+      }
+     
       this.cargarSucursales();
     }
 
@@ -33,7 +39,7 @@ export class EmpleadoComercioComponent implements OnInit {
   }
 
 
-  seleccionSucursal(sucursal): void {
+  selecionSucursal(sucursal): void {
     this.idSucursal = sucursal;
   }
 

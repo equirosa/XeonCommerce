@@ -91,6 +91,12 @@ namespace WebAPI.Controllers
         }
 
 
+        [HttpGet]
+        public List<EmpleadoComercioSucursal> RetrieveAll()
+        {
+            var empleadoManag = new EmpleadoManagement();
+            return empleadoManag.RetrieveAll();
+        }
 
 
     }

@@ -18,6 +18,7 @@
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/comercios">Administrar Comercios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/solicitudes">Solicitudes</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/productos">Productos</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/empleado/admin">Empleados</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/servicios">Servicios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/promocion">Promociones</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/sucursales">Sucursales</button>
@@ -143,14 +144,14 @@
 	</a>
 
 	<mat-divider></mat-divider>
-<a mat-list-item routerLink="/#" (click)="onSidenavClose()">
+<a mat-list-item routerLink="/empleado/horario/{{user.empleado.id}}" (click)="onSidenavClose()">
 	<span class="nav-caption">Horario</span>
 </a>
-<a mat-list-item routerLink="/#" (click)="onSidenavClose()">
+<a mat-list-item routerLink="/empleado/calendario" (click)="onSidenavClose()">
 	<span class="nav-caption">Calendario</span>
 </a>
-<a mat-list-item routerLink="/#" (click)="onSidenavClose()">
-	<span class="nav-caption">VISTAS SEGUN ROLES ASIGNADOS</span>
+<a *ngFor="let v of vistasEmpleado" mat-list-item routerLink="{{v.url}}" (click)="onSidenavClose()">
+		<span class="nav-caption">{{v.nombre}}</span>
 </a>
 
 

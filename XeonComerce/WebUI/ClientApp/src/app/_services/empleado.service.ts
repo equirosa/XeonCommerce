@@ -48,4 +48,7 @@ export class EmpleadoService {
     return this.http.put<EmpleadoComercioSucursal>( this.urlApi + `/update`, e, { headers: this.headers});
   }
 
+  get(): Observable<EmpleadoComercioSucursal[]> {
+    return this.http.get<EmpleadoComercioSucursal[]>( this.urlApi + `/retrieveAll`);
+  }
 }

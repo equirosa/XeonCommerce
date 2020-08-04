@@ -5,7 +5,7 @@
     <div>
         <mat-form-field>
             <mat-label>Seleccione una Sucursal</mat-label>
-            <mat-select (selectionChange)="seleccionSucursal($event.value)">
+            <mat-select (selectionChange)="selecionSucursal($event.value)">
                 <mat-option *ngFor="let s of sucursales" [value]="s.id">
                     {{s.nombre}}
                 </mat-option>

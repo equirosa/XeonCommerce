@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start center">
     <div class="mb-lg mt-lg">
-        <h2 class="text-center">Horario de {{nombreEmpleado}}</h2>
+        <h2 class="text-center">Horario {{nombreEmpleado}}</h2>
     </div>
     <div>
         <mat-form-field>
@@ -14,8 +14,8 @@
         </mat-form-field>
     </div>   
 </div>
-<div class="ml-md">
-    <button mat-flat-button class="example-button-row" (click)="openDialog()">
+<div class="ml-md" *ngIf="permitirCargar">
+    <button mat-raised-button color="success" (click)="openDialog()">
         Crear Sección
     </button>
 </div>
