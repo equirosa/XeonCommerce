@@ -4,7 +4,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 
 export interface DialogData {
     title: string;
-    message: string;
+	message: string;
+	editar?: boolean;
 }
 
 @Component({
@@ -17,7 +18,8 @@ export class ConfirmDialogComponent implements OnInit {
 
     dialogData: DialogData;
     title:string;
-    message:string;
+	message:string;
+	editar:boolean;
 
     constructor(
         public dialogRef: MatDialogRef<ConfirmDialogComponent>,

@@ -23,25 +23,19 @@
   
 	<ng-container matColumnDef="cantidad">
 		<th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-		<td mat-cell *matCellDef="let element"> {{element.cantidadCarrito}} </td>
-		<td mat-footer-cell *matFooterCellDef> {{getCantidad(datos)}} </td>
+		<td mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.cantidadCarrito" type="number" min="1" max="{{element.cantidad}}" (change)="onChange($event, element)"></td>
+		<td mat-footer-cell *matFooterCellDef>{{getCantidad(datos)}} </td>
 	</ng-container>
 
 	<ng-container matColumnDef="impuesto">
 		<th mat-header-cell *matHeaderCellDef mat-sort-header> Impuesto </th>
 		<td mat-cell *matCellDef="let element"> {{element.porcientoImpuesto}}% </td>
-		<td mat-footer-cell *matFooterCellDef> </td>
-	</ng-container>
-  
-	<ng-container matColumnDef="editar">
-	  <th mat-header-cell *matHeaderCellDef> Editar </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="accent" (click)="limpiar()">Editar</button> </td>
-	  <td mat-footer-cell *matFooterCellDef> Sub Total: {{getCosto(datos, false) | currency:'CRC'}} </td>
+		<td mat-footer-cell *matFooterCellDef> Sub Total: {{getCosto(datos, false) | currency:'CRC'}} </td>
 	</ng-container>
   
 	<ng-container matColumnDef="eliminar">
 	  <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)="limpiar()">Eliminar</button> </td>
+	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)="eliminar(element)">Eliminar</button> </td>
 	  <td mat-footer-cell *matFooterCellDef> Total: {{getCosto(datos, true) | currency:'CRC'}}  </td>
 	</ng-container>
   
