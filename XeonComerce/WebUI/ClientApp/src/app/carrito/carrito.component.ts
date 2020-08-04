@@ -1,3 +1,6 @@
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
+import { Carrito } from './../_models/carrito';
 import { Impuesto } from './../_models/impuesto';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,11 +19,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 export class CarritoComponent implements OnInit {
 
 	productos: any[];
-	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'editar', 'eliminar'];
+	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'eliminar'];
 	datos;
 	user: any;
 	impuestos: Impuesto[];
-  constructor(private carritoService:CarritoService, private mensajeService:MensajeService, private accountService:AccountService, private productoService:ProductoService, private impuestoService:ImpuestoService) {
+  constructor(public dialog: MatDialog, private carritoService:CarritoService, private mensajeService:MensajeService, private accountService:AccountService, private productoService:ProductoService, private impuestoService:ImpuestoService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -61,7 +64,15 @@ export class CarritoComponent implements OnInit {
 
 
 limpiar(): void {
-
+	let a: Carrito;
+	a = {
+		idProducto: -1,
+		idUsuario: this.user.id,
+		cantidad: -1
+	}
+	this.carritoService.limpiar(a).subscribe(()=>{
+		this.getProductos();
+	});
 }
 
 getCosto(tabla, conImpuestos){
@@ -90,6 +101,71 @@ calcularDescuento(element){
 
 calcularPrecio(element){
 	return element.descuento ? element.precio-element.descuento:element.precio;
+}
+
+eliminar(element){
+
+	const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+		maxWidth: "500px",
+		data: {
+			title: "¿Está seguro?",
+			message: "Usted está apunto de eliminar un producto del carrito. "}
+	  });
+	
+	  dialogRef.afterClosed().subscribe(dialogResult => {
+		  if(dialogResult){ 
+
+			let a: Carrito;
+			a = {
+				idProducto: element.id,
+				idUsuario: this.user.id,
+				cantidad: element.cantidadCarrito
+			}
+			this.carritoService.delete(a).subscribe(()=>{
+				this.getProductos();
+			});
+
+		}
+	 });
+
+}
+
+
+onChange($event, element){
+	let num = Number($event.target.value);
+	if(!num){
+		this.getProductos();
+		return this.mensajeService.add("Cantidad invalida");
+	}
+	if(num > element.cantidad){
+		this.getProductos();
+		return this.mensajeService.add("No existen tantas unidades de dicho producto");
+	}
+
+	const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+		maxWidth: "500px",
+		data: {
+			title: "¿Está seguro?",
+			message: "Usted está apunto de actualizar la cantidad del producto. ",
+			editar: true}
+	  });
+	
+	  dialogRef.afterClosed().subscribe(dialogResult => {
+		  if(dialogResult){ 
+
+			let a: Carrito;
+			a = {
+				idProducto: element.id,
+				idUsuario: this.user.id,
+				cantidad: num
+			}
+			this.carritoService.update(a).subscribe(()=>{
+				this.getProductos();
+			});
+
+		}
+	 });
+
 }
 
 }
