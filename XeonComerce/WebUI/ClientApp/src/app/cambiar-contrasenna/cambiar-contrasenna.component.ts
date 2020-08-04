@@ -42,7 +42,12 @@ export class CambiarContrasennaComponent implements OnInit {
 			if(this.firstFormGroup.value.nueva == this.firstFormGroup.value.nueva2){
 				
 				this.usuarioService.cambiarClave(this.firstFormGroup.value.nueva, this.user.id).subscribe(_=>{
+					if(_ != null)
 					this.router.navigate(['/']);
+						else{
+							this.firstFormGroup.value.nueva = "";
+							this.firstFormGroup.value.nueva2 = "";
+						}
 				});
 			
 			}else{
