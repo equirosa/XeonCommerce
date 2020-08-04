@@ -1,4 +1,5 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { ComercioService } from './comercio.service';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -13,6 +14,7 @@ export class AccountService {
     public user: Observable<User>;
 
     constructor(
+		private comercioService: ComercioService,
         private router: Router,
         private http: HttpClient
     ) {
@@ -27,8 +29,19 @@ export class AccountService {
     login(email, clave) {
         return this.http.post<User>(`${environment.apiUrl}/auth/authenticate`, { email, clave })
             .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
+				// store user details and jwt token in local storage to keep user logged in between page refreshes
+				if(user.tipo == "C"){
+					this.comercioService.get().subscribe((comercios)=>{
+						
+						let comercio = comercios.find((i)=>i.idUsuario==user.id);
+						if(comercio) user = Object.assign(user, {"comercio": comercio});
+						else
+						console.log("No se encontró el comercio de dicho usuario.")
+						localStorage.setItem('user', JSON.stringify(user));
+					});
+				}else{
+					localStorage.setItem('user', JSON.stringify(user));
+				}
                 this.userSubject.next(user);
                 return user;
             }));

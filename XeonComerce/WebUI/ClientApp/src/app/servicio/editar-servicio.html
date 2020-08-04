@@ -23,7 +23,7 @@
     <mat-label>Impuesto</mat-label>
     <mat-select [(ngModel)]="data.impuesto" required>
       <mat-option></mat-option>
-      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto">
+      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto.id">
         {{impuesto.nombre}}
       </mat-option>
     </mat-select>
