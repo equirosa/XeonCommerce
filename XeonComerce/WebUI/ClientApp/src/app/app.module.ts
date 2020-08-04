@@ -80,6 +80,7 @@ import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
+import { CarritoComponent } from './carrito/carrito.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -191,7 +192,8 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
-		FormRolComponent
+		FormRolComponent,
+		CarritoComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                if (a.Cantidad <= 0) throw new Exception("La cantidad no puede ser menor a 0");
+                if (a.Cantidad <= 0) throw new Exception("La cantidad no puede ser menor a 1");
                 List<Carrito> lst = am.RetriveAll(a);
                 ProductoServicioManagement pm = new ProductoServicioManagement();
                 Producto p2 = pm.RetrieveByIdProducto(new Producto { Id = a.IdProducto });
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                if (a.Cantidad <= 0) throw new Exception("La cantidad no puede ser menor a 0");
+                if (a.Cantidad <= 0) throw new Exception("La cantidad no puede ser menor a 1");
                 ProductoServicioManagement pm = new ProductoServicioManagement();
                 Producto p2 = pm.RetrieveByIdProducto(new Producto { Id = a.IdProducto });
                 if (p2 != null)
