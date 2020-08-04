@@ -46,9 +46,9 @@ export class ServicioComponent implements OnInit {
 
 
   ngOnInit(): void {
+	this.getImpuestos();
     this.getServicios();
 	this.getComercios();
-	this.getImpuestos();
   }
 
   getServicios(): void {
