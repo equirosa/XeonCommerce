@@ -84,6 +84,8 @@ import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
 import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
+
 @NgModule({
     imports: [
 		FormsModule,
@@ -204,6 +206,7 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		CarritoComponent,
 		FormRolComponent,
 		PerfilSucursalComponent,
+		FormHorarioSucursalComponent,
     LandingPageXeonSquadComponent,
     DashboardComercioComponent
     ],

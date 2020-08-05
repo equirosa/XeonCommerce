@@ -19,6 +19,9 @@ export class ListRolComponent implements OnInit {
   @Input()
   idComercio: string;
 
+  @Input()
+  actualizarDatos: boolean;
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.roles.filter = filterValue.trim().toLowerCase();
