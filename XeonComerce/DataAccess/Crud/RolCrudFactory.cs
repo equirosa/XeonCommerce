@@ -69,5 +69,41 @@ namespace DataAccess.Crud
 
             dao.ExecuteProcedure(mapper.GetUpdateStatement(obj));
         }
+
+
+        public T GetUltimoRol<T>()
+        {
+            var lstResult = dao.ExecuteQueryProcedure(mapper.GetUltimoRol());
+            var dic = new Dictionary<string, object>();
+
+            if (lstResult.Count > 0)
+            {
+                dic = lstResult[0];
+                var objs = mapper.BuildObject(dic);
+                return (T)Convert.ChangeType(objs, typeof(T));
+            }
+
+            return default(T);
+        }
+
+
+        public List<T> GetRolesByIdComercio<T>(string idComercio)
+        {
+            var lstObj = new List<T>();
+            var lstResult = dao.ExecuteQueryProcedure(mapper.GetRolesByIdComercio(idComercio));
+            var dic = new Dictionary<string, object>();
+
+            if (lstResult.Count > 0)
+            {
+                var objs = mapper.BuildObjects(lstResult);
+                foreach (var c in objs)
+                {
+                    lstObj.Add((T)Convert.ChangeType(c, typeof(T)));
+                }
+            }
+
+            return lstObj;
+
+        }
     }
 }

@@ -8,5 +8,4 @@ export interface Producto {
   idComercio: string;
   duracion: number;
   impuesto: number;
-
 }

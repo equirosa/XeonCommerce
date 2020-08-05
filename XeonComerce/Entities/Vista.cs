@@ -12,6 +12,11 @@ namespace Entities
         [JsonPropertyName("url")]
         public string URL { get; set; }
 
+        [JsonPropertyName("nombre")]
+        public string Nombre { get; set; }
+
+
+
         public Vista() { }
     }
 }

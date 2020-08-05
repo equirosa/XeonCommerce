@@ -1,3 +1,6 @@
+import { ServiciosService } from './../_services/servicios.service';
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
 import { Producto } from './../_models/producto';
 import { ProductoService } from './../_services/producto.service';
 import { MatPaginator } from '@angular/material/paginator';
@@ -20,12 +23,17 @@ import {MatSort} from '@angular/material/sort';
 })
 export class PromocionComponent implements OnInit {
 
-	productos: Producto[];
+	productos: any[];
 	promocionCrear: Producto;
 	displayedColumns: string[] = ['id', 'nombre', 'descuento', 'editar', 'eliminar'];
 	datos;
+	user: any;
 	
-	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private productoService: ProductoService) { }
+	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private productoService: ProductoService, private servicioService: ServiciosService, private accountService: AccountService) {
+		this.accountService.user.subscribe(x => {
+			this.user = x;
+		});
+	 }
   
 
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -46,7 +54,15 @@ export class PromocionComponent implements OnInit {
 
 		this.productoService.getProducto()
 		.subscribe(productos => {
-			productos = productos.filter(a=>a.descuento == 0);
+			this.servicioService.getServicio().subscribe(servicios => {
+				if(this.user.comercio) productos = productos.filter((i)=>i.idComercio == this.user.comercio.cedJuridica);
+				if(this.user.comercio) servicios = servicios.filter((i)=>i.idComercio == this.user.comercio.cedJuridica);
+				productos = productos.filter(a=>a.descuento == 0);
+				servicios = servicios.filter(a=>a.descuento == 0);
+
+				let combinados: any[];
+				combinados = [...productos, ...servicios];
+
 
 			const dialogRef = this.dialog.open(PromocionDialog, {
 				width: '500px',
@@ -54,7 +70,7 @@ export class PromocionComponent implements OnInit {
 				  accion: "crear",
 				  permitir: !true,
 				  id: -1,
-				  productos: productos,
+				  productos: combinados,
 				  productoSelecionado: -1,
 				  descuento: 0
 				}
@@ -65,20 +81,35 @@ export class PromocionComponent implements OnInit {
 			  dialogRef.afterClosed().subscribe(result => {
 				console.log(`Resultado: ${result}`); 
 				if (result) {
-					this.productoService.getProductoById(result.productoSelecionado).subscribe((prod) => {
+					if(result.productoSelecionado){
+						if(result.productoSelecionado.tipo == 1){
+					this.productoService.getProductoById(result.productoSelecionado.id).subscribe((prod) => {
 						prod.descuento = result.descuento;
-						if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el producto!");
-							
-						prod.tipo = 1;
+						if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el precio del producto!");
 						this.productoService.putProducto(prod).subscribe(()=>{
 							this.mensajeService.add("Se creó la promoción.");
 							this.getProductos();
 						});
 					});
+				}else{
+					this.servicioService.getServicioById(result.productoSelecionado.id).subscribe((prod) => {
+						prod.descuento = result.descuento;
+						if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el precio del servicio!");
+						this.servicioService.putServicio(prod).subscribe(()=>{
+							this.mensajeService.add("Se creó la promoción.");
+							this.getProductos();
+						});
+					});
+				}
+				
+				}else{
+					this.mensajeService.add("Debe llenar todos los datos")
+				}
 				}
 		  
 			  });
 
+			});
 		});
 
   
@@ -94,7 +125,7 @@ export class PromocionComponent implements OnInit {
 			permitir: !false,
 			id: producto.id,
 			nombre: producto.nombre,
-			productoSelecionado: producto.id,
+			productoSelecionado: producto,
 			descuento: producto.descuento
 		}
   
@@ -103,18 +134,35 @@ export class PromocionComponent implements OnInit {
 	  dialogRef.afterClosed().subscribe(result => {
 		console.log(`Resultado: ${result}`); 
 		if (result) {
-  
-			this.productoService.getProductoById(producto.id)
+			
+
+
+			if(result.productoSelecionado){
+				if(result.productoSelecionado.tipo == 1){
+					this.productoService.getProductoById(producto.id)
+					.subscribe((prod) => { 
+					  prod.descuento=result.descuento;
+					  if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el precio del producto!");
+					  this.productoService.putProducto(prod).subscribe(()=>{
+						  this.mensajeService.add("Se actualizó la promoción.");
+						  this.getProductos();
+					  });
+					});
+		}else{
+			this.servicioService.getServicioById(producto.id)
 			.subscribe((prod) => { 
 			  prod.descuento=result.descuento;
-			  if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el producto!");
-			  prod.tipo=1;
-			  this.productoService.putProducto(prod).subscribe(()=>{
+			  if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el precio del servicio!");
+			  this.servicioService.putServicio(prod).subscribe(()=>{
 				  this.mensajeService.add("Se actualizó la promoción.");
 				  this.getProductos();
 			  });
 			});
-
+		}
+		
+		}else{
+			this.mensajeService.add("Debe llenar todos los datos")
+		}
 		}
   
 	  });
@@ -124,11 +172,16 @@ export class PromocionComponent implements OnInit {
 	  getProductos(): void {
 		this.productoService.getProducto()
 		.subscribe(productos => {
-			this.productos = productos.filter(a=>a.descuento > 0);
+			this.servicioService.getServicio().subscribe(servicios => {
+				if(this.user.comercio) productos = productos.filter((i)=>i.idComercio == this.user.comercio.cedJuridica);
+				if(this.user.comercio) servicios = servicios.filter((i)=>i.idComercio == this.user.comercio.cedJuridica);
+				let combinado = [...productos, ...servicios];
+			this.productos = combinado.filter(a=>a.descuento > 0);
 			this.productos = this.productos.sort((a,b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0));
 			this.datos = new MatTableDataSource(this.productos);
 			this.datos.sort = this.sort;
 			this.datos.paginator = this.paginator;
+			})
 		});
 	}
   
@@ -145,16 +198,25 @@ export class PromocionComponent implements OnInit {
 		  dialogRef.afterClosed().subscribe(dialogResult => {
 			  if(dialogResult){ 
 
-				this.productoService.getProductoById(producto.id)
+				if(producto.tipo == 1){
+					this.productoService.getProductoById(producto.id)
 			  .subscribe((prod) => { 
-
 				prod.descuento=0;
-				prod.tipo=1;
 				this.productoService.putProducto(prod).subscribe(()=>{
 					this.mensajeService.add("Se eliminó la promoción.");
 					this.getProductos();
 				});
 			  });
+				}else{
+					this.servicioService.getServicioById(producto.id)
+			  .subscribe((prod) => { 
+				prod.descuento=0;
+				this.servicioService.putServicio(prod).subscribe(()=>{
+					this.mensajeService.add("Se eliminó la promoción.");
+					this.getProductos();
+				});
+			  });
+				}
 			}
 		 });
 	}

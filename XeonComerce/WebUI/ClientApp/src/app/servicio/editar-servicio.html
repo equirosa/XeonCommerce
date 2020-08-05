@@ -9,7 +9,7 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Nombre</mat-label>
-    <input required matInput [(ngModel)]="data.nombre">
+    <input minlength = "3" required matInput [(ngModel)]="data.nombre">
   </mat-form-field>
 
   <br>
@@ -21,8 +21,9 @@
 
   <mat-form-field style="width:400px !important" appearance="fill">
     <mat-label>Impuesto</mat-label>
-    <mat-select [(ngModel)]="data.impuestoServ">
-      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto">
+    <mat-select [(ngModel)]="data.impuesto" required>
+      <mat-option></mat-option>
+      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto.id">
         {{impuesto.nombre}}
       </mat-option>
     </mat-select>

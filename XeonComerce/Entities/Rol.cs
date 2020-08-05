@@ -9,8 +9,13 @@ namespace Entities
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonPropertyName("rol")]
-        public string rol { get; set; }
+
+        [JsonPropertyName("idComercio")]
+        public string IdComercio { get; set; }
+
+        [JsonPropertyName("nombre")]
+        public string Nombre { get; set; }
+
         [JsonPropertyName("descripcion")]
         public string Descripcion { get; set; }
 

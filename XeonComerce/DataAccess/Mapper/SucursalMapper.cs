@@ -11,15 +11,21 @@ namespace DataAccess.Mapper
         private const string DB_COL_ID = "ID";
         private const string DB_COL_ID_DIRECCION = "ID_DIRECCION";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
+        private const string DB_COL_DISPOSICIONES = "DISPOSICIONES";
+        private const string DB_COL_ESTADO = "ESTADO";
+        private const string DB_COL_NOMBRE = "NOMBRE";
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
             var operation = new SqlOperation { ProcedureName = "CRE_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddIntParam(DB_COL_ID, suc.Id);
+            operation.AddVarcharParam(DB_COL_ID, suc.Id);
             operation.AddIntParam(DB_COL_ID_DIRECCION, suc.IdDireccion);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, suc.IdComercio);
+            operation.AddVarcharParam(DB_COL_DISPOSICIONES, suc.Disposiciones);
+            operation.AddVarcharParam(DB_COL_ESTADO, suc.Estado);
+            operation.AddVarcharParam(DB_COL_NOMBRE, suc.Nombre);
 
             return operation;
         }
@@ -29,7 +35,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "RET_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddIntParam(DB_COL_ID, suc.Id);
+            operation.AddVarcharParam(DB_COL_ID, suc.Id);
 
             return operation;
         }
@@ -45,9 +51,12 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "UPD_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddIntParam(DB_COL_ID, suc.Id);
+            operation.AddVarcharParam(DB_COL_ID, suc.Id);
             operation.AddIntParam(DB_COL_ID_DIRECCION, suc.IdDireccion);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, suc.IdComercio);
+            operation.AddVarcharParam(DB_COL_DISPOSICIONES, suc.Disposiciones);
+            operation.AddVarcharParam(DB_COL_ESTADO, suc.Estado);
+            operation.AddVarcharParam(DB_COL_NOMBRE, suc.Nombre);
 
 
             return operation;
@@ -58,7 +67,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "DEL_SUCURSAL_PR" };
 
             var suc = (Sucursal)entity;
-            operation.AddIntParam(DB_COL_ID, suc.Id);
+            operation.AddVarcharParam(DB_COL_ID, suc.Id);
             return operation;
         }
 
@@ -79,9 +88,12 @@ namespace DataAccess.Mapper
         {
             var sucursal = new Sucursal
             {
-                Id = GetIntValue(row, DB_COL_ID),
+                Id = GetStringValue(row, DB_COL_ID),
                 IdDireccion = GetIntValue(row, DB_COL_ID_DIRECCION),
-                IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO)
+                IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
+                Disposiciones = GetStringValue(row, DB_COL_DISPOSICIONES),
+                Estado = GetStringValue(row,DB_COL_ESTADO),
+                Nombre = GetStringValue(row,DB_COL_NOMBRE)
             };
 
             return sucursal;

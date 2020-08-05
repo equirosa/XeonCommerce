@@ -1,12 +1,15 @@
+import { Impuesto } from './../_models/impuesto';
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
+import { ImpuestoService } from './../_services/impuesto.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Servicio } from '../_models/servicio';
-import { Impuesto } from '../_models/impuesto';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ServiciosService } from './../_services/servicios.service';
-import { ImpuestoService } from './../_services/impuesto.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ComercioService } from '../_services/comercio.service';
+import { MensajeService } from '../_services/mensaje.service';
 import { Comercio } from '../_models/comercio';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
 
@@ -21,52 +24,54 @@ export class ServicioComponent implements OnInit {
   servicio: Servicio;
   servicios: Servicio[];
   comercios: Comercio[];
-  impuestos: Impuesto[];
-  displayedColumns: string[] = ['id', 'nombre', 'precio', 'impuesto', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'nombre', 'precio', 'descuento', 'idComercio', 'duracion', 'editar', 'eliminar'];
   dataSource;
   public httpClient: HttpClient;
   public baseUrlApi: string;
   private servService: ServiciosService;
-  private impuestoService: ImpuestoService;
   public message: string;
   public serviceEndPoint: string;
+  user: any;
+  impuestos: Impuesto[];
 
-  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, impService: ImpuestoService) {
+  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService, private mensajeService: MensajeService,
+	 private accountService: AccountService) {
+	this.accountService.user.subscribe(x => {
+		this.user = x;
+	});
     this.httpClient = http;
     this.servService = servService;
-    this.impuestoService = impService;
 
   }
 
 
 
   ngOnInit(): void {
-    this.getComercios();
     this.getImpuestos();
     this.getServicios();
+	this.getComercios();
   }
 
   getServicios(): void {
+
     this.servService.getServicio()
       .subscribe(servicio => {
-        let datosServicios: Servicio[] = servicio;
-        let impuestos: Impuesto[] = this.impuestos;
-        for (var i = 0; i < datosServicios.length; i++) {
-          for (var j = 0; j < impuestos.length; j++) {
-            let impuestoId = impuestos[j].id;
-            if (datosServicios[i].impuesto == impuestoId) {
-              datosServicios[i].impuesto = impuestos[j].valor;
-            }
-          }
-        }
-        this.dataSource = new MatTableDataSource(datosServicios);
+		  if(this.user.comercio){
+			this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
+		  }else{
+			this.dataSource = new MatTableDataSource(servicio);
+		  }
       });
   }
 
   getComercios(): void {
     this.comercioService.get()
       .subscribe(comercios => {
-        this.comercios = comercios;
+		  if(this.user.comercio) {
+			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
+		  }else{
+			this.comercios = comercios;
+		  }
         console.log(this.comercios);
       });
   }
@@ -84,6 +89,29 @@ export class ServicioComponent implements OnInit {
     this.dataSource.filter = filtro.trim().toLowerCase();
   }
 
+  formularioCompleto(serv) {
+    let formularioCompleto = true;
+    if (serv.nombre == "" || serv.precio == "" || serv.impuesto == "" || serv.comercio == "" || serv.duracion == "") {
+      formularioCompleto = false;
+    }
+    return formularioCompleto;
+  }
+
+  datosCorrectosValoresPositivos(serv) {
+    let datosCorrectos = true;
+    if (parseInt(serv.precio) < 1 || parseInt(serv.duracion) < 1) {
+      datosCorrectos = false;
+    }
+    return datosCorrectos;
+  }
+
+  validarNombre(serv) {
+    if (serv.nombre.length < 3) {
+      return false;
+    }
+    return true;
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogServicio, {
       width: '500px',
@@ -92,25 +120,36 @@ export class ServicioComponent implements OnInit {
         tipo: 2,
         nombre: "",
         precio: "",
-        impuestos: this.impuestos,
-        impuesto: "",
         descuento: 0,
         comercios: this.comercios,
         comercio: "",
         duracion: "",
+		    impuestos: this.impuestos,
+		    impuesto: ""
       }
 
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
-      console.log('The dialog was closed');
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValoresPositivos(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+        return;
+      }
+
+      if (!this.validarNombre(result)) {
+        this.mensajeService.add("¡El nombre del servicio debe contener más de 3 letras!");
+        return;
+      }
+
       if (result) {
         let comercio: Comercio;
         comercio = result.comercio;
-        let impuesto: Impuesto;
-        impuesto = result.impuesto;
-        console.log(impuesto.id);
         let servicio: Servicio;
         servicio = {
           "id": result.id,
@@ -120,14 +159,14 @@ export class ServicioComponent implements OnInit {
           "descuento": result.descuento,
           "idComercio": comercio.cedJuridica,
           "duracion": result.duracion,
-          "impuesto": impuesto.id
+		      "impuesto": result.impuesto.id
         }
         console.log(servicio);
         this.servService.postServicio(servicio)
           .subscribe(() => {
             this.getServicios()
-          });
-        window.location.reload();
+		  });
+		  this.getServicios();
       }
     });
   }
@@ -161,15 +200,6 @@ export class ServicioComponent implements OnInit {
 
     console.log(comercioDelServicio);
 
-    function checkImpuesto() {
-      return servicio.impuesto;
-    }
-
-    let impuestoDelServicio = this.impuestos.find(checkImpuesto);
-    let impuestoServicio = impuestoDelServicio.nombre;
-
-    console.log(impuestoDelServicio);
-
     const dialogRef = this.dialog.open(DialogEditarServicio, {
       width: '500px',
       data: {
@@ -177,29 +207,43 @@ export class ServicioComponent implements OnInit {
         tipo: 2,
         nombre: servicio.nombre,
         precio: servicio.precio,
+        impuestos: this.impuestos,
+        impuesto: servicio.impuesto,
+        descuento: servicio.descuento,
         comercio: comercioDelServicio.nombreComercial,
         duracion: servicio.duracion,
-        impuestos: this.impuestos,
-        impuestoServ: impuestoServicio
       }
 
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
+
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValoresPositivos(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+        return;
+      }
+
+      if (!this.validarNombre(result)) {
+        this.mensajeService.add("¡El nombre del servicio debe contener más de 3 letras!");
+        return;
+      }
+
       if (result) {
-        let impuesto: Impuesto;
-        impuesto = result.impuestoProd;
-        console.log(impuesto.id);
         servicio = {
           "id": servicio.id,
           "tipo": 2,
           "nombre": result.nombre,
           "precio": result.precio,
-          "descuento": servicio.descuento,
+          "descuento": result.descuento,
           "idComercio": servicio.idComercio,
-          "duracion": result.duracion,
-          "impuesto": impuesto.id
+		      "duracion": result.duracion,
+          "impuesto": result.impuesto
         }
 
         console.log(servicio);

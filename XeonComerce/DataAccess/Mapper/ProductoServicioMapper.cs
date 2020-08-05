@@ -19,8 +19,8 @@ namespace DataAccess
         private const string DB_COL_CANTIDAD = "CANTIDAD";
         private const string DB_COL_DESCUENTO = "DESCUENTO";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
-        private const string DB_COL_DURACION = "DURACION";
         private const string DB_COL_IMPUESTO = "IMPUESTO";
+        private const string DB_COL_DURACION = "DURACION";
         #endregion
 
         #region methods
@@ -40,7 +40,8 @@ namespace DataAccess
                 Descuento = GetDoubleValue(row, DB_COL_DESCUENTO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
                 Duracion = GetIntValue(row, DB_COL_DURACION),
-                Impuesto = GetIntValue(row, DB_COL_IMPUESTO)
+                Impuesto = GetIntValue(row, DB_COL_IMPUESTO),
+                Tipo = GetIntValue(row, DB_COL_TIPO)
             };
 
             return producto;
@@ -56,7 +57,8 @@ namespace DataAccess
                 Descuento = GetDoubleValue(row, DB_COL_DESCUENTO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
                 Duracion = GetIntValue(row, DB_COL_DURACION),
-                Impuesto = GetIntValue(row, DB_COL_IMPUESTO)
+                Impuesto = GetIntValue(row, DB_COL_IMPUESTO),
+                Tipo = GetIntValue(row, DB_COL_TIPO)
             };
 
             return servicio;
@@ -98,7 +100,7 @@ namespace DataAccess
             var operation = new SqlOperation { ProcedureName = "CRE_PRODUCTO_SERVICIO_PR" };
 
             var prodAndServ = (Producto)entity;
-            
+
             operation.AddIntParam(DB_COL_TIPO, prodAndServ.Tipo);
             operation.AddVarcharParam(DB_COL_NOMBRE, prodAndServ.Nombre);
             operation.AddDoubleParam(DB_COL_PRECIO, prodAndServ.Precio);
@@ -186,4 +188,3 @@ namespace DataAccess
         #endregion
     }
 }
-

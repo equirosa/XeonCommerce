@@ -1,3 +1,5 @@
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Producto } from '../_models/producto';
@@ -6,6 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ProductoService } from './../_services/producto.service';
 import { ComercioService } from '../_services/comercio.service';
 import { ImpuestoService } from './../_services/impuesto.service';
+import { MensajeService } from '../_services/mensaje.service';
 import { Comercio } from '../_models/comercio';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
@@ -31,8 +34,12 @@ export class ProductoFormComponent implements OnInit {
   private impuestoService: ImpuestoService;
   public message: string;
   public serviceEndPoint: string;
+  user: any;
 
-  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService) {
+  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService, private mensajeService: MensajeService, private accountService: AccountService) {
+	this.accountService.user.subscribe(x => {
+		this.user = x;
+	});
     this.httpClient = http;
     this.prodService = prodService;
     this.impuestoService = impService;
@@ -49,17 +56,11 @@ export class ProductoFormComponent implements OnInit {
 
     this.prodService.getProducto()
       .subscribe(productos => {
-        let datosProducto: Producto[] = productos;
-        let infoImpuestos: Impuesto[] = this.impuestos;
-        for (var i = 0; i < datosProducto.length; i++) {
-          for (var j = 0; j < infoImpuestos.length; j++) {
-            let impuestoId = infoImpuestos[j].id;
-            if (datosProducto[i].impuesto == impuestoId) {
-              datosProducto[i].impuesto = infoImpuestos[j].valor;
-            }
-          }
-        }
-        this.dataSource = new MatTableDataSource(datosProducto);
+		  if(this.user.comercio){
+			this.dataSource = new MatTableDataSource(productos.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
+		  }else{
+			this.dataSource = new MatTableDataSource(productos);
+		  }
       });
   }
 
@@ -67,7 +68,11 @@ export class ProductoFormComponent implements OnInit {
   getComercios(): void {
     this.comercioService.get()
       .subscribe(comercios => {
-        this.comercios = comercios;
+		  if(this.user.comercio) {
+			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
+		  }else{
+			this.comercios = comercios;
+		  }
         console.log(this.comercios);
       });
   }
@@ -85,6 +90,31 @@ export class ProductoFormComponent implements OnInit {
     const filtro = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filtro.trim().toLowerCase();
   }
+
+  formularioCompleto(prod) {
+    let formularioCompleto = true;
+    if (prod.nombre == "" || prod.precio == "" || prod.impuesto == "" || prod.cantidad == "" || prod.comercio == "" || prod.duracion == "") {
+      formularioCompleto = false;
+    }
+    return formularioCompleto;
+  }
+
+  datosCorrectosValoresPositivos(prod) {
+    let datosCorrectos = true;
+    if (parseInt(prod.precio) < 1 || parseInt(prod.cantidad) < 1 || parseInt(prod.duracion) < 0) {
+      datosCorrectos = false;
+    }
+    return datosCorrectos;
+  }
+
+  validarNombre(prod) {
+    if (prod.nombre.length < 3) {
+      return false;
+    }
+    return true;
+  }
+
+  
 
 
 openDialog(): void {
@@ -108,14 +138,26 @@ openDialog(): void {
 
   dialogRef.afterClosed().subscribe(result => {
     console.log(`Resultado: ${result}`); 
-    console.log('The dialog was closed');
+
+    if (!this.formularioCompleto(result)) {
+      this.mensajeService.add("¡Favor llene todos los datos!");
+      return;
+    }
+
+    if (!this.datosCorrectosValoresPositivos(result)) {
+      this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+      return;
+    }
+
+    if (!this.validarNombre(result)) {
+      this.mensajeService.add("¡El nombre del producto debe contener más de 3 letras!");
+      return;
+    }
+
     if (result) {
       let comercio: Comercio;
       comercio = result.comercio;
-      console.log(comercio.cedJuridica);
-      let impuesto: Impuesto;
-      impuesto = result.impuesto;
-      console.log(impuesto.id);
+	  console.log(comercio.cedJuridica);
       let producto: Producto;
       producto = {
         "id": result.id,
@@ -126,14 +168,14 @@ openDialog(): void {
         "descuento": result.descuento,
         "idComercio": comercio.cedJuridica,
         "duracion": result.duracion,
-        "impuesto": impuesto.id
+        "impuesto": result.impuesto.id
       }
       console.log(producto);
       this.prodService.postProducto(producto)
         .subscribe(() => {
           this.getProductos();
         });
-      window.location.reload();
+      this.getProductos();
     }
   });
   }
@@ -146,22 +188,9 @@ openDialog(): void {
     }
 
     let comercioDelProducto = this.comercios.find(checkComercio);
-
+	
     console.log(comercioDelProducto);
-
-
-    let impuestos: Impuesto[] = this.impuestos;
-    let nombreImpuesto = "";
-    for (var i = 0; i < impuestos.length; i++) {
-      if (producto.impuesto == impuestos[i].valor)
-      {
-        nombreImpuesto = impuestos[i].nombre;
-      }
-    }
-    //let impuestoDelProducto = this.impuestos.find(checkImpuesto);
-    //let impuestoProd = impuestoDelProducto.nombre;
-    console.log(nombreImpuesto);
-
+	console.log(producto);
     const dialogRef = this.dialog.open(DialogEditarProducto, {
       width: '500px',
       data: {
@@ -169,22 +198,34 @@ openDialog(): void {
         tipo: 1,
         nombre: producto.nombre,
         precio: producto.precio,
-        cantidad: producto.cantidad,
+		    cantidad: producto.cantidad,
+		    impuestos: this.impuestos,
+		    impuesto: producto.impuesto,
+        descuento: producto.descuento,
         comercio: comercioDelProducto.nombreComercial,
-        duracion: producto.duracion,
-        impuestos: this.impuestos,
-        impuestoProd: nombreImpuesto
+		    duracion: producto.duracion
       }
 
     });
-
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
+
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValoresPositivos(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+        return;
+      }
+
+      if (!this.validarNombre(result)) {
+        this.mensajeService.add("¡El nombre del producto debe contener más de 3 letras!");
+        return;
+      }
+
       if (result) {
-        let impuesto: Impuesto;
-        impuesto = result.impuestoProd;
-        console.log(impuesto.id);
-        let cambiosProducto: Producto;
         producto = {
           "id": producto.id,
           "tipo": 1,
@@ -194,10 +235,9 @@ openDialog(): void {
           "descuento": producto.descuento,
           "idComercio": producto.idComercio,
           "duracion": result.duracion,
-          "impuesto": impuesto.id
+          "impuesto": result.impuesto
         }
-
-        console.log(producto);
+		console.log("producto a cambiar", producto);
 
         this.prodService.putProducto(producto)
           .subscribe(() => {

@@ -22,6 +22,9 @@ namespace Entities
         [JsonPropertyName("estado")]
         public string Estado { get; set; }
 
+        [JsonPropertyName("idRol")]
+        public int IdRol { get; set; }
+
         public EmpleadoComercioSucursal() { }
 
     }

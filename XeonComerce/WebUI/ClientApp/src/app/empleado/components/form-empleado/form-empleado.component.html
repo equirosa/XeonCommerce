@@ -1,9 +1,20 @@
 <h1 mat-dialog-title>Registro de Empleado</h1>
 <mat-dialog-content >
 <form [formGroup]="FormGroupEmpleado">
-    <mat-form-field>
+    <mat-form-field class="mr-lg">
         <mat-label>Cédula del Usuario</mat-label>
         <input matInput type="text" formControlName="Cedula" (keyup)="applyFilter($event)" required />
+    </mat-form-field>     
+    <mat-form-field>
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="Rol">
+            <mat-option 
+              *ngFor="let rol of roles"
+               [value]="rol.id"
+            >
+              {{rol.nombre}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>     
 </form>
 <mat-table class="overflow-md" [dataSource]="usuarios" *ngIf="mostrarUsuarios" >
@@ -32,32 +43,6 @@
     class="example-button-row" 
     cdkFocusInitial
     >
-     Registrar Empleado
+     Registrar 
     </button>
 </mat-dialog-actions>
-
-
-<!-- Prueba de implementacion de Tabs -->
-
-<!-- <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="Registro del Empleado">
-        <div class="mt-lg mb-lg">
-            <h2>Ingrese el Número de Cédula del Usuario</h2>
-        </div>        
-        <form [formGroup]="FormGroupEmpleado" >
-            <mat-form-field>
-                <mat-label>Cédula del Usuario</mat-label>
-                <input matInput type="text" formControlName="Cedula" required />
-            </mat-form-field>   
-            <button mat-flat-button (click)="verificarUsuario()" class="example-button-row" >
-                Registrar Empleado
-            </button>  
-        </form>        
-    </mat-tab>
-    <mat-tab label="Registro de horario">
-        
-    </mat-tab>
-    <mat-tab label="Registro de Rol">
-        
-    </mat-tab>
-</mat-tab-group> -->

@@ -4,6 +4,7 @@ export class EmpleadoComercioSucursal {
     idComercio: string;
     idSucursal: string;
     estado: string; 
+    idRol: number;
 
     constructor(){
        

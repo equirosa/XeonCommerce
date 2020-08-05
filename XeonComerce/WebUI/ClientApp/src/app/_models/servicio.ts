@@ -7,5 +7,4 @@ export interface Servicio {
   idComercio: string;
   duracion: number;
   impuesto: number;
-
 }

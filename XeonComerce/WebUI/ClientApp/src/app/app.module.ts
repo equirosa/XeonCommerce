@@ -57,7 +57,6 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
-import { LandingPageXeonSquadComponent } from './landingPageXeonSquad/landingPageXeonSquad.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -75,6 +74,13 @@ import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component'
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
+import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
+import { ConfigComponent, DialogConfig } from './config/config.component';
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
+import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { ListRolComponent } from './list-rol/list-rol.component';
+import { FormRolComponent } from './form-rol/form-rol.component';
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
 import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
 @NgModule({
     imports: [
@@ -134,12 +140,14 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
     DialogImpuesto,
     DialogServicio,
     DialogEditarProducto,
-    DialogEditarServicio,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
+		DialogSucursal,
+		DialogDireccionSucursal,
+    DialogEditarServicio,
 		DialogDiaFeriado
 	],
     declarations: [
@@ -163,21 +171,31 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
     DialogImpuesto,
     ServicioComponent,
     DialogServicio,
-    DialogEditarServicio,
 	DialogEditarProducto,
 	PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
+		DialogConfig,
+    	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
 		DialogCategoria,
 		NavComponent,
 		NavlistComponent,
-    PromocionComponent,
-    LandingPageXeonSquadComponent,
-    DashboardComercioComponent
+		SucursalesComponent,
+		DialogSucursal,
+		DialogDireccionSucursal,
+		PromocionComponent,
+		ConfigComponent,
+		DialogConfig,
+		PerfilComercioComponent,
+		ComercioRolComponent,
+		ListRolComponent,
+		FormRolComponent,
+		LandingPageXeonSquadComponent,
+		DashboardComercioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
