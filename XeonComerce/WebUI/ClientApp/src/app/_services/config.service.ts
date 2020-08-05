@@ -31,7 +31,9 @@ export class ConfigService {
 
   update(config: Config): any {
     return this.http.put(this.urlAPI + '/' + config.id, config).pipe(
-      tap(_ => this.log(_.msg)),
+	  tap(_ => { let a: any;
+	a = _;
+	this.log(a.msg)}),
       catchError(this.handleError<any>('update'))
     );
   }
