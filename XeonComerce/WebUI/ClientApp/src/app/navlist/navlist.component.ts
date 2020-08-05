@@ -73,16 +73,4 @@ cargarVistasEmpleado(): void {
 	
 }
 
-cargarVistasEmpleado(): void {
-	let rol = JSON.parse(localStorage.getItem('user')).empleado.idRol;
-	this.rolService.getRol(rol).subscribe({
-		next: res => {
-			this.vistasEmpleado = res.vistas;
-			console.log(this.vistasEmpleado);
-		},
-		error: err => console.log(err)
-	});
-	console.log(rol);
-}
-
 }

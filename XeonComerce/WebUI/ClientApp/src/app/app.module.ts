@@ -200,7 +200,7 @@ import { CarritoComponent } from './carrito/carrito.component';
 		ListRolComponent,
 		FormRolComponent,
 		LandingPageXeonSquadComponent,
-		DashboardComercioComponent
+		DashboardComercioComponent,
 		ListarUsuariosComponent,
 		DialogDireccionUsuario,
 		CrearSucursalComponent,

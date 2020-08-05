@@ -28,6 +28,7 @@ import { ConfigComponent } from './config/config.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
 import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
