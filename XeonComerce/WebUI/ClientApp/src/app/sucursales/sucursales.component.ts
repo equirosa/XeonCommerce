@@ -57,7 +57,9 @@ export class SucursalesComponent implements OnInit {
 
   getProvincias(): void {
     this.ubicacionService.getProvincias()
-      .subscribe(provincias => this.provincias = Object.keys(provincias).map(key => ({ value: Number(key), nombre: provincias[key] })));
+      .subscribe(provincias => {
+        this.provincias = Object.keys(provincias).map(key => ({ value: Number(key), nombre: provincias[key] }))
+      });
   }
 
 
@@ -71,7 +73,6 @@ export class SucursalesComponent implements OnInit {
   }*/
 
   abrirCrear(): void {
-
     const dialogRef = this.dialog.open(DialogSucursal, {
       width: '500px',
       data: {
@@ -79,7 +80,7 @@ export class SucursalesComponent implements OnInit {
         permitir: true,
         id: "123",
         idComercio: "",
-        nombre:"",
+        nombre: "",
         idDireccion: "",
         disposiciones: "",
         estado: "A",
@@ -94,7 +95,6 @@ export class SucursalesComponent implements OnInit {
         dir: true,
         sennas: ""
       }
-
     });
 
 

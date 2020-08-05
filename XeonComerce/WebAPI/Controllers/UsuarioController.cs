@@ -157,9 +157,8 @@ namespace WebAPI.Controllers
                     if (!(new EmailAddressAttribute().IsValid(usuario.CorreoElectronico))) throw new Exception("¡Formato de correo erroneo!");
                     if (String.IsNullOrEmpty(usuario.Nombre) || usuario.Nombre.Length <= 1) throw new Exception("¡Nombre debe tener más de 1 letra!");
                     if (String.IsNullOrEmpty(usuario.ApellidoUno) || usuario.ApellidoUno.Length <= 1) throw new Exception("¡Primer apellido debe tener más de 1 letra!");
-                    cat.Create(usuario);
-                    return Ok(new { msg = "Se actualizó el usuario" });
                     cat.Update(usuario);
+                    return Ok(new { msg = "Se actualizó el usuario" });
                 }
                 else
                 {
