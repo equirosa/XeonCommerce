@@ -145,7 +145,7 @@ import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.componen
 		DialogCategoria,
 		PromocionDialog,
 		DialogSucursal,
-		DialogDiaFeriado
+		DialogDiaFeriado,
 		DialogDireccionSucursal,
 		DialogDireccionUsuario,
 		DialogUsuario
@@ -192,7 +192,7 @@ import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.componen
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
-		FormRolComponent
+		FormRolComponent,
 		DialogConfig,
 		ListarUsuariosComponent,
 		DialogDireccionUsuario,
