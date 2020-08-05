@@ -27,15 +27,18 @@ export class EmpleadoHorarioComponent implements OnInit {
   diaSemana = this.dias[0].valor;
   idEmpleado: number; 
   nombreEmpleado: string;
+  permitirCargar: boolean;
 
   actualizarDatos = false;
 
   constructor( private empleadoService: EmpleadoService, public dialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.verificarTipoUsuario();
     this.idEmpleado = Number( this.route.snapshot.paramMap.get('idEmpleado') );
     this.route.fragment.subscribe( res => {
-      this.nombreEmpleado = res;
+      if(res) this.nombreEmpleado = `de ${res}`;
+      
     });
   }
 
@@ -53,6 +56,15 @@ export class EmpleadoHorarioComponent implements OnInit {
     dialogRef.afterClosed().subscribe( result => {
       this.actualizarDatos = !this.actualizarDatos;
     });
+  }
+
+  verificarTipoUsuario(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(user.tipo === 'C'){
+      this.permitirCargar = true; 
+    } else if( user.tipo === 'E') {
+      this.permitirCargar = false;
+    }
   }
  
 }

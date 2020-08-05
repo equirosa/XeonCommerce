@@ -1,3 +1,4 @@
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
 import { PromocionComponent } from './promocion/promocion.component';
 import { CategoriaComponent } from './categoria/categoria.component';
@@ -25,6 +26,7 @@ const empleadoModule = () => import('./empleado/empleado.module').then(x => x.Em
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { SucursalesComponent } from './sucursales/sucursales.component';
 import { ConfigComponent } from './config/config.component';
+import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -44,9 +46,11 @@ const routes: Routes = [
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
     { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
+    { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard]},
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+    { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

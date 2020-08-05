@@ -2,6 +2,8 @@ import { ComercioService } from './../_services/comercio.service';
 import { AccountService } from './../_services/account.service';
 import { User } from './../_models/user';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Vista } from '../_models/vista';
+import { RolService } from '../_services/rol.service';
 
 @Component({
   selector: 'app-nav-list',
@@ -14,15 +16,20 @@ export class NavlistComponent implements OnInit {
  
 	user: User;
 	yaTieneComercio: boolean;
+	vistasEmpleado: Vista[];
 
-    constructor(private accountService: AccountService, private comercioService: ComercioService) {
+    constructor(private accountService: AccountService, private comercioService: ComercioService, private rolService: RolService) {
         this.accountService.user.subscribe(x => {
 			this.user = x;
 			this.load();
+			
 		});
 	}
 
   ngOnInit(): void {
+	if( this.user && this.user.tipo === 'E'){
+		this.cargarVistasEmpleado();
+	}
   }
   
   public onSidenavClose = () => {
@@ -46,6 +53,18 @@ load(): void{
 			}
 		});
 	}
+}
+
+cargarVistasEmpleado(): void {
+	let rol = JSON.parse(localStorage.getItem('user')).empleado.idRol;
+	this.rolService.getRol(rol).subscribe({
+		next: res => {
+			this.vistasEmpleado = res.vistas;
+			console.log(this.vistasEmpleado);
+		},
+		error: err => console.log(err)
+	});
+	console.log(rol);
 }
 
 }

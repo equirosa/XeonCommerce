@@ -11,6 +11,11 @@
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Nombre</mat-label>
+    <input required matInput [(ngModel)]="data.nombre">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Dirección</mat-label>
     <input type="email" required matInput [(ngModel)]="data.idDireccion">
   </mat-form-field>

@@ -11,4 +11,5 @@ export interface Usuario {
 	idDireccion: number;
 	estado: string;
 	codigo: string;
+	tipo: string;
   }

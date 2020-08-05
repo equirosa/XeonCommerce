@@ -19,14 +19,16 @@ export class ListEmpleadosComponent implements OnInit {
   @Input()
   actualizarDatos = false; 
 
+  @Input()
+  idSucursal = '';
+
+  // idSucursal = '3101555-1';
+
   empleados = new MatTableDataSource<Empleado>();
 
   nombresColumnas: string[];
 
-  // cargar: boolean; 
-
-
-  idSucursal = '3101555-1';
+  
   columnas = [
     { header: 'Nombre', binding: 'nombre' },
     { header: 'Apellido', binding: 'apellidoUno'},
@@ -42,9 +44,9 @@ export class ListEmpleadosComponent implements OnInit {
 
 
   constructor(
-    private empleadoService: EmpleadoService, 
-    private _snackBar: MatSnackBar, 
-    public dialog: MatDialog, 
+    private empleadoService: EmpleadoService,
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -57,10 +59,14 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void{
-    if(changes.actualizarDatos.currentValue === true){
+
+    if(changes.idSucursal.currentValue !== ''){
       this.cargarEmpleados();
-      this.actualizarDatos = false; 
+    }else {
+      this.empleados.data = [];
     }
+  
+   
   }
 
   cargarEmpleados(): void {

@@ -1,0 +1,38 @@
+<div class="mat-elevation-8">
+    <mat-form-field>
+        <mat-label>Filtrar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar..." >
+    </mat-form-field>
+    <mat-table [dataSource]="roles" class="table-lg">
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="descripcion">          
+            <mat-header-cell *matHeaderCellDef>Descripción</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.descripcion}}</mat-cell>          
+        </ng-container> 
+        <ng-container matColumnDef="editar">
+            <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-icon-button  (click)="editar(element)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-icon-button  (click)="eliminar(element)">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>        
+        <mat-header-row class="toolbar" *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+    </mat-table>
+    <mat-paginator [length]="100"
+                  [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>    
+</div>

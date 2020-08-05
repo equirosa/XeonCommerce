@@ -15,55 +15,54 @@ namespace WebAPI.Controllers
     {
         private RolManagement rm = new RolManagement();
 
-        // GET: api/Rol
+      
         [HttpGet]
         public List<Rol> RetriveAll()
         {
             return rm.RetriveAll();
         }
 
-        // GET: api/Rol/5
+        
         [HttpGet]
-        public Rol RetriveById(string id)
+        public VistaRol RetriveById(int id)
         {
             var rol = new Rol()
             {
-                Id = Int32.Parse(id)
+                Id = id
             };
             return rm.RetriveById(rol);
         }
 
-        // POST: api/Rol
+        
         [HttpPost]
-        public IActionResult Create(Rol o)
+        public IActionResult Create(VistaRol vistaRol)
         {
             try
             {
-                rm.Create(o);
+                rm.Create(vistaRol);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msj = e.Message });
             }
         }
 
-        // PUT: api/Rol/5
         [HttpPut]
-        public IActionResult Update(Rol o)
+        public IActionResult Update(VistaRol vistaRol)
         {
             try
             {
-                rm.Update(o);
+                rm.Update(vistaRol);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msj = e.Message});
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+     
         [HttpDelete]
         public IActionResult Delete(string id)
         {
@@ -79,5 +78,13 @@ namespace WebAPI.Controllers
                 return StatusCode(500, e);
             }
         }
+
+            
+        [HttpGet]
+        public List<VistaRol> GetRolesByIdComercio(string idComercio)
+        {
+            return rm.GetRolesComercio(idComercio);
+        }
+
     }
 }

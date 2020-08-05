@@ -1,4 +1,4 @@
-<mat-nav-list *ngIf="user">
+<mat-nav-list *ngIf="user  && user.tipo == 'A'">
 	<img class="logo" src="../../assets/logo.png">
 	<br>
 	<mat-divider></mat-divider>
@@ -18,6 +18,7 @@
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/comercios">Administrar Comercios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/solicitudes">Solicitudes</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/productos">Productos</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/empleado/admin">Empleados</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/servicios">Servicios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/promocion">Promociones</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/sucursales">Sucursales</button>
@@ -79,5 +80,113 @@
 
 	<a mat-list-item routerLink="/cuenta/recuperar" (click)="onSidenavClose()">
 		<mat-icon>autorenew</mat-icon><span class="nav-caption">No recuerdo mi contraseña</span>
+	</a>
+</mat-nav-list>
+
+ <!-- Menu para Administrador de comercio -->
+
+<mat-nav-list *ngIf="user  && user.tipo == 'C'">
+	<img class="logo" src="../../assets/logo.png">
+	<br>
+	<mat-divider></mat-divider>
+	<br>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>home</mat-icon><span class="nav-caption">Inicio</span>
+	</a>
+
+	<mat-divider></mat-divider>
+
+<a mat-list-item routerLink="/sucursales" (click)="onSidenavClose()">
+	<span class="nav-caption">Sucursales</span>
+</a>
+<a mat-list-item routerLink="/productos" (click)="onSidenavClose()">
+	<span class="nav-caption">Productos</span>
+</a>
+<a mat-list-item routerLink="/servicios" (click)="onSidenavClose()">
+	<span class="nav-caption">Servicios</span>
+</a>
+<a mat-list-item routerLink="/empleado/comercio" (click)="onSidenavClose()">
+	<span class="nav-caption">Empleados</span>
+</a>
+<a mat-list-item routerLink="/promocion" (click)="onSidenavClose()">
+	<span class="nav-caption">Promociones</span>
+</a>
+<a mat-list-item routerLink="/rol" (click)="onSidenavClose()">
+	<span class="nav-caption">Roles</span>
+</a>
+
+<mat-divider></mat-divider>
+
+<mat-list-item [matMenuTriggerFor]="menu2">
+    <mat-icon>account_circle</mat-icon>
+    <a matline>Mi Cuenta</a>
+    <mat-icon>unfold_more</mat-icon>
+</mat-list-item>
+<mat-menu #menu2="matMenu">
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+</mat-menu>
+
+<mat-divider></mat-divider>
+<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+	<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
+</a>
+</mat-nav-list>
+
+<!-- Menu para Empleado -->
+
+<mat-nav-list *ngIf="user  && user.tipo == 'E'">
+	<img class="logo" src="../../assets/logo.png">
+	<br>
+	<mat-divider></mat-divider>
+	<br>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>home</mat-icon><span class="nav-caption">Inicio</span>
+	</a>
+
+	<mat-divider></mat-divider>
+<a mat-list-item routerLink="/empleado/horario/{{user.empleado.id}}" (click)="onSidenavClose()">
+	<span class="nav-caption">Horario</span>
+</a>
+<a mat-list-item routerLink="/empleado/calendario" (click)="onSidenavClose()">
+	<span class="nav-caption">Calendario</span>
+</a>
+<a *ngFor="let v of vistasEmpleado" mat-list-item routerLink="{{v.url}}" (click)="onSidenavClose()">
+		<span class="nav-caption">{{v.nombre}}</span>
+</a>
+
+
+<mat-divider></mat-divider>
+
+<mat-list-item [matMenuTriggerFor]="menu2">
+    <mat-icon>account_circle</mat-icon>
+    <a matline>Mi Cuenta</a>
+    <mat-icon>unfold_more</mat-icon>
+</mat-list-item>
+<mat-menu #menu2="matMenu">
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+</mat-menu>
+
+<mat-divider></mat-divider>
+<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+	<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
+</a>
+</mat-nav-list>
+
+
+<mat-nav-list *ngIf=" user && user.tipo == 'U'">
+	<mat-list-item [matMenuTriggerFor]="menu2">
+		<mat-icon>account_circle</mat-icon>
+		<a matline>Mi Cuenta</a>
+		<mat-icon>unfold_more</mat-icon>
+	</mat-list-item>
+	<mat-menu #menu2="matMenu">
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+	</mat-menu>
+	
+	
+	
+	<mat-divider></mat-divider>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
 	</a>
 </mat-nav-list>

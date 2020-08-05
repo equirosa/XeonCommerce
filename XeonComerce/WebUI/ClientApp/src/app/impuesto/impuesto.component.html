@@ -1,9 +1,12 @@
 <div class="divImpuesto">
   <h2>Impuestos</h2>
-  <button mat-raised-button color="crear" (click)="openDialog()">Crear</button>
+  <button mat-raised-button color="crear" (click)="abrirCrear()">Crear</button>
 
-  <br>
-  <br>
+  <mat-form-field>
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="filtrar($event)" placeholder="Buscar...">
+  </mat-form-field>
+
   <div class="mat-elevation-z8">
     <table mat-table matSort [dataSource]="dataSource">
 

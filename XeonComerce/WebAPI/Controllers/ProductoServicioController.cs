@@ -29,9 +29,9 @@ namespace WebAPI.Controllers
                     return Ok(prodAndServMng.RetrieveAllServicios());
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -63,10 +63,9 @@ namespace WebAPI.Controllers
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -78,16 +77,15 @@ namespace WebAPI.Controllers
                 var prodMng = new ProductoServicioManagement();
                 prodMng.Create(producto);
 
-                return Ok("Se registro con exito");
+                return Ok(new { msg = "Se registro con exito"});
 
                 //Ir a la base de datos para crear el cupon y obtener el Id.
                 //Se decide utilizar Producto de manera generica para productos y servicios.
                 // return CreatedAtAction(nameof(GetProductoById), new { id = producto.Id }, producto);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -107,13 +105,13 @@ namespace WebAPI.Controllers
                 else
                 {
                     prodAndServ.Update(producto);
-                    return NoContent();
+                    return Ok(new { msg = "Se actualizó con exito" });
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -126,12 +124,12 @@ namespace WebAPI.Controllers
                 var producto = new Producto { Id = id };
                 prodAndServ.Delete(producto);
 
-                return Ok("Se ha eliminado eliminado el cupón");
+                return Ok(new { msg = "Se ha eliminado" });
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
     }
