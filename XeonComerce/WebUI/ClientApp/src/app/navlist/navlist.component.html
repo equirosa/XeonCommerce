@@ -38,10 +38,7 @@
 	<mat-icon>supervised_user_circle</mat-icon><span class="nav-caption">Listar Usuarios</span>
 </a>
 
-<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
-	<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
-</a>
-<a mat-list-item routerLink="/" (click)="onSidenavClose()" *ngIf="!yaTieneComercio">
+<a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()" *ngIf="!yaTieneComercio">
 	<mat-icon>edit</mat-icon><span class="nav-caption">Administrar Comercio</span>
 </a>
 
@@ -178,6 +175,13 @@
 
 
 <mat-nav-list *ngIf=" user && user.tipo == 'U'">
+	<img class="logo" src="../../assets/logo.png">
+	<br>
+	<mat-divider></mat-divider>
+	<br>
+	<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
+		<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
+	</a>
 	<mat-list-item [matMenuTriggerFor]="menu2">
 		<mat-icon>account_circle</mat-icon>
 		<a matline>Mi Cuenta</a>

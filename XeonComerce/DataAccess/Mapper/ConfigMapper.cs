@@ -68,7 +68,7 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "RET_CONFIG_PR" };
+            var operation = new SqlOperation { ProcedureName = "UPD_CONFIG_PR" };
             var c = (Config)entity;
             operation.AddVarcharParam(DB_COL_ID, c.Id);
             operation.AddDoubleParam(DB_COL_VALOR, c.Valor);

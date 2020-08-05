@@ -15,15 +15,21 @@ import { ProductoService } from './../_services/producto.service';
 import { AccountService } from './../_services/account.service';
 import { MensajeService } from './../_services/mensaje.service';
 import { CarritoService } from './../_services/carrito.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+declare let paypal: any;
 
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css']
 })
-export class CarritoComponent implements OnInit {
+export class CarritoComponent implements OnInit, AfterViewChecked {
+	addScript: boolean = false; // Denota si ya se cargó el script de PayPal
 
+	finalAmount: number; // Monto a cobrar, se puede alterar
+	productosPP: any[];
+	
+	currency: string = 'USD'; // Moneda en la que se va a pagar
 	productos: any[];
 	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'eliminar'];
 	datos;
@@ -65,6 +71,8 @@ export class CarritoComponent implements OnInit {
 			console.log(this.productos);
 			this.datos = new MatTableDataSource(this.productos);
 			this.datos.sort = this.sort;
+			this.finalAmount = this.getCosto(this.datos, true);
+			this.productosPP = this.productos;
 			})
 
 	});
@@ -263,6 +271,93 @@ comprar(tabla, metodo): void {
 	});
 
 
+}
+
+
+productosPaypal(){
+	let items = [];
+	this.productosPP.forEach((i)=>{
+		items.push({
+			name: i.nombre,
+			quantity: i.cantidadCarrito,
+			price: Math.round(((((i.precio-i.descuento)*(i.porcientoImpuesto/100+1)/588.54)) + Number.EPSILON) * 100) / 100,
+			currency: this.currency
+		});
+	});
+	return items;
+}
+
+precioPaypal(){
+	let items = this.productosPaypal();
+	let total = 0;
+	items.forEach((i)=>{
+		total+= ((i.price*i.quantity));
+	});
+	return total;
+}
+
+
+paypalConfig = {
+  env: 'sandbox',
+  client: {
+	sandbox: 'AUIxW_mYvd_h3mMqTtHdrSNMJ9yPmJkpiOCkNq454vDxXCN6hgadgPHIX_9PTeQn1Qv8m-ozcQUQkUjZ' // 'Client ID' de la aplicación
+  },
+  commit: true,
+  payment: (data, actions) => { // se define el pago a realizar
+	return actions.payment.create({
+		transactions: [{
+			amount: {
+			  total: this.precioPaypal(),
+			  currency: this.currency,
+			},
+			description: 'Pago por productos o servicios.',
+			item_list: {
+			  items: this.productosPaypal(),
+			  /*shipping_address: {
+				recipient_name: 'Brian Robinson',
+				line1: '4th Floor',
+				line2: 'Unit #34',
+				city: 'San Jose',
+				country_code: 'US',
+				postal_code: '95131',
+				phone: '011862212345678',
+				state: 'CA'
+			  }*/
+			}
+		  }],
+		  note_to_payer: 'Favor contactar al administrador del comerico en caso de un problema.'
+	});
+  },
+  onAuthorize: (data, actions) => { // Corre luego de que hay una autorización exitosa
+	return actions.payment.execute().then((payment) => {
+	  console.log('Payment Successful');
+	  new Promise((resolve, rejects) => {
+		let successElement = document.createElement('h2');
+		// Crea un elemento de HTML para notificar que el pago fue exitoso.
+		successElement.textContent = "Payment Successful at: " + new Date() + '\n Amount: ' + this.finalAmount + ' ' + this.currency;
+		successElement.onload = resolve;
+		document.body.appendChild(successElement);
+	  })
+	})
+  }
+};
+
+ngAfterViewChecked(): void { // Crea el botón de pago de PayPal al visitar la página.
+  if (!this.addScript) {
+	this.addPaypalScript().then(() => { // se crea el botón luego de cargar el script de paypal
+	  paypal.Button.render(this.paypalConfig, '#paypal-checkout-btn');
+	})
+  }
+}
+
+addPaypalScript() { // Llama el script de pagos de paypal
+  this.addScript = true;
+  return new Promise((resolve, rejects) => {
+	let scriptTagElement = document.createElement('script');
+	scriptTagElement.src = "https://www.paypalobjects.com/api/checkout.js";
+	scriptTagElement.onload = resolve;
+	document.body.appendChild(scriptTagElement);
+  })
 }
 
 }

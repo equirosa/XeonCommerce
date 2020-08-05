@@ -19,115 +19,44 @@ import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-di
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent implements OnInit {
-  configs: Config[];
-  configFinal: Config;
-  maxCancelar: number;
-  displayedColumns: string[] = ['id', 'valor', 'editar', 'eliminar'];
-  datos;
+  maxCancelar: Config;
+  minContrasennas: Config;
   accion;
+  configuracion: FormGroup;
 
   constructor(public dialog: MatDialog, private router: Router, private _formBuilder: FormBuilder, private configService: ConfigService, private mensajeService: MensajeService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit(): void {
-    this.getConfigs();
-    this.maxCancelar = 23;
+	  this.configuracion = this._formBuilder.group({
+      diasAntelacion: ['', [Validators.required,  Validators.pattern("[0-9]")]],
+      contrasennas: ['', [Validators.required, Validators.pattern("[0-9]")]],
+      });
+      this.getConfigs();
   }
 
   getConfigs(): void {
-    this.configService.get().subscribe(configs => {
-      this.configs = configs.sort((a, b) => {
-        return a.id.localeCompare(b.id);
-      });
-      this.datos = new MatTableDataSource(this.configs);
-      this.datos.sort = this.sort;
-    })
-  }
-
-  filtrar(event: Event) {
-    const filtro = (event.target as HTMLInputElement).value;
-    this.datos.filter = filtro.trim().toLowerCase();
-  }
-
-  crear(): void {
-    const dialogRef = this.dialog.open(DialogConfig, {
-      width: '500px',
-      data: {
-        accion: "crear",
-        permitir: !true,
-        id: "",
-        valor: 0,
-      }
+    this.configService.getById("CONTRASENNA_VALIDA_H").subscribe(config =>{
+      this.minContrasennas = config;
+      this.configuracion.get("contrasennas").setValue(this.minContrasennas.valor);
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Resultado ${result}`);
-      if (result) {
-        console.log("Agregando configuración...");
-
-        let configFinal: Config
-        configFinal = {
-          "id": result.id,
-          "valor": result.valor
-        }
-        this.configService.create(configFinal).subscribe(() => {
-          this.getConfigs()
-        });
-      }
+    this.configService.getById("MIN_DIAS_CANCELAR_CI").subscribe(config =>{
+      this.maxCancelar = config;
+      this.configuracion.get("diasAntelacion").setValue(this.maxCancelar.valor);
     });
   }
 
-  editar(config: Config): void {
-    const dialogRef = this.dialog.open(DialogConfig, {
-      width: '500px',
-      data: {
-        accion: "editar",
-        permitir: true,
-        id: config.id,
-        valor: config.valor
+  update(): void {
+    this.maxCancelar.valor = this.configuracion.get("diasAntelacion").value;
+    this.minContrasennas.valor = this.configuracion.get("contrasennas").value;
+    this.configService.update(this.maxCancelar).subscribe(result => {
+      if (result){
+        console.log("Dias de cancelacion actualizados.");
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.configService.update(result).subscribe(() => this.getConfigs);
-      }
+    this.configService.update(this.minContrasennas).subscribe(result=>{
+      console.log(result);
     });
   }
-
-  eliminar(config: Config): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '500px',
-      data: {
-        title: '¿Está seguro?',
-        message: 'Usted está a punto de eliminar una entrada de configuración.'
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      if (dialogResult) {
-        this.configService.delete(config.id).subscribe(() => {
-          this.getConfigs();
-        });
-      }
-    });
-  }
-}
-
-@Component({
-  selector: 'dialog-config',
-  templateUrl: 'editar.html',
-})
-export class DialogConfig {
-  constructor(
-    public dialogRef: MatDialogRef<DialogConfig>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-
 }

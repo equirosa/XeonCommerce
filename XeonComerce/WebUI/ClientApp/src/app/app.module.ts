@@ -46,16 +46,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
-import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
-;
-import { SolicitudesComponent } from './solicitudes/solicitudes.component'
-;
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -74,15 +74,19 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
-import { ConfigComponent, DialogConfig } from './config/config.component';
+import { ConfigComponent } from './config/config.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
-import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.component';
 import { CarritoComponent } from './carrito/carrito.component';
-import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
+
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -125,7 +129,7 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
-		MatDividerModule,
+    MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -146,6 +150,7 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
+    DialogEditarServicio,
 		DialogSucursal,
 		DialogDiaFeriado,
 		DialogDireccionSucursal,
@@ -179,7 +184,6 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
-		DialogConfig,
     	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
@@ -195,11 +199,16 @@ import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/co
 		ComercioRolComponent,
 		ListRolComponent,
 		FormRolComponent,
-		DialogConfig,
+		LandingPageXeonSquadComponent,
+		DashboardComercioComponent,
 		ListarUsuariosComponent,
 		DialogDireccionUsuario,
-		CrearSucursalComponent,
-		CarritoComponent
+		CarritoComponent,
+		FormRolComponent,
+		PerfilSucursalComponent,
+		FormHorarioSucursalComponent,
+		DashboardAdminComponent,
+		
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

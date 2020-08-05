@@ -1,3 +1,4 @@
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
@@ -14,9 +15,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
 import { AuthGuard } from './_helpers';
 import { EmpleadoAdminComponent } from './empleado/pages/empleado-admin/empleado-admin.component';
-import { ProductoFormComponent } from './producto-form/producto-form.component'
-import { ImpuestoComponent } from './impuesto/impuesto.component'
-import { ServicioComponent } from './servicio/servicio.component'
+import { ProductoFormComponent } from './producto-form/producto-form.component';
+import { ImpuestoComponent } from './impuesto/impuesto.component';
+import { ServicioComponent } from './servicio/servicio.component';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
@@ -26,7 +27,10 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { SucursalesComponent } from './sucursales/sucursales.component';
 import { ConfigComponent } from './config/config.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -46,13 +50,19 @@ const routes: Routes = [
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
     { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
-    { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard]},
+  { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard] },
+  { path: 'landingEquipo', component: LandingPageXeonSquadComponent },
+  { path: 'landingApp', component: LandingPageAppComponent },
+  { path: 'dashboardComercio', component: DashboardComercioComponent, canActivate: [AuthGuard] },
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
     { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
     { path: 'listar-usuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard]},
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+    { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
+    { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

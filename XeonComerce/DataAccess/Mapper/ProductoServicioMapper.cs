@@ -100,7 +100,7 @@ namespace DataAccess
             var operation = new SqlOperation { ProcedureName = "CRE_PRODUCTO_SERVICIO_PR" };
 
             var prodAndServ = (Producto)entity;
-            
+
             operation.AddIntParam(DB_COL_TIPO, prodAndServ.Tipo);
             operation.AddVarcharParam(DB_COL_NOMBRE, prodAndServ.Nombre);
             operation.AddDoubleParam(DB_COL_PRECIO, prodAndServ.Precio);
@@ -188,4 +188,3 @@ namespace DataAccess
         #endregion
     }
 }
-
