@@ -48,10 +48,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
-import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
-;
-import { SolicitudesComponent } from './solicitudes/solicitudes.component'
-;
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
@@ -83,6 +81,7 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
 import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.component';
 import { CarritoComponent } from './carrito/carrito.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -200,6 +199,9 @@ import { CarritoComponent } from './carrito/carrito.component';
 		DialogDireccionUsuario,
 		CrearSucursalComponent,
 		CarritoComponent
+		FormRolComponent,
+		PerfilSucursalComponent,
+		
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

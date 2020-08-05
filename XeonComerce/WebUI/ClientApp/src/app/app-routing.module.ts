@@ -27,6 +27,7 @@ import { SucursalesComponent } from './sucursales/sucursales.component';
 import { ConfigComponent } from './config/config.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -53,6 +54,9 @@ const routes: Routes = [
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
     { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
     { path: 'listar-usuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard]},
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+    { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
+    { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

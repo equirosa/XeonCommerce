@@ -1,0 +1,87 @@
+<div class="page-container" *ngIf="sucursal">
+
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile colspan="1" rowspan='1'>
+            <mat-card>
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <mat-icon aria-hidden="false" aria-label="Comercio">business</mat-icon>
+                    </div>
+                    <mat-card-title>{{sucursal.nombre}}</mat-card-title>
+                    <mat-card-subtitle>{{sucursal.id}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>
+                        <strong>Disposiciones de Ingreso</strong>
+                        <strong>{{sucursal.disposiciones}}</strong>
+                    </p>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" rowspan='1'>
+            <mat-card *ngIf="direccion" class="cardDir">
+
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Provincia</mat-label>
+                    <mat-select disabled [(ngModel)]="direccion.provincia" (selectionChange)="getCantonesE($event)">
+                        <mat-option *ngFor="let provincia of provincias" [value]="direccion.provincia">
+                            {{provincia.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Cantón</mat-label>
+                    <mat-select disabled [(ngModel)]="direccion.canton" (selectionChange)="getDistritosE($event)">
+                        <mat-option *ngFor="let canton of cantones" [value]="direccion.canton">
+                            {{canton.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="width:400px !important" appearance="fill">
+                    <mat-label>Distrito</mat-label>
+                    <mat-select disabled [(ngModel)]="direccion.distrito">
+                        <mat-option *ngFor="let distrito of distritos" [value]="direccion.distrito">
+                            {{distrito.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <agm-map style="height: 200px;" [latitude]="direccion.latitud" [longitude]="direccion.longitud">
+                    <agm-marker [latitude]="direccion.latitud" [longitude]="direccion.longitud"></agm-marker>
+                </agm-map>
+
+
+                <mat-form-field style="width:400px !important" appearance="fill">
+                    <mat-label>Otras señas</mat-label>
+                    <textarea disabled required matInput [(ngModel)]="direccion.sennas"> </textarea>
+                </mat-form-field>
+            </mat-card>
+
+        </mat-grid-tile>
+      
+        <mat-grid-tile colspan="2">            
+            <mat-grid-tile-header>
+                <h1>Productos</h1>
+            </mat-grid-tile-header>
+
+            <mat-card class="card mr-md" *ngFor="let producto of productos">
+                <mat-card-header>
+                    <mat-card-title>{{producto.nombre}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <strong>Precio</strong><span>{{producto.precio}}</span>
+                </mat-card-content>
+                <mat-card-action>
+                    <button mat-button>Agregar a carrito</button>
+                    <button mat-button>Agregar a cita</button>
+                </mat-card-action>
+            </mat-card>
+
+
+        </mat-grid-tile>
+    </mat-grid-list>
+
+</div>
