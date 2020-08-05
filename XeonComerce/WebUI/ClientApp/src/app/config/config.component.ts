@@ -22,25 +22,34 @@ export class ConfigComponent implements OnInit {
   maxCancelar: Config;
   minContrasennas: Config;
   accion;
+  configuracion: FormGroup;
 
   constructor(public dialog: MatDialog, private router: Router, private _formBuilder: FormBuilder, private configService: ConfigService, private mensajeService: MensajeService) { }
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit(): void {
-    this.getConfigs();
+	  this.configuracion = this._formBuilder.group({
+      diasAntelacion: ['', [Validators.required,  Validators.pattern("[0-9]")]],
+      contrasennas: ['', [Validators.required, Validators.pattern("[0-9]")]],
+      });
+      this.getConfigs();
   }
 
   getConfigs(): void {
     this.configService.getById("CONTRASENNA_VALIDA_H").subscribe(config =>{
       this.minContrasennas = config;
+      this.configuracion.get("contrasennas").setValue(this.minContrasennas.valor);
     });
     this.configService.getById("MIN_DIAS_CANCELAR_CI").subscribe(config =>{
       this.maxCancelar = config;
+      this.configuracion.get("diasAntelacion").setValue(this.maxCancelar.valor);
     });
   }
 
   update(): void {
+    this.maxCancelar.valor = this.configuracion.get("diasAntelacion").value;
+    this.minContrasennas.valor = this.configuracion.get("contrasennas").value;
     this.configService.update(this.maxCancelar).subscribe(result => {
       if (result){
         console.log("Dias de cancelacion actualizados.");
