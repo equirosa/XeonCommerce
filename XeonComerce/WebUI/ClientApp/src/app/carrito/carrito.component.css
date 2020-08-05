@@ -25,6 +25,10 @@ div.mat-elevation-z8 {
 	margin-top: 1%;
 }
 
+.btnComprar{
+	justify-content: flex-end;
+}
+
   /*Código de David Darnes, gracias*/
   .sale {
 	position: relative;
