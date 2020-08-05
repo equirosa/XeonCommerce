@@ -48,10 +48,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
-import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
-;
-import { SolicitudesComponent } from './solicitudes/solicitudes.component'
-;
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
@@ -80,6 +78,8 @@ import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+
 @NgModule({
     imports: [
 		FormsModule,
@@ -191,7 +191,9 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
-		FormRolComponent
+		FormRolComponent,
+		PerfilSucursalComponent,
+		
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
