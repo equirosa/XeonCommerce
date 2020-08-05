@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
                 if (GetById(id) != null)
                 {
                     conf.Update(config);
-                    return Ok("Se actualizó la configuración!");
+                    return Ok(new { msg = "Se actualizó la configuración!" });
                 }
                 else
                 {
