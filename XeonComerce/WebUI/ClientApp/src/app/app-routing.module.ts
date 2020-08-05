@@ -28,6 +28,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { SucursalesComponent } from './sucursales/sucursales.component';
 import { ConfigComponent } from './config/config.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 
 const routes: Routes = [
@@ -55,6 +56,7 @@ const routes: Routes = [
   { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
     { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
     { path: 'listar-usuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard]},
+    { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
