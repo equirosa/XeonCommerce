@@ -201,7 +201,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		DashboardComercioComponent,
 		ListarUsuariosComponent,
 		DialogDireccionUsuario,
-		CarritoComponent
+		CarritoComponent,
 		FormRolComponent,
 		PerfilSucursalComponent,
 		
