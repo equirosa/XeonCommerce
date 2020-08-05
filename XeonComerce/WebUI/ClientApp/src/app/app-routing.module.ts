@@ -21,6 +21,8 @@ import { ServicioComponent } from './servicio/servicio.component'
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
 import { ComerciosCardComponent } from './comercios-card/comercios-card.component'
+import { DescuentosComponent } from './descuentos/descuentos.component';
+import { DescuentosCardComponent } from './descuentos-card/descuentos-card.component';
 const empleadoModule = () => import('./empleado/empleado.module').then(x => x.EmpleadoModule);
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { SucursalesComponent } from './sucursales/sucursales.component';

@@ -52,7 +52,6 @@ import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dia
 ;
 import { SolicitudesComponent } from './solicitudes/solicitudes.component'
 ;
-import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
