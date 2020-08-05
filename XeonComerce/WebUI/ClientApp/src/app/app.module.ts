@@ -73,7 +73,7 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
-import { ConfigComponent, DialogConfig } from './config/config.component';
+import { ConfigComponent } from './config/config.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
@@ -180,7 +180,6 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
-		DialogConfig,
     	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
@@ -192,7 +191,6 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
-		DialogConfig,
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
