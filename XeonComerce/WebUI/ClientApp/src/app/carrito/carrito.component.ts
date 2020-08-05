@@ -15,15 +15,20 @@ import { ProductoService } from './../_services/producto.service';
 import { AccountService } from './../_services/account.service';
 import { MensajeService } from './../_services/mensaje.service';
 import { CarritoService } from './../_services/carrito.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+declare let paypal: any;
 
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css']
 })
-export class CarritoComponent implements OnInit {
+export class CarritoComponent implements OnInit, AfterViewChecked {
+	addScript: boolean = false; // Denota si ya se cargó el script de PayPal
 
+	finalAmount: number; // Monto a cobrar, se puede alterar
+	
+	currency: string = 'USD'; // Moneda en la que se va a pagar
 	productos: any[];
 	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'eliminar'];
 	datos;
@@ -65,6 +70,7 @@ export class CarritoComponent implements OnInit {
 			console.log(this.productos);
 			this.datos = new MatTableDataSource(this.productos);
 			this.datos.sort = this.sort;
+			this.finalAmount = this.getCosto(this.datos, true);
 			})
 
 	});
@@ -263,6 +269,55 @@ comprar(tabla, metodo): void {
 	});
 
 
+}
+
+paypalConfig = {
+  env: 'sandbox',
+  client: {
+	sandbox: 'AUIxW_mYvd_h3mMqTtHdrSNMJ9yPmJkpiOCkNq454vDxXCN6hgadgPHIX_9PTeQn1Qv8m-ozcQUQkUjZ' // 'Client ID' de la aplicación
+  },
+  commit: true,
+  payment: (data, actions) => { // se define el pago a realizar
+	return actions.payment.create({
+	  payment: {
+		transactions: [
+		  {
+			amount: { total: this.finalAmount, currency: this.currency }
+		  }
+		]
+	  }
+	});
+  },
+  onAuthorize: (data, actions) => { // Corre luego de que hay una autorización exitosa
+	return actions.payment.execute().then((payment) => {
+	  console.log('Payment Successful');
+	  new Promise((resolve, rejects) => {
+		let successElement = document.createElement('h2');
+		// Crea un elemento de HTML para notificar que el pago fue exitoso.
+		successElement.textContent = "Payment Successful at: " + new Date() + '\n Amount: ' + this.finalAmount + ' ' + this.currency;
+		successElement.onload = resolve;
+		document.body.appendChild(successElement);
+	  })
+	})
+  }
+};
+
+ngAfterViewChecked(): void { // Crea el botón de pago de PayPal al visitar la página.
+  if (!this.addScript) {
+	this.addPaypalScript().then(() => { // se crea el botón luego de cargar el script de paypal
+	  paypal.Button.render(this.paypalConfig, '#paypal-checkout-btn');
+	})
+  }
+}
+
+addPaypalScript() { // Llama el script de pagos de paypal
+  this.addScript = true;
+  return new Promise((resolve, rejects) => {
+	let scriptTagElement = document.createElement('script');
+	scriptTagElement.src = "https://www.paypalobjects.com/api/checkout.js";
+	scriptTagElement.onload = resolve;
+	document.body.appendChild(scriptTagElement);
+  })
 }
 
 }
