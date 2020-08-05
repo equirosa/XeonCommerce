@@ -60,7 +60,12 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetRetriveStatement(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "RET_CITA_PR" };
+
+            var c = (Cita)entity;
+            operation.AddIntParam(DB_COL_ID, c.Id);
+
+            return operation;
         }
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
