@@ -38,7 +38,7 @@ httpOptions = {
 
 
   update(usuario: Usuario): Observable<any> {
-	return this.http.put(`${this.urlApi}/${usuario.id}`, usuario, this.httpOptions).pipe(
+	return this.http.put(`${this.urlApi}/Update/${usuario.id}`, usuario, this.httpOptions).pipe(
 	  tap(_ => this.log(`Se actualizó`)),
 	  catchError(this.handleError<any>('update'))
 	);
@@ -84,7 +84,7 @@ httpOptions = {
     );  }
 
   delete(usuario: Usuario): Observable<Usuario> {
-    const url = `${this.urlApi}/Update/${usuario.id}`;
+    const url = `${this.urlApi}/Delete/${usuario.id}`;
     return this.http.delete<Usuario>(url, this.httpOptions).pipe(
       tap(_ => this.log(`Se eliminó`)),
       catchError(this.handleError<Usuario>('delete'))

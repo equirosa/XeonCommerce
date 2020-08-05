@@ -116,6 +116,10 @@ export class RegistroUsuarioComponent implements OnInit {
 	});
 	}
 
+	markerDragEnd($event: any) {
+		this.latitud = $event.latLng.lat()
+		this.longitud = $event.latLng.lng()
+	}
 
 	probarCodigoTelefono(): void{
 		this.usuarioService.getBy(this.usuarioFinal.id).subscribe((retUsr) => {
