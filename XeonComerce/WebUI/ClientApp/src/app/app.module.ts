@@ -79,6 +79,7 @@ import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 @NgModule({
     imports: [
@@ -193,6 +194,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		ListRolComponent,
 		FormRolComponent,
 		PerfilSucursalComponent,
+		FormHorarioSucursalComponent,
 		
     ],
     providers: [
