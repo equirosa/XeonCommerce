@@ -56,10 +56,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio } from './servicio/servicio.component'
-import { DescuentosComponent, DialogPromocion } from './descuentos/descuentos.component';
-import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
-import { DescuentosCardComponent} from './descuentos-card/descuentos-card.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
