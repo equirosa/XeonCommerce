@@ -202,6 +202,7 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		DialogDireccionUsuario,
 		CrearSucursalComponent,
 		CarritoComponent,
+		FormRolComponent,
 		PerfilSucursalComponent,
     LandingPageXeonSquadComponent,
     DashboardComercioComponent
