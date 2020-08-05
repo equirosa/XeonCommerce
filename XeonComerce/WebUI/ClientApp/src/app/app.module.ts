@@ -79,6 +79,8 @@ import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
+import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
+import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -143,9 +145,10 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		DialogCategoria,
 		PromocionDialog,
 		DialogSucursal,
-		DialogDireccionSucursal,
-    DialogEditarServicio,
 		DialogDiaFeriado
+		DialogDireccionSucursal,
+		DialogDireccionUsuario,
+		DialogUsuario
 	],
     declarations: [
         AppComponent,
@@ -186,11 +189,14 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
-		DialogConfig,
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
 		FormRolComponent
+		DialogConfig,
+		ListarUsuariosComponent,
+		DialogDireccionUsuario,
+		CrearSucursalComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

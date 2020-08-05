@@ -1,9 +1,5 @@
 <div class="divComercios">
   <h2>Configuración</h2>
-  <button mat-raised-button color="crear" (click)="crear()">Crear</button>
-
-  <br>
-  <br>
   <div class="mat-elevation-z8">
     <table mat-table matSort [dataSource]="datos">
 
@@ -30,4 +26,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-form-field>
+      <mat-label>Dias Máximos de antelación para cancelar citas</mat-label>
+      <input mat-input id="maxCancelar">
+    </mat-form-field>
   </div>
