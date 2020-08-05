@@ -1,3 +1,7 @@
+import { Impuesto } from './../_models/impuesto';
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
+import { ImpuestoService } from './../_services/impuesto.service';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Servicio } from '../_models/servicio';
@@ -26,8 +30,14 @@ export class ServicioComponent implements OnInit {
   private servService: ServiciosService;
   public message: string;
   public serviceEndPoint: string;
+  user: any;
+  impuestos: Impuesto[];
 
-  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService) {
+  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService,
+	 private accountService: AccountService) {
+	this.accountService.user.subscribe(x => {
+		this.user = x;
+	});
     this.httpClient = http;
     this.servService = servService;
 
@@ -36,29 +46,47 @@ export class ServicioComponent implements OnInit {
 
 
   ngOnInit(): void {
+	this.getImpuestos();
     this.getServicios();
-    this.getComercios();
+	this.getComercios();
   }
 
   getServicios(): void {
+
     this.servService.getServicio()
       .subscribe(servicio => {
-        this.dataSource = new MatTableDataSource(servicio);
+		  if(this.user.comercio){
+			this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
+		  }else{
+			this.dataSource = new MatTableDataSource(servicio);
+		  }
       });
   }
 
   getComercios(): void {
     this.comercioService.get()
       .subscribe(comercios => {
-        this.comercios = comercios;
+		  if(this.user.comercio) {
+			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
+		  }else{
+			this.comercios = comercios;
+		  }
         console.log(this.comercios);
+      });
+  }
+
+  getImpuestos(): void {
+    this.impuestoService.getImpuesto()
+      .subscribe(impuestos => {
+        this.impuestos = impuestos;
+        console.log(this.impuestos);
       });
   }
 
   filtrar(event: Event) {
     const filtro = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filtro.trim().toLowerCase();
-  }  
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogServicio, {
@@ -72,6 +100,8 @@ export class ServicioComponent implements OnInit {
         comercios: this.comercios,
         comercio: "",
         duracion: "",
+		impuestos: this.impuestos,
+		impuesto: ""
       }
 
     });
@@ -90,14 +120,15 @@ export class ServicioComponent implements OnInit {
           "precio": result.precio,
           "descuento": result.descuento,
           "idComercio": comercio.cedJuridica,
-          "duracion": result.duracion
+          "duracion": result.duracion,
+		  "impuesto": result.impuesto.id
         }
         console.log(servicio);
         this.servService.postServicio(servicio)
           .subscribe(() => {
             this.getServicios()
-          });
-        window.location.reload();
+		  });
+		  this.getServicios();
       }
     });
   }
@@ -117,10 +148,61 @@ export class ServicioComponent implements OnInit {
         .subscribe(() => {
           this.getServicios();
         });
-      window.location.reload();
+      this.getServicios();
     });
   }
 
+
+  editarDialog(servicio: Servicio): void {
+    function checkComercio() {
+      return servicio.idComercio;
+    }
+
+    let comercioDelServicio = this.comercios.find(checkComercio);
+
+    console.log(comercioDelServicio);
+
+    const dialogRef = this.dialog.open(DialogEditarServicio, {
+      width: '500px',
+      data: {
+        id: servicio.id,
+        tipo: 2,
+        nombre: servicio.nombre,
+        precio: servicio.precio,
+        descuento: servicio.descuento,
+        comercio: comercioDelServicio.nombreComercial,
+        duracion: servicio.duracion,
+		impuestos: this.impuestos,
+		impuesto: servicio.impuesto
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Resultado: ${result}`);
+      if (result) {
+        servicio = {
+          "id": servicio.id,
+          "tipo": 2,
+          "nombre": result.nombre,
+          "precio": result.precio,
+          "descuento": result.descuento,
+          "idComercio": servicio.idComercio,
+		  "duracion": result.duracion,
+		  "impuesto": result.impuesto
+        }
+
+        console.log(servicio);
+
+        this.servService.putServicio(servicio)
+          .subscribe(() => {
+            this.getServicios()
+          });
+        this.getServicios();
+      }
+
+    });
+  }
 }
 
 
@@ -139,3 +221,21 @@ export class DialogServicio {
     this.dialogRef.close();
   }
 }
+
+@Component({
+  selector: 'dialog-editar-servicio',
+  templateUrl: './editar-servicio.html',
+})
+export class DialogEditarServicio {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogEditarServicio>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private comercioService: ComercioService) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+

@@ -32,6 +32,6 @@ export class ConfigService {
   }
 
   delete(id: string): any {
-    return this.http.delete(this.urlAPI + `${id}`);
+    return this.http.delete(this.urlAPI + '/' + `${id}`);
 }
 }

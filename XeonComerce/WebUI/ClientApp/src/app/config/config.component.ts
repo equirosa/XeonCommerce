@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-dialog.component';
 
 
 
@@ -20,8 +21,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class ConfigComponent implements OnInit {
   configs: Config[];
   configFinal: Config;
-  displayedColumns: string[] = ['id', 'valor'];
+  maxCancelar: number;
+  displayedColumns: string[] = ['id', 'valor', 'editar', 'eliminar'];
   datos;
+  accion;
 
   constructor(public dialog: MatDialog, private router: Router, private _formBuilder: FormBuilder, private configService: ConfigService, private mensajeService: MensajeService) { }
 
@@ -29,6 +32,7 @@ export class ConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConfigs();
+    this.maxCancelar = 23;
   }
 
   getConfigs(): void {
@@ -53,14 +57,14 @@ export class ConfigComponent implements OnInit {
         accion: "crear",
         permitir: !true,
         id: "",
-        valor: "",
+        valor: 0,
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado ${result}`);
       if (result) {
-        console.log("Agregando configuracion...");
+        console.log("Agregando configuración...");
 
         let configFinal: Config
         configFinal = {
@@ -91,6 +95,24 @@ export class ConfigComponent implements OnInit {
       }
     });
   }
+
+  eliminar(config: Config): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data: {
+        title: '¿Está seguro?',
+        message: 'Usted está a punto de eliminar una entrada de configuración.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.configService.delete(config.id).subscribe(() => {
+          this.getConfigs();
+        });
+      }
+    });
+  }
 }
 
 @Component({
@@ -109,13 +131,3 @@ export class DialogConfig {
 
 
 }
-
-export const espacioValidator: ValidatorFn = (control: FormControl) => {
-  if (control.value.includes(' ')) {
-    return {
-      'espacio': { value: 'tiene espacio' }
-    };
-  }
-  return null;
-};
-

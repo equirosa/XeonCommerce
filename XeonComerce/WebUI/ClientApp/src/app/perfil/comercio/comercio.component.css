@@ -1,0 +1,40 @@
+:host{
+	display: block;
+	height: calc(100vh - 5rem);
+  }
+  
+  
+.divComercio {
+	padding: 2% 10%;
+  }
+
+  .cardComercio{
+	  width: 80%;
+	  height: 60%;
+	  background-color: #f3f3f3;
+  }
+
+  .cardDir{
+	  text-align: center;
+	  background-color: #f3f3f3;
+  }
+
+  .sucursalesCard{
+	width: 80%;
+	height: auto;
+	background-color: #f3f3f3;
+	text-align: center;
+	margin: 0 auto;
+  }
+
+  .cardDiv{
+	text-align: center;
+	margin: 0 auto;
+	padding: 5%;
+  }
+
+  .card{
+	padding: 2% !important;
+	text-align: center;
+	margin: 0 auto;
+  }

@@ -39,6 +39,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_CONFIG_PR" };
 
             var c = (Config)entity;
+            operation.AddVarcharParam(DB_COL_ID, c.Id);
             operation.AddDoubleParam(DB_COL_VALOR, c.Valor);
             return operation;
         }

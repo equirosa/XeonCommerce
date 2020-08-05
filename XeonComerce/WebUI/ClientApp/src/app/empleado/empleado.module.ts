@@ -25,6 +25,7 @@ import { CalendarioEmpleadoComponent } from './components/calendario-empleado/ca
 
 
 import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWeekService, MonthService, MonthAgendaService } from '@syncfusion/ej2-angular-schedule';
+import { EmpleadoComercioComponent } from './pages/empleado-comercio/empleado-comercio.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ScheduleModule, RecurrenceEditorModule, DayService, WeekService, WorkWe
     FormHorarioComponent,
     PerfilEmpleadoComponent,
     CalendarioEmpleadoComponent,
+    EmpleadoComercioComponent,
   ],
   imports: [
     CommonModule,

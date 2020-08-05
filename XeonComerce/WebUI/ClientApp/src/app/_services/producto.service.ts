@@ -86,15 +86,17 @@ export class ProductoService {
   }
 
   private log(message: string) {
-    this.mensajeService.add(`productosyservicios: ${message}`);
+    this.mensajeService.add(`Producto: ${message}`);
   }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.log(`${error}`);
-
-      return of(result as T);
-    };
+	return (error: any): Observable<T> => {
+	  console.error(error);
+	 	this.log(`${error}`);
+	  
+	  return of(result as T);
+	};
   }
+
 }

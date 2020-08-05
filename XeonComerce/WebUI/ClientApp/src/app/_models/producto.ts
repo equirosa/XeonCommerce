@@ -7,5 +7,5 @@ export interface Producto {
   descuento: number;
   idComercio: string;
   duracion: number;
-
+  impuesto: number;
 }

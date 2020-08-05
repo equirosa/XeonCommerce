@@ -51,9 +51,12 @@ namespace WebAPI.Controllers
                 Usuario adminComercio = um.RetrieveById(new Usuario { Id = comercio.IdUsuario });
                 List<Comercio> comercios = cm.RetrieveAll();
                 if (adminComercio == null) throw new Exception("¡Dicho usuario no existe!");
+                if (adminComercio.Tipo == "C") throw new Exception("¡Dicho usuario ya es administrador de un comercio!");
                 Comercio encontrado = comercios.Find(i => i.IdUsuario == comercio.IdUsuario);
                 if(encontrado != null) throw new Exception("¡Dicho usuario ya es administrador de un comercio!");
                 cm.Create(comercio);
+                adminComercio.Tipo = "C";
+                um.Update(adminComercio);
                 return Ok(new { msg = "Se creó el comercio" });
             }
             catch (Exception ex)
@@ -128,8 +131,12 @@ namespace WebAPI.Controllers
             try
             {
                 var cm = new ComercioManagement();
-                var comercio = new Comercio { CedJuridica = cedula };
+                var um = new UsuarioManagement();
+                var comercio = cm.RetrieveById(new Comercio { CedJuridica = cedula });
                 cm.Delete(comercio);
+                Usuario adminComercio = um.RetrieveById(new Usuario { Id = comercio.IdUsuario });
+                adminComercio.Tipo = "U";
+                um.Update(adminComercio);
 
                 return Ok(new { msg = "Se eliminó el comercio" });
 

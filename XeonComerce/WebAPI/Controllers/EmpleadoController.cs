@@ -30,8 +30,13 @@ namespace WebAPI.Controllers
             try
             {
                 var empleadoMang = new EmpleadoManagement();
+                var usuarioMang = new UsuarioManagement();
 
+                Usuario usuario = usuarioMang.RetrieveById(new Usuario { Id = empleado.IdUsuario });
+                if (usuario.Tipo == "E") throw new Exception("El usuario ya es empleado de otra sucursal");
+                usuario.Tipo = "E";
                 empleadoMang.Create(empleado);
+                usuarioMang.Update(usuario);
 
                 return Ok();
 
@@ -60,7 +65,7 @@ namespace WebAPI.Controllers
             {
                 var empleadoManag = new EmpleadoManagement();
                 empleadoManag.Delete(idEmpleado);
-
+                
                 return Ok();
             }
             catch(Exception ex)
@@ -70,7 +75,28 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpPut]
+        public IActionResult Update(EmpleadoComercioSucursal empleado)
+        {
+            try
+            {
+                var empleadoManag = new EmpleadoManagement();
+                empleadoManag.Update(empleado);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { msj = e.Message });
+            }
+        }
 
+
+        [HttpGet]
+        public List<EmpleadoComercioSucursal> RetrieveAll()
+        {
+            var empleadoManag = new EmpleadoManagement();
+            return empleadoManag.RetrieveAll();
+        }
 
 
     }

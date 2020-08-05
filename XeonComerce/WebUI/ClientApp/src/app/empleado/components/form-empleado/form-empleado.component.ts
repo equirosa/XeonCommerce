@@ -8,6 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { UsuarioService } from '../../../_services/usuario.service';
 import { Usuario } from '../../../_models/usuario';
+import { VistaRol } from '../../../_models/vista-rol';
+import { RolService } from '../../../_services/rol.service';
 
 @Component({
   selector: 'app-form-empleado',
@@ -18,12 +20,14 @@ export class FormEmpleadoComponent implements OnInit {
 
   //CedulaFormControl = new FormControl('', Validators.required);
 
-  FormGroupEmpleado = new FormGroup({    
-    Cedula: new FormControl('', Validators.required)
+  FormGroupEmpleado = new FormGroup({
+    Cedula: new FormControl('', Validators.required),
+    Rol: new FormControl('', Validators.required)
   });
 
   columnas: string[] = ['correoElectronico', 'telefono', 'cedula'];
-  
+  roles: VistaRol[];
+
   nuevoEmpleado = new EmpleadoComercioSucursal();
   idUsuario = '';
 
@@ -33,13 +37,24 @@ export class FormEmpleadoComponent implements OnInit {
 
 
   // Estos valores se obtienen segun el usuario comercio que inicia sesion y la sucursal a la  que ingresa
-  idComercio = '3101555';
-  idSucursal = '3101555-1';
+  // idComercio = '3101555';
+  // idSucursal = '3101555-1';
+  idComercio = '';
+  idSucursal = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private empleadoService: EmpleadoService, private _snackBar: MatSnackBar, private usuarioService: UsuarioService) { }
+  constructor( 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private empleadoService: EmpleadoService,
+    private _snackBar: MatSnackBar,
+    private usuarioService: UsuarioService,
+    private rolService: RolService) { }
 
   ngOnInit(): void {
+    this.idComercio = this.data.idComercio;
+    this.idSucursal = this.data.idSucursal;
+
     this.cargarUsuarios();
+    this.cargarRoles();
   }
 
   applyFilter(event: Event) {
@@ -54,8 +69,11 @@ export class FormEmpleadoComponent implements OnInit {
 
     this.empleadoService.verificarUsuario(this.idUsuario).subscribe({
       next: res => {
-        this.idUsuario = res.toString();
-        this.guardarUsuario();
+        if(res){
+          // Implementar dialog que diga que no existe un usuario con esa cedula
+          this.idUsuario = res.toString();
+          this.guardarUsuario();
+        }
       },
       error: err => console.log(err)
     });
@@ -68,6 +86,7 @@ export class FormEmpleadoComponent implements OnInit {
       this.nuevoEmpleado.idComercio =  this.idComercio;
       this.nuevoEmpleado.idSucursal = this.idSucursal;
       this.nuevoEmpleado.estado = 'A';
+      this.nuevoEmpleado.idRol = this.FormGroupEmpleado.get('Rol').value;
 
       this.empleadoService.create(this.nuevoEmpleado).subscribe({
         next: res => {
@@ -94,11 +113,19 @@ export class FormEmpleadoComponent implements OnInit {
   cargarUsuarios(): void {
     this.usuarioService.get().subscribe({
       next: res => {
-        this.usuarios.data = res;
+        this.usuarios.data = res.filter( u => u.tipo === 'U');
       },
       error: err => console.log(err)
     });
+  }
 
+  cargarRoles(): void {
+    this.rolService.getRoles(this.idComercio).subscribe({
+      next: res => {
+        this.roles = res;
+      },
+      error: err => console.log(err)
+    });
   }
 
 

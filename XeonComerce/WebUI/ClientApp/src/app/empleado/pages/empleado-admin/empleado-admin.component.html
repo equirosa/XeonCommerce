@@ -1,15 +1,38 @@
-<div>
-    <div class="mb-lg mt-lg">
-        <h2 class="text-center">Empleados</h2>
+<div class="page-container" >
+    <div fxLayout="column" fxLayoutAlign="start center">
+        <div class="mb-lg mt-lg">
+            <h2 class="text-center">Empleados</h2>
+        </div>
+        <div >
+            <mat-form-field>
+                <mat-label>Seleccione el Comercio</mat-label>
+                <mat-select (selectionChange)="selecionarComercio($event.value)">
+                    <mat-option *ngFor="let c of comercios" [value]="c.cedJuridica">
+                        {{c.nombreComercial}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field *ngIf="idComercio">
+                <mat-label>Seleccione una Sucursal</mat-label>
+                <mat-select (selectionChange)="selecionarSucursal($event.value)">
+                    <mat-option *ngFor="let s of sucursales" [value]="s.id">
+                        {{s.nombre}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>        
     </div>
+    
     <div class="ml-md" >
-        <button mat-flat-button class="example-button-row" (click)="openDialog()" >
+        <button mat-raised-button color="success" (click)="openDialog()" [disabled]="!idSucursal" >
             Crear Empleado     
         </button>
     </div>
+    <div >
+        <app-list-empleados [actualizarDatos]="actualizarDatos" [idSucursal]="idSucursal"></app-list-empleados>   
+    </div>
+    
 </div>
 
-<div class="page-container ">
-    <app-list-empleados [actualizarDatos]="actualizarDatos"></app-list-empleados>
-    <!-- <app-list-empleados ></app-list-empleados> -->
-</div>

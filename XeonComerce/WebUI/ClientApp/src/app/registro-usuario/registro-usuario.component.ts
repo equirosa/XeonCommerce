@@ -97,7 +97,8 @@ export class RegistroUsuarioComponent implements OnInit {
 						numeroTelefono: this.firstFormGroup.value.numeroTelefono,
 						idDireccion: direccionFinal.id,
 						estado: "I",
-						codigo: ""
+						codigo: "",
+						tipo: "U"
 					}
 				this.usuarioService.create(this.usuarioFinal)
 				.subscribe(() => {

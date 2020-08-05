@@ -4,4 +4,5 @@ export interface Sucursal {
   idComercio: string;
   disposiciones: string;
   estado: string;
+  nombre: string;
 }
