@@ -51,7 +51,7 @@
 
   <br *ngIf="data.dir">
   <agm-map  style="height: 300px;"  [latitude]="data.latitud" [longitude]="data.longitud" *ngIf="data.dir">
-	<agm-marker [latitude]="data.latitud" [longitude]="data.longitud" [markerDraggable]="true"></agm-marker>
+	<agm-marker [latitude]="data.latitud" [longitude]="data.longitud" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
   </agm-map>
 
   <br *ngIf="data.dir">

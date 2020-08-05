@@ -17,12 +17,11 @@ import { ComercioService } from '../_services/comercio.service';
 import { MensajeService } from '../_services/mensaje.service';
 import { UbicacionService } from '../_services/ubicacion.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatTableDataSource } from '@angular/material/table';
+import {MatTableDataSource, MatNoDataRow } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 import { UploadComercioFilesComponent } from '../crear-comercio/upload-comercio-files.dialog';
 import { CategoriaComercio } from '../_models/categoriaComercio';
-
 @Component({
   selector: 'app-comercios',
   templateUrl: './comercios.component.html',
@@ -112,7 +111,6 @@ export class ComerciosComponent implements OnInit {
 
 			  dialogRef.afterClosed().subscribe(result => {
 				console.log(`Resultado: ${result}`); 
-				
 				if(!this.estaCompleto(result)){
 					this.mensajeService.add("Favor llene todos los datos");
 					return;
@@ -332,6 +330,11 @@ export class ComerciosComponent implements OnInit {
 				data: { cedJuridica: comercio.cedJuridica }
 			  });
 	}
+
+
+	markerDragEnd($event: any) {
+		console.log(";(");
+	}
 }
 
 
@@ -367,6 +370,11 @@ export class ComerciosComponent implements OnInit {
 		this.ubicacionService.getDistritos(this.data.provincia, canton)
 		.subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
 	  }
+
+	  markerDragEnd($event: any) {
+		this.data.latitud = $event.latLng.lat()
+		this.data.longitud = $event.latLng.lng()
+	}
 
   }
   
@@ -446,8 +454,6 @@ export class ComerciosComponent implements OnInit {
 			this.data.archivos = archivos;
 		})
 	}
-
-
 
   }
   
