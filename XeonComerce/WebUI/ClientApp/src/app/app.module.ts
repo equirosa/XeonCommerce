@@ -82,6 +82,7 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
 import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.component';
 import { CarritoComponent } from './carrito/carrito.component';
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 @NgModule({
     imports: [
 		FormsModule,
