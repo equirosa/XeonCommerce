@@ -55,6 +55,7 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -73,7 +74,7 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
-import { ConfigComponent, DialogConfig } from './config/config.component';
+import { ConfigComponent } from './config/config.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
@@ -83,6 +84,7 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -180,7 +182,6 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
-		DialogConfig,
     	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
@@ -192,7 +193,6 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
-		DialogConfig,
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
@@ -201,9 +201,9 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 		DashboardComercioComponent,
 		ListarUsuariosComponent,
 		DialogDireccionUsuario,
-		CarritoComponent
-		FormRolComponent,
+		CarritoComponent,
 		PerfilSucursalComponent,
+		DashboardAdminComponent,
 		
     ],
     providers: [
