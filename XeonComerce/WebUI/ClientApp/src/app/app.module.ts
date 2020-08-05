@@ -202,6 +202,7 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		ListarUsuariosComponent,
 		DialogDireccionUsuario,
 		CarritoComponent,
+		FormRolComponent,
 		PerfilSucursalComponent,
 		DashboardAdminComponent,
 		
