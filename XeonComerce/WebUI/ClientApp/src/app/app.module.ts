@@ -79,7 +79,6 @@ import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
-import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 
