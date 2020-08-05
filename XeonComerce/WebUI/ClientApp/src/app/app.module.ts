@@ -84,6 +84,8 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
+
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 @NgModule({
     imports: [
@@ -204,6 +206,7 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		CarritoComponent,
 		FormRolComponent,
 		PerfilSucursalComponent,
+		FormHorarioSucursalComponent,
 		DashboardAdminComponent,
 		
     ],

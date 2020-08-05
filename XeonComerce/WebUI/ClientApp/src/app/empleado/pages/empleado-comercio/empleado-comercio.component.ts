@@ -43,7 +43,7 @@ export class EmpleadoComercioComponent implements OnInit {
     this.idSucursal = sucursal;
   }
 
-  openDialog() {
+  openDialog(): void {
     const dialogRef = this.dialog.open(FormEmpleadoComponent, {
       width: '750px',
       height: '400px',
@@ -51,7 +51,7 @@ export class EmpleadoComercioComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe( result => {
-      this.actualizarDatos = true;
+      this.actualizarDatos = !this.actualizarDatos;
     });
   }
 
@@ -64,16 +64,5 @@ export class EmpleadoComercioComponent implements OnInit {
     });
   }
 
-
-  // buscarComercio(): void {    
-  //   this.comercioService.get().subscribe({
-  //     next: res => {
-  //       var comercio = res.filter( c => c.idUsuario === JSON.parse(localStorage.getItem('user')).id );
-  //       this.idComercio = comercio[0].cedJuridica;
-  //     }, 
-  //     error: err => console.log(err)
-  //   });
-
-  // }
 
 }

@@ -25,7 +25,7 @@ export class ComercioRolComponent implements OnInit {
   crearRol(): void {
     const dialogRef = this.dialog.open(FormRolComponent, {
       width: '400px',
-      height: '500px',
+      height: '350px',
       data: {tipo: 'registrar', idComercio: this.idComercio}
     });
 
