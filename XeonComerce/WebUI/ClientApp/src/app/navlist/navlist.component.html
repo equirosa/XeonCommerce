@@ -38,9 +38,6 @@
 	<mat-icon>supervised_user_circle</mat-icon><span class="nav-caption">Listar Usuarios</span>
 </a>
 
-<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
-	<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
-</a>
 <a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()" *ngIf="!yaTieneComercio">
 	<mat-icon>edit</mat-icon><span class="nav-caption">Administrar Comercio</span>
 </a>
