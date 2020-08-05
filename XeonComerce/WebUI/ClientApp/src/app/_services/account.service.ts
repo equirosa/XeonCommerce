@@ -38,7 +38,7 @@ export class AccountService {
                     let comercio = comercios.find((i)=>i.idUsuario==user.id);
                     if(comercio) user = Object.assign(user, {"comercio": comercio});
                     else
-                    console.log("No se encontró el comercio de dicho usuario.")
+                    console.log("No se encontrÃ³ el comercio de dicho usuario.")
                     localStorage.setItem('user', JSON.stringify(user));
                     
                 });
@@ -48,7 +48,7 @@ export class AccountService {
                         let empleado = res.find( (e) => e.idUsuario === user.id && e.estado === 'A' );
                         if(empleado) user = Object.assign(user, {"empleado": empleado});
                         else 
-                        console.log('No se encontró el comercio de dicho empleado.')
+                        console.log('No se encontrÃ³ el comercio de dicho empleado.')
                         localStorage.setItem('user', JSON.stringify(user));
                         this.userSubject.next(user);
 
