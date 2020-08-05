@@ -9,13 +9,13 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Nombre</mat-label>
-    <input required matInput [(ngModel)]="data.nombre">
+    <input minlength = "3" required matInput [(ngModel)]="data.nombre">
   </mat-form-field>
 
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Precio</mat-label>
-    <input min="1" type="number" required matInput [(ngModel)]="data.precio">
+    <input min="1"  type="number" required matInput [(ngModel)]="data.precio">
   </mat-form-field>
   <br>
 

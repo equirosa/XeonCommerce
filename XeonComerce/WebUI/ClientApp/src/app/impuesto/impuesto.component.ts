@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ImpuestoService } from './../_services/impuesto.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
+import { MensajeService } from '../_services/mensaje.service';
 
 @Component({
   selector: 'app-impuesto',
@@ -23,7 +24,7 @@ export class ImpuestoComponent implements OnInit {
   public message: string;
   public serviceEndPoint: string;
 
-  constructor(public dialog: MatDialog, http: HttpClient, impService: ImpuestoService) {
+  constructor(public dialog: MatDialog, http: HttpClient, impService: ImpuestoService, private mensajeService: MensajeService) {
     this.httpClient = http;
     this.impuestoService = impService;
   }
@@ -37,6 +38,22 @@ export class ImpuestoComponent implements OnInit {
       .subscribe(impuestos => {
         this.dataSource = new MatTableDataSource(impuestos);
       });
+  }
+
+  formularioCompleto(prod) {
+    let formularioCompleto = true;
+    if (prod.nombre == "" || prod.valor == "") {
+      formularioCompleto = false;
+    }
+    return formularioCompleto;
+  }
+
+  datosCorrectosValorPositivo(imp) {
+    let datosCorrectos = true;
+    if (parseInt(imp.valor) < 1) {
+      datosCorrectos = false;
+    }
+    return datosCorrectos;
   }
 
   filtrar(event: Event) {
@@ -58,7 +75,17 @@ export class ImpuestoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
-      console.log('The dialog was closed');
+
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValorPositivo(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que el valor ingresados no sea negativo!");
+        return;
+      }
+
       if (result) {
         let impuesto: Impuesto;
         impuesto = {
@@ -69,9 +96,9 @@ export class ImpuestoComponent implements OnInit {
         console.log(impuesto);
         this.impuestoService.postImpuesto(impuesto)
           .subscribe(() => {
-            this.getImpuestos()
+            this.getImpuestos();
           });
-        window.location.reload();
+        this.getImpuestos();
       }
     });
   }
@@ -95,6 +122,7 @@ export class ImpuestoComponent implements OnInit {
     });
   }
 
+
   abrirEditar(impuesto: Impuesto): void {
 
     const dialogRef = this.dialog.open(DialogImpuesto, {
@@ -110,6 +138,17 @@ export class ImpuestoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
+
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValorPositivo(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que el valor ingresados no sea negativo!");
+        return;
+      }
+
       if (result) {
         impuesto = {
           "id": result.id,

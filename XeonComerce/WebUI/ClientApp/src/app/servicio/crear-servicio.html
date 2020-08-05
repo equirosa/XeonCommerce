@@ -3,7 +3,7 @@
 <div mat-dialog-content>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Nombre</mat-label>
-    <input required matInput [(ngModel)]="data.nombre">
+    <input minlength = "3" required matInput [(ngModel)]="data.nombre">
   </mat-form-field>
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
@@ -31,6 +31,18 @@
   <br>
 
   <mat-form-field style="width:400px !important" appearance="fill">
+    <mat-label>Impuesto</mat-label>
+    <mat-select [(ngModel)]="data.impuesto" required>
+      <mat-option></mat-option>
+      <mat-option *ngFor="let impuesto of data.impuestos" [value]="impuesto">
+        {{impuesto.nombre}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="fill">
     <mat-label>Comercio</mat-label>
     <mat-select [(ngModel)]="data.comercio" required>
       <mat-option></mat-option>
@@ -42,7 +54,7 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Duracion en minutos estimados</mat-label>
-    <input min="0" type="number" matInput [(ngModel)]="data.duracion">
+    <input min="1" type="number" matInput [(ngModel)]="data.duracion">
   </mat-form-field>
   <br>
 </div>

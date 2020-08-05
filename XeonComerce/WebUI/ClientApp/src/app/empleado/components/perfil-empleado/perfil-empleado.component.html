@@ -1,43 +1,50 @@
 <mat-dialog-content>
-    <div>
-        <div>
-            <div class="text-center mb-lg">
-            
-                <h4>{{empleado.nombre}} {{empleado.apellidoUno}}</h4>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{empleado.nombre}} {{empleado.apellidoUno}} {{empleado.apellidoDos}}</mat-card-title>
+            <mat-card-subtitle>Rol: {{rolEmpleado}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>         
+            <div class="mb-md">
+                <mat-label>Fecha Nacimiento</mat-label>
+                <h4>{{empleado.fechaNacimiento}}</h4>
             </div>
-            <h5>Correo Electrónico:</h5>
-            <h6>{{empleado.correoElectronico}}</h6>
-            <hr>
-            <h5>Teléfono:</h5>
-            <h6>{{empleado.numeroTelefono}}</h6>
-            <hr>
-            <h5>Fecha Nacimiento:</h5>
-            <h6>{{empleado.fechaNacimiento}}</h6>
-            
-        </div>
-    </div>
-    <br>
+            <div class="mb-md">
+                <mat-label>Correo electrónico</mat-label>
+                <h4>{{empleado.correoElectronico}}</h4>
+            </div>
+            <div class="mb-md">
+                <mat-label>Teléfono</mat-label>
+                <h4>{{empleado.numeroTelefono}}
+                    <mat-icon matSuffix>phone</mat-icon>
+                </h4>
+            </div>                  
+        </mat-card-content>
+       
+    </mat-card>
     <div>
-        <h4>Asignar Nuevo Rol</h4>
+        <h4>Asignar Rol</h4>
         <form [formGroup]="FormGroupRol">
             <mat-form-field>
                 <mat-label>Rol</mat-label>
                 <mat-select formControlName="Rol">
-                    <mat-option *ngFor="let rol of roles" [value]="rol.id">
-                        {{rol.nombre}}
+                    <mat-option 
+                      *ngFor="let rol of roles"
+                       [value]="rol.id"
+                    >
+                      {{rol.nombre}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </form>
-        <div>
-            <button mat-flat-button mat-dialog-close class="example-button-row" [disabled]="!guardar"
-                (click)="guardarRol()">
+        <div >
+            <button mat-flat-button mat-dialog-close class="example-button-row" [disabled]="!guardar" (click)="guardarRol()" >
                 Guardar
             </button>
         </div>
-
+         
     </div>
-
+    
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-flat-button mat-dialog-close class="example-button-row">Cerrar</button>

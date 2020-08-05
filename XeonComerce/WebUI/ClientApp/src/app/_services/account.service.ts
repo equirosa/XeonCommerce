@@ -1,4 +1,4 @@
-﻿import { ComercioService } from './comercio.service';
+import { ComercioService } from './comercio.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,7 @@ export class AccountService {
     public user: Observable<User>;
 
     constructor(
+		private comercioService: ComercioService,
         private router: Router,
         private http: HttpClient,
         private empleadoService: EmpleadoService,

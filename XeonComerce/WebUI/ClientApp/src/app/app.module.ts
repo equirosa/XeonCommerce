@@ -55,7 +55,6 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
-import { LandingPageXeonSquadComponent } from './landingPageXeonSquad/landingPageXeonSquad.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -82,7 +81,7 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
-
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
 import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
 @NgModule({
     imports: [
@@ -151,7 +150,8 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		DialogDiaFeriado,
 		DialogDireccionSucursal,
 		DialogDireccionUsuario,
-		DialogUsuario
+		DialogUsuario,
+		DialogEditarServicio,
 	],
     declarations: [
         AppComponent,
@@ -202,7 +202,6 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		CrearSucursalComponent,
 		CarritoComponent,
 		PerfilSucursalComponent,
-    PromocionComponent,
     LandingPageXeonSquadComponent,
     DashboardComercioComponent
     ],

@@ -17,8 +17,6 @@ import { EmpleadoAdminComponent } from './empleado/pages/empleado-admin/empleado
 import { ProductoFormComponent } from './producto-form/producto-form.component';
 import { ImpuestoComponent } from './impuesto/impuesto.component';
 import { ServicioComponent } from './servicio/servicio.component';
-import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
-import { LandingPageXeonSquadComponent } from './landingPageXeonSquad/landingPageXeonSquad.component';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 import { ComerciosComponent } from './comercios/comercios.component';
@@ -30,6 +28,9 @@ import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.co
 import { SucursalesComponent } from './sucursales/sucursales.component';
 import { ConfigComponent } from './config/config.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 
@@ -50,10 +51,10 @@ const routes: Routes = [
     { path: 'bitacora', component: BitacoraComponent, canActivate: [AuthGuard]},
     { path: 'categoria', component: CategoriaComponent, canActivate: [AuthGuard]},
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
-    { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard] },
-    { path: 'dashboardComercio', component: DashboardComercioComponent, canActivate: [AuthGuard] },
-    { path: 'landingEquipo', component: LandingPageXeonSquadComponent, canActivate: [AuthGuard] },
-    { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard]},
+    { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
+  { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard] },
+  { path: 'landingEquipo', component: LandingPageXeonSquadComponent, canActivate: [AuthGuard] },
+  { path: 'dashboardComercio', component: DashboardComercioComponent, canActivate: [AuthGuard] },
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
   { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },

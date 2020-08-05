@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { ProductoService } from './../_services/producto.service';
 import { ComercioService } from '../_services/comercio.service';
 import { ImpuestoService } from './../_services/impuesto.service';
+import { MensajeService } from '../_services/mensaje.service';
 import { Comercio } from '../_models/comercio';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
@@ -94,6 +95,31 @@ export class ProductoFormComponent implements OnInit {
     this.dataSource.filter = filtro.trim().toLowerCase();
   }
 
+  formularioCompleto(prod) {
+    let formularioCompleto = true;
+    if (prod.nombre == "" || prod.precio == "" || prod.impuesto == "" || prod.cantidad == "" || prod.comercio == "" || prod.duracion == "") {
+      formularioCompleto = false;
+    }
+    return formularioCompleto;
+  }
+
+  datosCorrectosValoresPositivos(prod) {
+    let datosCorrectos = true;
+    if (parseInt(prod.precio) < 1 || parseInt(prod.cantidad) < 1 || parseInt(prod.duracion) < 0) {
+      datosCorrectos = false;
+    }
+    return datosCorrectos;
+  }
+
+  validarNombre(prod) {
+    if (prod.nombre.length < 3) {
+      return false;
+    }
+    return true;
+  }
+
+  
+
 
 openDialog(): void {
   const dialogRef = this.dialog.open(DialogProducto, {
@@ -116,14 +142,26 @@ openDialog(): void {
 
   dialogRef.afterClosed().subscribe(result => {
     console.log(`Resultado: ${result}`); 
-    console.log('The dialog was closed');
+
+    if (!this.formularioCompleto(result)) {
+      this.mensajeService.add("¡Favor llene todos los datos!");
+      return;
+    }
+
+    if (!this.datosCorrectosValoresPositivos(result)) {
+      this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+      return;
+    }
+
+    if (!this.validarNombre(result)) {
+      this.mensajeService.add("¡El nombre del producto debe contener más de 3 letras!");
+      return;
+    }
+
     if (result) {
       let comercio: Comercio;
       comercio = result.comercio;
-      console.log(comercio.cedJuridica);
-      let impuesto: Impuesto;
-      impuesto = result.impuesto;
-      console.log(impuesto.id);
+	  console.log(comercio.cedJuridica);
       let producto: Producto;
       producto = {
         "id": result.id,
@@ -141,7 +179,7 @@ openDialog(): void {
         .subscribe(() => {
           this.getProductos();
         });
-      window.location.reload();
+      this.getProductos();
     }
   });
   }
@@ -156,20 +194,7 @@ openDialog(): void {
     let comercioDelProducto = this.comercios.find(checkComercio);
 	
     console.log(comercioDelProducto);
-
-
-    let impuestos: Impuesto[] = this.impuestos;
-    let nombreImpuesto = "";
-    for (var i = 0; i < impuestos.length; i++) {
-      if (producto.impuesto == impuestos[i].valor)
-      {
-        nombreImpuesto = impuestos[i].nombre;
-      }
-    }
-    //let impuestoDelProducto = this.impuestos.find(checkImpuesto);
-    //let impuestoProd = impuestoDelProducto.nombre;
-    console.log(nombreImpuesto);
-
+	console.log(producto);
     const dialogRef = this.dialog.open(DialogEditarProducto, {
       width: '500px',
       data: {
@@ -177,21 +202,34 @@ openDialog(): void {
         tipo: 1,
         nombre: producto.nombre,
         precio: producto.precio,
-        cantidad: producto.cantidad,
+		    cantidad: producto.cantidad,
+		    impuestos: this.impuestos,
+		    impuesto: producto.impuesto,
+        descuento: producto.descuento,
         comercio: comercioDelProducto.nombreComercial,
-        duracion: producto.duracion,
-        impuestos: this.impuestos,
-        impuestoProd: nombreImpuesto
+		    duracion: producto.duracion
       }
 
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
+
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValoresPositivos(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+        return;
+      }
+
+      if (!this.validarNombre(result)) {
+        this.mensajeService.add("¡El nombre del producto debe contener más de 3 letras!");
+        return;
+      }
+
       if (result) {
-        let impuesto: Impuesto;
-        impuesto = result.impuestoProd;
-        console.log(impuesto.id);
-        let cambiosProducto: Producto;
         producto = {
           "id": producto.id,
           "tipo": 1,
