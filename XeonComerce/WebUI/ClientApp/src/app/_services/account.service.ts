@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
-import { ComercioService } from './comercio.service';
 import { EmpleadoService } from './empleado.service';
 
 @Injectable({ providedIn: 'root' })
@@ -16,7 +15,6 @@ export class AccountService {
     public user: Observable<User>;
 
     constructor(
-		private comercioService: ComercioService,
         private router: Router,
         private http: HttpClient,
         private empleadoService: EmpleadoService
@@ -41,6 +39,7 @@ export class AccountService {
                     else
                     console.log("No se encontró el comercio de dicho usuario.")
                     localStorage.setItem('user', JSON.stringify(user));
+                    
                 });
             }else if(user.tipo == "E") {
                 this.empleadoService.get().subscribe({
@@ -48,8 +47,10 @@ export class AccountService {
                         let empleado = res.find( (e) => e.idUsuario === user.id && e.estado === 'A' );
                         if(empleado) user = Object.assign(user, {"empleado": empleado});
                         else 
-                        console.log("No se encontró el comercio de dicho empleado.")
+                        console.log('No se encontró el comercio de dicho empleado.')
                         localStorage.setItem('user', JSON.stringify(user));
+                        this.userSubject.next(user);
+
                     },
                     error: err => console.log(err)
                 });
@@ -57,6 +58,7 @@ export class AccountService {
             }else{
                 localStorage.setItem('user', JSON.stringify(user));
             }
+
             this.userSubject.next(user);
             return user;
         }));
