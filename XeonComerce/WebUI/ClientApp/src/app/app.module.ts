@@ -82,6 +82,9 @@ import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
 import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
 import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
+import { CrearSucursalComponent } from './crear-sucursal/crear-sucursal.component';
+import { CarritoComponent } from './carrito/carrito.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -145,10 +148,12 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
-		DialogSucursal,
-		DialogDireccionSucursal,
     DialogEditarServicio,
-		DialogDiaFeriado
+		DialogSucursal,
+		DialogDiaFeriado,
+		DialogDireccionSucursal,
+		DialogDireccionUsuario,
+		DialogUsuario
 	],
     declarations: [
         AppComponent,
@@ -196,6 +201,10 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 		FormRolComponent,
 		LandingPageXeonSquadComponent,
 		DashboardComercioComponent
+		ListarUsuariosComponent,
+		DialogDireccionUsuario,
+		CrearSucursalComponent,
+		CarritoComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

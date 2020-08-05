@@ -21,6 +21,7 @@ import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-di
 export class ConfigComponent implements OnInit {
   configs: Config[];
   configFinal: Config;
+  maxCancelar: number;
   displayedColumns: string[] = ['id', 'valor', 'editar', 'eliminar'];
   datos;
   accion;
@@ -31,6 +32,7 @@ export class ConfigComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConfigs();
+    this.maxCancelar = 23;
   }
 
   getConfigs(): void {

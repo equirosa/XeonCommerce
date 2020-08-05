@@ -47,9 +47,9 @@ export class ProductoFormComponent implements OnInit {
  
 
   ngOnInit(): void {
-    this.getComercios();
     this.getImpuestos();
     this.getProductos();
+    this.getComercios();
   }
 
   getProductos(): void {
@@ -58,7 +58,9 @@ export class ProductoFormComponent implements OnInit {
       .subscribe(productos => {
 		  if(this.user.comercio){
 			this.dataSource = new MatTableDataSource(productos.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
-		  }else{
+      }else if( this.user.empleado ) {
+        this.dataSource = new MatTableDataSource(productos.filter((i)=>i.idComercio == this.user.empleado.idComercio));
+      }else{
 			this.dataSource = new MatTableDataSource(productos);
 		  }
       });

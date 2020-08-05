@@ -14,22 +14,26 @@ export class NavlistComponent implements OnInit {
 
 	@Output() sidenavClose = new EventEmitter();
  
-	user: User;
+	user: any;
 	yaTieneComercio: boolean;
 	vistasEmpleado: Vista[];
+	tieneVistas = false;
 
     constructor(private accountService: AccountService, private comercioService: ComercioService, private rolService: RolService) {
         this.accountService.user.subscribe(x => {
 			this.user = x;
 			this.load();
-			
+			if( this.user && this.user.tipo === 'E' && this.user.empleado){
+				this.cargarVistasEmpleado();
+			}
 		});
+		
 	}
 
   ngOnInit(): void {
-	if( this.user && this.user.tipo === 'E'){
-		this.cargarVistasEmpleado();
-	}
+	// if( this.user && this.user.tipo === 'E'){
+	// 	this.cargarVistasEmpleado();
+	// }
   }
   
   public onSidenavClose = () => {
@@ -53,6 +57,20 @@ load(): void{
 			}
 		});
 	}
+}
+
+cargarVistasEmpleado(): void {
+	let rol = JSON.parse(localStorage.getItem('user')).empleado.idRol;
+	this.rolService.getRol(rol).subscribe({
+		next: res => {
+			this.vistasEmpleado = res.vistas;
+			this.ngOnInit();
+			this.tieneVistas = true; 
+			
+		},
+		error: err => console.log(err)
+	});
+	
 }
 
 cargarVistasEmpleado(): void {

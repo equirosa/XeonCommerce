@@ -1,4 +1,8 @@
 .selectDia{
-    width: 150px;
-    
+    width: 150px;    
 }
+
+:host {
+    display: block;
+    height: calc(100vh - 5rem);
+  }

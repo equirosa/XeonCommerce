@@ -1,3 +1,4 @@
+import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
 import { PromocionComponent } from './promocion/promocion.component';
@@ -50,9 +51,11 @@ const routes: Routes = [
   { path: 'landingEquipo', component: LandingPageXeonSquadComponent, canActivate: [AuthGuard] },
   { path: 'dashboardComercio', component: DashboardComercioComponent, canActivate: [AuthGuard] },
   // { path: 'empleado', component: EmpleadoAdminComponent },
-  { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
+  { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
-    { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
+    { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
+    { path: 'listar-usuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
