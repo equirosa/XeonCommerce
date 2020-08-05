@@ -1,3 +1,4 @@
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { DiaFeriadoComponent } from './diaferiado/dia-feriado.component';
@@ -54,7 +55,8 @@ const routes: Routes = [
     { path: 'promocion', component: PromocionComponent, canActivate: [AuthGuard]},
     { path: 'diaferiado', component: DiaFeriadoComponent, canActivate: [AuthGuard]},
   { path: 'comercio/:id', component: PerfilComercioComponent, canActivate: [AuthGuard] },
-  { path: 'landingEquipo', component: LandingPageXeonSquadComponent, canActivate: [AuthGuard] },
+  { path: 'landingEquipo', component: LandingPageXeonSquadComponent },
+  { path: 'landingApp', component: LandingPageAppComponent },
   { path: 'dashboardComercio', component: DashboardComercioComponent, canActivate: [AuthGuard] },
   // { path: 'empleado', component: EmpleadoAdminComponent },
   { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
