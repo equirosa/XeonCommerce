@@ -10,11 +10,13 @@ import { FormRolComponent } from '../form-rol/form-rol.component';
 })
 export class ComercioRolComponent implements OnInit {
 
-  idComercio = '3101555';
+  idComercio: string;
 
   actualizarDatos = false;
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute) { }
+  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
+    this.idComercio = JSON.parse(localStorage.getItem('user')).comercio.cedJuridica;
+   }
 
   ngOnInit(): void {
   }
@@ -23,7 +25,7 @@ export class ComercioRolComponent implements OnInit {
   crearRol(): void {
     const dialogRef = this.dialog.open(FormRolComponent, {
       width: '400px',
-      height: '500px',
+      height: '350px',
       data: {tipo: 'registrar', idComercio: this.idComercio}
     });
 

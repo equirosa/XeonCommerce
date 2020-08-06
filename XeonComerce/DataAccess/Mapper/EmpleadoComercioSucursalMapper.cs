@@ -89,6 +89,7 @@ namespace DataAccess.Mapper
                 IdUsuario = GetStringValue(row, DB_COL_ID_USUARIO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
                 IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL),
+                Estado = GetStringValue(row, DB_COL_ESTADO),
                 IdRol = GetIntValue(row, DB_COL_ID_ROL)
             };
 

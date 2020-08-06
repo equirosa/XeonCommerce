@@ -57,8 +57,7 @@ export class RecuperarContrasennaComponent implements OnInit {
 						if(_ != null)
 						this.stepperRef.next();
 						else{
-							this.secondFormGroup.value.contrasennaUno = "";
-							this.secondFormGroup.value.contrasennaDos = "";
+							this.mensajeService.add(_.msg)
 						}
 					});
 				

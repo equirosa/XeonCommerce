@@ -27,6 +27,15 @@ export class ServiciosService {
       );
   }
 
+    
+  getServicioById(id: number): Observable<Servicio> {
+    const urlProd = `${this.urlApi}/${id}/2`;
+    return this.http
+      .get<Servicio>(urlProd)
+      .pipe(tap(), catchError(this.handleError<Servicio>('getById'))
+      );
+  }
+
   delete(serv: Servicio) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -54,7 +63,7 @@ export class ServiciosService {
   }
 
   private log(message: string) {
-    this.mensajeService.add(`productosyservicios: ${message}`);
+    this.mensajeService.add(`Servicio: ${message}`);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

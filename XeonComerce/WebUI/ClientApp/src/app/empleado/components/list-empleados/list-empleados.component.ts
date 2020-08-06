@@ -17,16 +17,18 @@ export class ListEmpleadosComponent implements OnInit {
 
 
   @Input()
-  actualizarDatos = false; 
+  actualizarDatos: boolean;
+
+  @Input()
+  idSucursal = '';
+
+  // idSucursal = '3101555-1';
 
   empleados = new MatTableDataSource<Empleado>();
 
   nombresColumnas: string[];
 
-  // cargar: boolean; 
-
-
-  idSucursal = '3101555-1';
+  
   columnas = [
     { header: 'Nombre', binding: 'nombre' },
     { header: 'Apellido', binding: 'apellidoUno'},
@@ -34,7 +36,6 @@ export class ListEmpleadosComponent implements OnInit {
     { header: 'Correo Eléctronico', binding: 'correoElectronico'}
   ];
 
-  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.empleados.filter = filterValue.trim().toLowerCase();
@@ -42,9 +43,9 @@ export class ListEmpleadosComponent implements OnInit {
 
 
   constructor(
-    private empleadoService: EmpleadoService, 
-    private _snackBar: MatSnackBar, 
-    public dialog: MatDialog, 
+    private empleadoService: EmpleadoService,
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -57,10 +58,40 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void{
-    if(changes.actualizarDatos.currentValue === true){
-      this.cargarEmpleados();
-      this.actualizarDatos = false; 
+
+    if( changes.actualizarDatos && changes.actualizarDatos.currentValue){
+     this.cargarEmpleados();
     }
+
+    if( changes.idSucursal) {
+      if( changes.idSucursal.currentValue === ''){
+        this.empleados.data = [];
+      } else {
+        this.cargarEmpleados();
+      }
+    } 
+
+    // if()
+
+    // if( changes.actualizarDatos || changes.idSucursal ){
+    //   this.cargarEmpleados();
+    // } else if(changes.idSucursal.currentValue === '') {
+    //   this.empleados.data = [];
+    // }
+
+    // if(changes){
+    //   this.cargarEmpleados();
+    // }else {
+    //   this.empleados.data = [];
+    // }
+
+    // if( (changes.idSucursal.currentValue && changes.idSucursal.currentValue !== '') || (changes.actualizarDatos.currentValue)){
+    //   this.cargarEmpleados();
+    // }else {
+    //   this.empleados.data = [];
+    // }
+
+
   }
 
   cargarEmpleados(): void {

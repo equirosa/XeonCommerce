@@ -23,6 +23,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public Sucursal RetriveById(string id)
         {
+            
             var sucursal = new Sucursal()
             {
                 Id = id

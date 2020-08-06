@@ -23,6 +23,8 @@ namespace Entities
         public string IdComercio { get; set; }
         [JsonPropertyName("duracion")]
         public int Duracion { get; set; }
+        [JsonPropertyName("impuesto")]
+        public int Impuesto { get; set; }
 
         public Producto() { }
     }

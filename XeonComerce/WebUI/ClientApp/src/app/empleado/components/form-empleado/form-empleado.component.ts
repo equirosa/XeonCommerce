@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Empleado } from '../../../_models/empleado';
 import { EmpleadoService } from '../../../_services/empleado.service';
@@ -36,21 +36,23 @@ export class FormEmpleadoComponent implements OnInit {
   mostrarUsuarios = false;
 
 
-  // Estos valores se obtienen segun el usuario comercio que inicia sesion y la sucursal a la  que ingresa
-  idComercio = '3101555';
-  idSucursal = '3101555-1';
+  idComercio = '';
+  idSucursal = '';
 
   constructor( 
     @Inject(MAT_DIALOG_DATA) public data: any,
     private empleadoService: EmpleadoService,
     private _snackBar: MatSnackBar,
     private usuarioService: UsuarioService,
-    private rolService: RolService) { }
+    private rolService: RolService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.idComercio = this.data.idComercio;
+    this.idSucursal = this.data.idSucursal;
+
     this.cargarUsuarios();
     this.cargarRoles();
-    
   }
 
   applyFilter(event: Event) {
@@ -59,26 +61,27 @@ export class FormEmpleadoComponent implements OnInit {
     this.mostrarUsuarios = true;
   }
 
-  verificarUsuario(): void {
+  // verificarUsuario(): void {
 
-    this.idUsuario = this.FormGroupEmpleado.get('Cedula').value;
+  //   this.idUsuario = this.FormGroupEmpleado.get('Cedula').value;
 
-    this.empleadoService.verificarUsuario(this.idUsuario).subscribe({
-      next: res => {
-        if(res){
-          // Implementar dialog que diga que no existe un usuario con esa cedula
-          this.idUsuario = res.toString();
-          this.guardarUsuario();
-        }
-      },
-      error: err => console.log(err)
-    });
-  }
+  //   this.empleadoService.verificarUsuario(this.idUsuario).subscribe({
+  //     next: res => {
+  //       if(res){
+  //         // Implementar dialog que diga que no existe un usuario con esa cedula
+  //         this.idUsuario = res.toString();
+  //         this.guardarUsuario();
+  //       }
+  //     },
+  //     error: err => console.log(err)
+  //   });
+  // }
 
   guardarUsuario(): void {
     if(this.idUsuario != null && this.FormGroupEmpleado && this.FormGroupEmpleado.valid ){
       this.nuevoEmpleado.id = 0;
-      this.nuevoEmpleado.idUsuario = this.idUsuario;
+      // this.nuevoEmpleado.idUsuario = this.idUsuario;
+      this.nuevoEmpleado.idUsuario = this.FormGroupEmpleado.get('Cedula').value;
       this.nuevoEmpleado.idComercio =  this.idComercio;
       this.nuevoEmpleado.idSucursal = this.idSucursal;
       this.nuevoEmpleado.estado = 'A';
@@ -86,12 +89,16 @@ export class FormEmpleadoComponent implements OnInit {
 
       this.empleadoService.create(this.nuevoEmpleado).subscribe({
         next: res => {
-
+          //this.dialog.closeAll();
           this._snackBar.open('Se ha registrado el empleado', '', {
             duration: 2500,
           });
         },
-        error: err => console.log(err)
+        error: err => {
+          this._snackBar.open('No se ha logrado registrar el empleado', '', {
+            duration: 2500,
+          });
+        }
       });
 
     } else {

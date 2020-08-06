@@ -52,6 +52,7 @@ export class ProductoService {
     return this.http.delete<Producto>(url).pipe(catchError(this.handleError));
   }
 
+
     postProducto(producto: Producto) {
     const headers = new Headers({
       'Content-Type': 'application/json'
@@ -86,15 +87,17 @@ export class ProductoService {
   }
 
   private log(message: string) {
-    this.mensajeService.add(`productosyservicios: ${message}`);
+    this.mensajeService.add(`Producto: ${message}`);
   }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      this.log(`${error}`);
-
-      return of(result as T);
-    };
+	return (error: any): Observable<T> => {
+	  console.error(error);
+	 	this.log(`${error}`);
+	  
+	  return of(result as T);
+	};
   }
+
 }

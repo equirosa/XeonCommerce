@@ -22,9 +22,10 @@ namespace WebAPI.Controllers
 
                 return Ok(im.RetrieveAll());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw e;
+
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -46,7 +47,7 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
 
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -58,14 +59,14 @@ namespace WebAPI.Controllers
                 var im = new ImpuestoManagement();
                 im.Create(impuesto);
 
-                return Ok("Se registro el impuesto con exito");
+                return Ok(new { msg = "Se registro con exito" });
                 //Ir a la base de datos para crear el cupon y obtener el Id.
                 //return CreatedAtAction(nameof(GetById), new { id = cupon.Id }, cupon);
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -84,13 +85,13 @@ namespace WebAPI.Controllers
                 else
                 {
                     im.Update(impuesto);
-                    return NoContent();
+                    return Ok(new { msg = "Se actualizó con exito" });
                 }
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
 
@@ -103,12 +104,12 @@ namespace WebAPI.Controllers
                 var impuesto = new Impuesto { Id = id };
                 im.Delete(impuesto);
 
-                return Ok("Se ha eliminado eliminado el impuesto");
+                return Ok(new { msg = "Se ha eliminado" });
 
             }
             catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, new { msg = ex.Message });
             }
         }
     }

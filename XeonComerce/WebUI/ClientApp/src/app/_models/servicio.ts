@@ -6,5 +6,5 @@ export interface Servicio {
   descuento: number;
   idComercio: string;
   duracion: number;
-
+  impuesto: number;
 }

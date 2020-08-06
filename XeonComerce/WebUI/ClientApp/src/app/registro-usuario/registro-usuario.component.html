@@ -85,7 +85,7 @@
 		  
 		  <br>
 		  <agm-map  style="height: 400px;"  [latitude]="latitud" [longitude]="longitud">
-			<agm-marker [latitude]="latitud" [longitude]="longitud" [markerDraggable]="true"></agm-marker>
+			<agm-marker [latitude]="latitud" [longitude]="longitud" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
 		  </agm-map>
 		  <br>
 		

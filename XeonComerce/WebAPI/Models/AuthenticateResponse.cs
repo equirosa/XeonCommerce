@@ -15,7 +15,10 @@ namespace WebApi.Models
         public string NumeroTelefono { get; set; }
         public int IdDireccion { get; set; }
         public string Estado { get; set; }
+        public string Tipo { get; set; }
         public string Token { get; set; }
+
+
 
 
         public AuthenticateResponse(Usuario usuario, string token)
@@ -30,6 +33,7 @@ namespace WebApi.Models
             NumeroTelefono = usuario.NumeroTelefono;
             IdDireccion = usuario.IdDireccion;
             Estado = usuario.Estado;
+            Tipo = usuario.Tipo;
             Token = token;
         }
     }

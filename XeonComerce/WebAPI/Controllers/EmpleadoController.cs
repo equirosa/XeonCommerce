@@ -35,6 +35,9 @@ namespace WebAPI.Controllers
                 Usuario usuario = usuarioMang.RetrieveById(new Usuario { Id = empleado.IdUsuario });
                 if (usuario.Tipo == "E") throw new Exception("El usuario ya es empleado de otra sucursal");
                 usuario.Tipo = "E";
+
+                if (!empleadoMang.VerificarUsuario(empleado.IdUsuario)) throw new Exception("El usuario no esta registrado");
+                if (!empleadoMang.verificarEmpleadoComercioSucursal(empleado.IdUsuario)) throw new Exception("El usuario ya es empleado de otra sucursal");
                 empleadoMang.Create(empleado);
                 usuarioMang.Update(usuario);
 
@@ -49,13 +52,13 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpGet]
-        public string VerificarUsuario(string idUsuario)
-        {
+        //[HttpGet]
+        //public string VerificarUsuario(string idUsuario)
+        //{
                    
-            var empleadoManag = new EmpleadoManagement();
-            return empleadoManag.VerificarUsuario(idUsuario);
-        }
+        //    var empleadoManag = new EmpleadoManagement();
+        //    return empleadoManag.VerificarUsuario(idUsuario);
+        //}
 
 
         [HttpDelete]
@@ -91,6 +94,12 @@ namespace WebAPI.Controllers
         }
 
 
+        [HttpGet]
+        public List<EmpleadoComercioSucursal> RetrieveAll()
+        {
+            var empleadoManag = new EmpleadoManagement();
+            return empleadoManag.RetrieveAll();
+        }
 
 
     }
