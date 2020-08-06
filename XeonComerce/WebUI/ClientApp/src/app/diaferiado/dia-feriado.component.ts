@@ -1,3 +1,7 @@
+import { Bitacora } from './../_models/bitacora';
+import { User } from '@app/_models';
+import { BitacoraService } from './../_services/bitacora.service';
+import { AccountService } from '@app/_services';
 import { PDF } from './../_models/pdf';
 import { PDFService } from './../_services/pdf.service';
 import { DiaFeriadoService } from './../_services/diaFeriado.service';
@@ -23,12 +27,14 @@ import { saveAs } from "file-saver";
 })
 export class DiaFeriadoComponent implements OnInit {
 
+	user: User;
 	diasFeriados: DiaFeriado[];
 	diaFeriadoCrear: DiaFeriado;
 	displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'fecha', 'editar', 'eliminar'];
 	datos;  
 	
-	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private diaFeriadoService: DiaFeriadoService, private pdfService : PDFService) { }
+	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private diaFeriadoService: DiaFeriadoService, private pdfService : PDFService,
+		private bitacoraService: BitacoraService, private accountService : AccountService) { this.user = this.accountService.userValue; }
   
 
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -72,6 +78,17 @@ export class DiaFeriadoComponent implements OnInit {
 			
 			this.diaFeriadoService.create(this.diaFeriadoCrear).subscribe(() => {
 				this.getDiasFeriados();
+				
+				var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Creación de día feriado",
+					detalle: `Se creó un día feriado (${result.nombre}) ${result.fecha}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+
 			});
 
 			}else{
@@ -104,7 +121,20 @@ export class DiaFeriadoComponent implements OnInit {
 			if(result.fecha && result.nombre && result.nombre.length > 0 && result.nombre.replace(/\s/g, '').length && 
 			result.descripcion && result.descripcion.length > 0 && result.descripcion.replace(/\s/g, '').length){
 		  this.diaFeriadoService.update(result)
-			.subscribe(() => this.getDiasFeriados());
+			.subscribe(() =>{ this.getDiasFeriados();
+			
+				var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Actualización de día feriado",
+					detalle: `Se actualizó un día feriado (${result.nombre}) ${result.fecha}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+
+			
+			});
 
 		}else{
 		this.mensajeService.add("Favor llenar los datos");	
@@ -136,7 +166,21 @@ export class DiaFeriadoComponent implements OnInit {
 		
 		  dialogRef.afterClosed().subscribe(dialogResult => {
 			  if(dialogResult) this.diaFeriadoService.delete(diaFeriado)
-			  .subscribe(() => this.getDiasFeriados());
+			  .subscribe(() => {
+				  this.getDiasFeriados()
+				
+				
+				var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Eliminación de día feriado",
+					detalle: `Se eliminó un día feriado (${diaFeriado.nombre})`,
+					id: -1,
+					fecha: new Date()
+				}
+			
+				this.bitacoraService.create(log).subscribe();
+			});
 		 });
 	} 
 

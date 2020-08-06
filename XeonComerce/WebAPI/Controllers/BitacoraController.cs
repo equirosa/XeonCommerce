@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
                 if (user == null) throw new Exception("Dicho usuario no existe");
                 bitacora.Fecha = DateTime.Now;
                 bm.Create(bitacora);
-                return Ok(new { msg = "La contraseña cambió satisfactoriamente" });
+                return Ok(new { msg = "Se creó el registro satisfactoriamente" });
             }
             catch (Exception ex)
             {
