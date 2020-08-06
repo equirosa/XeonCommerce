@@ -18,12 +18,10 @@
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/comercios">Administrar Comercios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/solicitudes">Solicitudes</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/productos">Productos</button>
-	<button mat-menu-item (click)="onSidenavClose()" routerLink="/empleado/admin">Empleados</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/servicios">Servicios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/promocion">Promociones</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/empleado/admin">Empleados</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/sucursales">Sucursales</button>
-	<button mat-menu-item (click)="onSidenavClose()" routerLink="/config">Configuración</button>
-	<button mat-menu-item (click)="onSidenavClose()" routerLink="/listar-usuarios">Listar Usuarios</button>
 </mat-menu>
 <a mat-list-item routerLink="/categoria" (click)="onSidenavClose()">
 	<mat-icon>category</mat-icon><span class="nav-caption">Categorias</span>
@@ -36,6 +34,10 @@
 </a>
 <a mat-list-item routerLink="/listar-usuarios" (click)="onSidenavClose()">
 	<mat-icon>supervised_user_circle</mat-icon><span class="nav-caption">Listar Usuarios</span>
+</a>
+
+<a mat-list-item routerLink="/config" (click)="onSidenavClose()">
+	<mat-icon>settings</mat-icon><span class="nav-caption">Configuración</span>
 </a>
 
 <a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()" *ngIf="!yaTieneComercio">
@@ -182,6 +184,9 @@
 	<br>
 	<mat-divider></mat-divider>
 	<br>
+	<a mat-list-item routerLink="/comercio" (click)="onSidenavClose()">
+		<mat-icon>business</mat-icon><span class="nav-caption">Ver Comercios</span>
+	</a>
 	<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
 		<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
 	</a>
