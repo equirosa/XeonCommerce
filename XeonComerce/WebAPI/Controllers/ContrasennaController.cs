@@ -110,6 +110,36 @@ namespace WebAPI.Controllers
                 }
                 if (contrasenna.contrasenna.Length < 8) throw new Exception("La contraseña no incluye los caracteres requeridos");
 
+
+                var hasNumber = new Regex(@"[0-9]+");
+                var hasUpperChar = new Regex(@"[A-Z]+");
+                var hasMiniMaxChars = new Regex(@".{8,15}");
+                var hasLowerChar = new Regex(@"[a-z]+");
+                var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+
+                if (!hasLowerChar.IsMatch(contrasenna.contrasenna))
+                {
+                    throw new Exception("La contraseña debe incluir al menos un caracter en minúscula");
+                }
+                else if (!hasUpperChar.IsMatch(contrasenna.contrasenna))
+                {
+                    throw new Exception("La contraseña debe incluir al menos un caracter en mayúscula");
+                }
+                else if (!hasMiniMaxChars.IsMatch(contrasenna.contrasenna))
+                {
+                    throw new Exception("La contraseña debe tener más de 8 caracteres y menos de 15.");
+                }
+                else if (!hasNumber.IsMatch(contrasenna.contrasenna))
+                {
+                    throw new Exception("La contraseña debe incluir al menos un número");
+                }
+
+                else if (!hasSymbols.IsMatch(contrasenna.contrasenna))
+                {
+                    throw new Exception("La contraseña debe incluir al menos un caracter especial");
+                }
+
+
                 contrasenna.FechaActualizacion = DateTime.Now;
                 contrasenna.contrasenna = CreateMD5(contrasenna.contrasenna);
                 contrasenna.estado = "A";
