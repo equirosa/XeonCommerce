@@ -62,10 +62,12 @@ export class CategoriaComponent implements OnInit {
 				valor: result.valor,
 				descripcion: result.descripcion
 			}
-
-			this.categoriaService.create(this.categoriaCrear).subscribe(() => {
+			if(result.valor && result.valor.length > 0 && result.descripcion && result.descripcion.length > 0 && result.valor.replace(/\s/g, '').length && result.descripcion.replace(/\s/g, '').length){	this.categoriaService.create(this.categoriaCrear).subscribe(() => {
 				this.getCategorias();
 			});
+			}else{
+			this.mensajeService.add("Favor llenar los datos");	
+			}
 		}
   
 	  });
@@ -88,9 +90,14 @@ export class CategoriaComponent implements OnInit {
 	  dialogRef.afterClosed().subscribe(result => {
 		console.log(`Resultado: ${result}`); 
 		if (result) {
-  
-		  this.categoriaService.update(result)
+
+			if(result.valor && result.valor.length > 0 && result.descripcion && result.descripcion.length > 0 && result.valor.replace(/\s/g, '').length && result.descripcion.replace(/\s/g, '').length){
+				this.categoriaService.update(result)
 			.subscribe(() => this.getCategorias());
+			}else{
+			this.mensajeService.add("Favor llenar los datos");	
+			}
+
 		}
   
 	  });

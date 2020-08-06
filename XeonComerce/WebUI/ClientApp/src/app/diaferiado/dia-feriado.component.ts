@@ -67,10 +67,16 @@ export class DiaFeriadoComponent implements OnInit {
 				nombre: result.nombre,
 				descripcion: result.descripcion
 			}
-
+			if(result.fecha && result.nombre && result.nombre.length > 0 && result.nombre.replace(/\s/g, '').length && 
+			result.descripcion && result.descripcion.length > 0 && result.descripcion.replace(/\s/g, '').length){
+			
 			this.diaFeriadoService.create(this.diaFeriadoCrear).subscribe(() => {
 				this.getDiasFeriados();
 			});
+
+			}else{
+			this.mensajeService.add("Favor llenar los datos");	
+			}
 		}
   
 	  });
@@ -95,8 +101,14 @@ export class DiaFeriadoComponent implements OnInit {
 		console.log(`Resultado: ${result}`); 
 		if (result) {
   
+			if(result.fecha && result.nombre && result.nombre.length > 0 && result.nombre.replace(/\s/g, '').length && 
+			result.descripcion && result.descripcion.length > 0 && result.descripcion.replace(/\s/g, '').length){
 		  this.diaFeriadoService.update(result)
 			.subscribe(() => this.getDiasFeriados());
+
+		}else{
+		this.mensajeService.add("Favor llenar los datos");	
+		}
 		}
   
 	  });
