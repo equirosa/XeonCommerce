@@ -15,19 +15,19 @@
         <ng-container matColumnDef="editar">
             <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
-                <button mat-icon-button  (click)="editar(element)">
-                    <mat-icon>edit</mat-icon>
+                <button mat-raised-button color="editar" (click)="editar(element)">
+                    Editar
                 </button>
             </mat-cell>
         </ng-container>
         <ng-container matColumnDef="eliminar">
             <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
-                <button mat-icon-button  (click)="eliminar(element)">
-                    <mat-icon>cancel</mat-icon>
+                <button mat-raised-button color="eliminar" (click)="eliminar(element)">
+                    Eliminar
                 </button>
             </mat-cell>
-        </ng-container>        
+        </ng-container>       
         <mat-header-row class="toolbar" *matHeaderRowDef="columnas"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
     </mat-table>
