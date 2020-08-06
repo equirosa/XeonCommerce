@@ -67,7 +67,23 @@ export class CarritoComponent implements OnInit, AfterViewChecked {
 			this.productos = productos.map((i)=>{
 				let a = items.find((e)=>e.idProducto==i.id);
 				let imp = this.impuestos.find((e)=>e.id==i.impuesto);
-				if(a) i["cantidadCarrito"] = a.cantidad;
+				if(a){ 
+					i["cantidadCarrito"] = a.cantidad;
+					if(a.cantidad > i.cantidad){
+						a.cantidad = i.cantidad;
+						if(a.cantidad == 0){
+							this.carritoService.delete(a).subscribe((_)=>{
+								this.mensajeService.add(`Se eliminó un producto debido a que no existían unidades`);
+								this.getProductos();
+							});
+						}else{
+							this.carritoService.update(a).subscribe((_)=>{
+								this.mensajeService.add(`Se actualizó la cantidad de un producto debido a que no existían tantas unidades`);
+								this.getProductos();
+							});
+						}
+					}
+				};
 				if(imp) (i["porcientoImpuesto"] = imp.valor, i["nombreImpuesto"]=imp.nombre);
 				return i;
 			});
@@ -81,6 +97,29 @@ export class CarritoComponent implements OnInit, AfterViewChecked {
 	});
 }
 
+
+actualizarProductos(): void {
+
+	this.carritoService.get(this.user.id).subscribe((items)=>{
+
+		this.productoService.getProducto()
+		.subscribe(productos => {
+			productos = productos.filter(a=>items.find((i)=>i.idProducto==a.id));
+			this.productos = productos.map((i)=>{
+				let a = items.find((e)=>e.idProducto==i.id);
+				if(a){ 
+					i.cantidad = i.cantidad-a.cantidad;
+					if(i.cantidad<0){ i.cantidad=0; console.error("Algo ocurrió")
+					}else{
+						this.productoService.putProductoSilencioso(i).subscribe();
+					}
+				};
+				return i;
+			});
+			})
+	});
+	
+}
 
 limpiar(): void {
 	let a: Carrito;
@@ -151,7 +190,6 @@ eliminar(element){
 	 });
 
 }
-
 
 onChange($event, element){
 	let num = Number($event.target.value);
@@ -309,8 +347,8 @@ despuesDePago(tabla, metodo): void {
 					idFactura: idFactura
 				}
 			  });
-
-
+			  this.actualizarProductos();
+			  this.limpiar();
 		}else{
 			this.mensajeService.add("Ha ocurrido un error, porfavor reintente en unos minutos");
 		}

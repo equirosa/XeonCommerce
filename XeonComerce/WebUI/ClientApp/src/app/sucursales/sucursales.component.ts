@@ -214,7 +214,6 @@ export class SucursalesComponent implements OnInit {
           return a.id.localeCompare(b.id);
         });
         this.sucursales = sucursales.filter((a) => a.estado == 'A');
-        debugger
         if (this.user.tipo != 'A') {
           this.sucursales = sucursales.filter((a) => a.idComercio == this.user.comercio.cedJuridica)
         }
