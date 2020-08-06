@@ -1,3 +1,9 @@
+import { CarritoDialogPayPalComponent } from './../_components/carrito/paypal/paypal.dialog';
+import { CarritoDialogSinpeComponent } from './../_components/carrito/sinpe/sinpe.dialog';
+import { ComercioService } from './../_services/comercio.service';
+import { Producto } from './../_models/producto';
+import { CarritoDialogMetodoPagoComponent } from './../_components/carrito/metodo-pago/metodo-pago.dialog';
+import { CarritoDialogDireccionComponent } from './../_components/carrito/destino/destino.dialog';
 import { TransaccionFinanciera } from './../_models/transaccionFinanciera';
 import { FacturaMaestroService } from './../_services/facturaMaestro.service';
 import { FacturaDetalleService } from './../_services/facturaDetalle.service';
@@ -16,7 +22,7 @@ import { AccountService } from './../_services/account.service';
 import { MensajeService } from './../_services/mensaje.service';
 import { CarritoService } from './../_services/carrito.service';
 import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
-declare let paypal: any;
+import { CarritoDialogFinComponent } from '../_components/carrito/fin/fin.dialog';
 
 @Component({
   selector: 'app-carrito',
@@ -24,20 +30,17 @@ declare let paypal: any;
   styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit, AfterViewChecked {
-	addScript: boolean = false; // Denota si ya se cargó el script de PayPal
-
-	finalAmount: number; // Monto a cobrar, se puede alterar
-	productosPP: any[];
-	
-	currency: string = 'USD'; // Moneda en la que se va a pagar
 	productos: any[];
 	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'eliminar'];
 	datos;
 	user: any;
 	impuestos: Impuesto[];
+	finalAmount: number;
+	productosPP: any[];
   constructor(public dialog: MatDialog, private carritoService:CarritoService, private mensajeService:MensajeService,
 	 private accountService:AccountService, private productoService:ProductoService, private impuestoService:ImpuestoService,
-	 private transaccionFinancieraService:TransaccionFinancieraService, private facturaDetalleService:FacturaDetalleService, private facturaMaestroService:FacturaMaestroService) {
+	 private transaccionFinancieraService:TransaccionFinancieraService, private facturaDetalleService:FacturaDetalleService,
+		private facturaMaestroService:FacturaMaestroService, private comercioService:ComercioService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -187,43 +190,90 @@ onChange($event, element){
 
 }
 
-comprar(tabla, metodo): void {
+comprar(tabla): void{
+	let dialogRef: any;
+	dialogRef = this.dialog.open(CarritoDialogDireccionComponent, {maxWidth: "500px"});
+	
+	  dialogRef.afterClosed().subscribe(direccionEntrega => {
+		if(direccionEntrega){ 		
+			dialogRef = this.dialog.open(CarritoDialogMetodoPagoComponent, {maxWidth: "500px"});
+			dialogRef.afterClosed().subscribe(metodoPago => {
+				if(metodoPago){
+					console.log(direccionEntrega, metodoPago);
+
+
+					if(metodoPago == 1){
+						dialogRef = this.dialog.open(CarritoDialogPayPalComponent, {maxWidth: "600px", data: { productosPP: this.productosPP }});
+						dialogRef.afterClosed().subscribe(paypal => {
+							console.log("Pago exitoso (PayPal):", !!paypal);
+							if(paypal){
+								this.despuesDePago(tabla, "PAYPAL");
+							}
+						});
+					}else{
+						this.comercioService.getBy(tabla.filteredData[0].idComercio).subscribe((comercio)=>{
+							if(comercio && comercio.telefono){
+								dialogRef = this.dialog.open(CarritoDialogSinpeComponent, {maxWidth: "600px", data: {
+									telefono: comercio.telefono,
+									cantidad: Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100
+								}});
+
+								dialogRef.afterClosed().subscribe(sinpe => {
+									console.log("Pago exitoso (Sinpe):", !!sinpe);
+									if(sinpe){
+										this.despuesDePago(tabla, "SINPE");
+									}
+								});
+
+							}else{
+								this.mensajeService.add("No se encontró el comercio. Por favor reintente en unos minutos");
+							}
+						});
+						
+
+					}
+				}
+			});
+		}
+	 });
+}
+
+despuesDePago(tabla, metodo): void {
 	console.log(tabla);
 	var fecha = new Date();
-	var monto = this.getCosto(tabla, true);
+	var monto = Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100;
 
-	let a :TransaccionFinanciera  
-	a = {
+	let transaccionFinanciera :TransaccionFinanciera  
+	transaccionFinanciera = {
 		id: -1,
 		idCliente: this.user.id,
 		idComercio: tabla.filteredData[0].idComercio,
 		metodo: metodo,
-		monto: monto,
-		estado: "P",
+		monto:  monto,
+		estado: "F", //P: Pendiente, F: Finalizada, C: Cancelada (Retornada)
 		fecha: fecha
 	};
-	console.log(a);
-	this.transaccionFinancieraService.create(a).subscribe((_)=>{
+	console.log(transaccionFinanciera);
+	this.transaccionFinancieraService.create(transaccionFinanciera).subscribe((_)=>{
 		if(_){
 
 			this.transaccionFinancieraService.get().subscribe((tranFin)=>{
 				var idTransaccion = tranFin.find((i)=>
-					i.estado == "P" && i.monto == monto && i.idCliente==this.user.id && i.idComercio == tabla.filteredData[0].idComercio
+					i.estado == "F" && i.monto == monto && i.idCliente==this.user.id && i.idComercio == tabla.filteredData[0].idComercio
 				);
 
 				if(idTransaccion){
 
-			let b : FacturaMaestro;
-			b = {
+			let facturaMaestro : FacturaMaestro;
+			facturaMaestro = {
 				idFactura: -1,
 				idTransaccion: idTransaccion.id,
 				fecha: fecha,
 				cedulaJuridica: tabla.filteredData[0].idComercio,
 				idCliente: this.user.id
 			}		
-			console.log(b);
-		console.log("Llegamos acá");
-		this.facturaMaestroService.create(b).subscribe((fM)=>{
+			console.log(facturaMaestro);
+			this.facturaMaestroService.create(facturaMaestro).subscribe((fM)=>{
 			console.log("FM", fM);
 
 			this.facturaMaestroService.get().subscribe((facturaMaestras)=>{
@@ -251,11 +301,18 @@ comprar(tabla, metodo): void {
 				});
 			});
 
-			console.log("Fin");
+			//Ya acá finalizó todo el pago.
+
+			const dialogRef = this.dialog.open(CarritoDialogFinComponent, {
+				maxWidth: "400px",
+				data: {
+					idFactura: idFactura
+				}
+			  });
 
 
 		}else{
-			this.mensajeService.add("Ha ocurrido un error, porfavor reintentar en unos minutos");
+			this.mensajeService.add("Ha ocurrido un error, porfavor reintente en unos minutos");
 		}
 
 			});
@@ -265,99 +322,14 @@ comprar(tabla, metodo): void {
 			this.mensajeService.add("Ha ocurrido un error, porfavor reintentar en unos pocos minutos");
 		}
 		});
+
+
 		}else{
 			this.mensajeService.add("Ha ocurrido un error, porfavor reintentar en unos minutos");
 		}
 	});
 
 
-}
-
-
-productosPaypal(){
-	let items = [];
-	this.productosPP.forEach((i)=>{
-		items.push({
-			name: i.nombre,
-			quantity: i.cantidadCarrito,
-			price: Math.round(((((i.precio-i.descuento)*(i.porcientoImpuesto/100+1)/588.54)) + Number.EPSILON) * 100) / 100,
-			currency: this.currency
-		});
-	});
-	return items;
-}
-
-precioPaypal(){
-	let items = this.productosPaypal();
-	let total = 0;
-	items.forEach((i)=>{
-		total+= ((i.price*i.quantity));
-	});
-	return total;
-}
-
-
-paypalConfig = {
-  env: 'sandbox',
-  client: {
-	sandbox: 'AUIxW_mYvd_h3mMqTtHdrSNMJ9yPmJkpiOCkNq454vDxXCN6hgadgPHIX_9PTeQn1Qv8m-ozcQUQkUjZ' // 'Client ID' de la aplicación
-  },
-  commit: true,
-  payment: (data, actions) => { // se define el pago a realizar
-	return actions.payment.create({
-		transactions: [{
-			amount: {
-			  total: this.precioPaypal(),
-			  currency: this.currency,
-			},
-			description: 'Pago por productos o servicios.',
-			item_list: {
-			  items: this.productosPaypal(),
-			  /*shipping_address: {
-				recipient_name: 'Brian Robinson',
-				line1: '4th Floor',
-				line2: 'Unit #34',
-				city: 'San Jose',
-				country_code: 'US',
-				postal_code: '95131',
-				phone: '011862212345678',
-				state: 'CA'
-			  }*/
-			}
-		  }],
-		  note_to_payer: 'Favor contactar al administrador del comerico en caso de un problema.'
-	});
-  },
-  onAuthorize: (data, actions) => { // Corre luego de que hay una autorización exitosa
-	return actions.payment.execute().then((payment) => {
-	  console.log('Payment Successful');
-	  new Promise((resolve, rejects) => {
-		let successElement = document.createElement('h2');
-		// Crea un elemento de HTML para notificar que el pago fue exitoso.
-		successElement.textContent = "Payment Successful at: " + new Date() + '\n Amount: ' + this.finalAmount + ' ' + this.currency;
-		successElement.onload = resolve;
-		document.body.appendChild(successElement);
-	  })
-	})
-  }
-};
-
-ngAfterViewChecked(): void { // Crea el botón de pago de PayPal al visitar la página.
-  if (!this.addScript) {
-	this.addPaypalScript().then(() => { // se crea el botón luego de cargar el script de paypal
-	  paypal.Button.render(this.paypalConfig, '#paypal-checkout-btn');
-	})
-  }
-}
-
-addPaypalScript() { // Llama el script de pagos de paypal
-  this.addScript = true;
-  return new Promise((resolve, rejects) => {
-	let scriptTagElement = document.createElement('script');
-	scriptTagElement.src = "https://www.paypalobjects.com/api/checkout.js";
-	scriptTagElement.onload = resolve;
-	document.body.appendChild(scriptTagElement);
-  })
 }
 
 }

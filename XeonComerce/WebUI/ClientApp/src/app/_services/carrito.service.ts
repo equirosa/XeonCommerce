@@ -41,7 +41,7 @@ httpOptions = {
 
   create(car: Carrito): Observable<Carrito> {
     return this.http.post<Carrito>(this.urlApi, car, this.httpOptions).pipe(
-      tap((nuevo: Carrito) => this.log(`Se creó`)),
+      tap((nuevo: Carrito) => this.log(`Se agregó el producto`)),
       catchError(this.handleError<Carrito>('create'))
     );
   }

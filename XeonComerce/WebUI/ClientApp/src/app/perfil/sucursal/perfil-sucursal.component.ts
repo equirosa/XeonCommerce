@@ -1,3 +1,8 @@
+import { Producto } from './../../_models/producto';
+import { Carrito } from './../../_models/carrito';
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
+import { CarritoService } from './../../_services/carrito.service';
 import { Component, OnInit } from '@angular/core';
 import { SucursalService } from '../../_services/sucursal.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,13 +30,19 @@ export class PerfilSucursalComponent implements OnInit {
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
-
+	user: User;
   constructor( 
     private route: ActivatedRoute, 
     private surcursalService: SucursalService, 
     private productoService: ProductoService, 
     private direccionService: DireccionService,
-    private ubicacionService: UbicacionService) { }
+	private ubicacionService: UbicacionService,
+	private carritoService: CarritoService,
+	private accountService: AccountService) {
+		this.accountService.user.subscribe(x => {
+			this.user = x;
+		});
+	 }
 
   ngOnInit(): void {
     this.idSucursal = this.route.snapshot.params['id'];
@@ -93,5 +104,15 @@ export class PerfilSucursalComponent implements OnInit {
     let canton = this.direccion.canton;
     this.ubicacionService.getDistritos(this.direccion.provincia, canton)
     .subscribe(distritos => this.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
-    }
+	}
+	
+	agregarCarrito(producto: Producto){
+		let car : Carrito;
+		car = {
+			cantidad: 1,
+			idUsuario: this.user.id,
+			idProducto: producto.id
+		}
+		this.carritoService.create(car).subscribe();
+	}
 }
