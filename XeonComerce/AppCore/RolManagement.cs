@@ -29,8 +29,11 @@ namespace AppCore
             crud.Create(rol);
 
             var rolUltimo = crud.GetUltimoRol<Rol>();
-
-            this.CreateRolVistas(obj.Vistas, rolUltimo.Id);
+            if (obj.Vistas != null)
+            {
+                this.CreateRolVistas(obj.Vistas, rolUltimo.Id);
+            }
+            
 
         }
 
