@@ -35,6 +35,7 @@ namespace WebAPI.Services
         {
             var user = GetAll().SingleOrDefault(x => x.CorreoElectronico.Equals(model.Email));
             if (user == null) return null;
+            if (user.Estado == "I") return null;
             var clave = GetClave(user.Id);
 
             if (clave == null) return null;
