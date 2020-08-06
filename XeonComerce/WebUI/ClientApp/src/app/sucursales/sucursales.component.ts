@@ -25,7 +25,7 @@ import { ComercioService } from '../_services/comercio.service'
   styleUrls: ['./sucursales.component.css']
 })
 export class SucursalesComponent implements OnInit {
-  user: User;
+  user: any;
   sucursales: Sucursal[];
   sucursalCrear: Sucursal;
   displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'editar', 'eliminar'];
@@ -38,6 +38,7 @@ export class SucursalesComponent implements OnInit {
   // latitud: number = 9.7489;
   marker: marker;
   comercios: Comercio[];
+  comercio: Comercio;
 
   constructor(private comercioService: ComercioService, private accountService: AccountService, public dialog: MatDialog,
     private archivoService: ArchivoService, private sucursalService: SucursalService, private direccionService: DireccionService,
@@ -48,6 +49,8 @@ export class SucursalesComponent implements OnInit {
 
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.getComercios();
     this.getSucursales();
     this.getProvincias();
   }
@@ -211,11 +214,14 @@ export class SucursalesComponent implements OnInit {
           return a.id.localeCompare(b.id);
         });
         this.sucursales = sucursales.filter((a) => a.estado == 'A');
+        debugger
+        if (this.user.tipo != 'A') {
+          this.sucursales = sucursales.filter((a) => a.idComercio == this.user.comercio.cedJuridica)
+        }
         this.datos = new MatTableDataSource(this.sucursales);
         this.datos.sort = this.sort;
         this.datos.paginator = this.paginator;
       });
-    this.getComercios();
   }
 
   delete(sucursal: Sucursal): void {
@@ -292,7 +298,7 @@ export class DialogSucursal {
       .subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({ value: Number(key), nombre: distritos[key] })));
   }
 
-  getComercios():void{
+  getComercios(): void {
     console.log("Obteniendo comercios...");
     let comercios: Comercio[];
     this.comercioService.get().subscribe(comercios => this.data.comercios);
