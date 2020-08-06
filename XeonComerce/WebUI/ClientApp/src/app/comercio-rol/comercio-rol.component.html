@@ -1,13 +1,9 @@
-<div>
-    <div class="mb-lg mt-lg">
-        <h2>Roles</h2>
-    </div>
-    <div class="ml-md">
+<div class="divRol">
+    <h2>Roles</h2>
+    <div >
         <button mat-raised-button color="success" (click)="crearRol()">
             Crear Rol 
         </button>
     </div>
-</div>
-<div class="page-container">
     <app-list-rol [idComercio]="idComercio" [actualizarDatos]="actualizarDatos"></app-list-rol>
 </div>
