@@ -8,6 +8,9 @@
 	</a>
 
 	<mat-divider></mat-divider>
+	<a mat-list-item routerLink="/dashboardAdmin" (click)="onSidenavClose()">
+		<mat-icon>dashboard</mat-icon><span class="nav-caption">Dashboard</span>
+	</a>
 <mat-list-item [matMenuTriggerFor]="menu">
     <mat-icon>business</mat-icon>
     <a matline>Comercios (Admin)</a>
@@ -99,6 +102,9 @@
 
 	<mat-divider></mat-divider>
 
+<a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()">
+	<span class="nav-caption">Dashboard</span>
+</a>
 <a mat-list-item routerLink="/sucursales" (click)="onSidenavClose()">
 	<span class="nav-caption">Sucursales</span>
 </a>

@@ -1,8 +1,18 @@
-.selectDia{
-    width: 150px;    
+.selectDia {
+    width: 150px;
 }
 
 :host {
     display: block;
     height: calc(100vh - 5rem);
-  }
+}
+
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.divHorarios {
+    padding: 2% 10%;
+}
