@@ -1,3 +1,5 @@
+import { Bitacora } from './../_models/bitacora';
+import { BitacoraService } from './../_services/bitacora.service';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { Component, OnInit, Inject } from '@angular/core';
@@ -36,7 +38,8 @@ export class ProductoFormComponent implements OnInit {
   public serviceEndPoint: string;
   user: any;
 
-  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService, private mensajeService: MensajeService, private accountService: AccountService) {
+  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService, 
+	private mensajeService: MensajeService, private bitacoraService: BitacoraService, private accountService : AccountService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -176,6 +179,17 @@ openDialog(): void {
       this.prodService.postProducto(producto)
         .subscribe(() => {
           this.getProductos();
+		  if(this.user.tipo == "A"){
+		  var log: Bitacora;
+			  log = {
+				  idUsuario: this.user.id,
+				  accion: "Creación de producto",
+				  detalle: `Se creó un producto para (${comercio.cedJuridica}) ${result.nombre}`,
+				  id: -1,
+				  fecha: new Date()
+			  }
+			  this.bitacoraService.create(log).subscribe();
+			}
         });
       this.getProductos();
     }
@@ -243,7 +257,21 @@ openDialog(): void {
 
         this.prodService.putProducto(producto)
           .subscribe(() => {
-            this.getProductos()
+			this.getProductos()
+
+			if(this.user.tipo == "A"){
+			var log: Bitacora;
+			log = {
+				idUsuario: this.user.id,
+				accion: "Actualización de producto",
+				detalle: `Se actualizó un producto para (${producto.idComercio}) ${producto.nombre}`,
+				id: -1,
+				fecha: new Date()
+			}
+			this.bitacoraService.create(log).subscribe();
+			}
+
+
           });
         this.getProductos();
       }
@@ -265,6 +293,17 @@ openDialog(): void {
       if (dialogResult) this.prodService.delete(producto)
         .subscribe(() => {
             this.getProductos();
+			if(this.user.tipo == "A"){
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Eliminación de producto",
+					detalle: `Se eliminó un producto para (${producto.idComercio}) ${producto.nombre}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+			}
         });
       this.getProductos();
     });

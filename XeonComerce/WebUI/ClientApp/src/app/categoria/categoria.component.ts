@@ -1,3 +1,7 @@
+import { Bitacora } from './../_models/bitacora';
+import { BitacoraService } from './../_services/bitacora.service';
+import { AccountService } from '@app/_services';
+import { User } from '@app/_models';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogComercio } from './../comercios/comercios.component';
 import { CategoriaService } from './../_services/categoria.service';
@@ -18,12 +22,14 @@ import {MatSort} from '@angular/material/sort';
 })
 export class CategoriaComponent implements OnInit {
 
+	user: User;
 	categorias: Categoria[];
 	categoriaCrear: Categoria;
 	displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'editar', 'eliminar'];
 	datos;
 	
-	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private ubicacionService: UbicacionService, private categoriaService: CategoriaService) { }
+	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private ubicacionService: UbicacionService, private categoriaService: CategoriaService,
+		private bitacoraService: BitacoraService, private accountService : AccountService) { this.user = this.accountService.userValue; }
   
 
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -62,10 +68,22 @@ export class CategoriaComponent implements OnInit {
 				valor: result.valor,
 				descripcion: result.descripcion
 			}
-
-			this.categoriaService.create(this.categoriaCrear).subscribe(() => {
+			if(result.valor && result.valor.length > 0 && result.descripcion && result.descripcion.length > 0 && result.valor.replace(/\s/g, '').length && result.descripcion.replace(/\s/g, '').length){	
+				this.categoriaService.create(this.categoriaCrear).subscribe(() => {
 				this.getCategorias();
+				var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Creación de categoría",
+					detalle: `Se creó una categoría (${result.valor})`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
 			});
+			}else{
+			this.mensajeService.add("Favor llenar los datos");	
+			}
 		}
   
 	  });
@@ -88,9 +106,27 @@ export class CategoriaComponent implements OnInit {
 	  dialogRef.afterClosed().subscribe(result => {
 		console.log(`Resultado: ${result}`); 
 		if (result) {
-  
-		  this.categoriaService.update(result)
-			.subscribe(() => this.getCategorias());
+
+			if(result.valor && result.valor.length > 0 && result.descripcion && result.descripcion.length > 0 && result.valor.replace(/\s/g, '').length && result.descripcion.replace(/\s/g, '').length){
+				this.categoriaService.update(result)
+			.subscribe(() => {
+				this.getCategorias()
+			
+			
+				var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Actualización de categoría",
+					detalle: `Se actualizó una categoría (${result.valor})`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+			});
+			}else{
+			this.mensajeService.add("Favor llenar los datos");	
+			}
+
 		}
   
 	  });
@@ -119,7 +155,20 @@ export class CategoriaComponent implements OnInit {
 		
 		  dialogRef.afterClosed().subscribe(dialogResult => {
 			  if(dialogResult) this.categoriaService.delete(categoria)
-			  .subscribe(() => this.getCategorias());
+			  .subscribe(() =>{ this.getCategorias();
+			
+				
+				var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Eliminación de categoría",
+					detalle: `Se eliminó una categoría (${categoria.valor})`,
+					id: -1,
+					fecha: new Date()
+				}
+			
+				this.bitacoraService.create(log).subscribe();
+			});
 		 });
 	}
 

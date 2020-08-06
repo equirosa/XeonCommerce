@@ -1,3 +1,5 @@
+import { Bitacora } from './../_models/bitacora';
+import { BitacoraService } from './../_services/bitacora.service';
 import { Impuesto } from './../_models/impuesto';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
@@ -35,7 +37,7 @@ export class ServicioComponent implements OnInit {
   impuestos: Impuesto[];
 
   constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService, private mensajeService: MensajeService,
-	 private accountService: AccountService) {
+	private bitacoraService: BitacoraService, private accountService : AccountService) { 
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -164,7 +166,18 @@ export class ServicioComponent implements OnInit {
         console.log(servicio);
         this.servService.postServicio(servicio)
           .subscribe(() => {
-            this.getServicios()
+			this.getServicios()
+			if(this.user.tipo == "A"){
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Creación de servicio",
+					detalle: `Se creó un servicio para (${comercio.cedJuridica}) ${result.nombre}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+			}
 		  });
 		  this.getServicios();
       }
@@ -185,6 +198,17 @@ export class ServicioComponent implements OnInit {
       if (dialogResult) this.servService.delete(servicio)
         .subscribe(() => {
           this.getServicios();
+		  if(this.user.tipo == "A"){
+		  var log: Bitacora;
+			  log = {
+				  idUsuario: this.user.id,
+				  accion: "Eliminación de servicio",
+				  detalle: `Se eliminó un servicio para (${servicio.idComercio}) ${servicio.nombre}`,
+				  id: -1,
+				  fecha: new Date()
+			  }
+			  this.bitacoraService.create(log).subscribe();
+			}
         });
       this.getServicios();
     });
@@ -251,6 +275,17 @@ export class ServicioComponent implements OnInit {
         this.servService.putServicio(servicio)
           .subscribe(() => {
             this.getServicios()
+			if(this.user.tipo == "A"){
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Actualización de servicio",
+					detalle: `Se actualizó un servicio para (${servicio.idComercio}) ${servicio.nombre}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+			}
           });
         this.getServicios();
       }
