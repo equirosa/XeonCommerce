@@ -11,7 +11,8 @@ namespace Entities
         public string Id { get; set; }
         [JsonPropertyName("valor")]
         public int Valor { get; set; }
-
+        [JsonPropertyName("id_Comercio")]
+        public string Id_Comercio { get; set; }
         public Ausencias() { }
     }
 }

@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
             {
                 var aus = new AusenciasManagement();
                 aus.Create(ausencias);
-                return Ok("Se creó la configuración");
+                return Ok("Se creó el parámetro");
             }
             catch (Exception ex)
             {
@@ -54,11 +54,11 @@ namespace WebAPI.Controllers
                 if (GetByID(id) != null)
                 {
                     aus.Update(ausencias);
-                    return Ok(new { msg = "Se actualizó la configuración" });
+                    return Ok(new { msg = "Se actualizó el parámetro" });
                 }
                 else
                 {
-                    return StatusCode(500, new { msg = "No se encontró la configuración" });
+                    return StatusCode(500, new { msg = "No se encontró el parámetro" });
                 }
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace WebAPI.Controllers
                 var ausencias = new Ausencias { Id = id };
                 aus.Delete(ausencias);
 
-                return Ok("Se eliminó la configuración");
+                return Ok("Se eliminó el parámetro");
 
             }
             catch (Exception ex)

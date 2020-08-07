@@ -10,13 +10,15 @@ namespace DataAccess.Mapper
     {
         private const string DB_COL_ID = "ID";
         private const string DB_COL_VALOR = "VALOR";
+        private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
 
         public BaseEntity BuildObject(Dictionary<string, object> row)
         {
             var ausencias = new Ausencias
             {
                 Id = GetStringValue(row, DB_COL_ID),
-                Valor = GetIntValue(row, DB_COL_VALOR)
+                Valor = GetIntValue(row, DB_COL_VALOR),
+                Id_Comercio = GetStringValue(row, DB_COL_ID_COMERCIO)
             };
 
             return ausencias;
@@ -40,7 +42,8 @@ namespace DataAccess.Mapper
 
             var a = (Ausencias)entity;
             operation.AddVarcharParam(DB_COL_ID, a.Id);
-            operation.AddDoubleParam(DB_COL_VALOR, a.Valor);
+            operation.AddIntParam(DB_COL_VALOR, a.Valor);
+            operation.AddVarcharParam(DB_COL_ID_COMERCIO, a.Id_Comercio);
             return operation;
         }
 
@@ -72,6 +75,7 @@ namespace DataAccess.Mapper
             var a = (Ausencias)entity;
             operation.AddVarcharParam(DB_COL_ID, a.Id);
             operation.AddDoubleParam(DB_COL_VALOR, a.Valor);
+            operation.AddVarcharParam(DB_COL_ID_COMERCIO, a.Id_Comercio);
             return operation;
         }
     }
