@@ -75,7 +75,7 @@
                     <strong>Precio</strong><span>{{producto.precio}}</span>
                 </mat-card-content>
                 <mat-card-action>
-                    <button mat-button>Agregar a carrito</button>
+                    <button mat-button (click)=agregarCarrito(producto)>Agregar a carrito</button>
                     <button mat-button>Agregar a cita</button>
                 </mat-card-action>
             </mat-card>

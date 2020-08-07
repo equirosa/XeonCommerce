@@ -17,6 +17,14 @@ mat-toolbar{
 	
 }
  
+.flex {
+	flex: 1 1 auto;
+}
+
+.carrito:hover {
+	color: lightgray;
+}
+
 @media(max-width: 959px){
     mat-toolbar{
         border-radius: 0px;

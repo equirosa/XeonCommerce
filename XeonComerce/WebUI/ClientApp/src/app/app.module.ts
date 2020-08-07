@@ -1,3 +1,8 @@
+import { CarritoDialogFinComponent } from './_components/carrito/fin/fin.dialog';
+import { CarritoDialogPayPalComponent } from './_components/carrito/paypal/paypal.dialog';
+import { CarritoDialogSinpeComponent } from './_components/carrito/sinpe/sinpe.dialog';
+import { CarritoDialogMetodoPagoComponent } from './_components/carrito/metodo-pago/metodo-pago.dialog';
+import { CarritoDialogDireccionComponent } from './_components/carrito/destino/destino.dialog';
 import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
 import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
 import { NgModule } from '@angular/core';
@@ -26,6 +31,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -129,7 +135,8 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
-    MatDividerModule,
+		MatBadgeModule,
+    	MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -140,22 +147,27 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 	entryComponents: [
 		DialogComercio,
 		ConfirmDialogComponent,
-    DialogDireccion,
-    DialogProducto,
-    DialogImpuesto,
-    DialogServicio,
-    DialogEditarProducto,
+		DialogDireccion,
+		DialogProducto,
+		DialogImpuesto,
+		DialogServicio,
+		DialogEditarProducto,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
-    DialogEditarServicio,
+    	DialogEditarServicio,
 		DialogSucursal,
 		DialogDiaFeriado,
 		DialogDireccionSucursal,
 		DialogDireccionUsuario,
-		DialogUsuario
+		DialogUsuario,
+		CarritoDialogDireccionComponent,
+		CarritoDialogMetodoPagoComponent,
+		CarritoDialogSinpeComponent,
+		CarritoDialogPayPalComponent,
+		CarritoDialogFinComponent
 	],
     declarations: [
         AppComponent,
@@ -172,14 +184,14 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
 		FiltroComerciosPipe,
-     ProductoFormComponent,
-    DialogProducto,
-    ImpuestoComponent,
-    DialogImpuesto,
-    ServicioComponent,
-    DialogServicio,
-	DialogEditarProducto,
-	PromocionDialog,
+		ProductoFormComponent,
+		DialogProducto,
+		ImpuestoComponent,
+		DialogImpuesto,
+		ServicioComponent,
+		DialogServicio,
+		DialogEditarProducto,
+		PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
@@ -208,7 +220,11 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		PerfilSucursalComponent,
 		FormHorarioSucursalComponent,
 		DashboardAdminComponent,
-		
+		CarritoDialogDireccionComponent,
+		CarritoDialogMetodoPagoComponent,
+		CarritoDialogSinpeComponent,
+		CarritoDialogPayPalComponent,
+		CarritoDialogFinComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
