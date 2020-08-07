@@ -24,7 +24,7 @@
   
 	<ng-container matColumnDef="cantidad">
 		<th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-		<td mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.cantidadCarrito" type="number" min="1" max="{{element.cantidad}}" (change)="onChange($event, element)"></td>
+		<td mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.cantidadCarrito" type="number" min="1" max="{{element.cantidad+1}}" (change)="onChange($event, element)"></td>
 		<td mat-footer-cell *matFooterCellDef>{{getCantidad(datos)}} </td>
 	</ng-container>
 
@@ -50,5 +50,4 @@
   </table>
 </div>
 <br>
-<button *ngIf="productosPP.length > 0" mat-raised-button color="crear" layout-align="end center" (click)="comprar(datos)">Comprar</button>
-  
+<button *ngIf="productosPP && productosPP.length>0" mat-raised-button color="crear" layout-align="end center" (click)="comprar(datos)">Comprar</button>

@@ -48,9 +48,9 @@ export class CarritoDialogPayPalComponent implements OnInit, AfterViewChecked {
 					currency: this.currency,
 				  },
 				  description: 'Pago por productos o servicios.',
-				  item_list: {
+				  /*item_list: {
 					items: this.productosPaypal()
-				  }
+				  }*/
 				}],
 				note_to_payer: 'Favor contactar al administrador del comerico en caso de un problema.'
 		  });
@@ -93,7 +93,7 @@ export class CarritoDialogPayPalComponent implements OnInit, AfterViewChecked {
 		items.forEach((i)=>{
 			total+= ((i.price*i.quantity));
 		});
-		return total;
+		return Math.round((total + Number.EPSILON) * 100) / 100;
 	}
 	
 	addPaypalScript() { // Llama el script de pagos de paypal

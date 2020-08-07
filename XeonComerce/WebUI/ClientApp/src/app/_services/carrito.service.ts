@@ -55,8 +55,16 @@ httpOptions = {
 
   limpiar(car: Carrito): Observable<Carrito> {
     return this.http.delete<Carrito>(this.urlApi+"/"+car.idUsuario, this.httpOptions).pipe(
-      tap(_ => this.log(`Se limió`)),
-      catchError(this.handleError<Carrito>('delete'))
+      tap(_ => this.log(`Se limpió el carrito`)),
+      catchError(this.handleError<Carrito>('limpiar'))
+    );
+  }
+
+  
+  factura(xmlHtml: any, id: string): Observable<any> {
+    return this.http.post<Carrito>(this.urlApi+"/xml/"+id, xmlHtml, this.httpOptions).pipe(
+      tap(),
+      catchError(this.handleError<any>('factura'))
     );
   }
 

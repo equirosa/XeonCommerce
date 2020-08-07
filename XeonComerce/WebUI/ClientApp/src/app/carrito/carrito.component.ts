@@ -1,3 +1,4 @@
+import { DireccionService } from './../_services/direccion.service';
 import { CarritoDialogPayPalComponent } from './../_components/carrito/paypal/paypal.dialog';
 import { CarritoDialogSinpeComponent } from './../_components/carrito/sinpe/sinpe.dialog';
 import { ComercioService } from './../_services/comercio.service';
@@ -40,7 +41,7 @@ export class CarritoComponent implements OnInit {
   constructor(public dialog: MatDialog, private carritoService:CarritoService, private mensajeService:MensajeService,
 	 private accountService:AccountService, private productoService:ProductoService, private impuestoService:ImpuestoService,
 	 private transaccionFinancieraService:TransaccionFinancieraService, private facturaDetalleService:FacturaDetalleService,
-		private facturaMaestroService:FacturaMaestroService, private comercioService:ComercioService) {
+		private facturaMaestroService:FacturaMaestroService, private comercioService:ComercioService, private direccionService:DireccionService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -348,7 +349,7 @@ despuesDePago(tabla, metodo): void {
 				}
 			  });
 			  this.actualizarProductos();
-			  this.limpiar();
+			  this.factura(tabla, idFactura.idFactura, idTransaccion.id);
 		}else{
 			this.mensajeService.add("Ha ocurrido un error, porfavor reintente en unos minutos");
 		}
@@ -370,4 +371,127 @@ despuesDePago(tabla, metodo): void {
 
 }
 
+
+factura(tabla, numFactura, numTransaccion) : void{
+
+	this.comercioService.getBy(this.productosPP[0].idComercio).subscribe((comercio)=>{
+	
+		this.direccionService.getBy(comercio.direccion).subscribe((direccion)=>{
+			let xml = this.xml(tabla, comercio, direccion, numFactura, numTransaccion);
+			let pdf = this.pdf(tabla, comercio, direccion, numFactura, numTransaccion);
+
+			this.carritoService.factura({xml: xml, html: pdf}, this.user.id).subscribe(()=>{
+				this.limpiar();
+			});
+
+	});
+});
+
+
+
+}
+
+pdf(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
+	let css = `<head>
+		<style>
+		table {
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+		
+		th, td {
+		  text-align: left;
+		  padding: 8px;
+		}
+		
+		tr:nth-child(even){background-color: #f2f2f2}
+		
+		th {
+		  background-color: #4CAF50;
+		  color: white;
+		}
+		</style>
+		</head>`;
+		let items = this.productosPP.reduce((acc, cv)=>{
+			return acc+`
+			<tr>
+			<td>${cv.id}</td>
+			<td>${cv.nombre}</td>
+			<td>${cv.cantidad}</td>
+			<td>${cv.impuesto}%</td>
+			<td>${cv.precio}</td>
+			<td>${cv.descuento}</td>
+			</tr>
+			\n`;
+		}, ""); 
+
+		return `${css}
+		\n<h1>Factura #${numFactura}</h1>
+		\n<h2>Transacción #${numTransaccion}</h2>
+		\n<h2>${comercio.nombreComercial} ${comercio.cedJuridica}</h2>
+		\n<h3>Dirección ${direccion.provincia} || ${direccion.canton} || ${direccion.distrito} || ${direccion.sennas}</h3>
+		\n<h3>${new Date().toISOString().slice(0,10)}</h3>
+		\n<h3>Cliente: ${this.user.nombre} ${this.user.apellidoUno} ${this.user.apellidoDos} (${this.user.id})</h3>
+		<table style="width:100%">
+		<tr>
+			<th>Id</th>
+			<th>Nombre</th>
+			<th>Cantidad</th>
+			<th>Impuesto</th>
+			<th>Precio</th>
+			<th>Descuento</th>
+		</tr>
+	      ${items}
+		  <tr>
+		  	<td></td>
+		  	<td></td>
+		  	<td></td>
+		  	<td></td>
+		  	<td>Subtotal: ${(Math.round((this.getCosto(tabla, false) + Number.EPSILON) * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+		  	<td>Total: ${(Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+		  </tr>
+	  </table>`;
+}
+
+
+
+xml(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
+
+	let items = this.productosPP.reduce((acc, cv)=>{
+		return acc+= `<item>
+					<idProducto>${cv.id}</idProducto>
+					<nombre>${cv.nombre}</nombre>
+					<cantidad>${cv.cantidad}</cantidad>
+					<impuesto>${cv.impuesto}</impuesto>
+					<precio>${cv.precio}</precio>
+					<descuento>${cv.descuento}</descuento>
+				</item>`;
+	}, "");
+	
+		return `<?xml version="1.0" encoding="UTF-8"?>
+		<Factura>
+		  <Comercio>
+			  <nombreComercial>${comercio.nombreComercial}</nombreComercial>
+			  <cedJuridica>${comercio.cedJuridica}</cedJuridica>
+			  <fecha>${new Date().toISOString().slice(0,10)}</fecha>
+			  <numFactura>${numFactura}</numFactura>
+			  <numTransaccion>${numTransaccion}</numTransaccion>
+			  <direccion>
+				   <provincia>${direccion.provincia}</provincia>
+				   <canton>${direccion.canton}</canton>
+				   <distrito>${direccion.distrito}</distrito>
+				   <sennas>${direccion.sennas}</sennas>
+			  </direccion>
+		  </Comercio>
+		  <Cliente>
+			  <nombre>${this.user.nombre}</nombre>
+			  <apellidoUno>${this.user.apellidoUno}</apellidoUno>
+			  <apellidoDos>${this.user.apellidoDos}</apellidoDos>
+			  <cedula>${this.user.id}</cedula>
+			  <total>${Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100}</total>
+			  <subtotal>${Math.round((this.getCosto(tabla, false) + Number.EPSILON) * 100) / 100}</subtotal>
+			  ${items}
+		  </Cliente>
+		</Factura>`;
+}
 }
