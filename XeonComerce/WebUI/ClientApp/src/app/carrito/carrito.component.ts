@@ -21,7 +21,7 @@ import { ProductoService } from './../_services/producto.service';
 import { AccountService } from './../_services/account.service';
 import { MensajeService } from './../_services/mensaje.service';
 import { CarritoService } from './../_services/carrito.service';
-import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CarritoDialogFinComponent } from '../_components/carrito/fin/fin.dialog';
 
 @Component({
@@ -29,7 +29,7 @@ import { CarritoDialogFinComponent } from '../_components/carrito/fin/fin.dialog
   templateUrl: './carrito.component.html',
   styleUrls: ['./carrito.component.css']
 })
-export class CarritoComponent implements OnInit, AfterViewChecked {
+export class CarritoComponent implements OnInit {
 	productos: any[];
 	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'eliminar'];
 	datos;

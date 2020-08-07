@@ -8,7 +8,6 @@ import { SucursalService } from '../../_services/sucursal.service';
 import { ActivatedRoute } from '@angular/router';
 import { Sucursal } from '../../_models/sucursal';
 import { ProductoService } from '../../_services/producto.service';
-import { Producto } from '../../_models/producto';
 import { DireccionService } from '../../_services/direccion.service';
 import { UbicacionService } from '../../_services/ubicacion.service';
 import { Direccion } from '../../_models/Direccion';

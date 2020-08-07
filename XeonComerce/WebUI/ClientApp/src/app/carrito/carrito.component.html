@@ -50,5 +50,5 @@
   </table>
 </div>
 <br>
-<button mat-raised-button color="crear" layout-align="end center" (click)="comprar(datos)">Comprar</button>
+<button *ngIf="productosPP.length > 0" mat-raised-button color="crear" layout-align="end center" (click)="comprar(datos)">Comprar</button>
   
