@@ -1,1 +1,96 @@
-<p>form-horario-sucursal works!</p>
+<mat-dialog-content>
+    <form [formGroup]="FormHorario">
+        <h2 mat-dialog-title>Horario</h2>
+        <div>
+            <mat-label>Lunes: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="LunesHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="LunesHoraFinal">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Martes: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="MartesHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="MartesHoraFinal">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Miercoles: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="MiercolesHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="MiercolesHoraFinal">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Jueves: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="JuevesHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="JuevesHoraFinal">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Viernes: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="ViernesHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="ViernesHoraFinal">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Sabado: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="SabadoHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="SabadoHoraFinal">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Domingo: </mat-label>
+            <mat-form-field class="mr-sm ml-sm">
+                <mat-label>Hora Inicio</mat-label>
+                <input type="time" matInput formControlName="DomingoHoraInicio">            
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Hora Final</mat-label>
+                <input type="time" matInput formControlName="DomingoHoraFinal">
+            </mat-form-field>
+        </div>    
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close  >Cancelar</button>
+    <button 
+       mat-button
+      [mat-dialog-close]="true" 
+      (click)="guardar()"
+     
+       
+      cdkFocusInitial
+      
+    >
+       Registrar
+      </button>
+  </mat-dialog-actions>

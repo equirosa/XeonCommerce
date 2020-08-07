@@ -18,7 +18,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 // import { MouseEvent } from '@agm/core';
-import { ComercioService } from '../_services/comercio.service'
+import { ComercioService } from '../_services/comercio.service';
+
+import { FormHorarioSucursalComponent } from '../form-horario-sucursal/form-horario-sucursal.component';
+
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
@@ -28,7 +31,7 @@ export class SucursalesComponent implements OnInit {
   user: any;
   sucursales: Sucursal[];
   sucursalCrear: Sucursal;
-  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'horario', 'editar', 'eliminar'];
   datos;
   provincias: Ubicacion[];
   cantones: Ubicacion[];
@@ -214,7 +217,7 @@ export class SucursalesComponent implements OnInit {
           return a.id.localeCompare(b.id);
         });
         this.sucursales = sucursales.filter((a) => a.estado == 'A');
-        debugger
+        
         if (this.user.tipo != 'A') {
           this.sucursales = sucursales.filter((a) => a.idComercio == this.user.comercio.cedJuridica)
         }
@@ -261,7 +264,22 @@ export class SucursalesComponent implements OnInit {
       });
     });
   }
+
+
+  abrirHorario(sucursal: Sucursal): void {
+    const dialogRef = this.dialog.open(FormHorarioSucursalComponent, {
+      width: '520px',
+      height: '550px',
+      data: {sucursal}
+    });
+
+  }
+
+
+  
 }
+
+
 
 
 @Component({
