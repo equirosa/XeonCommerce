@@ -1,96 +1,51 @@
 <mat-dialog-content>
     <form [formGroup]="FormHorario">
         <h2 mat-dialog-title>Horario</h2>
-        <div>
-            <mat-label>Lunes: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="LunesHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="LunesHoraFinal">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-label>Martes: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="MartesHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="MartesHoraFinal">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-label>Miercoles: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="MiercolesHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="MiercolesHoraFinal">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-label>Jueves: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="JuevesHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="JuevesHoraFinal">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-label>Viernes: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="ViernesHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="ViernesHoraFinal">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-label>Sabado: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="SabadoHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="SabadoHoraFinal">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-label>Domingo: </mat-label>
-            <mat-form-field class="mr-sm ml-sm">
-                <mat-label>Hora Inicio</mat-label>
-                <input type="time" matInput formControlName="DomingoHoraInicio">            
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Hora Final</mat-label>
-                <input type="time" matInput formControlName="DomingoHoraFinal">
-            </mat-form-field>
-        </div>    
+        <mat-form-field class="mr-sm">
+            <mat-label>Día de la semana</mat-label>
+            <mat-select formControlName="Dia">
+                <mat-option *ngFor="let d of dias" [value]="d.valor">
+                    {{d.nombre}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="mr-sm">
+            <mat-label>Hora Inicio </mat-label>
+            <input matInput type="time" formControlName="HoraInicio" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Hora Final </mat-label>
+            <input matInput type="time" formControlName="HoraFinal" required>
+        </mat-form-field>
+        <button mat-button (click)="guardarHorario()">
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
     </form>
+    <mat-table [dataSource]="horario">
+        <ng-container matColumnDef="dia">
+            <mat-header-cell *matHeaderCellDef>Día</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.diaSemana}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="horaInicio">
+            <mat-header-cell *matHeaderCellDef>Hora Inicio</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaInicio}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="horaFinal">
+            <mat-header-cell *matHeaderCellDef>Hora Final</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaFinal}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-raised-button color="eliminar" (click)="eliminar(element)">
+                    Eliminar
+                </button>
+            </mat-cell>
+        </ng-container>  
+        <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+    </mat-table>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close  >Cancelar</button>
-    <button 
-       mat-button
-      [mat-dialog-close]="true" 
-      (click)="guardar()"
-     
-       
-      cdkFocusInitial
-      
-    >
-       Registrar
-      </button>
-  </mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

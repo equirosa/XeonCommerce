@@ -268,14 +268,12 @@ export class SucursalesComponent implements OnInit {
 
   abrirHorario(sucursal: Sucursal): void {
     const dialogRef = this.dialog.open(FormHorarioSucursalComponent, {
-      width: '520px',
-      height: '550px',
+      width: '680px',
+      height: '500px',
       data: {sucursal}
     });
 
   }
-
-
   
 }
 
