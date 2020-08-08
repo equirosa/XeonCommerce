@@ -35,6 +35,9 @@ namespace Entities
         [JsonPropertyName("idEmpleado")]
         public int IdEmpleado { get; set; }
 
+        [JsonPropertyName("idRol")]
+        public int IdRol { get; set; }
+
 
         public Empleado() { }
     }

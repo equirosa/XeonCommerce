@@ -19,6 +19,7 @@ namespace DataAccess
         private const string DB_COL_CANTIDAD = "CANTIDAD";
         private const string DB_COL_DESCUENTO = "DESCUENTO";
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
+        private const string DB_COL_IMPUESTO = "IMPUESTO";
         private const string DB_COL_DURACION = "DURACION";
         #endregion
 
@@ -38,7 +39,9 @@ namespace DataAccess
                 Cantidad = GetIntValue(row, DB_COL_CANTIDAD),
                 Descuento = GetDoubleValue(row, DB_COL_DESCUENTO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                Duracion = GetIntValue(row, DB_COL_DURACION)
+                Duracion = GetIntValue(row, DB_COL_DURACION),
+                Impuesto = GetIntValue(row, DB_COL_IMPUESTO),
+                Tipo = GetIntValue(row, DB_COL_TIPO)
             };
 
             return producto;
@@ -53,7 +56,9 @@ namespace DataAccess
                 Precio = GetDoubleValue(row, DB_COL_PRECIO),
                 Descuento = GetDoubleValue(row, DB_COL_DESCUENTO),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
-                Duracion = GetIntValue(row, DB_COL_DURACION)
+                Duracion = GetIntValue(row, DB_COL_DURACION),
+                Impuesto = GetIntValue(row, DB_COL_IMPUESTO),
+                Tipo = GetIntValue(row, DB_COL_TIPO)
             };
 
             return servicio;
@@ -95,7 +100,7 @@ namespace DataAccess
             var operation = new SqlOperation { ProcedureName = "CRE_PRODUCTO_SERVICIO_PR" };
 
             var prodAndServ = (Producto)entity;
-            
+
             operation.AddIntParam(DB_COL_TIPO, prodAndServ.Tipo);
             operation.AddVarcharParam(DB_COL_NOMBRE, prodAndServ.Nombre);
             operation.AddDoubleParam(DB_COL_PRECIO, prodAndServ.Precio);
@@ -103,7 +108,8 @@ namespace DataAccess
             operation.AddDoubleParam(DB_COL_DESCUENTO, prodAndServ.Descuento);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, prodAndServ.IdComercio);
             operation.AddIntParam(DB_COL_DURACION, prodAndServ.Duracion);
-           
+            operation.AddIntParam(DB_COL_IMPUESTO, prodAndServ.Impuesto);
+
             return operation;
         }
 
@@ -175,10 +181,10 @@ namespace DataAccess
             operation.AddDoubleParam(DB_COL_DESCUENTO, pys.Descuento);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, pys.IdComercio);
             operation.AddIntParam(DB_COL_DURACION, pys.Duracion);
+            operation.AddIntParam(DB_COL_IMPUESTO, pys.Impuesto);
 
             return operation;
         }
         #endregion
     }
 }
-

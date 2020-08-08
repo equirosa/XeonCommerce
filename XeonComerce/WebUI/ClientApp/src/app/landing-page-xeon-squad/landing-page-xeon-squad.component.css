@@ -1,0 +1,404 @@
+.landingPage {
+  font-family: 'Raleway', sans-serif;
+}
+
+.hero {
+  background-image: linear-gradient(120deg, rgba(147, 251, 242, 0.596) 0%, rgba(27, 85, 85, 0.692) 100%), url("../../assets/header.jpg");
+  width: 100%;
+  height: 650px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+.textos-hero {
+  height: 500px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+  .textos-hero h1 {
+    font-size: 60px;
+  }
+
+  .textos-hero p {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+  .textos-hero a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 15px;
+    background: #7DE2D1;
+    border-radius: 8px;
+    color: #fff;
+  }
+
+    .textos-hero a:hover {
+      background: #a784bba1;
+    }
+
+.svg-hero {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Estilos generales */
+
+.contenedor,
+.wave-contenedor {
+  width: 90%;
+  max-width: 1000px;
+  overflow: hidden;
+  margin: auto;
+  padding: 0 0 80px 0;
+}
+
+.contenedor {
+  padding: 80px 0;
+}
+
+.titulo {
+  font-weight: 300;
+  font-size: 35px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+  .titulo.left {
+    text-align: left;
+  }
+
+  .titulo.right {
+    text-align: right;
+  }
+
+/* Section */
+
+.infoXeon {
+  display: flex;
+  justify-content: space-between;
+}
+
+  .infoXeon img {
+    width: 20%;
+    margin-left: 20%;
+    margin-bottom: 25px;
+  }
+
+  .infoXeon .contenedor-textos-main {
+    width: 40%;
+    margin-right: 15%;
+  }
+
+.parrafo_mv {
+  text-align: justify;
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-size: 20px;
+}
+
+.parrafo {
+  text-align: justify;
+  margin-bottom: 20px;
+  font-weight: 300;
+  font-size: 20px;
+  padding: 15px;
+}
+
+.cta {
+  display: inline-block;
+  text-decoration: none;
+  background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+  padding: 12px 15px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+/* Info */
+
+.info {
+  background: #339989;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+  .info .contenedor {
+    width: 40%;
+    margin-left: 25%;
+  }
+
+  .info img {
+    width: 25%;
+    margin-right: 20%;
+  }
+
+.contenedor ol {
+  font-weight: 300;
+  font-size: 22px;
+  padding-bottom: 5px;
+}
+
+
+/* Cards */
+
+.content-cards {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 30%;
+  text-align: center;
+  height: 370px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, .5);
+  transform: scale(1);
+  transition: transform 0.6s;
+}
+
+  .card:hover {
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5);
+    transform: scale(1.03);
+  }
+
+  .card i {
+    margin: 30px 0 20px 0;
+    color: #2B2C28;
+    font-size: 50px;
+  }
+
+  .card p {
+    font-weight: 300;
+    font-size: 20px;
+    padding: 15px;
+    margin-bottom: 10px;
+  }
+
+/* galeria */
+
+
+.galeria-cont {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+
+.galeria .secciones_infoE {
+  display: flex;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3);
+  margin-bottom: 10px;
+}
+
+.galeria-cont .info_Equipo > {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+
+  .galeria-cont .info_Equipo > p {
+    text-align: center;
+  }
+
+  .galeria-cont .info_Equipo > img {
+    width: 250px;
+    height: 300px;
+    padding: 25px;
+  }
+
+.galeria p {
+  font-weight: 300;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+/* info2 */
+
+.info-last {
+  background: #f2f2f2;
+}
+
+.last-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 40px;
+}
+
+  .last-section img {
+    width: 48%;
+  }
+
+  .last-section .contenedor-textos-main {
+    width: 40%;
+  }
+
+
+/* footer */
+
+.footer {
+  background: #339989;
+  color: #fff;
+}
+
+.footerCopyRedes {
+  width: 100%;
+  color: #ffedbf;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.mainCopyRedes {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+  .mainCopyRedes .footerCopy {
+    width: 70%;
+    font-size: 15px;
+  }
+
+  .mainCopyRedes .footerRedes {
+    width: 30%;
+    display: flex;
+  }
+
+    .mainCopyRedes .footerRedes a {
+      display: inline-block;
+      text-decoration: none;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 50%;
+      background: #2B2C28;
+      color: #ffedbf;
+      text-align: center;
+      margin: 10px;
+    }
+
+    .mainCopyRedes .footerRedes .facebook:hover {
+      background: #3742fa;
+    }
+
+    .mainCopyRedes .footerRedes .twitter:hover {
+      background: #1e90ff;
+    }
+
+    .mainCopyRedes .footerRedes .instagram:hover {
+      background: linear-gradient(to top, #fed330, #EE5A24, #EA2027, #8e44ad)
+    }
+/*Fin de estilos del footer*/
+
+@media screen and (max-width:800px) {
+  .textos-hero h1 {
+    text-align: center;
+    font-size: 50px;
+  }
+  /* estilos generales */
+  .titulo {
+    font-size: 35px;
+  }
+
+    .titulo.left {
+      text-align: center;
+    }
+
+  /* section */
+  .infoXeon {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+
+    .infoXeon img {
+      width: 90%;
+    }
+
+    .infoXeon .contenedor-textos-main {
+      width: 90%;
+      margin-left: 15%;
+    }
+
+  /**/
+
+  .info {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+    .info img {
+      width: 70%;
+    }
+
+  /* Cards */
+
+  .card {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+
+  /* galeria */
+
+  .secciones_infoE {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* last */
+
+  .last-section img {
+    width: 98%;
+  }
+
+  .last-section .contenedor-textos-main {
+    width: 98%;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width:400px) {
+  .titulo,
+  .textos-hero h1 {
+    font-size: 30px;
+  }
+
+  .textos-hero p {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .card {
+    height: 380px;
+  }
+
+  .infoXeon .contenedor-textos-main {
+    margin-bottom: 30px;
+  }
+
+  .secciones_infoE {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

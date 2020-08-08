@@ -1,0 +1,321 @@
+/*titulo y container*/
+
+* {
+  box-sizing: border-box;
+}
+
+.titulo-dashboard {
+  width: 100%;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.dashboard-container {
+  margin: 0;
+  padding-left: 5%;
+  padding-right: 5%;
+  display: grid;
+  grid-auto-rows: minmax(170px, auto);
+  grid-row-gap: 25px;
+  margin: 50px 50px;
+}
+
+/*fin titulo y container*/
+
+/*inicio ventas*/
+.ventas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 35px;
+}
+
+  .ventas > div {
+    background: #fafafa;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, .5);
+    display: grid;
+  }
+
+.ventas-titulo {
+  font-size: 20px;
+  margin: 10px auto;
+}
+
+.ventas-valores {
+  font-size: 30px;
+  margin: auto 50px auto auto;
+}
+
+.fa-line-chart, .moneda {
+  font-size: 50px;
+  margin-left: 8%;
+  margin-top: 3%;
+  margin-bottom: 0;
+  color: #7DE2D1;
+}
+
+.moneda {
+  font-weight: 500;
+}
+/*fin ventas*/
+
+/*inicio citas*/
+
+.citas {
+  background: #fafafa;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, .5);
+}
+
+.citas-titulo {
+  font-size: 20px;
+  margin-left: 15px;
+  margin-top:15px;
+}
+
+.citas-realizadas, .citas-canceladas {
+  display: inline-flex;
+  margin-left: 20%;
+}
+
+  .citas-realizadas p {
+    font-size: 20px;
+    margin-right: 40px;
+  }
+
+  .citas-canceladas p {
+    font-size: 20px;
+    margin-right: 30px;
+  }
+
+.barra-porcentaje {
+  width: 150px;
+  height: 25px;
+  background-color: #a39e9e;
+  padding: 1px;
+}
+
+.valor-porcentaje {
+  height: 25px;
+  background-color: #339989;
+}
+
+.porcentaje {
+  margin-left: 50px;
+}
+
+/*fin citas*/
+
+/*inicio pagos*/
+
+/*pagos general*/
+.pagos {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 15px;
+}
+
+  .pagos > div {
+    background: #fafafa;
+    box-shadow: 0 0 15px 4px rgba(0, 0, 0, .5);
+    display: grid;
+  }
+
+.pagos-titulo {
+  font-size: 25px;
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+.pagos-descripcion {
+  font-size: 15px;
+  margin: auto auto auto 300px;
+}
+
+.pagos-descripcion-2 {
+  font-size: 15px;
+  margin: 80px auto auto 300px;
+}
+
+/*pagos general*/
+/*pagos p*/
+.pagos p {
+  margin-bottom: 0px;
+}
+
+.paypall {
+  margin-top: 0px;
+  margin-right: 60%;
+}
+
+.paypall2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.simpemovil {
+  margin-top: 0px;
+}
+
+.simpemovil2 {
+  margin-top: 0px;
+   margin-right: 60%;
+  margin-bottom: 0px;
+}
+/*pagos p*/
+
+
+/*font-awesome*/
+
+.fa-paypal {
+  font-size: 50px;
+  margin-left: 75%;
+  margin-bottom: 0px;
+  margin-top: 20px;
+  color: #7DE2D1;
+}
+
+.fa-mobile {
+  font-size: 50px;
+  margin-top: 20px;
+  margin-left: 75%;
+  margin-bottom: 0px;
+  color: #7DE2D1;
+}
+
+
+/*font-awesome*/
+
+/*fin pagos*/
+
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width:800px) {
+
+/*inicio ventas*/
+
+  .ventas-titulo {
+    margin: 20px 0 0 20px;
+    font-size: 30px;
+  }
+
+  .ventas-valores {
+    font-size: 50px;
+    justify-self: end;
+    margin: 0 30px 0 0;
+  }
+
+  /*fin ventas*/
+
+  /*inicio citas*/
+
+  .citas-realizadas, .citas-canceladas {
+    display: grid;
+    grid-template-columns: 2fr 7fr;
+    margin-left: 20%;
+    margin: auto auto auto 20%;
+  }
+
+    .citas-realizadas p {
+      display: grid;
+      font-size: 20px;
+      min-width: 20%;
+    }
+
+    .citas-canceladas p {
+      display: grid;
+      font-size: 20px;
+      margin-right: 40px;
+      min-width: 20%;
+    }
+
+  .barra-porcentaje {
+    display: grid;
+    width: 95%;
+    height: 25px;
+  }
+
+  .valor-porcentaje {
+    height: 25px;
+  }
+
+  .porcentaje {
+    margin-left: 10px;
+  }
+
+  .citas-titulo {
+    margin: 20px 0 0 20px;
+    font-size: 30px;
+  }
+
+  /*fin citas*/
+
+
+  /*inicio pagos*/
+  .pagos {
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 35px;
+  }
+
+  .pagos-titulo {
+    font-size: 30px;
+    margin: 20px 0 0 20px;
+    border-color:blue;
+  }
+
+  .monto {
+   
+  }
+
+  .pagos-descripcion {
+    font-size: 20px;
+    justify-self: end;
+    margin: 0 12px 10px 0;
+  }
+
+  .pagos-descripcion-2 {
+    font-size: 20px;
+    justify-self: end;
+    margin: 0 0 10px 20px;
+  }
+
+  /*pagos p*/
+  .tituloP_1 {
+    margin-bottom: 0px;
+  }
+
+  .tituloP_2 {
+    margin-bottom: 0px;
+    margin-top: 80px;
+  }
+
+  .paypall {
+    margin-top: 0px;
+    width: 200px;
+  }
+
+  .simpemovil {
+    margin-top: 0px;
+    width: 200px;
+  }
+  /*pagos p*/
+
+  /*font-awesome*/
+
+  .fa-paypal {
+    font-size: 50px;
+    margin-left: 75%;
+    color: #7DE2D1;
+  }
+
+  .fa-mobile {
+    font-size: 50px;
+    margin-left: 75%;
+    color: #7DE2D1;
+  }
+
+
+  /*font-awesome*/
+
+  /*fin pagos*/
+}
+
+

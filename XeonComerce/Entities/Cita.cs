@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Cita:BaseEntity
+    public class Cita : BaseEntity
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

@@ -19,6 +19,8 @@ namespace DataAccess.Crud
         public override void Create(BaseEntity entity)
         {
             var sucursal = (Sucursal)entity;
+            var count = RetrieveAll<Sucursal>().Count;
+            sucursal.Id = sucursal.IdComercio + "-" + (count+1);
             var sqlOperation = mapper.GetCreateStatement(sucursal);
             dao.ExecuteProcedure(sqlOperation);
         }

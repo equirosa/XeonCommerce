@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DataAccess.Crud
 {
-    public class CitaCrudFactory:CrudFactory
+    public class CitaCrudFactory : CrudFactory
     {
         CitaMapper mapper;
 

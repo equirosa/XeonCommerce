@@ -1,4 +1,4 @@
-<mat-nav-list *ngIf="user">
+<mat-nav-list *ngIf="user  && user.tipo == 'A'">
 	<img class="logo" src="../../assets/logo.png">
 	<br>
 	<mat-divider></mat-divider>
@@ -8,6 +8,9 @@
 	</a>
 
 	<mat-divider></mat-divider>
+	<a mat-list-item routerLink="/dashboardAdmin" (click)="onSidenavClose()">
+		<mat-icon>dashboard</mat-icon><span class="nav-caption">Dashboard</span>
+	</a>
 <mat-list-item [matMenuTriggerFor]="menu">
     <mat-icon>business</mat-icon>
     <a matline>Comercios (Admin)</a>
@@ -20,6 +23,8 @@
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/productos">Productos</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/servicios">Servicios</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/promocion">Promociones</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/empleado/admin">Empleados</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/sucursales">Sucursales</button>
 </mat-menu>
 <a mat-list-item routerLink="/categoria" (click)="onSidenavClose()">
 	<mat-icon>category</mat-icon><span class="nav-caption">Categorias</span>
@@ -30,12 +35,15 @@
 <a mat-list-item routerLink="/bitacora" (click)="onSidenavClose()">
 	<mat-icon>library_books</mat-icon><span class="nav-caption">Bitácora</span>
 </a>
-
-
-<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
-	<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
+<a mat-list-item routerLink="/listar-usuarios" (click)="onSidenavClose()">
+	<mat-icon>supervised_user_circle</mat-icon><span class="nav-caption">Listar Usuarios</span>
 </a>
-<a mat-list-item routerLink="/" (click)="onSidenavClose()" *ngIf="!yaTieneComercio">
+
+<a mat-list-item routerLink="/config" (click)="onSidenavClose()">
+	<mat-icon>settings</mat-icon><span class="nav-caption">Configuración</span>
+</a>
+
+<a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()" *ngIf="!yaTieneComercio">
 	<mat-icon>edit</mat-icon><span class="nav-caption">Administrar Comercio</span>
 </a>
 
@@ -78,5 +86,126 @@
 
 	<a mat-list-item routerLink="/cuenta/recuperar" (click)="onSidenavClose()">
 		<mat-icon>autorenew</mat-icon><span class="nav-caption">No recuerdo mi contraseña</span>
+	</a>
+</mat-nav-list>
+
+ <!-- Menu para Administrador de comercio -->
+
+<mat-nav-list *ngIf="user  && user.tipo == 'C'">
+	<img class="logo" src="../../assets/logo.png">
+	<br>
+	<mat-divider></mat-divider>
+	<br>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>home</mat-icon><span class="nav-caption">Inicio</span>
+	</a>
+
+	<mat-divider></mat-divider>
+
+<a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()">
+	<span class="nav-caption">Dashboard</span>
+</a>
+<a mat-list-item routerLink="/sucursales" (click)="onSidenavClose()">
+	<span class="nav-caption">Sucursales</span>
+</a>
+<a mat-list-item routerLink="/productos" (click)="onSidenavClose()">
+	<span class="nav-caption">Productos</span>
+</a>
+<a mat-list-item routerLink="/servicios" (click)="onSidenavClose()">
+	<span class="nav-caption">Servicios</span>
+</a>
+<a mat-list-item routerLink="/empleado/comercio" (click)="onSidenavClose()">
+	<span class="nav-caption">Empleados</span>
+</a>
+<a mat-list-item routerLink="/promocion" (click)="onSidenavClose()">
+	<span class="nav-caption">Promociones</span>
+</a>
+<a mat-list-item routerLink="/rol" (click)="onSidenavClose()">
+	<span class="nav-caption">Roles</span>
+</a>
+
+<mat-divider></mat-divider>
+
+<mat-list-item [matMenuTriggerFor]="menu2">
+    <mat-icon>account_circle</mat-icon>
+    <a matline>Mi Cuenta</a>
+    <mat-icon>unfold_more</mat-icon>
+</mat-list-item>
+<mat-menu #menu2="matMenu">
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+</mat-menu>
+
+<mat-divider></mat-divider>
+<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+	<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
+</a>
+</mat-nav-list>
+
+<!-- Menu para Empleado -->
+
+<mat-nav-list *ngIf="user  && user.tipo == 'E' && tieneVistas">
+	<img class="logo" src="../../assets/logo.png">
+	<br>
+	<mat-divider></mat-divider>
+	<br>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>home</mat-icon><span class="nav-caption">Inicio</span>
+	</a>
+
+	<mat-divider></mat-divider>
+<a mat-list-item routerLink="/empleado/horario/{{user.empleado.id}}" (click)="onSidenavClose()">
+	<span class="nav-caption">Horario</span>
+</a>
+<a mat-list-item routerLink="/empleado/calendario" (click)="onSidenavClose()">
+	<span class="nav-caption">Calendario</span>
+</a>
+<a *ngFor="let v of vistasEmpleado" mat-list-item routerLink="{{v.url}}" (click)="onSidenavClose()">
+		<span class="nav-caption">{{v.nombre}}</span>
+</a>
+
+
+<mat-divider></mat-divider>
+
+<mat-list-item [matMenuTriggerFor]="menu2">
+    <mat-icon>account_circle</mat-icon>
+    <a matline>Mi Cuenta</a>
+    <mat-icon>unfold_more</mat-icon>
+</mat-list-item>
+<mat-menu #menu2="matMenu">
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+</mat-menu>
+
+<mat-divider></mat-divider>
+<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+	<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
+</a>
+</mat-nav-list>
+
+
+<mat-nav-list *ngIf=" user && user.tipo == 'U'">
+	<img class="logo" src="../../assets/logo.png">
+	<br>
+	<mat-divider></mat-divider>
+	<br>
+	<a mat-list-item routerLink="/comercio" (click)="onSidenavClose()">
+		<mat-icon>business</mat-icon><span class="nav-caption">Ver Comercios</span>
+	</a>
+	<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
+		<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
+	</a>
+	<mat-list-item [matMenuTriggerFor]="menu2">
+		<mat-icon>account_circle</mat-icon>
+		<a matline>Mi Cuenta</a>
+		<mat-icon>unfold_more</mat-icon>
+	</mat-list-item>
+	<mat-menu #menu2="matMenu">
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+	</mat-menu>
+	
+	
+	
+	<mat-divider></mat-divider>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
 	</a>
 </mat-nav-list>

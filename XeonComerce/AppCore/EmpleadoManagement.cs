@@ -29,24 +29,30 @@ namespace AppCore
         }
 
 
-        public string VerificarUsuario(string idUsuario)
+        public bool VerificarUsuario(string idUsuario)
         {
             Usuario u = new Usuario();
             u.Id = idUsuario;
 
             var usuario = crudUsuario.Retrieve<Usuario>(u);
-            var e = this.verificarEmpleadoComercioSucursal(idUsuario);
+            //var e = this.verificarEmpleadoComercioSucursal(idUsuario);
 
-            if( usuario != null && e)
+            //if( usuario != null && e)
+            //{
+            //    return idUsuario; 
+            //}
+
+            //return null;
+
+            if( usuario != null)
             {
-                return idUsuario; 
+                return true;
             }
 
-            return null;
-
+            return false;
         }
 
-        private bool verificarEmpleadoComercioSucursal(string idUsuario)
+        public bool verificarEmpleadoComercioSucursal(string idUsuario)
         {
             var empleados = crudEmpleadoComercioSucursal.RetrieveAll<EmpleadoComercioSucursal>();
 
@@ -63,13 +69,25 @@ namespace AppCore
 
         public void Delete(int idEmpleado)
         {
-            var empleadoComercioSucursal = new EmpleadoComercioSucursal();
-            empleadoComercioSucursal.Id = idEmpleado;
+          
+            var empleadoComercioSucursal = crudEmpleadoComercioSucursal.Retrieve<EmpleadoComercioSucursal>(new EmpleadoComercioSucursal { Id = idEmpleado });
+            Usuario usuario = crudUsuario.Retrieve<Usuario>(new Usuario { Id = empleadoComercioSucursal.IdUsuario });
+            usuario.Tipo = "U";
 
             crudEmpleadoComercioSucursal.Delete(empleadoComercioSucursal);
+            crudUsuario.Update(usuario);
+        }
+
+        public void Update(EmpleadoComercioSucursal empleado)
+        {
+            crudEmpleadoComercioSucursal.Update(empleado);
         }
 
 
+        public List<EmpleadoComercioSucursal> RetrieveAll()
+        {
+            return crudEmpleadoComercioSucursal.RetrieveAll<EmpleadoComercioSucursal>();            
+        }
 
 
     }

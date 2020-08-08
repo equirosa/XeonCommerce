@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class SucursalController: ControllerBase
+    public class SucursalController : ControllerBase
     {
         private SucursalManagement sm = new SucursalManagement();
 
@@ -20,9 +20,10 @@ namespace WebAPI.Controllers
             return sm.RetriveAll();
         }
 
-        [HttpGet]
-        public Sucursal RetriveById(int id)
+        [HttpGet("{id}")]
+        public Sucursal RetriveById(string id)
         {
+            
             var sucursal = new Sucursal()
             {
                 Id = id
@@ -36,41 +37,41 @@ namespace WebAPI.Controllers
             try
             {
                 sm.Create(s);
-                return Ok();
+                return Ok(new { msg = "Se creó" });
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msg = e.Message });
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Update(Sucursal s)
         {
             try
             {
                 sm.Update(s);
-                return Ok();
+                return Ok(new { msg = "Se actualizó la sucursal" });
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msg = e.Message });
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
         {
             try
             {
                 Sucursal s = new Sucursal();
                 s.Id = id;
                 sm.Delete(s);
-                return Ok();
+                return Ok(new { msg = "Sucursal eliminada" });
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new { msg = e.Message });
             }
         }
     }

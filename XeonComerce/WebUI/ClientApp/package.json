@@ -29,6 +29,7 @@
     "cloudinary": "^1.22.0",
     "cloudinary-core": "^2.11.1",
     "file-saver": "^2.0.2",
+    "font-awesome": "^4.7.0",
     "moment": "^2.27.0",
     "ng2-file-upload": "^1.4.0",
     "postcss-loader": "^3.0.0",

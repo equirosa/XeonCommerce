@@ -46,17 +46,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
-import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
-;
-import { SolicitudesComponent } from './solicitudes/solicitudes.component;
-import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
-import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
+import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
-import { ServicioComponent, DialogServicio } from './servicio/servicio.component';
+import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -74,6 +73,20 @@ import { BitacoraComponent, DialogUsuario } from './bitacora/bitacora.component'
 import { CategoriaComponent, DialogCategoria } from './categoria/categoria.component';
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
+import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
+import { ConfigComponent } from './config/config.component';
+import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
+import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
+import { ListRolComponent } from './list-rol/list-rol.component';
+import { FormRolComponent } from './form-rol/form-rol.component';
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
+import { CarritoComponent } from './carrito/carrito.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
+
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -116,7 +129,7 @@ import { NavlistComponent } from './navlist/navlist.component';
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
-		MatDividerModule,
+    MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -137,7 +150,12 @@ import { NavlistComponent } from './navlist/navlist.component';
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
-		DialogDiaFeriado
+    DialogEditarServicio,
+		DialogSucursal,
+		DialogDiaFeriado,
+		DialogDireccionSucursal,
+		DialogDireccionUsuario,
+		DialogUsuario
 	],
     declarations: [
         AppComponent,
@@ -166,13 +184,31 @@ import { NavlistComponent } from './navlist/navlist.component';
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
+    	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
 		DialogCategoria,
 		NavComponent,
 		NavlistComponent,
-		PromocionComponent,
-		LandingPageAppComponent
+		SucursalesComponent,
+		DialogSucursal,
+		DialogDireccionSucursal,
+		PromocionComponent,
+		ConfigComponent,
+		PerfilComercioComponent,
+		ComercioRolComponent,
+		ListRolComponent,
+		FormRolComponent,
+		LandingPageXeonSquadComponent,
+		DashboardComercioComponent,
+		ListarUsuariosComponent,
+		DialogDireccionUsuario,
+		CarritoComponent,
+		FormRolComponent,
+		PerfilSucursalComponent,
+		FormHorarioSucursalComponent,
+		DashboardAdminComponent,
+		
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

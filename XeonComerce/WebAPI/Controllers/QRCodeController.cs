@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using AppCore;
+using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
-using System.IO;
-using System.Drawing;
-using AppCore;
-using Entities;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class QRCodeController : ControllerBase
-     {
+    {
         [HttpPost]
         public void GenerarQR(string id)
         {

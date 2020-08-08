@@ -40,7 +40,7 @@ export class ListHorarioComponent implements OnInit {
 
 
   cargarHorario(): void {
-    // Arreglar para que regrese los horarios de un empleado especifico
+  //   Arreglar para que regrese los horarios de un empleado especifico
     this.horarioEmpleadoService.getSeccionesHorario(this.idEmpleado, this.diaSemana).subscribe({
       next: res => {
         this.horario.data = res;
@@ -52,7 +52,7 @@ export class ListHorarioComponent implements OnInit {
   }
 
   editar(horario): void {
-    console.log(horario);
+    
     const dialogRef = this.dialog.open(FormHorarioComponent, {
       width: '650px',
       height: '400px',

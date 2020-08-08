@@ -61,6 +61,9 @@ export class RegistroUsuarioComponent implements OnInit {
 
 	enviarPrimero(){
 
+		
+
+
 		this.direccion = {
 			id: -1,
 			provincia: this.firstFormGroup.value.provincia,
@@ -97,13 +100,31 @@ export class RegistroUsuarioComponent implements OnInit {
 						numeroTelefono: this.firstFormGroup.value.numeroTelefono,
 						idDireccion: direccionFinal.id,
 						estado: "I",
-						codigo: ""
+						codigo: "",
+						tipo: "U"
 					}
+					
+					
+					if(this.firstFormGroup.get('cedula').valid && this.firstFormGroup.get('nombre').valid && this.firstFormGroup.get('primerApellido').valid && this.firstFormGroup.get('segundoApellido').valid && 
+					this.firstFormGroup.get('genero').valid && this.firstFormGroup.get('fechaNacimiento').valid && this.firstFormGroup.get('correoElectronico').valid && this.firstFormGroup.get('numeroTelefono').valid && 
+					this.firstFormGroup.get('provincia').valid && this.firstFormGroup.get('canton').valid && this.firstFormGroup.get('distrito').valid && this.firstFormGroup.get('otrasSennas').valid){
+			
+
 				this.usuarioService.create(this.usuarioFinal)
-				.subscribe(() => {
+				.subscribe((_) => {
+					if(_){
 					this.usuarioService.phoneVerification(this.usuarioFinal).subscribe();
 					this.stepperRef.next();
+					}
 				});
+
+
+			}else{
+				this.mensajeService.add("Algún campo no está completo");
+			}
+
+
+
 				}else{
 					console.log("Algo ocurrio al buscar el id de la direccion.");
 				}
@@ -115,6 +136,10 @@ export class RegistroUsuarioComponent implements OnInit {
 	});
 	}
 
+	markerDragEnd($event: any) {
+		this.latitud = $event.latLng.lat()
+		this.longitud = $event.latLng.lng()
+	}
 
 	probarCodigoTelefono(): void{
 		this.usuarioService.getBy(this.usuarioFinal.id).subscribe((retUsr) => {

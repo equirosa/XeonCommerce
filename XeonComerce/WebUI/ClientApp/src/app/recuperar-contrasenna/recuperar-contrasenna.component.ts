@@ -48,14 +48,17 @@ export class RecuperarContrasennaComponent implements OnInit {
 			this.usuarioService.emailVerification(this.usuarioFinal).subscribe(_=>this.stepperRef.next());
 		});
 	}
-
 	probarCodigoCorreo(): void{
 		this.usuarioService.getBy(this.usuarioFinal.id).subscribe((retUsr) => {
 			if(retUsr.codigo == this.secondFormGroup.value.codigo){
 				if(this.secondFormGroup.value.contrasennaUno == this.secondFormGroup.value.contrasennaDos){
 					
 					this.usuarioService.cambiarClave(this.secondFormGroup.value.contrasennaUno, this.usuarioFinal.id).subscribe(_=>{
+						if(_ != null)
 						this.stepperRef.next();
+						else{
+							this.mensajeService.add(_.msg)
+						}
 					});
 				
 				}else{
