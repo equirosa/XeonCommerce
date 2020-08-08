@@ -61,6 +61,11 @@ namespace DataAccess.Crud
             return lst;
         }
 
+        public void UpdateToAdmin(Usuario usuario)
+        {
+            dao.ExecuteProcedure(mapper.UpdateToAdmin(usuario));
+        }
+
         public override void Update(BaseEntity entity)
         {
             var ent = (Usuario)entity;
