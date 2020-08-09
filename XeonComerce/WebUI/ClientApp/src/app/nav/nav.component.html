@@ -4,3 +4,6 @@
           <mat-icon>menu</mat-icon>
       </button>
   </div>
+  <span class="flex"></span>
+
+	<mat-icon class="carrito" routerLink="/carrito" *ngIf="user && (user.tipo == 'U' || user.tipo == 'E')"[matBadge]="carrito" matBadgeSize="medium" matBadgeColor="warn">shopping_cart</mat-icon>

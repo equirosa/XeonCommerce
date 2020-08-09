@@ -86,6 +86,14 @@ export class ProductoService {
     );
   }
 
+  
+  putProductoSilencioso(prod: Producto): Observable<any> {
+    return this.http.put(`${this.urlApi}/${prod.id}`, prod, this.httpOptions).pipe(
+      tap(),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
   private log(message: string) {
     this.mensajeService.add(`Producto: ${message}`);
   }

@@ -1,10 +1,17 @@
 ﻿using AppCore;
 using Entities;
+using Management;
 using Microsoft.AspNetCore.Mvc;
+using SelectPdf;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace WebAPI.Controllers
 {
@@ -115,5 +122,59 @@ namespace WebAPI.Controllers
                 return StatusCode(500, new { msg = e.Message });
             }
         }
+
+
+        [HttpPost("xml/{cedula}")]
+        public IActionResult Xml(PdfXml pdfXml, string cedula)
+        {
+            try
+            {
+                UsuarioManagement uC = new UsuarioManagement();
+                Usuario u = uC.RetrieveById(new Usuario { Id=cedula });
+                if (u != null)
+                {
+                    Execute(u, pdfXml).Wait();
+                    return Ok(new { msg = "Se envío al correo la factura"});
+                }
+                else
+                {
+                    throw new Exception("Usuario no se encontró");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+        }
+
+
+
+        private static async Task Execute(Usuario user, PdfXml pdfXml)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.LoadXml(pdfXml.XML);
+            byte[] bytes = Encoding.Default.GetBytes(xdoc.OuterXml);
+            HtmlToPdf oHtmlToPdf = new HtmlToPdf();
+            PdfDocument oPdfDocument = oHtmlToPdf.ConvertHtmlString(pdfXml.Html);
+            byte[] pdf = oPdfDocument.Save();
+            oPdfDocument.Close();
+
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
+            var subject = "Factura de compra en GetItSafely";
+            var to = new EmailAddress(user.CorreoElectronico.ToString(), user.Nombre.ToString());
+            var plainTextContent = ("El resumen de su compra más reciente: ");
+            var htmlContent = "<strong>El resumen de su compra más reciente: </strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            msg.AddAttachment("factura.xml", Convert.ToBase64String(bytes));
+            msg.AddAttachment("factura.pdf", Convert.ToBase64String(pdf));
+            var response = await client.SendEmailAsync(msg);
+        }
+
+
+
+
+
     }
 }

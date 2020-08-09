@@ -1,0 +1,15 @@
+
+    <p mat-dialog-title>Sinpe Móvil</p>
+
+    <p display-2>Envía {{data.cantidad | currency:'CRC'}} al +506 {{data.telefono}}</p>
+	
+	<form [formGroup]="form">
+	<mat-form-field>
+		<mat-label>Comprobante de pago</mat-label>
+		<input matInput type="text" formControlName="codigo"/>
+                        
+	  </mat-form-field>
+	</form>
+    <div mat-dialog-actions>
+        <button mat-button color="crear" [disabled]="!form.valid" (click)="comprobar()">Comprobar</button>
+	</div>
