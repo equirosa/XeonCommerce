@@ -25,7 +25,7 @@ export class ListarUsuariosComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre',
     'apellidoUno', 'apellidoDos', 'genero', 'fechaNacimiento',
     'correoElectronico',
-    'numeroTelefono', 'idDireccion', 'estado', 'codigo', 'eliminar'];
+    'numeroTelefono', 'idDireccion', 'estado', 'codigo', 'eliminar','administrar'];
   datos;
   provincias: Ubicacion[];
   cantones: Ubicacion[];
@@ -94,6 +94,24 @@ export class ListarUsuariosComponent implements OnInit {
           // 	fecha: new Date()
           // }
           // this.bitacoraService.create(log).subscribe();
+        });
+      }
+    });
+  }
+
+  updateToAdmin(usuario: Usuario): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: {
+        title: "¿Está seguro?",
+        message: "Usted está apunto de hacer administrador a un usuario. "
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.usuarioService.updateToAdmin(usuario).subscribe(() => {
+          this.getUsuarios();
         });
       }
     });
