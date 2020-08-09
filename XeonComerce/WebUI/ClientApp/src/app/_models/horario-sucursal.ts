@@ -3,5 +3,5 @@ export class HorarioSucursal {
     idSucursal: string;
     horaInicio: any;
     horaFinal: any;
-    diaSemana: number;
+    diaSemana: any;
 }

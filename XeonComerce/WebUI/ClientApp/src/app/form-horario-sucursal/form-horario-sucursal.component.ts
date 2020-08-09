@@ -48,6 +48,8 @@ export class FormHorarioSucursalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar,
     private horarioSucursalService: HorarioSucursalService) { }
+
+
   ngOnInit(): void {
     this.sucursal = this.data.sucursal;
     this.cargarHorario();
@@ -62,6 +64,7 @@ export class FormHorarioSucursalComponent implements OnInit {
     }
 
   verificarHorario(dia: number): HorarioSucursal[] {
+    this.formatearNombreDia();
     return this.horarioSucursal.filter( h => h.diaSemana === dia);
   }
 
@@ -131,16 +134,53 @@ export class FormHorarioSucursalComponent implements OnInit {
       next: res => {
         if(res){
           this.horarioSucursal = res.filter( h => h.idSucursal === this.sucursal.id);
-          this.horario.data = res;
+          this.horario.data = this.horarioSucursal;
           this.formatearHoras();
+          this.formatearDiaNombre();
         }
       },
-      error: err => console.log(err)
+      error: err => {
+        this._snackBar.open(err, '', {
+          duration: 2500
+        });
+      }
+    });
+  }
+
+
+  formatearDiaNombre(): void {
+    this.horario.data = this.horario.data.map( d => {
+      this.dias.forEach(dia => {
+        if ( dia.valor === d.diaSemana){
+          d.diaSemana = dia.nombre;
+        }
+      });
+      return d;
+    });
+  }
+
+  formatearNombreDia(): void {
+    this.horario.data = this.horario.data.map( n => {
+      this.dias.forEach(dia => {
+        if( dia.nombre === n.diaSemana){
+          n.diaSemana = dia.valor;
+        }
+      });
+      return n;
     });
   }
 
   convertir(hora): string {
-    return moment( hora).format('HH:mm');
+    const a = hora.split(' ');
+    const h = a[0].split(':');
+
+    if( a[1] === 'PM' && h[0] !== '12'){
+      const horas = Number(h[0]) + 12;
+      return horas + ':' + h[1];
+    }else {
+      return a[0];
+    }
+
   }
 
   formatearHoras(): void {
