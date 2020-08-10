@@ -93,6 +93,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { ProductoCitaComponent } from './_components/producto-cita/producto-cita.component';
 
 @NgModule({
     imports: [
@@ -225,7 +226,8 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		CarritoDialogMetodoPagoComponent,
 		CarritoDialogSinpeComponent,
 		CarritoDialogPayPalComponent,
-		CarritoDialogFinComponent
+		CarritoDialogFinComponent,
+		ProductoCitaComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -12,6 +12,8 @@ import { DireccionService } from '../../_services/direccion.service';
 import { UbicacionService } from '../../_services/ubicacion.service';
 import { Direccion } from '../../_models/Direccion';
 import { Ubicacion } from '../../_models/ubicacion';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ProductoCitaComponent } from '../../_components/producto-cita/producto-cita.component';
 
 
 @Component({
@@ -29,17 +31,21 @@ export class PerfilSucursalComponent implements OnInit {
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
-	user: User;
+  user: User;
+
+  productosCita: Producto[];
+
   constructor( 
-    private route: ActivatedRoute, 
-    private surcursalService: SucursalService, 
-    private productoService: ProductoService, 
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private surcursalService: SucursalService,
+    private productoService: ProductoService,
     private direccionService: DireccionService,
-	private ubicacionService: UbicacionService,
-	private carritoService: CarritoService,
-	private accountService: AccountService) {
-		this.accountService.user.subscribe(x => {
-			this.user = x;
+    private ubicacionService: UbicacionService,
+    private carritoService: CarritoService,
+    private accountService: AccountService,) {
+    this.accountService.user.subscribe(x => {
+      this.user = x;
 		});
 	 }
 
@@ -106,12 +112,29 @@ export class PerfilSucursalComponent implements OnInit {
 	}
 	
 	agregarCarrito(producto: Producto){
-		let car : Carrito;
+		let car: Carrito;
 		car = {
 			cantidad: 1,
 			idUsuario: this.user.id,
 			idProducto: producto.id
 		}
 		this.carritoService.create(car).subscribe();
-	}
+  }
+
+  agregarProductoCita(producto: Producto): void{
+
+    const dialogRef = this.dialog.open(ProductoCitaComponent, {
+      width: '300px',
+      height: '200px',
+      data: { producto }
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      console.log('Producto', producto);
+      console.log('Cantidad', dialogResult);
+    });
+
+
+   // this.productosCita.push(producto);
+  }
 }
