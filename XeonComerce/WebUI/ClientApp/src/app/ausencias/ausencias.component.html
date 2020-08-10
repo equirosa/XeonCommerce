@@ -1,0 +1,11 @@
+<div>
+  <h2>Configuración</h2>
+  <div class="mat-elevation-z8">
+    <form [formGroup]="ausencias">
+      <mat-form-field>
+        <mat-label>Cantidad de ausencias a citas para bloquear usuario:</mat-label>
+        <input type="number" min="0" matInput id="cantAusencias" formControlName="paramAusencias">
+      </mat-form-field>
+    </form>
+    <button (click)="update()" mat-flat-button>Guardar Cambios</button>
+  </div>
