@@ -1,1 +1,54 @@
-<p>dashboard-admin works!</p>
+<div>
+    <h1 class="titulo-dashboard">Dashboard Administrador</h1>
+  </div>
+  <div class="dashboard-container">
+    <div class="ventas">
+      <div class="cantidad-ventas">
+        <div class="ventas-titulo">Usuarios</div>
+        <mat-icon>people</mat-icon>
+        <div class="ventas-valores" [(ngModel)]="usuariosCount">{{usuariosCount}}</div>
+      </div>
+      <div class="total-vendido">
+        <div class="ventas-titulo">Ganancias del Mes</div>
+        <i class="moneda" aria-hidden="true">₡</i>
+        <div class="ventas-valores">0.00</div>
+      </div>
+    </div>
+    <div class="pagos">
+      <div>
+        <div class="pagos-titulo">
+          <div>0  <i class="fa fa-mobile" aria-hidden="true"></i></div>
+        </div>
+        <div class="pagos-descripcion">
+          <p>Cantidad de pagos</p>
+          <p class="simpemovil">Simpe Móvil</p>
+        </div>
+      </div>
+      <div>
+        <div class="pagos-titulo">
+          <div>0.00</div>
+        </div>
+        <div class="pagos-descripcion">
+          <p>Monto total</p>
+          <p class="simpemovil2">Simpe Móvil</p>
+        </div>
+      </div>
+      <div>
+        <div class="pagos-titulo">
+          <div>0  <i class="fa fa-paypal" aria-hidden="true"></i></div>
+          </div>
+          <div class="pagos-descripcion">
+            <p>Cantida de pagos</p>
+            <p class="paypall">PayPal</p>
+          </div>
+      </div>
+      <div>
+        <div class="pagos-titulo">0.00 </div>
+        <div class="pagos-descripcion">
+          <p>Monto total</p>
+          <p class="paypall2">PayPal</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

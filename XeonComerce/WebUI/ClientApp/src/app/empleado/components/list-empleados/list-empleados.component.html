@@ -4,7 +4,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar..." >
     </mat-form-field>
       
-    <mat-table  [dataSource]="empleados" class="table-lg">
+    <mat-table  [dataSource]="empleados" >
         <ng-container matColumnDef="nombre">
             <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
@@ -46,7 +46,7 @@
             </mat-cell>
         </ng-container>
         
-        <mat-header-row class="toolbar" *matHeaderRowDef="nombresColumnas"></mat-header-row>
+        <mat-header-row  *matHeaderRowDef="nombresColumnas"></mat-header-row>
         <mat-row *matRowDef="let row; columns: nombresColumnas;"></mat-row>
     </mat-table>
     <mat-paginator [length]="100"

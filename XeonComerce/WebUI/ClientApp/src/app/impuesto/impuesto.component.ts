@@ -1,3 +1,7 @@
+import { Bitacora } from './../_models/bitacora';
+import { User } from '@app/_models';
+import { BitacoraService } from './../_services/bitacora.service';
+import { AccountService } from '@app/_services';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Impuesto } from '../_models/impuesto';
@@ -14,17 +18,21 @@ import { MensajeService } from '../_services/mensaje.service';
 })
 export class ImpuestoComponent implements OnInit {
 
+  user: User;
   impuesto: Impuesto;
   impuestos: Impuesto[];
   displayedColumns: string[] = ['id', 'nombre', 'valor', 'editar', 'eliminar'];
   dataSource;
+
   public httpClient: HttpClient;
   public baseUrlApi: string;
   private impuestoService: ImpuestoService;
   public message: string;
   public serviceEndPoint: string;
 
-  constructor(public dialog: MatDialog, http: HttpClient, impService: ImpuestoService, private mensajeService: MensajeService) {
+  constructor(public dialog: MatDialog, http: HttpClient, impService: ImpuestoService, private mensajeService: MensajeService,
+	private bitacoraService: BitacoraService, private accountService : AccountService) { 
+	this.user = this.accountService.userValue; 
     this.httpClient = http;
     this.impuestoService = impService;
   }
@@ -96,7 +104,19 @@ export class ImpuestoComponent implements OnInit {
         console.log(impuesto);
         this.impuestoService.postImpuesto(impuesto)
           .subscribe(() => {
-            this.getImpuestos();
+			this.getImpuestos();
+			
+			
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Creación de impuesto",
+					detalle: `Se creó un impuesto (${result.nombre}) ${result.valor}%`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+
           });
         this.getImpuestos();
       }
@@ -116,7 +136,17 @@ export class ImpuestoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) this.impuestoService.delete(impuesto)
         .subscribe(() => {
-          this.getImpuestos();
+		  this.getImpuestos();
+		  
+			var log: Bitacora;
+			log = {
+				idUsuario: this.user.id,
+				accion: "Eliminación de impuesto",
+				detalle: `Se eliminó un impuesto (${impuesto.nombre}) ${impuesto.valor}%`,
+				id: -1,
+				fecha: new Date()
+			}
+			this.bitacoraService.create(log).subscribe();
         });
       this.getImpuestos();
     });
@@ -160,7 +190,17 @@ export class ImpuestoComponent implements OnInit {
 
         this.impuestoService.putImpuesto(impuesto)
           .subscribe(() => {
-            this.getImpuestos()
+			this.getImpuestos()
+			
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Actualización de impuesto",
+					detalle: `Se actualizó un impuesto (${result.nombre}) ${result.valor}%`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
           });
         this.getImpuestos();
       }
