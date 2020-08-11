@@ -35,7 +35,7 @@ export class PerfilSucursalComponent implements OnInit {
 
   ngOnInit(): void {
     this.idSucursal = this.route.snapshot.params['id'];
-    this.cargarSucursal();
+	this.cargarSucursal();
     
   }
 
@@ -70,6 +70,8 @@ export class PerfilSucursalComponent implements OnInit {
           this.direccion = res;
           this.direccion.longitud = Number(this.direccion.longitud);
           this.direccion.latitud = Number(this.direccion.latitud);
+		  this.getCantonesE();
+		  this.getDistritosE();
         }
       },
       error: err => console.log(err)
