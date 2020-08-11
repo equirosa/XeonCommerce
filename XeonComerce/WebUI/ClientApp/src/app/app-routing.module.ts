@@ -1,3 +1,4 @@
+import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
@@ -65,6 +66,7 @@ const routes: Routes = [
     { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
     { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
     { path: 'dashboardAdmin', component: DashboardAdminComponent, canActivate: [AuthGuard]},
+    { path: 'configuraciones', component: ConfiguracionesComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

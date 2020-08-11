@@ -1,0 +1,12 @@
+<div class="divComercios">
+  <h2>Configuración</h2>
+  <div class="mat-elevation-z8">
+	<form [formGroup]="configuracion">
+		<mat-form-field appearance="fill">
+			<mat-label>Multa por cancelación de cita:</mat-label>
+			<input required matInput type="number" min="0" formControlName="multa">
+		  </mat-form-field>
+	  </form>
+    <button (click)="update()" mat-flat-button>Guardar Cambios</button>
+	</div>
+</div>

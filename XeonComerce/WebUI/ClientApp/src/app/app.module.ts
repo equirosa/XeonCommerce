@@ -1,3 +1,4 @@
+import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { CarritoDialogFinComponent } from './_components/carrito/fin/fin.dialog';
 import { CarritoDialogPayPalComponent } from './_components/carrito/paypal/paypal.dialog';
 import { CarritoDialogSinpeComponent } from './_components/carrito/sinpe/sinpe.dialog';
@@ -95,6 +96,7 @@ import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horar
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 @NgModule({
     imports: [
+		ReactiveFormsModule, 
 		FormsModule,
 		CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'de99h9v43', api_secret: 'szrKGouDzr9bgYSTXF_a8LO7nMI', api_key: '664882358892716'}),
         FileUploadModule,
@@ -224,7 +226,8 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		CarritoDialogMetodoPagoComponent,
 		CarritoDialogSinpeComponent,
 		CarritoDialogPayPalComponent,
-		CarritoDialogFinComponent
+		CarritoDialogFinComponent,
+		ConfiguracionesComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
