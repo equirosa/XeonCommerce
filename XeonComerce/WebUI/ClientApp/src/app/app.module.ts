@@ -1,3 +1,4 @@
+import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { CarritoDialogFinComponent } from './_components/carrito/fin/fin.dialog';
 import { CarritoDialogPayPalComponent } from './_components/carrito/paypal/paypal.dialog';
@@ -170,7 +171,9 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		CarritoDialogMetodoPagoComponent,
 		CarritoDialogSinpeComponent,
 		CarritoDialogPayPalComponent,
-		CarritoDialogFinComponent
+		CarritoDialogFinComponent,
+		DialogImagen,
+		DialogEditarArchivo
 	],
     declarations: [
         AppComponent,
@@ -228,7 +231,10 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		CarritoDialogSinpeComponent,
 		CarritoDialogPayPalComponent,
 		CarritoDialogFinComponent,
-		ConfiguracionesComponent
+		ConfiguracionesComponent,
+		ArchivoComponent,
+		DialogImagen,
+		DialogEditarArchivo
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
