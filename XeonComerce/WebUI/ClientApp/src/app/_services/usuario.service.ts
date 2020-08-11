@@ -44,6 +44,13 @@ httpOptions = {
 	);
   }
 
+  updateToAdmin(usuario: Usuario): Observable<any> {
+    return this.http.put(`${this.urlApi}/UpdateToAdmin/${usuario.id}`, usuario, this.httpOptions).pipe(
+      tap(_ => this.log(`Se ha creado un nuevo administrador`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
 
   emailVerification(usuario: Usuario): Observable<Usuario> {
     return this.http.put<Usuario>(this.urlApi+"/EmailVerification/"+usuario.id, usuario, this.httpOptions).pipe(
