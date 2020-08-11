@@ -1,7 +1,7 @@
 <div class="mat-elevation-8">
-    <mat-form-field>
-        <mat-label>Filtrar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar..." >
+    <mat-form-field style="margin-top: 2%; width: 100%;">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Nombre..." >
     </mat-form-field>
       
     <mat-table  [dataSource]="empleados" >
