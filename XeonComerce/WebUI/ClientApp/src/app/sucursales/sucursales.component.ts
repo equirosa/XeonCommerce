@@ -258,9 +258,9 @@ export class SucursalesComponent implements OnInit {
         if (this.user.tipo != 'A') {
           this.sucursales = sucursales.filter((a) => a.idComercio == idComercio)
         }
-        this.datos = new MatTableDataSource(this.sucursales);
-        this.datos.sort = this.sort;
-        this.datos.paginator = this.paginator;
+			this.datos = new MatTableDataSource(this.sucursales);
+			this.datos.sort = this.sort;
+			this.datos.paginator = this.paginator;
       });
   }
 
