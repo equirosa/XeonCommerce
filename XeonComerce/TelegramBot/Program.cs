@@ -11,7 +11,8 @@ namespace TelegramBot
     class Program
     {
         static ITelegramBotClient botClient;
-        static UsuarioTelegramManagement management;
+        static UsuarioTelegramManagement usuarioTelegramManagement = new UsuarioTelegramManagement();
+        static ComercioManagement comercioManagement = new ComercioManagement();
 
         static void Main()
         {
@@ -41,26 +42,48 @@ namespace TelegramBot
                 case "/help":
                 case "/ayuda":
                     sendText(e, "Este es el mensaje de /ayuda\n" +
-                        "Por ahora puedes /iniciar_sesion\n");
+                        "Por ahora puedes /iniciar_sesion\n" +
+                        "También puedes /listar_comercios\n");
                     break;
                 case "/iniciar_sesion":
                 case "/login":
-                    if (isLoggedIn(e.Message.Chat.Id.ToString()))
-                    {
-                        sendText(e, "Ya iniciaste la sesión");
-                    }
-                    else
-                    {
-                        sendText(e, "Envíame tu número de cédula para agregarte.");
-                    }
+                    IniciarSesion(e);
+                    break;
+                case "/listar_comercios":
+                    ListarComercios(e);
                     break;
             }
         }
 
-        private static bool isLoggedIn(string id)
+        public static void ListarComercios(MessageEventArgs e)
         {
-            management = new UsuarioTelegramManagement();
-            List<UsuarioTelegram> usuarios = management.RetrieveAll();
+            List<Comercio> comercios = comercioManagement.RetrieveAll();
+            string msg = "Lista de Comercios:\n" +
+                "--------------------\n";
+            foreach (var c in comercios)
+            {
+                msg += c.NombreComercial + " - " + "/" + c.CedJuridica + "\n";
+            }
+            msg += "---------------------\n";
+
+            sendText(e, msg);
+        }
+
+        public static void IniciarSesion(MessageEventArgs e)
+        {
+            if (!true/*isLoggedIn(e.Message.Chat.Id.ToString())*/)
+            {
+
+            }
+            else
+            {
+                sendText(e, "Ya iniciaste sesión.");
+            }
+        }
+
+        public static bool isLoggedIn(string id)
+        {
+            List<UsuarioTelegram> usuarios = usuarioTelegramManagement.RetrieveAll();
             foreach (UsuarioTelegram user in usuarios)
             {
                 if (user.IdChat == id)
