@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>{{data.accion | titlecase}} archivo</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width:400px !important" appearance="standard" *ngIf="data.permitir">
+    <mat-label>Id</mat-label>
+    <input disabled="{{data.permitir}}" required matInput [(ngModel)]="data.id">
+  </mat-form-field>
+  <br>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Nombre</mat-label>
+    <input required matInput [(ngModel)]="data.nombre" maxlength="15" minlength="1">
+  </mat-form-field>
+  <br>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data.accion | titlecase}}</button>
+</div>

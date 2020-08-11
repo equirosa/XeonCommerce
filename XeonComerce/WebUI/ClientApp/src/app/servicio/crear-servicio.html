@@ -24,11 +24,11 @@
 
   <br>
 
-  <mat-form-field style="width:400px !important" appearance="fill">
+  <mat-form-field style="width:400px !important" appearance="fill" [hidden]="data.noEsAdmin">
     <mat-label>Comercio</mat-label>
     <mat-select [(ngModel)]="data.comercio" required>
       <mat-option></mat-option>
-      <mat-option *ngFor="let comercio of data.comercios" [value]="comercio">
+      <mat-option *ngFor="let comercio of data.comercios" [value]="comercio.cedJuridica">
         {{comercio.nombreComercial}}
       </mat-option>
     </mat-select>

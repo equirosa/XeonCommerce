@@ -49,7 +49,7 @@ export class ProductoService {
 
     const url = `${this.urlApi}/${prod.id}`;
 
-    return this.http.delete<Producto>(url).pipe(catchError(this.handleError));
+    return this.http.delete<Producto>(url).pipe(tap(_ => this.log(`Se eliminó`)),catchError(this.handleError));
   }
 
 
@@ -60,7 +60,7 @@ export class ProductoService {
 
     return this.http
       .post<Producto>(this.urlApi, producto)
-      .pipe(catchError(this.handleError));
+      .pipe(tap(_ => this.log(`Se creó`)), catchError(this.handleError));
   }
 
   //postProducto(producto: Producto) {
