@@ -1,12 +1,37 @@
 <h1 mat-dialog-title>Documentos</h1>
 <div mat-dialog-content>
 
-  <div *ngFor="let item of data.archivos">
-		<a href="{{item.link}}" target="_blank">{{item.nombre | lowercase}}.{{item.tipo}}</a>
-  </div>
-  <div *ngIf="!data.archivos.length">
-	  <span>No existen archivos para este comercio.</span>
-  </div>
-
+	<table mat-table matSort [dataSource]="data.archivos">
+		<ng-container matColumnDef="id">
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+		  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="nombre">
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+		  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="tipo">
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+		  <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+		</ng-container>
+	  
+		<ng-container matColumnDef="ver">
+		  <th mat-header-cell *matHeaderCellDef> Ver </th>
+		  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="ver" (click)=ver(element)>Ver</button> </td>
+		</ng-container>
+	  
+		<tr class="mat-row" *matNoDataRow>
+			<td class="mat-cell" colspan="4">No existen archivos para este comercio</td>
+		</tr>
+		
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	
+		<tr class="mat-row" *matNoDataRow>
+			<td class="mat-cell" colspan="4">No existen archivos para este comercio</td>
+		</tr>
+	  </table>
 
 </div>

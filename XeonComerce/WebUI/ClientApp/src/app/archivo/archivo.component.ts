@@ -47,7 +47,7 @@ export class ArchivoComponent implements OnInit {
 			if(this.comercio){
 				this.getArchivos();
 			}else{
-				this.mensajeService.add("Vuelva a cargar la página");
+				this.mensajeService.add("Solo el dueño del comercio puede administrar los archivos");
 			}
 		});
 	}
