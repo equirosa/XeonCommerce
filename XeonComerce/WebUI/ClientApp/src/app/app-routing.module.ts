@@ -1,3 +1,4 @@
+import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
@@ -69,6 +70,7 @@ const routes: Routes = [
     { path: 'dashboardAdmin', component: DashboardAdminComponent, canActivate: [AuthGuard]},
 	{ path: 'configuraciones', component: ConfiguracionesComponent, canActivate: [AuthGuard]},
 	{ path: 'archivos', component: ArchivoComponent, canActivate: [AuthGuard]},
+	{ path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard]},
 	
 
     // otherwise redirect to home

@@ -25,9 +25,9 @@ namespace AppCore
             return crud.RetrieveAll<FacturaDetalle>();
         }
 
-        public FacturaDetalle RetriveById(FacturaDetalle obj)
+        public List<FacturaDetalle> RetriveById(FacturaDetalle obj)
         {
-            return crud.Retrieve<FacturaDetalle>(obj);
+            return crud.RetrieveByFactura<FacturaDetalle>(obj);
         }
 
         public void Update(FacturaDetalle obj)

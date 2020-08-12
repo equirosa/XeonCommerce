@@ -1,0 +1,58 @@
+<div class="divHistorial">
+	<h2>Historial de compras</h2>
+	
+	<mat-accordion>
+		<mat-expansion-panel *ngFor="let item of historial">
+		  <mat-expansion-panel-header>
+			<mat-panel-title>
+			  Factura #{{item.idFactura}} {{item.fecha | date:'short'}}
+			</mat-panel-title>
+			<mat-panel-description>
+			{{item.transaccionFinanciera.monto | currency: '₡'}} {{item.detalles.length}} {{item.detalles.length == 1 ? "producto":"productos"}}
+			</mat-panel-description>
+		  </mat-expansion-panel-header>
+		  <table mat-table matSort [dataSource]="datos">
+			<ng-container matColumnDef="id">
+				  <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+				  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+				<td mat-footer-cell *matFooterCellDef> Total </td>
+			</ng-container>
+		  
+			<ng-container matColumnDef="nombre">
+				  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+				  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+				  <td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		  
+			<ng-container matColumnDef="precio">
+				  <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+					<td mat-cell *matCellDef="let element" title="{{'Precio original ' + element.precio}}"> {{calcularPrecio(element) | currency:'₡'}} <span class="sale" *ngIf="element.descuento">{{calcularDescuento(element)}}%</span></td>
+				<td mat-footer-cell *matFooterCellDef> </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		  
+			<ng-container matColumnDef="cantidad">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+				<td mat-cell *matCellDef="let element"> <input matInput [(ngModel)]="element.cantidadCarrito" type="number" min="1" max="{{element.cantidad+1}}" (change)="onChange($event, element)"></td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		
+			<ng-container matColumnDef="impuesto">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Impuesto </th>
+				<td mat-cell *matCellDef="let element" title="{{element.nombreImpuesto}}"> {{element.porcientoImpuesto}}% </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		  
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+		
+			<tr class="mat-row" *matNoDataRow>
+				<td class="mat-cell" colspan="4">No se ha encontrado productos en la compra.</td>
+			  </tr>
+		  </table>
+		</mat-expansion-panel>
+	  </mat-accordion>
+
+</div>
+  
