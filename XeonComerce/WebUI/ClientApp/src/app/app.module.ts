@@ -87,7 +87,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
-import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
+import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './categoria-usuario/categoria-usuario.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -156,7 +156,8 @@ import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario
 		DialogDiaFeriado,
 		DialogDireccionSucursal,
 		DialogDireccionUsuario,
-		DialogUsuario
+    DialogUsuario
+    //DialogAgregarCategorias
 	],
     declarations: [
         AppComponent,
@@ -209,7 +210,8 @@ import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario
 		PerfilSucursalComponent,
 		FormHorarioSucursalComponent,
 		DashboardAdminComponent,
-		CategoriaUsuarioComponent,
+    CategoriaUsuarioComponent
+    //DialogAgregarCategorias
 		
     ],
     providers: [

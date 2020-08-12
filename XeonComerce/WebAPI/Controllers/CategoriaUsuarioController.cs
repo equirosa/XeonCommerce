@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region libraries
+using System.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-#region libraries
 using System.Threading.Tasks;
 using AppCore;
+using Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/categoriasUsuario")]
     [ApiController]
     public class CategoriaUsuarioController : ControllerBase
     {
