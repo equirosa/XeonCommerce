@@ -17,6 +17,7 @@ import { Ausencias } from '../_models/ausencias';
 })
 export class ConfiguracionesComponent implements OnInit {
   multa: Ausencias;
+  maxCitas: Ausencias;
   accion;
   configuracion: FormGroup;
   user: any;
@@ -30,9 +31,11 @@ export class ConfiguracionesComponent implements OnInit {
 
   ngOnInit(): void {
 	  this.configuracion = this._formBuilder.group({
-		multa: ['', [Validators.required,  Validators.pattern("[0-9]")]]
+		multa: ['', [Validators.required,  Validators.pattern("[0-9]")]],
+		maxCitas: ['', [Validators.required,  Validators.pattern("[0-9]")]]
 	  });
 	  this.configuracion.get('multa').setValue(0);
+	  this.configuracion.get('maxCitas').setValue(1);
       this.getConfigs();
   }
 
@@ -40,6 +43,7 @@ export class ConfiguracionesComponent implements OnInit {
   getConfigs(): void {
     this.ausenciasService.get().subscribe(configs =>{
 	  this.multa = configs.filter((i)=>i.id_Comercio == this.user.comercio.cedJuridica && i.id == "MULTA")[0];
+	  this.maxCitas = configs.filter((i)=>i.id_Comercio == this.user.comercio.cedJuridica && i.id == "MAXCITAS")[0];
 	  if(!this.multa){
 		  let a : Ausencias;
 		  a = {
@@ -53,15 +57,41 @@ export class ConfiguracionesComponent implements OnInit {
 	  }else{
 		this.configuracion.controls['multa'].setValue(this.multa.valor);
 	  }
+
+	  
+	  if(!this.maxCitas){
+		let a : Ausencias;
+		a = {
+			id_Comercio: this.user.comercio.cedJuridica,
+			id: "MAXCITAS",
+			valor: 1
+		}
+		this.ausenciasService.create(a).subscribe();
+		this.maxCitas = a;
+		this.configuracion.controls['maxCitas'].setValue(this.maxCitas.valor);
+	}else{
+	  this.configuracion.controls['maxCitas'].setValue(this.maxCitas.valor);
+	}
     });
   }
 
   update(): void {
     this.multa.valor = this.configuracion.controls['multa'].value;
+    this.maxCitas.valor = this.configuracion.controls['maxCitas'].value;
     this.ausenciasService.update(this.multa).subscribe(result => {
       if (result){
         console.log("Dias de cancelacion actualizados.");
       }
-    });
+	});
+	if(this.maxCitas.valor > 0){
+    this.ausenciasService.update(this.maxCitas).subscribe(result => {
+		if (result){
+		  console.log("Max citas actualizado.");
+		}
+	  });
+	}else{
+		setTimeout(()=>
+		this.mensajeService.add("La cantidad máxima de citas por cliente debe ser mayor o igual a 1."), 1000);
+	}
   }
 }
