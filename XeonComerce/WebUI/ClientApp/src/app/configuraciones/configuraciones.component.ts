@@ -18,6 +18,7 @@ import { Ausencias } from '../_models/ausencias';
 export class ConfiguracionesComponent implements OnInit {
   multa: Ausencias;
   maxCitas: Ausencias;
+  maxAusencias: Ausencias;
   accion;
   configuracion: FormGroup;
   user: any;
@@ -32,10 +33,12 @@ export class ConfiguracionesComponent implements OnInit {
   ngOnInit(): void {
 	  this.configuracion = this._formBuilder.group({
 		multa: ['', [Validators.required,  Validators.pattern("[0-9]")]],
-		maxCitas: ['', [Validators.required,  Validators.pattern("[0-9]")]]
+		maxCitas: ['', [Validators.required,  Validators.pattern("[0-9]")]],
+		maxAusencias: ['', [Validators.required,  Validators.pattern("[0-9]")]]
 	  });
 	  this.configuracion.get('multa').setValue(0);
 	  this.configuracion.get('maxCitas').setValue(1);
+	  this.configuracion.get('maxAusencias').setValue(1);
       this.getConfigs();
   }
 
@@ -44,6 +47,7 @@ export class ConfiguracionesComponent implements OnInit {
     this.ausenciasService.get().subscribe(configs =>{
 	  this.multa = configs.filter((i)=>i.id_Comercio == this.user.comercio.cedJuridica && i.id == "MULTA")[0];
 	  this.maxCitas = configs.filter((i)=>i.id_Comercio == this.user.comercio.cedJuridica && i.id == "MAXCITAS")[0];
+	  this.maxAusencias = configs.filter((i)=>i.id_Comercio == this.user.comercio.cedJuridica && i.id == "MAXAUSENCIAS")[0];
 	  if(!this.multa){
 		  let a : Ausencias;
 		  a = {
@@ -72,17 +76,45 @@ export class ConfiguracionesComponent implements OnInit {
 	}else{
 	  this.configuracion.controls['maxCitas'].setValue(this.maxCitas.valor);
 	}
+
+	
+	  
+	if(!this.maxAusencias){
+		let a : Ausencias;
+		a = {
+			id_Comercio: this.user.comercio.cedJuridica,
+			id: "MAXAUSENCIAS",
+			valor: 1
+		}
+		this.ausenciasService.create(a).subscribe();
+		this.maxAusencias = a;
+		this.configuracion.controls['maxAusencias'].setValue(this.maxAusencias.valor);
+	}else{
+	  this.configuracion.controls['maxAusencias'].setValue(this.maxAusencias.valor);
+	}
+
+	
     });
   }
 
   update(): void {
     this.multa.valor = this.configuracion.controls['multa'].value;
     this.maxCitas.valor = this.configuracion.controls['maxCitas'].value;
-    this.ausenciasService.update(this.multa).subscribe(result => {
-      if (result){
-        console.log("Dias de cancelacion actualizados.");
-      }
-	});
+    this.maxAusencias.valor = this.configuracion.controls['maxAusencias'].value;
+    
+	
+
+	if(this.multa.valor >= 0){
+		this.ausenciasService.update(this.multa).subscribe(result => {
+			if (result){
+			  console.log("La multa se actualizó.");
+			}
+		  });
+		}else{
+			setTimeout(()=>
+			this.mensajeService.add("La multa debe ser mayor o igual a 0."), 1000);
+	}
+
 	if(this.maxCitas.valor > 0){
     this.ausenciasService.update(this.maxCitas).subscribe(result => {
 		if (result){
@@ -92,6 +124,17 @@ export class ConfiguracionesComponent implements OnInit {
 	}else{
 		setTimeout(()=>
 		this.mensajeService.add("La cantidad máxima de citas por cliente debe ser mayor o igual a 1."), 1000);
+	}
+	
+	if(this.maxAusencias.valor >= 0){
+		this.ausenciasService.update(this.maxAusencias).subscribe(result => {
+			if (result){
+			  console.log("Max ausencias actualizado.");
+			}
+		  });
+		}else{
+			setTimeout(()=>
+			this.mensajeService.add("La cantidad máxima de ausencias por cliente debe ser mayor o igual a 0."), 1000);
 	}
   }
 }
