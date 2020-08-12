@@ -32,9 +32,9 @@ export class ConfiguracionesComponent implements OnInit {
 
   ngOnInit(): void {
 	  this.configuracion = this._formBuilder.group({
-		multa: ['', [Validators.required,  Validators.pattern("[0-9]")]],
-		maxCitas: ['', [Validators.required,  Validators.pattern("[0-9]")]],
-		maxAusencias: ['', [Validators.required,  Validators.pattern("[0-9]")]]
+		multa: ['', [Validators.required]],
+		maxCitas: ['', [Validators.required]],
+		maxAusencias: ['', [Validators.required]]
 	  });
 	  this.configuracion.get('multa').setValue(0);
 	  this.configuracion.get('maxCitas').setValue(1);

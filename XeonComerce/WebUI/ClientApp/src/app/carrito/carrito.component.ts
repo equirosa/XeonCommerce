@@ -279,7 +279,7 @@ comprar(tabla): void{
 
 despuesDePago(tabla, metodo): void {
 	console.log(tabla);
-	var fecha = new Date();
+	var fecha = new Date(new Date().toLocaleString("en-US", {timeZone: "America/Costa_Rica"}));
 	var monto = Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100;
 
 	let transaccionFinanciera :TransaccionFinanciera  
@@ -430,7 +430,7 @@ pdf(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
 		\n<h2>Transacción #${numTransaccion}</h2>
 		\n<h2>${comercio.nombreComercial} ${comercio.cedJuridica}</h2>
 		\n<h3>Dirección ${direccion.provincia} || ${direccion.canton} || ${direccion.distrito} || ${direccion.sennas}</h3>
-		\n<h3>${new Date().toISOString().slice(0,10)}</h3>
+		\n<h3>${new Date(new Date().toLocaleString("en-US", {timeZone: "America/Costa_Rica"})).toISOString().slice(0,10)}</h3>
 		\n<h3>Cliente: ${this.user.nombre} ${this.user.apellidoUno} ${this.user.apellidoDos} (${this.user.id})</h3>
 		<table style="width:100%">
 		<tr>
@@ -473,7 +473,7 @@ xml(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
 		  <Comercio>
 			  <nombreComercial>${comercio.nombreComercial}</nombreComercial>
 			  <cedJuridica>${comercio.cedJuridica}</cedJuridica>
-			  <fecha>${new Date().toISOString().slice(0,10)}</fecha>
+			  <fecha>${new Date(new Date().toLocaleString("en-US", {timeZone: "America/Costa_Rica"})).toISOString().slice(0,10)}</fecha>
 			  <numFactura>${numFactura}</numFactura>
 			  <numTransaccion>${numTransaccion}</numTransaccion>
 			  <direccion>

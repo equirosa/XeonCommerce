@@ -41,6 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
+                tF.Fecha = DateTime.Now;
                 var cm = new TranFinManagement();
                 cm.Create(tF);
                 return Ok(new { msg = "Se creó la transacción"});
@@ -56,6 +57,7 @@ namespace WebAPI.Controllers
         {
             try
             {
+                tF.Fecha = DateTime.Now;
                 var cm = new TranFinManagement();
                 tF.Id = id;
                 TranFin com = GetById(id);
