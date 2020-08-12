@@ -14,6 +14,7 @@ import { Direccion } from '../../_models/Direccion';
 import { Ubicacion } from '../../_models/ubicacion';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductoCitaComponent } from '../../_components/producto-cita/producto-cita.component';
+import { FormCitaProductoComponent } from '../../form-cita-producto/form-cita-producto.component';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class PerfilSucursalComponent implements OnInit {
 	distritos: Ubicacion[];
   user: User;
 
-  productosCita: Producto[];
+  productosCita: Producto[] = [];
 
   constructor( 
     private route: ActivatedRoute,
@@ -122,7 +123,6 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
   agregarProductoCita(producto: Producto): void{
-
     const dialogRef = this.dialog.open(ProductoCitaComponent, {
       width: '300px',
       height: '200px',
@@ -132,9 +132,22 @@ export class PerfilSucursalComponent implements OnInit {
     dialogRef.afterClosed().subscribe(dialogResult => {
       console.log('Producto', producto);
       console.log('Cantidad', dialogResult);
+      const productoCita = producto;
+      productoCita.cantidad = dialogResult;
+      this.productosCita.push(productoCita);
+    });
+  }
+
+  agendarCita(): void {
+    const dialogRef = this.dialog.open(FormCitaProductoComponent, {
+      width: '400px',
+      height: '500px',
+      data: { productos: this.productosCita}
     });
 
-
-   // this.productosCita.push(producto);
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.productosCita = [];
+      this.cargarProductos();
+    });
   }
 }

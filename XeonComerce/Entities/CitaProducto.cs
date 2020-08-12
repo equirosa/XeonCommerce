@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Entities
 {
-    public class Cita : BaseEntity
+    public class CitaProducto: BaseEntity
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -22,24 +22,25 @@ namespace Entities
         [JsonPropertyName("tipo")]
         public string Tipo { get; set; }
 
-        [JsonPropertyName("idCliente")]
-        public string IdCliente { get; set; }
-
-        [JsonPropertyName("idEmpleadoComercioSucursal")]
-        public int IdEmpleadoComercioSucursal { get; set; }
+        [JsonPropertyName("idEmpleado")]
+        public int IdEmpleado { get; set; }
 
         [JsonPropertyName("idFactura")]
         public int IdFactura { get; set; }
 
-        [JsonPropertyName("idsucrusal")]
+        [JsonPropertyName("idCliente")]
+        public string IdCliente { get; set; }       
+
+        [JsonPropertyName("idSucursal")]
         public string IdSucursal { get; set; }
 
         [JsonPropertyName("idComercio")]
         public string IdComercio { get; set; }
 
+        [JsonPropertyName("productos")]
+        public Producto[] Productos { get; set; }
 
+        public CitaProducto() { }
 
-
-        public Cita() { }
     }
 }
