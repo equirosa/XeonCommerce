@@ -59,13 +59,14 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete(CategoriaUsuario cc)
+        [HttpDelete("{usuario}/{categoria}")]
+        public IActionResult Delete(string usuario, int categoria)
         {
             try
             {
                 var cat = new CategoriaUsuarioManagement();
-                cat.Delete(cc);
+                CategoriaUsuario catUsuario = new CategoriaUsuario { IdCategoria = categoria, IdUsuario = usuario };
+                cat.Delete(catUsuario);
 
                 return Ok(new { msg = "Se removió la categoria del usuario" });
 

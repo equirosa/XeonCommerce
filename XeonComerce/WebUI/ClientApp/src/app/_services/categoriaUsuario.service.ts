@@ -48,8 +48,8 @@ export class CategoriaUsuarioService {
     );
   }
 
-  delete(categoria: CategoriaUsuario): Observable<CategoriaUsuario> {
-    const url = `${this.urlApi}`;
+  delete(idUsuario: string, idCat: number): Observable<CategoriaUsuario> {
+    const url = `${this.urlApi}/${idUsuario}/${idCat}`;
     return this.http.delete<CategoriaUsuario>(url, this.httpOptions).pipe(
       tap(),
       catchError(this.handleError<CategoriaUsuario>('delete'))

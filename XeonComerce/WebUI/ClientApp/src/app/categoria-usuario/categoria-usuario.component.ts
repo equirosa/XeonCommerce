@@ -20,7 +20,8 @@ export class CategoriaUsuarioComponent implements OnInit {
   user: User;
   categorias: Categoria[];
   categoria: Categoria;
-  categoriasPorUsuario: Categoria[];
+  categoriasSelect = new Array<Categoria>();
+  categoriasPorUsuario = new Array<Categoria>();
   displayedColumns: string[] = ['id', 'valor', 'descripcion', 'eliminar'];
   datos;
   public httpClient: HttpClient;
@@ -42,15 +43,18 @@ export class CategoriaUsuarioComponent implements OnInit {
     this.catUsuarioService.getByUsuario(this.user.id)
       .subscribe(categorias => {
         catsUsuario = categorias;
-        for (var i = 0; i < catsUsuario.length; i++) {
-          this.categoriasPorUsuario = new Array(catsUsuario.length);
+        for (var i = 0; i < categorias.length; i++) {
           for (var j = 0; j < this.categorias.length; j++) {
             if (catsUsuario[i].idCategoria == this.categorias[j].id) {
+       
               this.categoriasPorUsuario[cont] = this.categorias[j];
               cont++;
             }
           }
         }
+        this.categoriasSelect = this.obtenerElementosDiferentes(this.categorias, this.categoriasPorUsuario);
+        console.log(this.categoriasSelect);
+        console.log(this.categoriasPorUsuario);
         this.datos = new MatTableDataSource(this.categoriasPorUsuario);
       });
   }
@@ -60,6 +64,14 @@ export class CategoriaUsuarioComponent implements OnInit {
       .subscribe(categorias => {
         this.categorias = categorias;
       });
+  }
+
+  obtenerElementosDiferentes(lista1: Categoria[], lista2: Categoria[]): Categoria[] {
+
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return lista2.indexOf(elemento) == -1;
+    });
+    return elementosFiltrados;
   }
 
   filtrar(event: Event) {
@@ -73,13 +85,13 @@ export class CategoriaUsuarioComponent implements OnInit {
     console.log(this.user.id);
     let catUsuario: CategoriaUsuario;
     catUsuario = { idCategoria: categoria.id, idUsuario : idUsuario };
-    this.catUsuarioService.create(catUsuario).subscribe();
-
+    this.catUsuarioService.create(catUsuario).subscribe(() => {
+      this.getCategorias();
+    });
     this.getCategorias();
 }
 
-  eliminar(categoria : Categoria): void {
-    let categoriaUsuario: CategoriaUsuario = { idCategoria : categoria.id, idUsuario : this.user.id };
+  eliminar(categoria: Categoria): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
       data: {
@@ -89,7 +101,7 @@ export class CategoriaUsuarioComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
-      if (dialogResult) this.catUsuarioService.delete(categoriaUsuario)
+      if (dialogResult) this.catUsuarioService.delete(this.user.id, categoria.id)
         .subscribe(() => {
           this.getCategorias();
         });
@@ -98,7 +110,20 @@ export class CategoriaUsuarioComponent implements OnInit {
   }
 
   eliminarTodo(): void {
-
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: {
+        title: "¿Está seguro?",
+        message: "Usted está apunto de eliminar todas las categoria. "
+      }
+    });
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) this.catUsuarioService.deleteAll(this.user.id)
+        .subscribe(() => {
+          this.getCategorias();
+        });
+      this.getCategorias();
+    });
   }
 
 }

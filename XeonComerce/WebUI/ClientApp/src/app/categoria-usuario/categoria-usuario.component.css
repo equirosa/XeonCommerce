@@ -16,8 +16,13 @@ table {
   width: 100%;
 }
 
+h2 {
+  padding-bottom: 35px;
+}
+
 .btnEliminarTodo{
     margin-left: 20px;
     background-color: #DB4437;
+    color: #ffff;
 }
 
