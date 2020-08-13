@@ -15,7 +15,8 @@ namespace AppCore
         private HorarioSucursalCrudFactory crudHorarioSucursal;
         private SeccionHorarioCrudFactory crudSeccionHorario;
         private EmpleadoComercioSucursalCrudFactory crudEmpleado;
-        private TranFinCrudFactory crudTransaccion; 
+        private TranFinCrudFactory crudTransaccion;
+        private FacturaMasterCrudFactory crudFacturaMaestro; 
 
         public CitaManagement()
         {
@@ -25,6 +26,8 @@ namespace AppCore
             crudSeccionHorario = new SeccionHorarioCrudFactory();
             crudEmpleado = new EmpleadoComercioSucursalCrudFactory();
             crudTransaccion = new TranFinCrudFactory();
+            crudFacturaMaestro = new FacturaMasterCrudFactory();
+
         }
 
         public void Create(CitaProducto citaProducto)
@@ -73,7 +76,7 @@ namespace AppCore
 
         private TranFin CrearTransaccion(Cita cita)
         {
-            var transaccion = new TranFin()
+            var t = new TranFin()
             {
                 Id = 0,
                 Monto = 0,
@@ -84,14 +87,15 @@ namespace AppCore
                 Estado = "P"
             };
 
-            crudTransaccion.Create(transaccion);
+            crudTransaccion.Create(t);
+            var transaccion = crudTransaccion.RetrieveUltimo<TranFin>();
 
             return transaccion;
         }
 
         private FacturaMaestro crearFacturaMaestro(Cita cita, int idTransaccion)
         {
-            var facturaMaestro = new FacturaMaestro()
+            var fm = new FacturaMaestro()
             {
                 IdFactura = 0,
                 IdTransaccion = idTransaccion,
@@ -100,8 +104,10 @@ namespace AppCore
                 IdCliente = cita.IdCliente
             };
 
-            return facturaMaestro;
+            crudFacturaMaestro.Create(fm);
+            var facturaMaestro = crudFacturaMaestro.RetrieveUltimo<FacturaMaestro>();
 
+            return facturaMaestro;
         }
 
         private Cita CrearCita(CitaProducto citaProducto)

@@ -75,7 +75,7 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetRetrieveUltimo()
         {
-            var operation = new SqlOperation { ProcedureName = "RET_ULT_DEL_TRANFIN_PR_PR" };
+            var operation = new SqlOperation { ProcedureName = "RET_ULT_TRANFIN_PR" };
             return operation; 
         }
 
