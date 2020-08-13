@@ -1,3 +1,4 @@
+import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { CarritoDialogFinComponent } from './_components/carrito/fin/fin.dialog';
@@ -7,7 +8,7 @@ import { CarritoDialogMetodoPagoComponent } from './_components/carrito/metodo-p
 import { CarritoDialogDireccionComponent } from './_components/carrito/destino/destino.dialog';
 import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
 import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -234,7 +235,8 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		ConfiguracionesComponent,
 		ArchivoComponent,
 		DialogImagen,
-		DialogEditarArchivo
+		DialogEditarArchivo,
+		HistorialComprasComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

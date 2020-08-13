@@ -24,18 +24,22 @@ namespace DataAccess.Crud
             dao.ExecuteProcedure(sqlOperation);
         }
 
-        public override T Retrieve<T>(BaseEntity entity)
+        public List<T> RetrieveByFactura<T>(BaseEntity entity)
         {
+            var lst = new List<T>();
+
             var lstResult = dao.ExecuteQueryProcedure(mapper.GetRetriveStatement(entity));
             var dic = new Dictionary<string, object>();
             if (lstResult.Count > 0)
             {
-                dic = lstResult[0];
-                var objs = mapper.BuildObject(dic);
-                return (T)Convert.ChangeType(objs, typeof(T));
+                var objs = mapper.BuildObjects(lstResult);
+                foreach (var arc in objs)
+                {
+                    lst.Add((T)Convert.ChangeType(arc, typeof(T)));
+                }
             }
 
-            return default(T);
+            return lst;
         }
 
         public override List<T> RetrieveAll<T>()
@@ -68,5 +72,9 @@ namespace DataAccess.Crud
             dao.ExecuteProcedure(mapper.GetDeleteStatement(e));
         }
 
+        public override T Retrieve<T>(BaseEntity entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

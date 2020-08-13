@@ -54,10 +54,7 @@ namespace DataAccess.Mapper
 
             var e = (TranFin)entity;
             operation.AddIntParam(DB_COL_ID, e.Id);
-            operation.AddDoubleParam(DB_COL_MONTO, e.Monto);
             operation.AddVarcharParam(DB_COL_METODO, e.Metodo);
-            operation.AddVarcharParam(DB_COL_ID_CLIENTE, e.idCliente);
-            operation.AddVarcharParam(DB_COL_ID_COMERCIO, e.IdComercio);
             operation.AddDateTimeParam(DB_COL_FECHA, e.Fecha);
             operation.AddVarcharParam(DB_COL_ESTADO, e.Estado);
 
