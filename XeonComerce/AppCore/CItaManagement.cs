@@ -12,12 +12,14 @@ namespace AppCore
 
         private CitaCrudFactory crudCita;
         private ProductoCitaCrudFactory crudProductoCita;
-        
+        private DiaFeriadoCrudFactory crudDiaFeriado; 
         private HorarioSucursalCrudFactory crudHorarioSucursal;
         private SeccionHorarioCrudFactory crudSeccionHorario;
         private EmpleadoComercioSucursalCrudFactory crudEmpleado;
         private TranFinCrudFactory crudTransaccion;
         private FacturaMasterCrudFactory crudFacturaMaestro; 
+        
+
 
         public CitaManagement()
         {
@@ -28,19 +30,21 @@ namespace AppCore
             crudEmpleado = new EmpleadoComercioSucursalCrudFactory();
             crudTransaccion = new TranFinCrudFactory();
             crudFacturaMaestro = new FacturaMasterCrudFactory();
+            crudDiaFeriado = new DiaFeriadoCrudFactory();
 
         }
 
         public void Create(CitaProducto citaProducto)
         {
-            // Validar disponibilidad de horario de la sucursal ( tambien se puede agregar esta validacion en el frontend)
-            // Validar Disponibilidad de empleados  (Debe de coincidir con su horario y no puede tener otra cita asignada para esa fecha y hora) 
+            // Validar disponibilidad de horario de la sucursal ( tambien se puede agregar esta validacion en el frontend) **
+            // Validar Disponibilidad de empleados  (Debe de coincidir con su horario y no puede tener otra cita asignada para esa fecha y hora) **
             // Validar que la fecha no sea un dia feriado
-            // Validar disponibilidad de empleado 
-            // Asignar empleado a la cita 
-            // Crear Transaccion 
-            // Crear Factura maestro 
-            // Crear Cita 
+            // Validar disponibilidad de empleado **
+            // Asignar empleado a la cita **
+            // Crear Transaccion **
+            // Crear Factura maestro **
+            // Crear Cita **
+
             // Crear Facturas detalle para cada producto
 
             
@@ -55,7 +59,7 @@ namespace AppCore
 
             if (!validHorarioSucursal) throw new Exception("La sucursal se encuentra cerrada en las horas seleccionadas");
             if (empleado == null) throw new Exception("No hay personal disponible para atender la cita");
-
+            if (!this.ValidarDiaFeriado(cita)) throw new Exception("La fecha seleccionada es un dia feriado");
            
              var transaccion = this.CrearTransaccion(cita);
              var factura = this.crearFacturaMaestro(cita, transaccion.Id);
@@ -209,6 +213,19 @@ namespace AppCore
                 }
             }
 
+            return true;
+        }
+
+        private bool ValidarDiaFeriado(Cita cita)
+        {
+            var diasFeridados = crudDiaFeriado.RetrieveAll<DiaFeriado>();
+            foreach(var d in diasFeridados)
+            {
+                if(cita.HoraInicio.Year == d.Fecha.Year && cita.HoraInicio.Month == d.Fecha.Month && cita.HoraInicio.Day == d.Fecha.Day)
+                {
+                    return false;
+                }
+            }
             return true;
         }
 
