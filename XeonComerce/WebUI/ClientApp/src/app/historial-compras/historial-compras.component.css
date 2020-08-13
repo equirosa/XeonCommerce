@@ -29,3 +29,11 @@
 .datos {
 	text-align: left;
 }
+
+.pendiente {
+	background-color: #f4b400;
+}
+
+.pendiente:hover {
+	background-color: #f7cb4d !important;
+}

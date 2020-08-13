@@ -3,7 +3,7 @@
 	
 	<mat-accordion>
 		<mat-expansion-panel *ngFor="let item of historial" (opened)="getProductos(item.detalles)" (closed)="limpiar()">
-		  <mat-expansion-panel-header>
+		  <mat-expansion-panel-header [ngClass]="{'pendiente': item.transaccionFinanciera.estado == 'P'}" >
 			<mat-panel-title>
 			  Factura #{{item.idFactura}} {{item.fecha | date:'short'}}
 			</mat-panel-title>

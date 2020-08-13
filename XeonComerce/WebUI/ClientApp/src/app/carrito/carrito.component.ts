@@ -419,8 +419,8 @@ pdf(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
 			<td>${cv.nombre}</td>
 			<td>${cv.cantidad}</td>
 			<td>${cv.impuesto}%</td>
-			<td>${cv.precio}</td>
-			<td>${cv.descuento}</td>
+			<td>${cv.precio.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
+			<td>${cv.descuento.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>
 			</tr>
 			\n`;
 		}, ""); 
@@ -463,8 +463,8 @@ xml(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
 					<nombre>${cv.nombre}</nombre>
 					<cantidad>${cv.cantidad}</cantidad>
 					<impuesto>${cv.impuesto}</impuesto>
-					<precio>${cv.precio}</precio>
-					<descuento>${cv.descuento}</descuento>
+					<precio>${cv.precio.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</precio>
+					<descuento>${cv.descuento.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</descuento>
 				</item>`;
 	}, "");
 	
@@ -488,8 +488,8 @@ xml(tabla, comercio: any, direccion: any, numFactura, numTransaccion){
 			  <apellidoUno>${this.user.apellidoUno}</apellidoUno>
 			  <apellidoDos>${this.user.apellidoDos}</apellidoDos>
 			  <cedula>${this.user.id}</cedula>
-			  <total>${Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100}</total>
-			  <subtotal>${Math.round((this.getCosto(tabla, false) + Number.EPSILON) * 100) / 100}</subtotal>
+			  <total>${(Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</total>
+			  <subtotal>${(Math.round((this.getCosto(tabla, false) + Number.EPSILON) * 100) / 100).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</subtotal>
 			  ${items}
 		  </Cliente>
 		</Factura>`;
