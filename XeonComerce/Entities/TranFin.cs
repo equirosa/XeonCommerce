@@ -12,7 +12,7 @@ namespace Entities
         [JsonPropertyName("metodo")]
         public string Metodo { get; set; }
         [JsonPropertyName("idCliente")]
-        public string idCliente { get; set; }
+        public string IdCliente { get; set; }
         [JsonPropertyName("idComercio")]
         public string IdComercio { get; set; }
         [JsonPropertyName("fecha")]
