@@ -17,8 +17,8 @@ namespace AppCore
         private SeccionHorarioCrudFactory crudSeccionHorario;
         private EmpleadoComercioSucursalCrudFactory crudEmpleado;
         private TranFinCrudFactory crudTransaccion;
-        private FacturaMasterCrudFactory crudFacturaMaestro; 
-        
+        private FacturaMasterCrudFactory crudFacturaMaestro;
+        private FacturaDetalleCrudFactory crudFacturaDetalle; 
 
 
         public CitaManagement()
@@ -31,6 +31,7 @@ namespace AppCore
             crudTransaccion = new TranFinCrudFactory();
             crudFacturaMaestro = new FacturaMasterCrudFactory();
             crudDiaFeriado = new DiaFeriadoCrudFactory();
+            crudFacturaDetalle = new FacturaDetalleCrudFactory();
 
         }
 
@@ -38,7 +39,7 @@ namespace AppCore
         {
             // Validar disponibilidad de horario de la sucursal ( tambien se puede agregar esta validacion en el frontend) **
             // Validar Disponibilidad de empleados  (Debe de coincidir con su horario y no puede tener otra cita asignada para esa fecha y hora) **
-            // Validar que la fecha no sea un dia feriado
+            // Validar que la fecha no sea un dia feriado **
             // Validar disponibilidad de empleado **
             // Asignar empleado a la cita **
             // Crear Transaccion **
@@ -61,13 +62,13 @@ namespace AppCore
             if (empleado == null) throw new Exception("No hay personal disponible para atender la cita");
             if (!this.ValidarDiaFeriado(cita)) throw new Exception("La fecha seleccionada es un dia feriado");
            
-             var transaccion = this.CrearTransaccion(cita);
-             var factura = this.crearFacturaMaestro(cita, transaccion.Id);
-             cita.IdFactura = factura.IdFactura;
-             cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
-             crudCita.Create(cita);
-             var citaCreada = crudCita.RetrieveUltimo<Cita>();
-
+            var transaccion = this.CrearTransaccion(cita);
+            var factura = this.crearFacturaMaestro(cita, transaccion.Id);
+            cita.IdFactura = factura.IdFactura;
+            cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
+            crudCita.Create(cita);
+            var citaCreada = crudCita.RetrieveUltimo<Cita>();
+            this.CrearFacturasDetalle(citaCreada, citaProducto.Productos);
             
 
 
@@ -135,6 +136,27 @@ namespace AppCore
                 IdComercio = citaProducto.IdComercio
             };
             return cita;          
+        }
+
+        private void CrearFacturasDetalle(Cita cita, Producto[] productos)
+        {
+            foreach(var p in productos)
+            {
+                var facturaDetalle = new FacturaDetalle()
+                {
+                    IdLinea = 0,
+                    IdProducto = p.Id,
+                    Valor = p.Precio,
+                    Descuento = p.Descuento,
+                    Cantidad = p.Cantidad,
+                    IVA = p.Impuesto,
+                    IdFactura = cita.IdFactura,
+                    TotalLinea = (p.Precio * p.Cantidad) - (p.Descuento * p.Cantidad)
+                };
+
+                crudFacturaDetalle.Create(facturaDetalle);
+            }
+
         }
 
         //private void CrearProductosCita(Cita cita, Producto[] productos)
