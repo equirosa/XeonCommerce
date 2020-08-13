@@ -2,6 +2,7 @@
 using Entities;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace AppCore
@@ -52,14 +53,18 @@ namespace AppCore
 
             var empleado = this.AsignarEmpleado(cita);
 
-            if( validHorarioSucursal && empleado != null)
-            {
-                var transaccion = this.CrearTransaccion(cita);
-                var factura = this.crearFacturaMaestro(cita, transaccion.Id);
-                cita.IdFactura = factura.IdFactura;
+            if (!validHorarioSucursal) throw new Exception("La sucursal se encuentra cerrada en las horas seleccionadas");
+            if (empleado == null) throw new Exception("No hay personal disponible para atender la cita");
 
+           
+             var transaccion = this.CrearTransaccion(cita);
+             var factura = this.crearFacturaMaestro(cita, transaccion.Id);
+             cita.IdFactura = factura.IdFactura;
+             cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
+             crudCita.Create(cita);
+             var citaCreada = crudCita.RetrieveUltimo<Cita>();
 
-            }
+            
 
 
         }
@@ -175,7 +180,8 @@ namespace AppCore
                     if (
                         h.Estado == "A" &&
                         (h.HoraInicio.Hour < cita.HoraInicio.Hour || ( h.HoraInicio.Hour == cita.HoraInicio.Hour && h.HoraInicio.Minute <= cita.HoraInicio.Minute) ) &&
-                        (h.HoraFinal.Hour > cita.HoraFinal.Hour || (h.HoraFinal.Hour == cita.HoraFinal.Hour && h.HoraFinal.Minute >= cita.HoraFinal.Minute) )
+                        (h.HoraFinal.Hour > cita.HoraFinal.Hour || (h.HoraFinal.Hour == cita.HoraFinal.Hour && h.HoraFinal.Minute >= cita.HoraFinal.Minute) ) &&
+                        this.ValidarDisponibilidadEmpleado(cita, e.IdEmpleado)
                         )
                     {
                         return e;
@@ -184,6 +190,26 @@ namespace AppCore
             }
             
             return null;
+        }
+
+        private bool ValidarDisponibilidadEmpleado(Cita cita, int idEmpleado)
+        {
+            // Valida que el empleado no tenga otra cita asignada para la misma fecha y que choquen las horas. 
+            var citas = crudCita.RetrieveAll<Cita>();
+
+            foreach (var c in citas)
+            {
+                if (c.IdEmpleadoComercioSucursal == idEmpleado &&
+                    cita.HoraInicio.Year == c.HoraInicio.Year && cita.HoraInicio.Month == c.HoraInicio.Month &&
+                    cita.HoraInicio.Day == c.HoraInicio.Day &&
+                    ((cita.HoraInicio > c.HoraInicio && cita.HoraInicio < c.HoraFinal) || (cita.HoraFinal > c.HoraInicio && cita.HoraFinal < c.HoraFinal))
+                    )
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private List<HorarioSucursal> CrearHorarioSucursal(string idSucursal)
