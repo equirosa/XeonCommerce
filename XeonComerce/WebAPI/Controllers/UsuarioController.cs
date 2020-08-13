@@ -146,6 +146,30 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        public IActionResult UpdateToAdmin(Usuario usuario, string id)
+        {
+            try
+            {
+                var um = new UsuarioManagement();
+                usuario.Id = id;
+                if(GetById(id)!= null)
+                {
+                    usuario = GetById(id);
+                    um.UpdateToAdmin(usuario);
+                    return Ok(new { msg = "Se actualizó el usuario" });
+                }
+                else
+                {
+                    return StatusCode(500, new { msg = "No se encontró dicho usuario" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+        }
+
+        [HttpPut("{id}")]
         public IActionResult Update(Usuario usuario, string id)
         {
             try

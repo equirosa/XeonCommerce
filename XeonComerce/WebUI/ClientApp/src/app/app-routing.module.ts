@@ -1,3 +1,6 @@
+import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
+import { ArchivoComponent } from './archivo/archivo.component';
+import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
@@ -66,6 +69,11 @@ const routes: Routes = [
     { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
     { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
     { path: 'dashboardAdmin', component: DashboardAdminComponent, canActivate: [AuthGuard]},
+	{ path: 'configuraciones', component: ConfiguracionesComponent, canActivate: [AuthGuard]},
+	{ path: 'archivos', component: ArchivoComponent, canActivate: [AuthGuard]},
+	{ path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard]},
+	
+
   { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

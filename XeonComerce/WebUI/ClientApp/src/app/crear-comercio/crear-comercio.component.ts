@@ -152,30 +152,22 @@ export class CrearComercioComponent implements OnInit {
 								for(let i = 0; i<result.categoriasPreferidas.length; i++){
 									let cat : CategoriaComercio;
 									cat = { idCategoria: result.categoriasPreferidas[i], idComercio: result.cedJuridica };
-									this.categoriaComercioService.create(cat).subscribe();
+									this.categoriaComercioService.create(cat).subscribe(()=>{
+										if(i==result.categoriasPreferidas.length-1){
+											this.mensajeService.add("Se creó la solicitud de comercio");
+											var log: Bitacora;
+											log = {
+												idUsuario: this.user.id,
+												accion: "Crear",
+												detalle: `Se creó solicitud del comercio (${comFinal.cedJuridica}) ${comFinal.nombreComercial}`,
+												id: -1,
+												fecha: new Date()
+											}
+											this.bitacoraService.create(log).subscribe();
+											this.router.navigate(["/archivos"]);
+										}
+									});
 								}
-								const dialogRef2 = this.dialog.open(UploadComercioFilesComponent, {
-									width: '500px',
-									data: {
-									  idComercio: comFinal.cedJuridica
-									}
-							  
-								  });
-							  
-								  dialogRef2.afterClosed().subscribe(result => {
-									console.log(`Resultado: ${result}`); 
-									this.mensajeService.add("Se creó la solicitud de comercio");
-									var log: Bitacora;
-									log = {
-										idUsuario: this.user.id,
-										accion: "Crear",
-										detalle: `Se creó solicitud del comercio (${comFinal.cedJuridica}) ${comFinal.nombreComercial}`,
-										id: -1,
-										fecha: new Date()
-									}
-									this.bitacoraService.create(log).subscribe();
-									this.router.navigate(["/"]);
-								  });
 
 							}
 						});

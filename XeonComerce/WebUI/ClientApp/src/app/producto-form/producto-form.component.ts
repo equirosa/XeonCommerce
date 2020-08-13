@@ -1,8 +1,10 @@
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { Bitacora } from './../_models/bitacora';
 import { BitacoraService } from './../_services/bitacora.service';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Producto } from '../_models/producto';
 import { Impuesto } from '../_models/impuesto';
@@ -48,6 +50,8 @@ export class ProductoFormComponent implements OnInit {
     this.impuestoService = impService;
   }
  
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   ngOnInit(): void {
     this.getImpuestos();
@@ -66,6 +70,9 @@ export class ProductoFormComponent implements OnInit {
       }else{
 			this.dataSource = new MatTableDataSource(productos);
 		  }
+		  
+		  this.dataSource.sort = this.sort;
+		  this.dataSource.paginator = this.paginator;
       });
   }
 
@@ -75,6 +82,8 @@ export class ProductoFormComponent implements OnInit {
       .subscribe(comercios => {
 		  if(this.user.comercio) {
 			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
+		  }else if( this.user.empleado ) {
+			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.empleado.idComercio)];
 		  }else{
 			this.comercios = comercios;
 		  }
@@ -123,19 +132,32 @@ export class ProductoFormComponent implements OnInit {
 
 
 openDialog(): void {
+	let idComercio = "", esAdmin = false;
+	
+	if (this.user.tipo != 'A') {
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+	}else{
+		esAdmin = true;
+	}
+
   const dialogRef = this.dialog.open(DialogProducto, {
     width: '500px',
     data: {
       id: 0,
       tipo: 1,
       nombre: "",
+      noEsAdmin: !esAdmin,
       precio: "",
       impuestos: this.impuestos,
       impuesto: "",
       cantidad: "",
       descuento: 0,
       comercios: this.comercios,
-      comercio: "",
+      comercio: idComercio,
       duracion: ""
     }
 
@@ -160,9 +182,6 @@ openDialog(): void {
     }
 
     if (result) {
-      let comercio: Comercio;
-      comercio = result.comercio;
-	  console.log(comercio.cedJuridica);
       let producto: Producto;
       producto = {
         "id": result.id,
@@ -171,7 +190,7 @@ openDialog(): void {
         "precio": result.precio,
         "cantidad": result.cantidad,
         "descuento": result.descuento,
-        "idComercio": comercio.cedJuridica,
+        "idComercio": result.comercio,
         "duracion": result.duracion,
         "impuesto": result.impuesto.id
       }
@@ -184,7 +203,7 @@ openDialog(): void {
 			  log = {
 				  idUsuario: this.user.id,
 				  accion: "Creación de producto",
-				  detalle: `Se creó un producto para (${comercio.cedJuridica}) ${result.nombre}`,
+				  detalle: `Se creó un producto para (${result.comercio}) ${result.nombre}`,
 				  id: -1,
 				  fecha: new Date()
 			  }

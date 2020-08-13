@@ -12,8 +12,8 @@
                 </mat-card-header>
                 <mat-card-content>
                     <p>
-                        <strong>Disposiciones de Ingreso</strong>
-                        <strong>{{sucursal.disposiciones}}</strong>
+                        <strong>Disposiciones de Ingreso: </strong>
+                        {{sucursal.disposiciones}}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -72,10 +72,10 @@
                     <mat-card-title>{{producto.nombre}}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <strong>Precio</strong><span>{{producto.precio}}</span>
+                    <strong>Precio</strong><span>{{producto.precio | currency:'₡'}}</span>
                 </mat-card-content>
                 <mat-card-action>
-                    <button mat-button>Agregar a carrito</button>
+                    <button mat-button (click)=agregarCarrito(producto)>Agregar a carrito</button>
                     <button mat-button>Agregar a cita</button>
                 </mat-card-action>
             </mat-card>

@@ -1,0 +1,65 @@
+mat-dialog-container {
+	padding: 0px !important
+}
+
+.divCheck {
+	text-align: center;
+}
+
+.svg {
+	display: block !important;
+	text-align: center !important;
+}
+
+#group {
+	transform: rotate(90deg);
+	animation: rotate 800ms 100ms ease-in forwards, scale 200ms 1400ms ease-in forwards;
+	transform-origin: center center;
+}
+
+#circle-3 {
+	animation: line 800ms 100ms ease-in forwards;
+	stroke-dasharray: 500;
+	stroke-dashoffset: 500;
+	opacity: 0.6;
+}
+
+#circle-2 {
+	animation: line 800ms 250ms ease-in forwards;
+	stroke-dasharray: 500;
+	stroke-dashoffset: 500;
+	opacity: 0.6;
+}
+
+#circle {
+	stroke-dasharray: 500;
+	stroke-dashoffset: 500;
+	animation: line 800ms 400ms ease-in forwards;
+	opacity: 0.6;
+}
+
+#valid {
+	animation: line 500ms 1000ms ease-in-out forwards;
+	stroke-dasharray: 100;
+	stroke-dashoffset: 100;
+}
+
+@keyframes rotate {
+	to {
+		transform: rotate(0) scale(1);
+	}
+}
+
+@keyframes line {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes scale {
+	50% {
+		transform: scale(0.8) rotate(0) 
+	}
+	to {
+		transform: scale(1) rotate(0)
+}
+}

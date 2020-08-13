@@ -161,7 +161,7 @@ export class DiaFeriadoComponent implements OnInit {
 			maxWidth: "500px",
 			data: {
 				title: "¿Está seguro?",
-				message: "Usted está apunto de eliminar una categoria. "}
+				message: "Usted está apunto de eliminar un día feriado. "}
 		  });
 		
 		  dialogRef.afterClosed().subscribe(dialogResult => {

@@ -41,6 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
+                tF.Fecha = DateTime.Now;
                 var cm = new TranFinManagement();
                 cm.Create(tF);
                 return Ok(new { msg = "Se creó la transacción"});
@@ -59,14 +60,18 @@ namespace WebAPI.Controllers
                 var cm = new TranFinManagement();
                 tF.Id = id;
                 TranFin com = GetById(id);
+
                 if (com != null)
                 {
+                    com.Fecha = DateTime.Now;
+                    com.Estado = tF.Estado;
+                    com.Metodo = tF.Metodo;
                     cm.Update(com);
                     return Ok(new { msg = "Se actualizó la transacción" });
                 }
                 else
                 {
-                    return StatusCode(500, new { msg = "No se encontró dicho comercio" });
+                    return StatusCode(500, new { msg = "No se encontró dicha transacción" });
                 }
 
             }

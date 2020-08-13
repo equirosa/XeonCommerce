@@ -49,7 +49,7 @@ export class ProductoService {
 
     const url = `${this.urlApi}/${prod.id}`;
 
-    return this.http.delete<Producto>(url).pipe(catchError(this.handleError));
+    return this.http.delete<Producto>(url).pipe(tap(_ => this.log(`Se eliminó`)),catchError(this.handleError));
   }
 
 
@@ -60,7 +60,7 @@ export class ProductoService {
 
     return this.http
       .post<Producto>(this.urlApi, producto)
-      .pipe(catchError(this.handleError));
+      .pipe(tap(_ => this.log(`Se creó`)), catchError(this.handleError));
   }
 
   //postProducto(producto: Producto) {
@@ -82,6 +82,14 @@ export class ProductoService {
   putProducto(prod: Producto): Observable<any> {
     return this.http.put(`${this.urlApi}/${prod.id}`, prod, this.httpOptions).pipe(
       tap(_ => this.log(`Se actualizó`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
+  
+  putProductoSilencioso(prod: Producto): Observable<any> {
+    return this.http.put(`${this.urlApi}/${prod.id}`, prod, this.httpOptions).pipe(
+      tap(),
       catchError(this.handleError<any>('update'))
     );
   }
