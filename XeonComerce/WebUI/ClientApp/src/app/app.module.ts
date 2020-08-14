@@ -87,6 +87,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { PerfilUsuarioComponent } from './perfil/usuario/usuario.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -207,7 +208,8 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		FormRolComponent,
 		PerfilSucursalComponent,
 		FormHorarioSucursalComponent,
-		DashboardAdminComponent,
+      DashboardAdminComponent,
+      PerfilUsuarioComponent
 		
     ],
     providers: [
