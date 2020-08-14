@@ -14,7 +14,7 @@ import { Usuario } from '../../_models/usuario';
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.css']
 })
-export class UsuarioComponent implements OnInit {
+export class PerfilUsuarioComponent implements OnInit {
 
   usuario: Usuario;
   direccion: Direccion;

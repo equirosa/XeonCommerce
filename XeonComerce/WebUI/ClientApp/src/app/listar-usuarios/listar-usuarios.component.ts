@@ -25,7 +25,7 @@ export class ListarUsuariosComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nombre',
     'apellidoUno', 'apellidoDos', 'genero', 'fechaNacimiento',
     'correoElectronico',
-    'numeroTelefono', 'idDireccion', 'estado', 'codigo', 'eliminar','administrar'];
+      'numeroTelefono', 'idDireccion', 'estado', 'codigo', 'eliminar', 'administrar', 'ver'];
   datos;
   provincias: Ubicacion[];
   cantones: Ubicacion[];

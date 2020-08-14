@@ -39,6 +39,7 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
 import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
+import { PerfilUsuarioComponent } from './perfil/usuario/usuario.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -79,6 +80,7 @@ const routes: Routes = [
 	{ path: 'recomendaciones', component: RecomendacionesComponent, canActivate: [AuthGuard]},
 	
     { path: 'citasComercio', component: ListCitaComercioComponent, canActivate: [AuthGuard]},
+  { path: 'usuario/:id', component: PerfilUsuarioComponent, canActivate: [AuthGuard] },
 
   { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },
     // otherwise redirect to home

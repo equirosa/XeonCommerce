@@ -103,6 +103,7 @@ import { ProductoCitaComponent } from './_components/producto-cita/producto-cita
 import { FormCitaProductoComponent } from './form-cita-producto/form-cita-producto.component';
 import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
 
+import { PerfilUsuarioComponent } from './perfil/usuario/usuario.component';
 @NgModule({
     imports: [
 		ReactiveFormsModule, 
@@ -248,6 +249,7 @@ import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comerc
 		ProductoCitaComponent,
 		FormCitaProductoComponent,
 		ListCitaComercioComponent,
+      PerfilUsuarioComponent,
 		
 		HistorialComprasComponent,
 		HistorialVentasComponent
