@@ -6,7 +6,7 @@
         <mat-card-header>
           <div mat-card-avatar><mat-icon aria-hidden="false" aria-label="Usuario">account_box</mat-icon></div>
           <mat-card-title>{{usuario.nombre}}</mat-card-title>
-          <mat-card-subtitle>{{usuario.apellidoUno}}</mat-card-subtitle>
+          <mat-card-subtitle>{{usuario.apellidoUno}} {{usuario.apellidoDos}}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>
@@ -21,40 +21,11 @@
     <mat-grid-tile rowspan="2">
 
 
-      <mat-card *ngIf="direccion" class="cardDir">
-
-
-        <mat-form-field appearance="fill">
-          <mat-label>Provincia</mat-label>
-          <mat-select disabled [(ngModel)]="direccion.provincia" (selectionChange)="getCantonesE($event)">
-            <mat-option *ngFor="let provincia of provincias" [value]="direccion.provincia">
-              {{provincia.nombre}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Cantón</mat-label>
-          <mat-select disabled [(ngModel)]="direccion.canton" (selectionChange)="getDistritosE($event)">
-            <mat-option *ngFor="let canton of cantones" [value]="direccion.canton">
-              {{canton.nombre}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field style="width:400px !important" appearance="fill">
-          <mat-label>Distrito</mat-label>
-          <mat-select disabled [(ngModel)]="direccion.distrito">
-            <mat-option *ngFor="let distrito of distritos" [value]="direccion.distrito">
-              {{distrito.nombre}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <agm-map style="height: 200px;" [latitude]="direccion.latitud" [longitude]="direccion.longitud">
-          <agm-marker [latitude]="direccion.latitud" [longitude]="direccion.longitud"></agm-marker>
-        </agm-map>
-
+      <mat-card class="cardUsuario">
+        <mat-card-title>Género</mat-card-title>
+        <mat-card-subtitle>{{usuario.genero}}</mat-card-subtitle>
+        <mat-card-title>Fecha de nacimiento</mat-card-title>
+        <mat-card-subtitle>{{usuario.fechaNacimiento}}</mat-card-subtitle>
 
         <mat-form-field style="width:400px !important" appearance="fill">
           <mat-label>Otras señas</mat-label>
