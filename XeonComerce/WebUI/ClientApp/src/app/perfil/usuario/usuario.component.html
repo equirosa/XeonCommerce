@@ -1,1 +1,67 @@
-<p>usuario works!</p>
+<div class="divUsuario" *ngIf="usuario">
+  <mat-grid-list cols="2" rowHeight="2.5:1">
+    <mat-grid-tile rowspan="0.5">
+
+      <mat-card class="cardUsuario">
+        <mat-card-header>
+          <div mat-card-avatar><mat-icon aria-hidden="false" aria-label="Usuario">account_box</mat-icon></div>
+          <mat-card-title>{{usuario.nombre}}</mat-card-title>
+          <mat-card-subtitle>{{usuario.apellidoUno}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <strong>+506 </strong><span>{{usuario.numeroTelefono}}</span>
+            <br>
+            <strong>Contacto </strong><span><a href="mailto:{{usuario.correoElectronico}}">{{usuario.correoElectronico}}</a></span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="2">
+
+
+      <mat-card *ngIf="direccion" class="cardDir">
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>Provincia</mat-label>
+          <mat-select disabled [(ngModel)]="direccion.provincia" (selectionChange)="getCantonesE($event)">
+            <mat-option *ngFor="let provincia of provincias" [value]="direccion.provincia">
+              {{provincia.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Cantón</mat-label>
+          <mat-select disabled [(ngModel)]="direccion.canton" (selectionChange)="getDistritosE($event)">
+            <mat-option *ngFor="let canton of cantones" [value]="direccion.canton">
+              {{canton.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field style="width:400px !important" appearance="fill">
+          <mat-label>Distrito</mat-label>
+          <mat-select disabled [(ngModel)]="direccion.distrito">
+            <mat-option *ngFor="let distrito of distritos" [value]="direccion.distrito">
+              {{distrito.nombre}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <agm-map style="height: 200px;" [latitude]="direccion.latitud" [longitude]="direccion.longitud">
+          <agm-marker [latitude]="direccion.latitud" [longitude]="direccion.longitud"></agm-marker>
+        </agm-map>
+
+
+        <mat-form-field style="width:400px !important" appearance="fill">
+          <mat-label>Otras señas</mat-label>
+          <textarea disabled required matInput [(ngModel)]="direccion.sennas"> </textarea>
+        </mat-form-field>
+      </mat-card>
+
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
