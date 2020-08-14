@@ -1,3 +1,4 @@
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
 import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
 import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent } from './archivo/archivo.component';
@@ -74,6 +75,7 @@ const routes: Routes = [
 	{ path: 'archivos', component: ArchivoComponent, canActivate: [AuthGuard]},
 	{ path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard]},
 	{ path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard]},
+	{ path: 'recomendaciones', component: RecomendacionesComponent, canActivate: [AuthGuard]},
 	
 
   { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },

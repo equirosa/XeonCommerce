@@ -1,3 +1,4 @@
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
 import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
 import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
@@ -237,7 +238,8 @@ import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './catego
 		ArchivoComponent,
 		DialogImagen,
 		DialogEditarArchivo,
-    CategoriaUsuarioComponent,
+	CategoriaUsuarioComponent,
+	RecomendacionesComponent,
     //DialogAgregarCategorias
 		
 		HistorialComprasComponent,
