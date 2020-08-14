@@ -36,6 +36,7 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -75,6 +76,7 @@ const routes: Routes = [
 	{ path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard]},
 	
 
+  { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
