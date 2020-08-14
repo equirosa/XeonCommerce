@@ -76,7 +76,7 @@ namespace TelegramBot
             if (mensaje == null) return;
             Console.WriteLine($"Received a message from {msgArgs.Message.Chat.Id} that says {mensaje.Text}");
                switch (mensaje.Text)
-                {
+               {
                     default:
                     case "/menu":
                     if (IsCedula(mensaje.Text) && !IsLoggedIn(mensaje.Text))
@@ -85,28 +85,33 @@ namespace TelegramBot
                     }
                     else
                     {
-                        SendText(mensaje, "Cédula inválida o ya iniciaste sesión.");
-                        var menuPrincipal = new InlineKeyboardMarkup(new[]
-                        {
-                            new[]
+                        if (IsCedula(mensaje.Text) && IsLoggedIn(mensaje.Text)){
+                            SendText(mensaje, "Ya iniciaste sesión.");
+                        }
+                        else {
+                            SendText(mensaje, "Este es el menú");
+                            var menuPrincipal = new InlineKeyboardMarkup(new[]
                             {
-                                InlineKeyboardButton.WithCallbackData(
-                                    text:"Iniciar Sesión",
-                                    callbackData: "login"),
-                                InlineKeyboardButton.WithCallbackData(
-                                    text: "Comercios",
-                                    callbackData: "listar-comercios")
-                            }
-                    });
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData(
+                                        text:"Iniciar Sesión",
+                                        callbackData: "login"),
+                                    InlineKeyboardButton.WithCallbackData(
+                                        text: "Comercios",
+                                        callbackData: "listar-comercios")
+                                }
+                            });
 
-                    await botClient.SendTextMessageAsync(
-                            chatId: mensaje.Chat,
-                            text: "Seleccione una opción...",
-                            replyMarkup: menuPrincipal
-                            );
+                            await botClient.SendTextMessageAsync(
+                                    chatId: mensaje.Chat,
+                                    text: "Seleccione una opción...",
+                                    replyMarkup: menuPrincipal
+                                    );
+                        }
                     }
                     break;
-            }
+               }
         }
 
         private static void IniciarSesion(Message mensaje)
