@@ -3,6 +3,7 @@ using Entities;
 using Management;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Args;
@@ -45,16 +46,26 @@ namespace TelegramBot
                 errorArgs.ApiRequestException.ErrorCode,
                 errorArgs.ApiRequestException.Message);
         }
-        private static void BotOnCallbackQuery(object sender, CallbackQueryEventArgs queryArgs)
+        private static async void BotOnCallbackQuery(object sender, CallbackQueryEventArgs queryArgs)
         {
             var query = queryArgs.CallbackQuery;
+            Console.WriteLine($"Got callback, contains {query.Data}");
             switch (query.Data)
             {
                 case "login":
-                    SendText(query.Message, "login");
+                    await botClient.SendTextMessageAsync(
+                        chatId: query.Message.Chat,
+                        text: "¡Envíame tu número de cédula, con ceros y sin guiones ni espacios, para asociar tu cuenta!",
+                        replyMarkup: new ForceReplyMarkup()
+                        );
                     break;
                 case "listar-comercios":
-                    ListarComercios(query.Message);
+                    var listadoComercios = ListarComercios();
+                    await botClient.SendTextMessageAsync(
+                        chatId: query.Message.Chat,
+                        text: "¡Aquí están los comercios!",
+                        replyMarkup: listadoComercios
+                        );
                     break;
             }
         }
@@ -63,40 +74,55 @@ namespace TelegramBot
         {
             var mensaje = msgArgs.Message;
             if (mensaje == null) return;
-            switch (mensaje.Text)
-            {
-                default:
-                    const string usage = @"
-                Comandos:
-                /menu - Menú General
-                /parte2 - ejemplos parte 2";
-
-                    await botClient.SendTextMessageAsync(
-                        chatId: mensaje.Chat.Id,
-                        text: usage,
-                        replyMarkup: new ReplyKeyboardRemove());
-
-                    break;
-                case "/menu":
-                    var menuPrincipal = new InlineKeyboardMarkup(new[]
+            Console.WriteLine($"Received a message from {msgArgs.Message.Chat.Id} that says {mensaje.Text}");
+               switch (mensaje.Text)
+                {
+                    default:
+                    case "/menu":
+                    if (IsCedula(mensaje.Text) && !IsLoggedIn(mensaje.Text))
                     {
-                        new[]
+                        IniciarSesion(mensaje);
+                    }
+                    else
+                    {
+                        SendText(mensaje, "Cédula inválida o ya iniciaste sesión.");
+                        var menuPrincipal = new InlineKeyboardMarkup(new[]
                         {
-                        InlineKeyboardButton.WithCallbackData(
-                            text:"Iniciar Sesión",
-                            callbackData: "login"),
-                        InlineKeyboardButton.WithCallbackData(
-                            text: "Comercios",
-                            callbackData: "listar-comercios")
-                        }
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData(
+                                    text:"Iniciar Sesión",
+                                    callbackData: "login"),
+                                InlineKeyboardButton.WithCallbackData(
+                                    text: "Comercios",
+                                    callbackData: "listar-comercios")
+                            }
                     });
+
                     await botClient.SendTextMessageAsync(
-                        chatId: mensaje.Chat,
-                        text: "Seleccione una opción...",
-                        replyMarkup: menuPrincipal
-                        );
+                            chatId: mensaje.Chat,
+                            text: "Seleccione una opción...",
+                            replyMarkup: menuPrincipal
+                            );
+                    }
                     break;
             }
+        }
+
+        private static void IniciarSesion(Message mensaje)
+        {
+            usuarioTelegramManagement.Create(
+                new UsuarioTelegram()
+                {
+                    IdChat = mensaje.Chat.Id.ToString(),
+                    IdUsuario = mensaje.Text
+                });
+            SendText(mensaje, "¡Sesión iniciada!");
+        }
+
+        private static bool IsCedula(string text)
+        {
+            return text.Length == 9 && int.TryParse(text, out _);
         }
 
         private static void ManejarCedula(MessageEventArgs e)
@@ -121,30 +147,21 @@ namespace TelegramBot
             SendText(e.Message, msg);
         }
 
-        public static void ListarComercios(Message e)
+        public static InlineKeyboardMarkup ListarComercios()
         {
             List<Comercio> comercios = comercioManagement.RetrieveAll();
-            string msg = "Lista de Comercios:\n" +
-                "--------------------\n";
-            foreach (var c in comercios)
+            var btns = new InlineKeyboardButton[comercios.Count()][];
+            int counter = 0;
+            foreach(var comercio in comercios)
             {
-                msg += c.NombreComercial + " - " + "/" + c.CedJuridica + "\n";
+                var row = new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(comercio.NombreComercial, "comercio"+comercio.CedJuridica)
+                };
+                btns[counter] = row;
+                counter++;
             }
-            msg += "---------------------\n";
-
-            SendText(e, msg);
-        }
-
-        public static void IniciarSesion(MessageEventArgs e)
-        {
-            if (!true/*isLoggedIn(e.Message.Chat.Id.ToString())*/)
-            {
-
-            }
-            else
-            {
-                SendText(e.Message, "Ya iniciaste sesión.");
-            }
+            return new InlineKeyboardMarkup(btns);
         }
 
         public static bool IsLoggedIn(string id)
@@ -152,7 +169,8 @@ namespace TelegramBot
             List<UsuarioTelegram> usuarios = usuarioTelegramManagement.RetrieveAll();
             foreach (UsuarioTelegram user in usuarios)
             {
-                if (user.IdChat == id)
+                Console.WriteLine(id);
+                if (user.IdUsuario == id)
                 {
                     Console.WriteLine($"User is logged in");
                     return true;

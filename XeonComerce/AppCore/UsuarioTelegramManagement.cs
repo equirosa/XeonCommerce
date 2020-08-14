@@ -17,7 +17,7 @@ namespace Management
 
         public void Create(UsuarioTelegram ent)
         {
-         crud.Create(ent);
+            crud.Create(ent);
         }
 
         public List<UsuarioTelegram> RetrieveAll()
