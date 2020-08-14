@@ -1,3 +1,4 @@
+import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
 import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
@@ -236,7 +237,8 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 		ArchivoComponent,
 		DialogImagen,
 		DialogEditarArchivo,
-		HistorialComprasComponent
+		HistorialComprasComponent,
+		HistorialVentasComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
