@@ -34,7 +34,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   export class HistorialVentasComponent implements OnInit {
 
 	historial: any[] = [];
-	user: User;
+	user: any;
 	prodservs: any[] = [];
 	datos;
 	displayedColumns: string[] = ['id', 'nombre', 'cantidad', 'impuesto', 'precio'];
