@@ -59,7 +59,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 		this.facturaMaestroService.get()
 		.subscribe(facturas => {
 			let facMaestro: any[];
-			facMaestro = facturas.filter(i=> i.cedulaJuridica == this.user.comercio.cedJuridica);
+			
+			if(this.user.tipo != "A"){
+				facMaestro = facturas.filter(i=> i.cedulaJuridica == this.user.comercio.cedJuridica);
+			}else{
+				facMaestro = facturas;
+			}
 			  
 			  facMaestro.forEach((i, index)=>{
 				  let subir = i;
