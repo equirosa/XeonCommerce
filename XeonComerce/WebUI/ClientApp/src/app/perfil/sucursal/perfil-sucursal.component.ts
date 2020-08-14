@@ -142,7 +142,7 @@ export class PerfilSucursalComponent implements OnInit {
     const dialogRef = this.dialog.open(FormCitaProductoComponent, {
       width: '400px',
       height: '500px',
-      data: { productos: this.productosCita}
+      data: { productos: this.productosCita, sucursal: this.sucursal}
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {

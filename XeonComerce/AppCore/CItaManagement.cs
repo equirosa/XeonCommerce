@@ -46,7 +46,7 @@ namespace AppCore
             // Crear Factura maestro **
             // Crear Cita **
 
-            // Crear Facturas detalle para cada producto
+            // Crear Facturas detalle para cada producto**
 
             
 
@@ -159,20 +159,6 @@ namespace AppCore
 
         }
 
-        //private void CrearProductosCita(Cita cita, Producto[] productos)
-        //{
-        //    foreach(var p in productos)
-        //    {
-        //        var productoCita = new ProductoCita()
-        //        {
-        //            IdCita = cita.Id,
-        //            IdProducto = p.Id,
-        //            Cantidad = p.Cantidad
-        //        };
-
-        //        crudProductoCita.Create(productoCita);
-        //    }
-        //}
 
         private bool ValidarHorarioSucursal(Cita cita)
         {
@@ -220,7 +206,7 @@ namespace AppCore
 
         private bool ValidarDisponibilidadEmpleado(Cita cita, int idEmpleado)
         {
-            // Valida que el empleado no tenga otra cita asignada para la misma fecha y que choquen las horas. 
+           
             var citas = crudCita.RetrieveAll<Cita>();
 
             foreach (var c in citas)

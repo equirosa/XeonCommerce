@@ -6,6 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { Cita } from '../_models/cita';
 import * as moment from 'moment';
+import { Sucursal } from '../_models/sucursal';
+import { CitaProducto } from '../_models/cita-producto';
+import { CitaService } from '../_services/cita.service';
 
 @Component({
   selector: 'app-form-cita-producto',
@@ -16,7 +19,8 @@ export class FormCitaProductoComponent implements OnInit {
 
   user: any;
   productos: Producto[];
-  nuevaCita = new Cita();
+  sucursal: Sucursal;
+  nuevaCita = new CitaProducto();
   formGroupCitaProducto = new FormGroup({
     Fecha: new FormControl('', Validators.required),
     Hora: new FormControl('', Validators.required)
@@ -26,11 +30,13 @@ export class FormCitaProductoComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<FormCitaProductoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _snackBar: MatSnackBar, ) { }
+    private _snackBar: MatSnackBar, 
+    private citaService: CitaService) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.productos = this.data.productos;
+    this.sucursal = this.data.sucursal;
     console.log(this.productos);
     this.agregarForms();
   }
@@ -45,29 +51,29 @@ export class FormCitaProductoComponent implements OnInit {
   }
 
   agendarCita(): void {
-    
     if ( this.formGroupCitaProducto.valid && this.FormProductos.valid ){
 
       const fecha = new Date(this.formGroupCitaProducto.get('Fecha').value);
       const fechaFin = new Date(this.formGroupCitaProducto.get('Fecha').value);
 
       const offset = fecha.getTimezoneOffset();
+
+      // Es necesario en caso de que el timezone cambie el dia de la fecha 
       fecha.setMinutes(offset);
       fechaFin.setMinutes(offset);
-     
 
       let horaInicio = this.convertir(this.formGroupCitaProducto.get('Hora').value);
       let h = horaInicio.split(':');
       fecha.setHours( Number(h[0]), Number(h[1]));
       fechaFin.setHours( Number(h[0]), Number( h[1]));
-
-     // let horaFinal = fecha;
+     
       let duracion = 0;
       for ( let p of this.productos){
         duracion =+ p.duracion;
       }
-      //horaFinal.setMinutes(duracion);
-      fechaFin.setMinutes(duracion);
+     
+      fecha.setMinutes(fecha.getMinutes() - offset);
+      fechaFin.setMinutes( fecha.getMinutes() - offset + duracion);
 
       this.nuevaCita.id = 0;
       this.nuevaCita.horaInicio = fecha;
@@ -75,11 +81,23 @@ export class FormCitaProductoComponent implements OnInit {
       this.nuevaCita.estado = 'P';
       this.nuevaCita.tipo = 'P';
       this.nuevaCita.idEmpleado = 0;
-      // this.nuevaCita.idFactura = 0; 
+      this.nuevaCita.idFactura = 0;
       this.nuevaCita.idCliente = this.user.id;
+      this.nuevaCita.idSucursal = this.sucursal.id;
+      this.nuevaCita.idComercio = this.sucursal.idComercio;
+      this.nuevaCita.productos = this.productos;
 
-      
       console.log(this.nuevaCita);
+
+      this.citaService.create(this.nuevaCita).subscribe({
+        next: res => {
+          this._snackBar.open('Se ha agendado la cita', '', {duration: 2500});
+        },
+        error: err => {
+          this._snackBar.open(err, '', {duration: 2500});
+        }
+      });
+
     }
 
     this.dialogRef.close(true);
