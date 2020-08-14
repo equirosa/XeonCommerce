@@ -86,6 +86,8 @@ import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing
 import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { PerfilUsuarioComponent } from './perfil/usuario/usuario.component';
 @NgModule({
     imports: [
 		FormsModule,
@@ -208,7 +210,9 @@ import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horar
 		PerfilSucursalComponent,
 		FormHorarioSucursalComponent,
     LandingPageXeonSquadComponent,
-    DashboardComercioComponent
+    DashboardComercioComponent,
+      DashboardAdminComponent,
+      PerfilUsuarioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -34,7 +34,7 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
-import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
+import { PerfilUsuarioComponent } from './perfil/usuario/usuario.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -65,6 +65,7 @@ const routes: Routes = [
     { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
     { path: 'listar-usuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard]},
     { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
+  { path: 'usuario/:id', component: PerfilUsuarioComponent, canActivate: [AuthGuard] },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
