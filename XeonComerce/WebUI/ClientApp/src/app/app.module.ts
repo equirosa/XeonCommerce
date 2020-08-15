@@ -247,7 +247,7 @@ import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comerc
     //DialogAgregarCategorias
 		ProductoCitaComponent,
 		FormCitaProductoComponent,
-		ListCitaComercioComponent
+		ListCitaComercioComponent,
 		
 		HistorialComprasComponent,
 		HistorialVentasComponent
