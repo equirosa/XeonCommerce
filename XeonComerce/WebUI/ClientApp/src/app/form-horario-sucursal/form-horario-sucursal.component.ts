@@ -180,7 +180,6 @@ export class FormHorarioSucursalComponent implements OnInit {
     }else {
       return a[0];
     }
-
   }
 
   formatearHoras(): void {

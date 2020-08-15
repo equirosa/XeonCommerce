@@ -114,6 +114,25 @@ namespace DataAccess.Crud
             var prodAndServ = (Producto)entity;
             dao.ExecuteProcedure(mapper.GetUpdateStatement(prodAndServ));
         }
+
+        public List<T> RetrieveProductosCita<T>(BaseEntity entity)
+        {
+            var lstProductos = new List<T>();
+
+            var lstResult = dao.ExecuteQueryProcedure(mapper.GetProductosCita(entity));
+            var dic = new Dictionary<string, object>();
+            if (lstResult.Count > 0)
+            {
+                var objs = mapper.BuildObjectsProductos(lstResult);
+                foreach (var c in objs)
+                {
+                    lstProductos.Add((T)Convert.ChangeType(c, typeof(T)));
+                }
+            }
+
+            return lstProductos;
+
+        }
         #endregion
     }
 }

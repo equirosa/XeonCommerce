@@ -12,9 +12,12 @@ namespace DataAccess.Mapper
         private const string DB_COL_HORA_INICIO = "HORA_INICIO";
         private const string DB_COL_HORA_FINAL = "HORA_FINAL";
         private const string DB_COL_ESTADO = "ESTADO";
+        private const string DB_COL_TIPO = "TIPO";
         private const string DB_COL_ID_CLIENTE = "ID_CLIENTE";
         private const string DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL = "ID_EMPLEADO_COMERCIO_SUCURSAL";
         private const string DB_COL_ID_FACTURA = "ID_FACTURA";
+        private const string DB_COL_ID_SUCURSAL = "ID_SUCURSAL";
+        private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
 
         public BaseEntity BuildObject(Dictionary<string, object> row)
         {
@@ -24,8 +27,12 @@ namespace DataAccess.Mapper
                 HoraInicio = GetDateValue(row, DB_COL_HORA_INICIO),
                 HoraFinal = GetDateValue(row, DB_COL_HORA_FINAL),
                 Estado = GetStringValue(row, DB_COL_ESTADO),
+                Tipo = GetStringValue(row, DB_COL_TIPO),
                 IdCliente = GetStringValue(row, DB_COL_ID_CLIENTE),
-                IdEmpleadoComercioSucursal = GetIntValue(row, DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL)
+                IdEmpleadoComercioSucursal = GetIntValue(row, DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL),
+                IdFactura = GetIntValue(row, DB_COL_ID_FACTURA),
+                IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL),
+                IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO)
             };
             return cita;
         }
@@ -45,7 +52,18 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetCreateStatement(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "CRE_CITA_PR" };
+
+            var c = (Cita)entity;
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, c.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, c.HoraFinal);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
+            operation.AddVarcharParam(DB_COL_TIPO, c.Tipo);
+            operation.AddVarcharParam(DB_COL_ID_CLIENTE, c.IdCliente);
+            operation.AddIntParam(DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL, c.IdEmpleadoComercioSucursal);
+            operation.AddIntParam(DB_COL_ID_FACTURA, c.IdFactura );
+            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, c.IdSucursal);
+            return operation;
         }
 
         public SqlOperation GetDeleteStatement(BaseEntity entity)
@@ -55,7 +73,8 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetRetriveAllStatement()
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "RET_ALL_CITA_PR" };
+            return operation;
         }
 
         public SqlOperation GetRetriveStatement(BaseEntity entity)
@@ -68,9 +87,28 @@ namespace DataAccess.Mapper
             return operation;
         }
 
+        public SqlOperation GetRetrieveUltimo()
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_ULT_CITA_PR" };
+            return operation; 
+        }
+
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "UPD_CITA_PR" };
+
+            var c = (Cita)entity;
+            operation.AddIntParam(DB_COL_ID, c.Id);
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, c.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, c.HoraFinal);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
+            operation.AddVarcharParam(DB_COL_TIPO, c.Tipo);
+            operation.AddVarcharParam(DB_COL_ID_CLIENTE, c.IdCliente);
+            operation.AddIntParam(DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL, c.IdEmpleadoComercioSucursal);
+            operation.AddIntParam(DB_COL_ID_FACTURA, c.IdFactura);
+            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, c.IdSucursal);
+            return operation;
+
         }
     }
 }
