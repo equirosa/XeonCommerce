@@ -1,5 +1,5 @@
 <div class="divHistorial">
-	<h2>Historial de compras</h2>
+	<h2>Historial de ventas</h2>
 	<mat-progress-bar mode="indeterminate" *ngIf="historial.length == 0"></mat-progress-bar>
 	<mat-accordion>
 		<mat-expansion-panel *ngFor="let item of historial" (opened)="getProductos(item.detalles)" (closed)="limpiar()">
@@ -11,9 +11,7 @@
 			{{item.transaccionFinanciera.monto | currency: '₡'}} {{item.detalles.length}} {{item.tipo}} {{item.transaccionFinanciera.estado == 'P' ? "PENDIENTE":""}} {{item.transaccionFinanciera.metodo ? "via " + item.transaccionFinanciera.metodo.toLowerCase() : ""}}
 			</mat-panel-description>
 		  </mat-expansion-panel-header>
-			<div *ngIf="item.pendiente">
-			<button mat-raised-button color="crear" layout-align="end center" (click)="pagar(item.transaccionFinanciera, item)">Pagar</button>
-		  </div>
+		  <button mat-raised-button color="ver" (click)=verUsuario(item.idCliente)>Ver cliente</button>
 		  <table mat-table matSort [dataSource]="datos" style="width: 100%;">
 			<ng-container matColumnDef="id">
 				  <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
