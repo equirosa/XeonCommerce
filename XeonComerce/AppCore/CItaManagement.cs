@@ -12,15 +12,12 @@ namespace AppCore
 
         private CitaCrudFactory crudCita;
         private ProductoCitaCrudFactory crudProductoCita;
-        private DiaFeriadoCrudFactory crudDiaFeriado; 
+        
         private HorarioSucursalCrudFactory crudHorarioSucursal;
         private SeccionHorarioCrudFactory crudSeccionHorario;
         private EmpleadoComercioSucursalCrudFactory crudEmpleado;
         private TranFinCrudFactory crudTransaccion;
-        private FacturaMasterCrudFactory crudFacturaMaestro;
-        private FacturaDetalleCrudFactory crudFacturaDetalle;
-        private ProductoServicioCrudFactory crudProducto;
-
+        private FacturaMasterCrudFactory crudFacturaMaestro; 
 
         public CitaManagement()
         {
@@ -31,28 +28,21 @@ namespace AppCore
             crudEmpleado = new EmpleadoComercioSucursalCrudFactory();
             crudTransaccion = new TranFinCrudFactory();
             crudFacturaMaestro = new FacturaMasterCrudFactory();
-            crudDiaFeriado = new DiaFeriadoCrudFactory();
-            crudFacturaDetalle = new FacturaDetalleCrudFactory();
-            crudProducto = new ProductoServicioCrudFactory();
 
         }
 
         public void Create(CitaProducto citaProducto)
         {
-            // Validar disponibilidad de horario de la sucursal ( tambien se puede agregar esta validacion en el frontend) **
-            // Validar Disponibilidad de empleados  (Debe de coincidir con su horario y no puede tener otra cita asignada para esa fecha y hora) **
-            // Validar que la fecha no sea un dia feriado **
-            // Validar disponibilidad de empleado **
-            // Asignar empleado a la cita **
-            // Crear Transaccion **
-            // Crear Factura maestro **
-            // Crear Cita **
+            // Validar disponibilidad de horario de la sucursal ( tambien se puede agregar esta validacion en el frontend)
+            // Validar Disponibilidad de empleados  (Debe de coincidir con su horario y no puede tener otra cita asignada para esa fecha y hora) 
+            // Validar que la fecha no sea un dia feriado
+            // Validar disponibilidad de empleado 
+            // Asignar empleado a la cita 
+            // Crear Transaccion 
+            // Crear Factura maestro 
+            // Crear Cita 
+            // Crear Facturas detalle para cada producto
 
-            // Crear Facturas detalle para cada producto**
-
-            // Restar la cantidad reservada de los productos del stock!!!
-
-            
             
 
             // Si la cita es tipo producto 
@@ -65,17 +55,18 @@ namespace AppCore
 
             if (!validHorarioSucursal) throw new Exception("La sucursal se encuentra cerrada en las horas seleccionadas");
             if (empleado == null) throw new Exception("No hay personal disponible para atender la cita");
-            if (!this.ValidarDiaFeriado(cita)) throw new Exception("La fecha seleccionada es un dia feriado");
-           
-            var transaccion = this.CrearTransaccion(cita);
-            var factura = this.crearFacturaMaestro(cita, transaccion.Id);
-            cita.IdFactura = factura.IdFactura;
-            cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
-            crudCita.Create(cita);
-            var citaCreada = crudCita.RetrieveUltimo<Cita>();
-            this.CrearFacturasDetalle(citaCreada, citaProducto.Productos);
 
-            this.EliminarStock(citaProducto.Productos);
+           
+             var transaccion = this.CrearTransaccion(cita);
+             var factura = this.crearFacturaMaestro(cita, transaccion.Id);
+             cita.IdFactura = factura.IdFactura;
+             cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
+             crudCita.Create(cita);
+             var citaCreada = crudCita.RetrieveUltimo<Cita>();
+
+            
+
+
         }
 
         public Cita RetriveById(Cita cita)
@@ -83,6 +74,10 @@ namespace AppCore
             return crudCita.Retrieve<Cita>(cita);
         }
 
+        public List<Cita> RetrieveAll()
+        {
+            return crudCita.RetrieveAll<Cita>();
+        }
 
         private TranFin CrearTransaccion(Cita cita)
         {
@@ -138,27 +133,20 @@ namespace AppCore
             return cita;          
         }
 
-        private void CrearFacturasDetalle(Cita cita, Producto[] productos)
-        {
-            foreach(var p in productos)
-            {
-                var facturaDetalle = new FacturaDetalle()
-                {
-                    IdLinea = 0,
-                    IdProducto = p.Id,
-                    Valor = p.Precio,
-                    Descuento = p.Descuento,
-                    Cantidad = p.Cantidad,
-                    IVA = p.Impuesto,
-                    IdFactura = cita.IdFactura,
-                    TotalLinea = (p.Precio * p.Cantidad) - (p.Descuento * p.Cantidad)
-                };
+        //private void CrearProductosCita(Cita cita, Producto[] productos)
+        //{
+        //    foreach(var p in productos)
+        //    {
+        //        var productoCita = new ProductoCita()
+        //        {
+        //            IdCita = cita.Id,
+        //            IdProducto = p.Id,
+        //            Cantidad = p.Cantidad
+        //        };
 
-                crudFacturaDetalle.Create(facturaDetalle);
-            }
-
-        }
-
+        //        crudProductoCita.Create(productoCita);
+        //    }
+        //}
 
         private bool ValidarHorarioSucursal(Cita cita)
         {
@@ -206,13 +194,12 @@ namespace AppCore
 
         private bool ValidarDisponibilidadEmpleado(Cita cita, int idEmpleado)
         {
-            // Agregar que solo se validen las citas con un estado permitido !!
-           
+            // Valida que el empleado no tenga otra cita asignada para la misma fecha y que choquen las horas. 
             var citas = crudCita.RetrieveAll<Cita>();
 
             foreach (var c in citas)
             {
-                if (c.IdEmpleadoComercioSucursal == idEmpleado && c.Estado == "P" &&
+                if (c.IdEmpleadoComercioSucursal == idEmpleado &&
                     cita.HoraInicio.Year == c.HoraInicio.Year && cita.HoraInicio.Month == c.HoraInicio.Month &&
                     cita.HoraInicio.Day == c.HoraInicio.Day &&
                     ((cita.HoraInicio > c.HoraInicio && cita.HoraInicio < c.HoraFinal) || (cita.HoraFinal > c.HoraInicio && cita.HoraFinal < c.HoraFinal))
@@ -222,19 +209,6 @@ namespace AppCore
                 }
             }
 
-            return true;
-        }
-
-        private bool ValidarDiaFeriado(Cita cita)
-        {
-            var diasFeridados = crudDiaFeriado.RetrieveAll<DiaFeriado>();
-            foreach(var d in diasFeridados)
-            {
-                if(cita.HoraInicio.Year == d.Fecha.Year && cita.HoraInicio.Month == d.Fecha.Month && cita.HoraInicio.Day == d.Fecha.Day)
-                {
-                    return false;
-                }
-            }
             return true;
         }
 
@@ -253,89 +227,5 @@ namespace AppCore
 
             return horarioSucursal;
         }
-
-
-
-        public List<CitaProducto> RetrieveAll()
-        {
-            var citasProducto = new List<CitaProducto>();
-            var citas = crudCita.RetrieveAll<Cita>();
-
-            foreach (var c in citas)
-            {
-                citasProducto.Add(this.CrearCitaProducto(c));
-            }
-
-            return citasProducto;
-        }
-
-        private CitaProducto CrearCitaProducto(Cita cita)
-        {
-            var citaProducto = new CitaProducto();
-            citaProducto.Id = cita.Id;
-            citaProducto.HoraInicio = cita.HoraInicio;
-            citaProducto.HoraFinal = cita.HoraFinal;
-            citaProducto.Estado = cita.Estado;
-            citaProducto.Tipo = cita.Tipo;
-            citaProducto.IdCliente = cita.IdCliente;
-            citaProducto.IdEmpleado = cita.IdEmpleadoComercioSucursal;
-            citaProducto.IdFactura = cita.IdFactura;
-            citaProducto.IdCliente = cita.IdCliente;
-            citaProducto.IdSucursal = cita.IdSucursal;
-            citaProducto.IdComercio = cita.IdComercio;
-            citaProducto.Productos = crudProducto.RetrieveProductosCita<Producto>(cita).ToArray();
-
-            return citaProducto;
-
-        }
-
-
-        public void CancelarCita(CitaProducto citaProducto)
-        {
-            // Actualizar transaccion a cancelada 
-
-            var facturaM = crudFacturaMaestro.Retrieve<FacturaMaestro>(new FacturaMaestro() { IdFactura = citaProducto.IdFactura });
-
-            var transaccion = crudTransaccion.Retrieve<TranFin>(new TranFin() { Id = facturaM.IdTransaccion });
-            transaccion.Estado = "C";
-            crudTransaccion.Update(transaccion);
-
-            var cita = this.CrearCita(citaProducto);
-            cita.Estado = "C";
-            crudCita.Update(cita);
-
-            var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
-            this.RegresarStock(facturasDetalle);
-            
-
-        }
-
-        private void RegresarStock(List<FacturaDetalle> facturasDetalle)
-        {
-            foreach(var fd in facturasDetalle)
-            {
-                var producto = crudProducto.RetrieveProducto<Producto>(new Producto() { Id = fd.IdProducto });
-                producto.Cantidad += fd.Cantidad;
-                crudProducto.Update(producto);
-            }
-        }
-
-        private void EliminarStock(Producto[] productos)
-        {
-             foreach(var p in productos)
-            {
-                var producto = crudProducto.RetrieveProducto<Producto>(new Producto() { Id = p.Id });
-                producto.Cantidad -= p.Cantidad;
-                crudProducto.Update(producto);
-            }
-
-        }
-
-
-
-
-
-
     }
-        
 }
