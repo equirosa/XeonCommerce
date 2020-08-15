@@ -8,7 +8,7 @@ using System.Text;
 
 namespace AppCore
 {
-    public class CItaManagement
+    public class CitaManagement
     {
 
         private CitaCrudFactory crudCita;
@@ -23,7 +23,7 @@ namespace AppCore
         private ProductoServicioCrudFactory crudProducto;
 
 
-        public CItaManagement()
+        public CitaManagement()
         {
             crudCita = new CitaCrudFactory();
             crudProductoCita = new ProductoCitaCrudFactory();

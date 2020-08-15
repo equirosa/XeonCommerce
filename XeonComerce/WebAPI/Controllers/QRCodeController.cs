@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public void GenerarQR(string id)
         {
-            var cm = new CItaManagement();
+            var cm = new CitaManagement();
 
             Cita cita = new Cita();
             cita.Id = Int32.Parse(id);
