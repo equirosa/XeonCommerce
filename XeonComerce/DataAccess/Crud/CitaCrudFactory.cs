@@ -58,6 +58,7 @@ namespace DataAccess.Crud
                 }
             }
 
+
             return lst;
         }
         public override void Update(BaseEntity entity)
