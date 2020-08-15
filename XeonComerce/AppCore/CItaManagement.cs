@@ -1,5 +1,6 @@
 ﻿using DataAccess.Crud;
 using Entities;
+using Management;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -307,6 +308,42 @@ namespace AppCore
             var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
             this.RegresarStock(facturasDetalle);
             
+
+        }
+
+        public void CancelarCitaUsuario(CitaProducto citaProducto)
+        {
+            // Actualizar transaccion a cancelada 
+            var facturaM = crudFacturaMaestro.Retrieve<FacturaMaestro>(new FacturaMaestro() { IdFactura = citaProducto.IdFactura });
+
+            var transaccion = crudTransaccion.Retrieve<TranFin>(new TranFin() { Id = facturaM.IdTransaccion });
+            transaccion.Estado = "C";
+            crudTransaccion.Update(transaccion);
+
+
+            var cita = this.CrearCita(citaProducto);
+            ConfigManagement cM = new ConfigManagement();
+            Config c =  cM.RetrieveById(new Config { Id= "MIN_DIAS_CANCELAR_CI" });
+            if (c == null) c = new Config { Id = "MIN_DIAS_CANCELAR_CI", Valor = 0 };
+            if (DateTime.Now > cita.HoraInicio.AddDays(-c.Valor))
+            {
+                //Se debe multar
+                AusenciasManagement aM = new AusenciasManagement();
+                List<Ausencias> parametros = aM.RetrieveAll();
+                var p = parametros.Find((i) => ((i.Id == "MULTA") && (i.Id_Comercio==cita.IdComercio)));
+                if (p == null) p = new Ausencias { Id = "MULTA", Id_Comercio = cita.IdComercio, Valor = 0 };
+                // p.valor es la multa
+                //Notificar
+
+
+
+             }
+
+            cita.Estado = "C";
+            crudCita.Update(cita);
+
+            var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
+            this.RegresarStock(facturasDetalle);
 
         }
 
