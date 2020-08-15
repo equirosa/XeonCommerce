@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var citaManag = new CitaManagement();
+                var citaManag = new CItaManagement();
                 citaManag.Create(citaProducto);
 
                 return Ok();
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public List<CitaProducto> RetrieveAll()
         {
-            var citaManag = new CitaManagement();
+            var citaManag = new CItaManagement();
             return citaManag.RetrieveAll(); 
         }
 
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var citaManag = new CitaManagement();
+                var citaManag = new CItaManagement();
                 citaManag.CancelarCita(citaProducto);
                 return Ok();
             }
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var citaManag = new CitaManagement();
+                var citaManag = new CItaManagement();
                 citaManag.CancelarCitaUsuario(citaProducto);
                 return Ok();
             }
