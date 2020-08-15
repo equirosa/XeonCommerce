@@ -15,7 +15,6 @@ export class AccountService {
     public user: Observable<User>;
 
     constructor(
-		private comercioService: ComercioService,
         private router: Router,
         private http: HttpClient,
         private empleadoService: EmpleadoService,

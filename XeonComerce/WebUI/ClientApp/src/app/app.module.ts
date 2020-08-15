@@ -151,6 +151,7 @@ import { PerfilUsuarioComponent } from './perfil/usuario/usuario.component';
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
+    DialogEditarServicio,
 		DialogSucursal,
 		DialogDiaFeriado,
 		DialogDireccionSucursal,

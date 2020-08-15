@@ -36,7 +36,7 @@ export class ProductoFormComponent implements OnInit {
   public serviceEndPoint: string;
   user: any;
 
-  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService, private accountService: AccountService) {
+  constructor(public dialog: MatDialog, http: HttpClient, prodService: ProductoService, private comercioService: ComercioService, impService: ImpuestoService, private mensajeService: MensajeService, private accountService: AccountService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -171,8 +171,8 @@ openDialog(): void {
         "cantidad": result.cantidad,
         "descuento": result.descuento,
         "idComercio": comercio.cedJuridica,
-		"duracion": result.duracion,
-		"impuesto": result.impuesto.id
+        "duracion": result.duracion,
+        "impuesto": result.impuesto.id
       }
       console.log(producto);
       this.prodService.postProducto(producto)
@@ -239,7 +239,7 @@ openDialog(): void {
           "descuento": producto.descuento,
           "idComercio": producto.idComercio,
           "duracion": result.duracion,
-		  "impuesto": result.impuesto
+          "impuesto": result.impuesto
         }
 		console.log("producto a cambiar", producto);
 

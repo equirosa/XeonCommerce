@@ -34,7 +34,7 @@ export class ServicioComponent implements OnInit {
   user: any;
   impuestos: Impuesto[];
 
-  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService,
+  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService, private mensajeService: MensajeService,
 	 private accountService: AccountService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
@@ -124,8 +124,8 @@ export class ServicioComponent implements OnInit {
         comercios: this.comercios,
         comercio: "",
         duracion: "",
-		impuestos: this.impuestos,
-		impuesto: ""
+		    impuestos: this.impuestos,
+		    impuesto: ""
       }
 
     });
@@ -159,7 +159,7 @@ export class ServicioComponent implements OnInit {
           "descuento": result.descuento,
           "idComercio": comercio.cedJuridica,
           "duracion": result.duracion,
-		  "impuesto": result.impuesto.id
+		      "impuesto": result.impuesto.id
         }
         console.log(servicio);
         this.servService.postServicio(servicio)
@@ -207,11 +207,11 @@ export class ServicioComponent implements OnInit {
         tipo: 2,
         nombre: servicio.nombre,
         precio: servicio.precio,
+        impuestos: this.impuestos,
+        impuesto: servicio.impuesto,
         descuento: servicio.descuento,
         comercio: comercioDelServicio.nombreComercial,
         duracion: servicio.duracion,
-		impuestos: this.impuestos,
-		impuesto: servicio.impuesto
       }
 
     });
@@ -242,8 +242,8 @@ export class ServicioComponent implements OnInit {
           "precio": result.precio,
           "descuento": result.descuento,
           "idComercio": servicio.idComercio,
-		  "duracion": result.duracion,
-		  "impuesto": result.impuesto
+		      "duracion": result.duracion,
+          "impuesto": result.impuesto
         }
 
         console.log(servicio);

@@ -8,7 +8,7 @@
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Precio</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.precio">
+    <input min="1" type="number" required matInput [(ngModel)]="data.precio">
   </mat-form-field>
   <br>
 
@@ -22,12 +22,6 @@
     </mat-select>
   </mat-form-field>
 
-  <br>
-
-  <mat-form-field style="width:400px" appearance="standard">
-    <mat-label>Descuento</mat-label>
-    <input minlength="1" type="number" matInput [(ngModel)]="data.descuento" disabled>
-  </mat-form-field>
   <br>
 
   <mat-form-field style="width:400px !important" appearance="fill">

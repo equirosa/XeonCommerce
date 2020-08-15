@@ -31,9 +31,9 @@ export class NavlistComponent implements OnInit {
 	}
 
   ngOnInit(): void {
-	if( this.user && this.user.tipo === 'E'){
-		this.cargarVistasEmpleado();
-	}
+	// if( this.user && this.user.tipo === 'E'){
+	// 	this.cargarVistasEmpleado();
+	// }
   }
   
   public onSidenavClose = () => {
