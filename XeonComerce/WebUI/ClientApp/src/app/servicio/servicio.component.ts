@@ -1,10 +1,12 @@
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { Bitacora } from './../_models/bitacora';
 import { BitacoraService } from './../_services/bitacora.service';
 import { Impuesto } from './../_models/impuesto';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { ImpuestoService } from './../_services/impuesto.service';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Servicio } from '../_models/servicio';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
@@ -46,6 +48,8 @@ export class ServicioComponent implements OnInit {
 
   }
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 
   ngOnInit(): void {
@@ -58,11 +62,16 @@ export class ServicioComponent implements OnInit {
 
     this.servService.getServicio()
       .subscribe(servicio => {
-		  if(this.user.comercio){
-			this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
-		  }else{
-			this.dataSource = new MatTableDataSource(servicio);
-		  }
+		if(this.user.comercio){
+		this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
+		}else if( this.user.empleado ) {
+		this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.empleado.idComercio));
+		}else{
+		this.dataSource = new MatTableDataSource(servicio);
+		}
+		  
+		  this.dataSource.sort = this.sort;
+		  this.dataSource.paginator = this.paginator;
       });
   }
 
@@ -71,6 +80,8 @@ export class ServicioComponent implements OnInit {
       .subscribe(comercios => {
 		  if(this.user.comercio) {
 			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
+		  }else if( this.user.empleado ) {
+			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.empleado.idComercio)];
 		  }else{
 			this.comercios = comercios;
 		  }
@@ -115,16 +126,28 @@ export class ServicioComponent implements OnInit {
   }
 
   openDialog(): void {
+	let idComercio = "", esAdmin = false;
+	
+	if (this.user.tipo != 'A') {
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+	}else{
+		esAdmin = true;
+	}
     const dialogRef = this.dialog.open(DialogServicio, {
       width: '500px',
       data: {
         id: 0,
         tipo: 2,
+		noEsAdmin: !esAdmin,
         nombre: "",
         precio: "",
         descuento: 0,
         comercios: this.comercios,
-        comercio: "",
+        comercio: idComercio,
         duracion: "",
 		    impuestos: this.impuestos,
 		    impuesto: ""
@@ -150,8 +173,6 @@ export class ServicioComponent implements OnInit {
       }
 
       if (result) {
-        let comercio: Comercio;
-        comercio = result.comercio;
         let servicio: Servicio;
         servicio = {
           "id": result.id,
@@ -159,9 +180,9 @@ export class ServicioComponent implements OnInit {
           "nombre": result.nombre,
           "precio": result.precio,
           "descuento": result.descuento,
-          "idComercio": comercio.cedJuridica,
+          "idComercio": result.comercio,
           "duracion": result.duracion,
-		      "impuesto": result.impuesto.id
+		  "impuesto": result.impuesto.id
         }
         console.log(servicio);
         this.servService.postServicio(servicio)
@@ -172,7 +193,7 @@ export class ServicioComponent implements OnInit {
 				log = {
 					idUsuario: this.user.id,
 					accion: "Creación de servicio",
-					detalle: `Se creó un servicio para (${comercio.cedJuridica}) ${result.nombre}`,
+					detalle: `Se creó un servicio para (${result.comercio}) ${result.nombre}`,
 					id: -1,
 					fecha: new Date()
 				}

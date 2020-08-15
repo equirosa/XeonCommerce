@@ -1,3 +1,6 @@
+import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
+import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
+import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
 import { CarritoDialogFinComponent } from './_components/carrito/fin/fin.dialog';
 import { CarritoDialogPayPalComponent } from './_components/carrito/paypal/paypal.dialog';
 import { CarritoDialogSinpeComponent } from './_components/carrito/sinpe/sinpe.dialog';
@@ -5,7 +8,7 @@ import { CarritoDialogMetodoPagoComponent } from './_components/carrito/metodo-p
 import { CarritoDialogDireccionComponent } from './_components/carrito/destino/destino.dialog';
 import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
 import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -93,12 +96,14 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './categoria-usuario/categoria-usuario.component';
 import { ProductoCitaComponent } from './_components/producto-cita/producto-cita.component';
 import { FormCitaProductoComponent } from './form-cita-producto/form-cita-producto.component';
 import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
 
 @NgModule({
     imports: [
+		ReactiveFormsModule, 
 		FormsModule,
 		CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'de99h9v43', api_secret: 'szrKGouDzr9bgYSTXF_a8LO7nMI', api_key: '664882358892716'}),
         FileUploadModule,
@@ -171,7 +176,9 @@ import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comerc
 		CarritoDialogMetodoPagoComponent,
 		CarritoDialogSinpeComponent,
 		CarritoDialogPayPalComponent,
-		CarritoDialogFinComponent
+		CarritoDialogFinComponent,
+		DialogImagen,
+		DialogEditarArchivo
 	],
     declarations: [
         AppComponent,
@@ -229,6 +236,13 @@ import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comerc
 		CarritoDialogSinpeComponent,
 		CarritoDialogPayPalComponent,
 		CarritoDialogFinComponent,
+		ConfiguracionesComponent,
+		ArchivoComponent,
+		DialogImagen,
+		DialogEditarArchivo,
+		HistorialComprasComponent,
+    CategoriaUsuarioComponent,
+    //DialogAgregarCategorias
 		ProductoCitaComponent,
 		FormCitaProductoComponent,
 		ListCitaComercioComponent

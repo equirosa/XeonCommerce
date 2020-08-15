@@ -1,9 +1,9 @@
 <div class="divSucursales">
   <h2>Sucursales</h2>
   <button mat-raised-button color="primary" (click)="abrirCrear()">Crear</button>
-  <mat-form-field>
-    <mat-label>Filtrar:</mat-label>
-    <input matInput (keyup)="filtrar($event)" placeholder="Ex. 2" #input />
+  <mat-form-field style="margin-top: 1%;">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="filtrar($event)" placeholder="Ex. Avenida Central" #input />
   </mat-form-field>
   <div class="mat-elevation-z8">
     <table mat-table matSort [dataSource]="datos">
@@ -46,7 +46,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No se han encontraron datos</td>
+        <td class="mat-cell" colspan="4">No se ha encontrado datos</td>
       </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

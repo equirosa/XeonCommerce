@@ -17,7 +17,7 @@
   
 	<ng-container matColumnDef="precio">
 	  	<th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
-	  	<td mat-cell *matCellDef="let element" title="{{'Precio original ' + element.precio}}"> {{calcularPrecio(element) | currency:'CRC'}} <span class="sale" *ngIf="element.descuento">{{calcularDescuento(element)}}%</span></td>
+			<td mat-cell *matCellDef="let element" title="{{'Precio original ' + element.precio}}"> {{calcularPrecio(element) | currency:'₡'}} <span class="sale" *ngIf="element.descuento">{{calcularDescuento(element)}}%</span></td>
 		<td mat-footer-cell *matFooterCellDef> </td>
 		<td mat-footer-cell *matFooterCellDef>{{getCantidad(datos)}} </td>
 	</ng-container>
@@ -31,13 +31,13 @@
 	<ng-container matColumnDef="impuesto">
 		<th mat-header-cell *matHeaderCellDef mat-sort-header> Impuesto </th>
 		<td mat-cell *matCellDef="let element" title="{{element.nombreImpuesto}}"> {{element.porcientoImpuesto}}% </td>
-		<td mat-footer-cell *matFooterCellDef> Sub Total: {{getCosto(datos, false) | currency:'CRC'}} </td>
+		<td mat-footer-cell *matFooterCellDef> Sub Total: {{getCosto(datos, false) | currency:'₡'}} </td>
 	</ng-container>
   
 	<ng-container matColumnDef="eliminar">
 	  <th mat-header-cell *matHeaderCellDef> Eliminar </th>
 	  <td mat-cell *matCellDef="let element"> <button mat-raised-button color="warn" (click)="eliminar(element)">Eliminar</button> </td>
-	  <td mat-footer-cell *matFooterCellDef> Total: {{getCosto(datos, true) | currency:'CRC'}}  </td>
+		<td mat-footer-cell *matFooterCellDef> Total: {{getCosto(datos, true) | currency:'₡'}}  </td>
 	</ng-container>
   
 	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -45,7 +45,7 @@
 	<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
 
 	<tr class="mat-row" *matNoDataRow>
-		<td class="mat-cell" colspan="4">No se han encontraron productos en el carrito.</td>
+		<td class="mat-cell" colspan="4">No se ha encontrado productos en el carrito.</td>
 	  </tr>
   </table>
 </div>

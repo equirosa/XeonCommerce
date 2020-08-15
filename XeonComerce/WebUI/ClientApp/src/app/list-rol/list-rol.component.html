@@ -1,6 +1,6 @@
-<mat-form-field>
-    <mat-label>Filtrar</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar..." >
+<mat-form-field style="width: 100%;">
+	<mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Rol..." >
 </mat-form-field>
 <div class="mat-elevation-8">    
     <table mat-table matSort [dataSource]="roles" >

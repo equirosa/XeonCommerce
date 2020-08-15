@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public FacturaDetalle GetById(int id)
+        public List<FacturaDetalle> GetById(int id)
         {
             var cm = new FacturaDetalleManagement();
             FacturaDetalle tF = new FacturaDetalle();
@@ -51,21 +51,5 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var cm = new FacturaDetalleManagement();
-                var tF = cm.RetriveById(new FacturaDetalle { IdLinea = id});
-                cm.Delete(tF);
-                return Ok(new { msg = "Se eliminó la linea de factura" });
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { msg = ex.Message });
-            }
-        }
     }
 }
