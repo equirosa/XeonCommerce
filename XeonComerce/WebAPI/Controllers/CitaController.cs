@@ -31,5 +31,27 @@ namespace WebAPI.Controllers
         }
 
 
+        [HttpGet]
+        public List<CitaProducto> RetrieveAll()
+        {
+            var citaManag = new CitaManagement();
+            return citaManag.RetrieveAll(); 
+        }
+
+        [HttpPut]
+        public IActionResult Cancelar(CitaProducto citaProducto)
+        {
+            try
+            {
+                var citaManag = new CitaManagement();
+                citaManag.CancelarCita(citaProducto);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+        }
+
     }
 }

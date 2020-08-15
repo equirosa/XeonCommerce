@@ -95,7 +95,20 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "UPD_CITA_PR" };
+
+            var c = (Cita)entity;
+            operation.AddIntParam(DB_COL_ID, c.Id);
+            operation.AddDateTimeParam(DB_COL_HORA_INICIO, c.HoraInicio);
+            operation.AddDateTimeParam(DB_COL_HORA_FINAL, c.HoraFinal);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
+            operation.AddVarcharParam(DB_COL_TIPO, c.Tipo);
+            operation.AddVarcharParam(DB_COL_ID_CLIENTE, c.IdCliente);
+            operation.AddIntParam(DB_COL_ID_EMPLEADO_COMERCIO_SUCURSAL, c.IdEmpleadoComercioSucursal);
+            operation.AddIntParam(DB_COL_ID_FACTURA, c.IdFactura);
+            operation.AddVarcharParam(DB_COL_ID_SUCURSAL, c.IdSucursal);
+            return operation;
+
         }
     }
 }

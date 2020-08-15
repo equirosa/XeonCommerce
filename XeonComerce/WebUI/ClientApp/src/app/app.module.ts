@@ -95,6 +95,7 @@ import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horar
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { ProductoCitaComponent } from './_components/producto-cita/producto-cita.component';
 import { FormCitaProductoComponent } from './form-cita-producto/form-cita-producto.component';
+import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
 
 @NgModule({
     imports: [
@@ -229,7 +230,8 @@ import { FormCitaProductoComponent } from './form-cita-producto/form-cita-produc
 		CarritoDialogPayPalComponent,
 		CarritoDialogFinComponent,
 		ProductoCitaComponent,
-		FormCitaProductoComponent
+		FormCitaProductoComponent,
+		ListCitaComercioComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

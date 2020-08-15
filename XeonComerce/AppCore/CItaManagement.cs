@@ -18,7 +18,8 @@ namespace AppCore
         private EmpleadoComercioSucursalCrudFactory crudEmpleado;
         private TranFinCrudFactory crudTransaccion;
         private FacturaMasterCrudFactory crudFacturaMaestro;
-        private FacturaDetalleCrudFactory crudFacturaDetalle; 
+        private FacturaDetalleCrudFactory crudFacturaDetalle;
+        private ProductoServicioCrudFactory crudProducto;
 
 
         public CitaManagement()
@@ -32,6 +33,7 @@ namespace AppCore
             crudFacturaMaestro = new FacturaMasterCrudFactory();
             crudDiaFeriado = new DiaFeriadoCrudFactory();
             crudFacturaDetalle = new FacturaDetalleCrudFactory();
+            crudProducto = new ProductoServicioCrudFactory();
 
         }
 
@@ -48,6 +50,9 @@ namespace AppCore
 
             // Crear Facturas detalle para cada producto**
 
+            // Restar la cantidad reservada de los productos del stock!!!
+
+            
             
 
             // Si la cita es tipo producto 
@@ -69,9 +74,8 @@ namespace AppCore
             crudCita.Create(cita);
             var citaCreada = crudCita.RetrieveUltimo<Cita>();
             this.CrearFacturasDetalle(citaCreada, citaProducto.Productos);
-            
 
-
+            this.EliminarStock(citaProducto.Productos);
         }
 
         public Cita RetriveById(Cita cita)
@@ -79,10 +83,6 @@ namespace AppCore
             return crudCita.Retrieve<Cita>(cita);
         }
 
-        public List<Cita> RetrieveAll()
-        {
-            return crudCita.RetrieveAll<Cita>();
-        }
 
         private TranFin CrearTransaccion(Cita cita)
         {
@@ -206,12 +206,13 @@ namespace AppCore
 
         private bool ValidarDisponibilidadEmpleado(Cita cita, int idEmpleado)
         {
+            // Agregar que solo se validen las citas con un estado permitido !!
            
             var citas = crudCita.RetrieveAll<Cita>();
 
             foreach (var c in citas)
             {
-                if (c.IdEmpleadoComercioSucursal == idEmpleado &&
+                if (c.IdEmpleadoComercioSucursal == idEmpleado && c.Estado == "P" &&
                     cita.HoraInicio.Year == c.HoraInicio.Year && cita.HoraInicio.Month == c.HoraInicio.Month &&
                     cita.HoraInicio.Day == c.HoraInicio.Day &&
                     ((cita.HoraInicio > c.HoraInicio && cita.HoraInicio < c.HoraFinal) || (cita.HoraFinal > c.HoraInicio && cita.HoraFinal < c.HoraFinal))
@@ -252,5 +253,89 @@ namespace AppCore
 
             return horarioSucursal;
         }
+
+
+
+        public List<CitaProducto> RetrieveAll()
+        {
+            var citasProducto = new List<CitaProducto>();
+            var citas = crudCita.RetrieveAll<Cita>();
+
+            foreach (var c in citas)
+            {
+                citasProducto.Add(this.CrearCitaProducto(c));
+            }
+
+            return citasProducto;
+        }
+
+        private CitaProducto CrearCitaProducto(Cita cita)
+        {
+            var citaProducto = new CitaProducto();
+            citaProducto.Id = cita.Id;
+            citaProducto.HoraInicio = cita.HoraInicio;
+            citaProducto.HoraFinal = cita.HoraFinal;
+            citaProducto.Estado = cita.Estado;
+            citaProducto.Tipo = cita.Tipo;
+            citaProducto.IdCliente = cita.IdCliente;
+            citaProducto.IdEmpleado = cita.IdEmpleadoComercioSucursal;
+            citaProducto.IdFactura = cita.IdFactura;
+            citaProducto.IdCliente = cita.IdCliente;
+            citaProducto.IdSucursal = cita.IdSucursal;
+            citaProducto.IdComercio = cita.IdComercio;
+            citaProducto.Productos = crudProducto.RetrieveProductosCita<Producto>(cita).ToArray();
+
+            return citaProducto;
+
+        }
+
+
+        public void CancelarCita(CitaProducto citaProducto)
+        {
+            // Actualizar transaccion a cancelada 
+
+            var facturaM = crudFacturaMaestro.Retrieve<FacturaMaestro>(new FacturaMaestro() { IdFactura = citaProducto.IdFactura });
+
+            var transaccion = crudTransaccion.Retrieve<TranFin>(new TranFin() { Id = facturaM.IdTransaccion });
+            transaccion.Estado = "C";
+            crudTransaccion.Update(transaccion);
+
+            var cita = this.CrearCita(citaProducto);
+            cita.Estado = "C";
+            crudCita.Update(cita);
+
+            var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
+            this.RegresarStock(facturasDetalle);
+            
+
+        }
+
+        private void RegresarStock(List<FacturaDetalle> facturasDetalle)
+        {
+            foreach(var fd in facturasDetalle)
+            {
+                var producto = crudProducto.RetrieveProducto<Producto>(new Producto() { Id = fd.IdProducto });
+                producto.Cantidad += fd.Cantidad;
+                crudProducto.Update(producto);
+            }
+        }
+
+        private void EliminarStock(Producto[] productos)
+        {
+             foreach(var p in productos)
+            {
+                var producto = crudProducto.RetrieveProducto<Producto>(new Producto() { Id = p.Id });
+                producto.Cantidad -= p.Cantidad;
+                crudProducto.Update(producto);
+            }
+
+        }
+
+
+
+
+
+
     }
+        
 }

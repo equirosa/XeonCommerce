@@ -62,7 +62,8 @@ namespace DataAccess.Crud
         }
         public override void Update(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var cita = (Cita)entity;
+            dao.ExecuteProcedure(mapper.GetUpdateStatement(cita));
         }
 
         public  T RetrieveUltimo<T>()

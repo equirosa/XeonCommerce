@@ -3,6 +3,7 @@ using DataAccess.Mapper;
 using Entities;
 using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace DataAccess.Crud
@@ -68,5 +69,22 @@ namespace DataAccess.Crud
             dao.ExecuteProcedure(mapper.GetDeleteStatement(e));
         }
 
+        public  List<T> RetrieveDetalleCita<T>(BaseEntity entity)
+        {
+            var lst = new List<T>();
+
+            var lstResult = dao.ExecuteQueryProcedure(mapper.GetFacturasDetalleCita(entity));
+            var dic = new Dictionary<string, object>();
+            if (lstResult.Count > 0)
+            {
+                var objs = mapper.BuildObjects(lstResult);
+                foreach (var arc in objs)
+                {
+                    lst.Add((T)Convert.ChangeType(arc, typeof(T)));
+                }
+            }
+
+            return lst;
+        }
     }
 }

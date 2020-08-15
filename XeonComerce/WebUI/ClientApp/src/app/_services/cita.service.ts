@@ -22,4 +22,11 @@ export class CitaService {
     return this.http.post<CitaProducto>(this.urlApi + `/create`, cita, {headers: this.headers});
   }
 
+  get(): Observable<CitaProducto[]>{
+    return this.http.get<CitaProducto[]>(this.urlApi + `/retrieveAll`);
+  }
+
+  cancelar(cita: CitaProducto): Observable<CitaProducto>{
+    return this.http.put<CitaProducto>(this.urlApi + `/cancelar`, cita, {headers: this.headers});
+  }
 }
