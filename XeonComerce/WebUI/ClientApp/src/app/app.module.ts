@@ -96,7 +96,8 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
-import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './categoria-usuario/categoria-usuario.component';
+import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
+import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 @NgModule({
     imports: [
 		ReactiveFormsModule, 
@@ -237,7 +238,8 @@ import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './catego
 		DialogImagen,
 		DialogEditarArchivo,
 		HistorialComprasComponent,
-    CategoriaUsuarioComponent
+    CategoriaUsuarioComponent,
+    ListaDeseosComponent
     //DialogAgregarCategorias
 		
     ],

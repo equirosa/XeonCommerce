@@ -36,6 +36,7 @@ import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.compo
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
+import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -71,10 +72,9 @@ const routes: Routes = [
     { path: 'dashboardAdmin', component: DashboardAdminComponent, canActivate: [AuthGuard]},
 	{ path: 'configuraciones', component: ConfiguracionesComponent, canActivate: [AuthGuard]},
 	{ path: 'archivos', component: ArchivoComponent, canActivate: [AuthGuard]},
-	{ path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard]},
-	
-
+  { path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard] },
   { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },
+  { path: 'listaDeseos', component: ListaDeseosComponent, canActivate: [AuthGuard] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
