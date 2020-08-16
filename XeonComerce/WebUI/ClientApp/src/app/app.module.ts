@@ -222,7 +222,6 @@ import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
     DialogImpuesto,
     DialogServicio,
     DialogEditarProducto,
-<<<<<<< HEAD
     UploadComercioFilesComponent,
     DialogArchivo,
     DialogUsuario,
