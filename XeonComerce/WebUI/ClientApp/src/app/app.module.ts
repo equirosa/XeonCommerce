@@ -1,3 +1,5 @@
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
+import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
 import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
@@ -240,12 +242,15 @@ import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comerc
 		ArchivoComponent,
 		DialogImagen,
 		DialogEditarArchivo,
-		HistorialComprasComponent,
-    CategoriaUsuarioComponent,
+	CategoriaUsuarioComponent,
+	RecomendacionesComponent,
     //DialogAgregarCategorias
 		ProductoCitaComponent,
 		FormCitaProductoComponent,
-		ListCitaComercioComponent
+		ListCitaComercioComponent,
+		
+		HistorialComprasComponent,
+		HistorialVentasComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

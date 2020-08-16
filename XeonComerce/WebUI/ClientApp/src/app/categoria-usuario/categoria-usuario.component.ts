@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CategoriaService } from './../_services/categoria.service';
 import { Categoria } from '../_models/categoria'
 import { CategoriaUsuario } from '../_models/categoriaUsuario'
@@ -30,7 +31,7 @@ export class CategoriaUsuarioComponent implements OnInit {
     this.user = this.accountService.userValue;
     this.httpClient = http;
   }
-
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   ngOnInit(): void {
     this.getTodasLasCategorias();
     this.getCategorias();
@@ -55,7 +56,8 @@ export class CategoriaUsuarioComponent implements OnInit {
         this.categoriasSelect = this.obtenerElementosDiferentes(this.categorias, this.categoriasPorUsuario);
         console.log(this.categoriasSelect);
         console.log(this.categoriasPorUsuario);
-        this.datos = new MatTableDataSource(this.categoriasPorUsuario);
+		this.datos = new MatTableDataSource(this.categoriasPorUsuario);
+		this.datos.sort = this.sort;
       });
   }
 
@@ -96,7 +98,7 @@ export class CategoriaUsuarioComponent implements OnInit {
       maxWidth: "500px",
       data: {
         title: "¿Está seguro?",
-        message: "Usted está apunto de eliminar un la categoria. "
+        message: "Usted está apunto de eliminar una categoria. "
       }
     });
 
