@@ -1,0 +1,37 @@
+:host{
+	display: block;
+	height: calc(100vh - 5rem);
+  }
+
+.card {
+	max-width: 400px;
+	display: inline-block;
+	margin: 2%;
+  }
+
+  mat-icon{
+	font-size: 35px;
+  }
+
+  .center {
+	  text-align: center;
+  }
+
+  .mat-form-field {
+	font-size: 14px;
+	width: 100%;
+  }
+
+.divComercios {
+	padding: 2% 10%;
+}
+
+.datos {
+	text-align: left;
+}
+
+.lista {
+	overflow-y: auto;
+	overflow-x: hidden;
+	height: 100%;
+}

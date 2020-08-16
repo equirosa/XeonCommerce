@@ -53,6 +53,7 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_IDCOMERCIO, c.IdComercio);
             return operation;
         }
+
         public SqlOperation GetDeleteAllStatement(BaseEntity entity)
         {
             var operation = new SqlOperation { ProcedureName = "DEL_ALL_CATEGORIACOMERCIO_PR" };

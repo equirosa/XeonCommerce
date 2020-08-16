@@ -1,3 +1,5 @@
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
+import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
 import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
@@ -35,6 +37,8 @@ import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comer
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
+import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -71,8 +75,12 @@ const routes: Routes = [
 	{ path: 'configuraciones', component: ConfiguracionesComponent, canActivate: [AuthGuard]},
 	{ path: 'archivos', component: ArchivoComponent, canActivate: [AuthGuard]},
 	{ path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard]},
+	{ path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard]},
+	{ path: 'recomendaciones', component: RecomendacionesComponent, canActivate: [AuthGuard]},
 	
+    { path: 'citasComercio', component: ListCitaComercioComponent, canActivate: [AuthGuard]},
 
+  { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];

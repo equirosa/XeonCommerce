@@ -1,6 +1,6 @@
 <div class="divHistorial">
 	<h2>Historial de compras</h2>
-	
+	<mat-progress-bar mode="indeterminate" *ngIf="historial.length == 0"></mat-progress-bar>
 	<mat-accordion>
 		<mat-expansion-panel *ngFor="let item of historial" (opened)="getProductos(item.detalles)" (closed)="limpiar()">
 		  <mat-expansion-panel-header [ngClass]="{'pendiente': item.transaccionFinanciera.estado == 'P'}" >

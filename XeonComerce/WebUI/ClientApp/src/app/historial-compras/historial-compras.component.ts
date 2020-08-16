@@ -58,7 +58,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 		this.facturaMaestroService.get()
 		.subscribe(facturas => {
 			let facMaestro: any[];
-			  facMaestro = facturas.filter(i=> i.idCliente == this.user.id);
+			facMaestro = facturas.filter(i=> i.idCliente == this.user.id);
 			  
 			  facMaestro.forEach((i, index)=>{
 				  let subir = i;
@@ -83,10 +83,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 						subir["transaccionFinanciera"] = transaccionFinanciera;
 						subir["pendiente"] = transaccionFinanciera.estado == "P";
 						this.historial.push(subir);
-						
+
+						this.historial = this.historial.filter((i)=>i.transaccionFinanciera.monto > 0);						
 						this.historial = this.historial.sort((a, b) => {
 							return b.idFactura - a.idFactura;
 						});
+
 					});
 
 
