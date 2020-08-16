@@ -86,7 +86,13 @@ namespace DataAccess
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "UPD_LISTA_DESEOS_PR" };
+
+            var ltsDeseos = (ListaDeseos)entity;
+            operation.AddIntParam(DB_COL_ID, ltsDeseos.Id);
+            operation.AddIntParam(DB_COL_ID_CANTIDAD, ltsDeseos.Cantidad);
+
+            return operation;
         }
 
         public SqlOperation GetRetriveStatement(BaseEntity entity)

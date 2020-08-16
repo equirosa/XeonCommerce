@@ -1,3 +1,5 @@
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
+import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
 import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
 import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
 import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
@@ -96,6 +98,10 @@ import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.compo
 import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
 
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { ProductoCitaComponent } from './_components/producto-cita/producto-cita.component';
+import { FormCitaProductoComponent } from './form-cita-producto/form-cita-producto.component';
+import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
+
 import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
 import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 @NgModule({
@@ -239,9 +245,14 @@ import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 		DialogEditarArchivo,
 		HistorialComprasComponent,
     CategoriaUsuarioComponent,
-    ListaDeseosComponent
-    //DialogAgregarCategorias
+    ListaDeseosComponent,
+	RecomendacionesComponent,
+		ProductoCitaComponent,
+		FormCitaProductoComponent,
+		ListCitaComercioComponent,
 		
+		HistorialComprasComponent,
+		HistorialVentasComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

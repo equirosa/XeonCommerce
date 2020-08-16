@@ -1,3 +1,4 @@
+import { Servicio } from './../_models/servicio';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -61,6 +62,18 @@ export class ProductoService {
     return this.http
       .post<Producto>(this.urlApi, producto)
       .pipe(tap(_ => this.log(`Se creó`)), catchError(this.handleError));
+  }
+
+  
+
+  enviar(id: string, producto: (Producto|Servicio)) {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post<Producto>(this.urlApi+"/enviar/"+id, producto)
+      .pipe(tap(_ => {}), catchError(this.handleError));
   }
 
   //postProducto(producto: Producto) {

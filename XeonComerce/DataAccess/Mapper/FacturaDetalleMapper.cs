@@ -2,6 +2,7 @@
 using Entities;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace DataAccess.Mapper
@@ -55,6 +56,15 @@ namespace DataAccess.Mapper
 
             var e = (FacturaDetalle)entity;
             operation.AddIntParam(DB_COL_ID_LINEA, e.IdLinea);
+            return operation;
+        }
+
+        public SqlOperation GetFacturasDetalleCita(BaseEntity entity)
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_FACTURA_DETALLE_CITA_PR" };
+
+            var facturaM = (FacturaMaestro)entity;
+            operation.AddIntParam(DB_COL_ID_FACTURA, facturaM.IdFactura);
             return operation;
         }
 

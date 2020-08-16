@@ -1,0 +1,14 @@
+<h2>{{producto.nombre}}</h2>
+<mat-dialog-content>
+    <form [formGroup]="FormCantidadProducto">
+        <mat-form-field >
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" formControlName="Cantidad">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cerrar</button>
+    <button mat-button (click)="agregarCantidad()" >Agregar</button>
+
+</mat-dialog-actions>

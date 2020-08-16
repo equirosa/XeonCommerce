@@ -14,6 +14,9 @@ import { UbicacionService } from '../../_services/ubicacion.service';
 import { ListaDeseosService } from '../../_services/lista-deseos.service'
 import { Direccion } from '../../_models/Direccion';
 import { Ubicacion } from '../../_models/ubicacion';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ProductoCitaComponent } from '../../_components/producto-cita/producto-cita.component';
+import { FormCitaProductoComponent } from '../../form-cita-producto/form-cita-producto.component';
 import { MensajeService } from '../../_services/mensaje.service';
 
 
@@ -30,12 +33,17 @@ export class PerfilSucursalComponent implements OnInit {
   productos: Producto[];
   direccion: Direccion;
   provincias: Ubicacion[];
-  cantones: Ubicacion[];
-  distritos: Ubicacion[];
-  listaDeseos: ListaDeseos[];
-  user: User;
-  constructor(
+	cantones: Ubicacion[];
+	distritos: Ubicacion[];
+    user: User;
+    listaDeseos: ListaDeseos[];
+
+
+  productosCita: Producto[] = [];
+
+  constructor( 
     private route: ActivatedRoute,
+    public dialog: MatDialog,
     private surcursalService: SucursalService,
     private productoService: ProductoService,
     private direccionService: DireccionService,

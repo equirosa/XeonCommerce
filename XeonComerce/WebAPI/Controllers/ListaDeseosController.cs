@@ -66,5 +66,19 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPut]
+        public IActionResult Update(ListaDeseos ltsDeseos)
+        {
+            try
+            {
+                ldm.Update(ltsDeseos);
+                return Ok(new { msg = "Se actualizó la cantidad" });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { msg = e.Message });
+            }
+        }
+
     }
 }

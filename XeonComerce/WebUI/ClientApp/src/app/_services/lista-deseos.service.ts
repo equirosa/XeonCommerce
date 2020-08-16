@@ -31,6 +31,13 @@ export class ListaDeseosService {
     );
   }
 
+  update(ltsDeseos: ListaDeseos): Observable<any> {
+    return this.http.put(`${this.urlApi}`, ltsDeseos, this.httpOptions).pipe(
+      tap(_ => this.log(`Se actualizó la cantidad`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
   delete(idUsuario: string, idProducto: number): Observable<ListaDeseos> {
     const urlLtsDeseos = `${this.urlApi}/${idUsuario}/${idProducto}`;
     return this.http.delete<ListaDeseos>(urlLtsDeseos, this.httpOptions).pipe(

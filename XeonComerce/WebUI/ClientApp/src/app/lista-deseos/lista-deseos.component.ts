@@ -24,6 +24,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class ListaDeseosComponent implements OnInit {
 
   impuestos: Impuesto[];
+  productosTotales: Producto[];
+  ltsDeseos: ListaDeseos[];
+  deseo: ListaDeseos;
   user: User;
   productos: any[];
   productosPP: any[];
@@ -47,6 +50,7 @@ export class ListaDeseosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductos();
+    this.getAllProductos();
   }
 
 
@@ -69,13 +73,21 @@ export class ListaDeseosComponent implements OnInit {
               }
             }
           }
-
-          console.log(this.productos);
           this.datos = new MatTableDataSource(this.productos);
           this.datos.sort = this.sort;
           this.productosPP = this.productos;
         })
 
+    });
+  }
+
+  getAllProductos(): void {
+
+    this.ltsDeseosService.get(this.user.id).subscribe((items) => {
+      this.productoService.getProducto()
+        .subscribe(productos => {
+          this.productosTotales = productos.filter(a => items.find((i) => i.idProducto == a.id));
+        })
     });
   }
 
@@ -97,7 +109,7 @@ export class ListaDeseosComponent implements OnInit {
   }
 
   eliminar(element) {
-
+    this.getAllProductos();
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
       data: {
@@ -108,10 +120,14 @@ export class ListaDeseosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        console.log(this.user.id);
-        console.log(element.id);
-        element.cantidad = element.cantidad + 1;
-        this.productoService.putProductoSilencioso(element.cantidad).subscribe();
+        let producto = element;
+        console.log(producto);
+        for (var i = 0; i < this.productosTotales.length; i++) {
+          if (producto.id == this.productosTotales[i].id) {
+            producto.cantidad = this.productosTotales[i].cantidad + producto.cantidad;
+          }
+        }
+        this.productoService.putProductoSilencioso(producto).subscribe();
         this.ltsDeseosService.delete(this.user.id, element.id).subscribe(() => {
           this.getProductos();
         });
@@ -121,6 +137,8 @@ export class ListaDeseosComponent implements OnInit {
   }
 
   limpiar() {
+    this.getProductos();
+    this.getAllProductos();
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
@@ -137,10 +155,48 @@ export class ListaDeseosComponent implements OnInit {
           this.getProductos();
         });
 
+        for (var i = 0; i < this.productosTotales.length; i++) {
+          for (var j = 0; j < this.productosTotales.length; j++) {
+            if (this.productosTotales[i].id == this.productos[j].id) {
+              console.log(this.productosTotales[i]);
+              debugger;
+              this.productosTotales[i].cantidad = this.productosTotales[i].cantidad + this.productos[j].cantidad;
+              console.log(this.productosTotales[i]);
+              this.productoService.putProductoSilencioso(this.productosTotales[i]).subscribe(() => {
+              });
+              break;
+            }
+          }
+        }
+
       }
     });
-
   }
 
+  anadirProducto(element) {
+   this.ltsDeseosService.get(this.user.id)
+      .subscribe(ltsDeseos => {
+        this.ltsDeseos = ltsDeseos;
+        for (var i = 0; i < this.ltsDeseos.length; i++) {
+          if (element.id == this.ltsDeseos[i].idProducto) {
+            this.ltsDeseos[i].cantidad = this.ltsDeseos[i].cantidad + 1;
+            this.ltsDeseosService.update(this.ltsDeseos[i]).subscribe(() => {
+              this.getProductos();
+      });
+          }
+        }
+      });
+    this.getAllProductos();
 
+    for (var i = 0; i < this.productosTotales.length; i++) {
+      if (element.id == this.productosTotales[i].id) {
+        element.cantidad = this.productosTotales[i].cantidad - 1;
+      }
+    }
+    
+      this.productoService.putProductoSilencioso(element).subscribe(() => {
+      });
+
+      
+  }
 }

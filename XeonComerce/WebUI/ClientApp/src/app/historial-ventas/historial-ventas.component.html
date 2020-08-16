@@ -1,0 +1,58 @@
+<div class="divHistorial">
+	<h2>Historial de ventas</h2>
+	<mat-progress-bar mode="indeterminate" *ngIf="historial.length == 0"></mat-progress-bar>
+	<mat-accordion>
+		<mat-expansion-panel *ngFor="let item of historial" (opened)="getProductos(item.detalles)" (closed)="limpiar()">
+		  <mat-expansion-panel-header [ngClass]="{'pendiente': item.transaccionFinanciera.estado == 'P'}" >
+			<mat-panel-title>
+			  Factura #{{item.idFactura}} {{item.fecha | date:'short'}}
+			</mat-panel-title>
+			<mat-panel-description>
+			{{item.transaccionFinanciera.monto | currency: '₡'}} {{item.detalles.length}} {{item.tipo}} {{item.transaccionFinanciera.estado == 'P' ? "PENDIENTE":""}} {{item.transaccionFinanciera.metodo ? "via " + item.transaccionFinanciera.metodo.toLowerCase() : ""}}
+			</mat-panel-description>
+		  </mat-expansion-panel-header>
+		  <button mat-raised-button color="ver" (click)=verUsuario(item.idCliente)>Ver cliente</button>
+		  <table mat-table matSort [dataSource]="datos" style="width: 100%;">
+			<ng-container matColumnDef="id">
+				  <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+				  <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+				<td mat-footer-cell *matFooterCellDef> Total </td>
+			</ng-container>
+		  
+			<ng-container matColumnDef="nombre">
+				  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+				  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+				  <td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		  
+			<ng-container matColumnDef="cantidad">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
+				<td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		
+			<ng-container matColumnDef="impuesto">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Impuesto </th>
+				<td mat-cell *matCellDef="let element"> {{element.impuesto}}% </td>
+				<td mat-footer-cell *matFooterCellDef></td>
+			</ng-container>
+		  
+			<ng-container matColumnDef="precio">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Precio </th>
+				  <td mat-cell *matCellDef="let element" title="{{'Descuento ' + element.descuento}}"> {{element.precio | currency:'₡'}}</td>
+			  <td mat-footer-cell *matFooterCellDef> Total: {{item.transaccionFinanciera.monto | currency: '₡'}}</td>
+		  </ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+		
+			<tr class="mat-row" *matNoDataRow>
+				<td class="mat-cell" colspan="4">No se ha encontrado productos o servicios en la compra.</td>
+			  </tr>
+		  </table>
+		</mat-expansion-panel>
+	  </mat-accordion>
+
+</div>
+  
