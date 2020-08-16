@@ -1,7 +1,8 @@
-<h2>Citas</h2>
+<div class="div">
+	<h2>Citas</h2>
 <mat-form-field>
-    <mat-label>Filtrar</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar...">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar...">
 </mat-form-field>
 <div class="mat-elevation-8">
     <table mat-table matSort [dataSource]="citas">
@@ -45,4 +46,5 @@
                   [pageSizeOptions]="[5, 10, 20]">
     </mat-paginator>  
 
+</div>
 </div>

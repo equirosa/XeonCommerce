@@ -335,6 +335,46 @@ namespace AppCore
                 // p.valor es la multa
                 //Notificar
 
+                if(p.Valor > 0)
+                {
+
+                    crudTransaccion.Create(new TranFin
+                    {
+                        Estado = "P",
+                        Fecha = DateTime.Now,
+                        Id = -1,
+                        IdCliente = cita.IdCliente,
+                        IdComercio = "3105100",//Comercio 'quemado'
+                        Metodo = "",
+                        Monto = p.Valor
+                    });
+
+                    TranFin tran = crudTransaccion.RetrieveUltimo<TranFin>();
+
+                    crudFacturaMaestro.Create(new FacturaMaestro {
+                                   CedulaJuridica= "3105100",//Comercio 'quemado'
+                                   Fecha =DateTime.Now,
+                                   IdCliente=cita.IdCliente,
+                                   IdFactura=-1,
+                                   IdTransaccion=tran.Id
+                    });
+
+                    FacturaMaestro facMaestro = crudFacturaMaestro.RetrieveUltimo<FacturaMaestro>();
+
+
+                    crudFacturaDetalle.Create(new FacturaDetalle {
+                           Cantidad=1,
+                           Descuento=0,
+                           IdFactura=facMaestro.IdFactura,
+                           IdLinea=-1,
+                           IdProducto=5, //'Quemar' producto que se llame multa
+                           IVA=0,
+                           Valor=p.Valor,
+                           TotalLinea=p.Valor
+                    });
+
+
+                }
 
 
              }
