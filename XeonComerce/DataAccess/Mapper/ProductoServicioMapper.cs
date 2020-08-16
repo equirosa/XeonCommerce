@@ -21,6 +21,8 @@ namespace DataAccess
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_IMPUESTO = "IMPUESTO";
         private const string DB_COL_DURACION = "DURACION";
+        
+        private const string DB_COL_ID_FACTURA = "ID_FACTURA";
         #endregion
 
         #region methods
@@ -100,7 +102,7 @@ namespace DataAccess
             var operation = new SqlOperation { ProcedureName = "CRE_PRODUCTO_SERVICIO_PR" };
 
             var prodAndServ = (Producto)entity;
-            
+
             operation.AddIntParam(DB_COL_TIPO, prodAndServ.Tipo);
             operation.AddVarcharParam(DB_COL_NOMBRE, prodAndServ.Nombre);
             operation.AddDoubleParam(DB_COL_PRECIO, prodAndServ.Precio);
@@ -185,7 +187,15 @@ namespace DataAccess
 
             return operation;
         }
+
+        public SqlOperation GetProductosCita(BaseEntity entity)
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_PRODUCTO_SERVICIO_CITA_PR" };
+
+            var cita = (Cita)entity;
+            operation.AddIntParam(DB_COL_ID_FACTURA, cita.IdFactura);
+            return operation; 
+        }
         #endregion
     }
 }
-

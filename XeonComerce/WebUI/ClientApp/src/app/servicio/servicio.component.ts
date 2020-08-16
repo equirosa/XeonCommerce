@@ -1,14 +1,19 @@
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { Bitacora } from './../_models/bitacora';
+import { BitacoraService } from './../_services/bitacora.service';
 import { Impuesto } from './../_models/impuesto';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
 import { ImpuestoService } from './../_services/impuesto.service';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Servicio } from '../_models/servicio';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { ServiciosService } from './../_services/servicios.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ComercioService } from '../_services/comercio.service';
+import { MensajeService } from '../_services/mensaje.service';
 import { Comercio } from '../_models/comercio';
 import { ConfirmDialogComponent } from './../_components/confirm-dialog/confirm-dialog.component';
 
@@ -33,8 +38,8 @@ export class ServicioComponent implements OnInit {
   user: any;
   impuestos: Impuesto[];
 
-  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService,
-	 private accountService: AccountService) {
+  constructor(public dialog: MatDialog, http: HttpClient, servService: ServiciosService, private comercioService: ComercioService, private impuestoService: ImpuestoService, private mensajeService: MensajeService,
+	private bitacoraService: BitacoraService, private accountService : AccountService) { 
 	this.accountService.user.subscribe(x => {
 		this.user = x;
 	});
@@ -43,23 +48,30 @@ export class ServicioComponent implements OnInit {
 
   }
 
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 
   ngOnInit(): void {
+    this.getImpuestos();
     this.getServicios();
 	this.getComercios();
-	this.getImpuestos();
   }
 
   getServicios(): void {
 
     this.servService.getServicio()
       .subscribe(servicio => {
-		  if(this.user.comercio){
-			this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
-		  }else{
-			this.dataSource = new MatTableDataSource(servicio);
-		  }
+		if(this.user.comercio){
+		this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.comercio.cedJuridica));
+		}else if( this.user.empleado ) {
+		this.dataSource = new MatTableDataSource(servicio.filter((i)=>i.idComercio == this.user.empleado.idComercio));
+		}else{
+		this.dataSource = new MatTableDataSource(servicio);
+		}
+		  
+		  this.dataSource.sort = this.sort;
+		  this.dataSource.paginator = this.paginator;
       });
   }
 
@@ -68,6 +80,8 @@ export class ServicioComponent implements OnInit {
       .subscribe(comercios => {
 		  if(this.user.comercio) {
 			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
+		  }else if( this.user.empleado ) {
+			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.empleado.idComercio)];
 		  }else{
 			this.comercios = comercios;
 		  }
@@ -88,30 +102,77 @@ export class ServicioComponent implements OnInit {
     this.dataSource.filter = filtro.trim().toLowerCase();
   }
 
+  formularioCompleto(serv) {
+    let formularioCompleto = true;
+    if (serv.nombre == "" || serv.precio == "" || serv.impuesto == "" || serv.comercio == "" || serv.duracion == "") {
+      formularioCompleto = false;
+    }
+    return formularioCompleto;
+  }
+
+  datosCorrectosValoresPositivos(serv) {
+    let datosCorrectos = true;
+    if (parseInt(serv.precio) < 1 || parseInt(serv.duracion) < 1) {
+      datosCorrectos = false;
+    }
+    return datosCorrectos;
+  }
+
+  validarNombre(serv) {
+    if (serv.nombre.length < 3) {
+      return false;
+    }
+    return true;
+  }
+
   openDialog(): void {
+	let idComercio = "", esAdmin = false;
+	
+	if (this.user.tipo != 'A') {
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+	}else{
+		esAdmin = true;
+	}
     const dialogRef = this.dialog.open(DialogServicio, {
       width: '500px',
       data: {
         id: 0,
         tipo: 2,
+		noEsAdmin: !esAdmin,
         nombre: "",
         precio: "",
         descuento: 0,
         comercios: this.comercios,
-        comercio: "",
+        comercio: idComercio,
         duracion: "",
-		impuestos: this.impuestos,
-		impuesto: ""
+		    impuestos: this.impuestos,
+		    impuesto: ""
       }
 
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
-      console.log('The dialog was closed');
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValoresPositivos(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+        return;
+      }
+
+      if (!this.validarNombre(result)) {
+        this.mensajeService.add("¡El nombre del servicio debe contener más de 3 letras!");
+        return;
+      }
+
       if (result) {
-        let comercio: Comercio;
-        comercio = result.comercio;
         let servicio: Servicio;
         servicio = {
           "id": result.id,
@@ -119,14 +180,25 @@ export class ServicioComponent implements OnInit {
           "nombre": result.nombre,
           "precio": result.precio,
           "descuento": result.descuento,
-          "idComercio": comercio.cedJuridica,
+          "idComercio": result.comercio,
           "duracion": result.duracion,
 		  "impuesto": result.impuesto.id
         }
         console.log(servicio);
         this.servService.postServicio(servicio)
           .subscribe(() => {
-            this.getServicios()
+			this.getServicios()
+			if(this.user.tipo == "A"){
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Creación de servicio",
+					detalle: `Se creó un servicio para (${result.comercio}) ${result.nombre}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+			}
 		  });
 		  this.getServicios();
       }
@@ -147,6 +219,17 @@ export class ServicioComponent implements OnInit {
       if (dialogResult) this.servService.delete(servicio)
         .subscribe(() => {
           this.getServicios();
+		  if(this.user.tipo == "A"){
+		  var log: Bitacora;
+			  log = {
+				  idUsuario: this.user.id,
+				  accion: "Eliminación de servicio",
+				  detalle: `Se eliminó un servicio para (${servicio.idComercio}) ${servicio.nombre}`,
+				  id: -1,
+				  fecha: new Date()
+			  }
+			  this.bitacoraService.create(log).subscribe();
+			}
         });
       this.getServicios();
     });
@@ -169,17 +252,33 @@ export class ServicioComponent implements OnInit {
         tipo: 2,
         nombre: servicio.nombre,
         precio: servicio.precio,
+        impuestos: this.impuestos,
+        impuesto: servicio.impuesto,
         descuento: servicio.descuento,
         comercio: comercioDelServicio.nombreComercial,
         duracion: servicio.duracion,
-		impuestos: this.impuestos,
-		impuesto: servicio.impuesto
       }
 
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Resultado: ${result}`);
+
+      if (!this.formularioCompleto(result)) {
+        this.mensajeService.add("¡Favor llene todos los datos!");
+        return;
+      }
+
+      if (!this.datosCorrectosValoresPositivos(result)) {
+        this.mensajeService.add("¡Favor cerciorarse, que los valores ingresados no sean negativos!");
+        return;
+      }
+
+      if (!this.validarNombre(result)) {
+        this.mensajeService.add("¡El nombre del servicio debe contener más de 3 letras!");
+        return;
+      }
+
       if (result) {
         servicio = {
           "id": servicio.id,
@@ -188,8 +287,8 @@ export class ServicioComponent implements OnInit {
           "precio": result.precio,
           "descuento": result.descuento,
           "idComercio": servicio.idComercio,
-		  "duracion": result.duracion,
-		  "impuesto": result.impuesto
+		      "duracion": result.duracion,
+          "impuesto": result.impuesto
         }
 
         console.log(servicio);
@@ -197,6 +296,17 @@ export class ServicioComponent implements OnInit {
         this.servService.putServicio(servicio)
           .subscribe(() => {
             this.getServicios()
+			if(this.user.tipo == "A"){
+			var log: Bitacora;
+				log = {
+					idUsuario: this.user.id,
+					accion: "Actualización de servicio",
+					detalle: `Se actualizó un servicio para (${servicio.idComercio}) ${servicio.nombre}`,
+					id: -1,
+					fecha: new Date()
+				}
+				this.bitacoraService.create(log).subscribe();
+			}
           });
         this.getServicios();
       }

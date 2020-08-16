@@ -1,3 +1,4 @@
+import { Servicio } from './../_models/servicio';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -49,8 +50,9 @@ export class ProductoService {
 
     const url = `${this.urlApi}/${prod.id}`;
 
-    return this.http.delete<Producto>(url).pipe(catchError(this.handleError));
+    return this.http.delete<Producto>(url).pipe(tap(_ => this.log(`Se eliminó`)),catchError(this.handleError));
   }
+
 
     postProducto(producto: Producto) {
     const headers = new Headers({
@@ -59,7 +61,19 @@ export class ProductoService {
 
     return this.http
       .post<Producto>(this.urlApi, producto)
-      .pipe(catchError(this.handleError));
+      .pipe(tap(_ => this.log(`Se creó`)), catchError(this.handleError));
+  }
+
+  
+
+  enviar(id: string, producto: (Producto|Servicio)) {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post<Producto>(this.urlApi+"/enviar/"+id, producto)
+      .pipe(tap(_ => {}), catchError(this.handleError));
   }
 
   //postProducto(producto: Producto) {
@@ -81,6 +95,14 @@ export class ProductoService {
   putProducto(prod: Producto): Observable<any> {
     return this.http.put(`${this.urlApi}/${prod.id}`, prod, this.httpOptions).pipe(
       tap(_ => this.log(`Se actualizó`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
+  
+  putProductoSilencioso(prod: Producto): Observable<any> {
+    return this.http.put(`${this.urlApi}/${prod.id}`, prod, this.httpOptions).pipe(
+      tap(),
       catchError(this.handleError<any>('update'))
     );
   }

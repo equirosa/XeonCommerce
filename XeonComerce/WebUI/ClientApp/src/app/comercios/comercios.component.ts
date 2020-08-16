@@ -1,3 +1,5 @@
+import { DialogImagen } from './../archivo/archivo.component';
+import { Archivo } from './../_models/archivo';
 import { MatPaginator } from '@angular/material/paginator';
 import { AccountService } from './../_services/account.service';
 import { User } from './../_models/user';
@@ -17,12 +19,11 @@ import { ComercioService } from '../_services/comercio.service';
 import { MensajeService } from '../_services/mensaje.service';
 import { UbicacionService } from '../_services/ubicacion.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatTableDataSource } from '@angular/material/table';
+import {MatTableDataSource, MatNoDataRow } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 import { UploadComercioFilesComponent } from '../crear-comercio/upload-comercio-files.dialog';
 import { CategoriaComercio } from '../_models/categoriaComercio';
-
 @Component({
   selector: 'app-comercios',
   templateUrl: './comercios.component.html',
@@ -112,7 +113,6 @@ export class ComerciosComponent implements OnInit {
 
 			  dialogRef.afterClosed().subscribe(result => {
 				console.log(`Resultado: ${result}`); 
-				
 				if(!this.estaCompleto(result)){
 					this.mensajeService.add("Favor llene todos los datos");
 					return;
@@ -328,9 +328,14 @@ export class ComerciosComponent implements OnInit {
 	
 	verDocumentos(comercio: Comercio): void {
 			const dialogRef = this.dialog.open(DialogArchivo, {
-				maxWidth: "500px",
+				maxWidth: "800px",
 				data: { cedJuridica: comercio.cedJuridica }
 			  });
+	}
+
+
+	markerDragEnd($event: any) {
+		console.log(";(");
 	}
 }
 
@@ -367,6 +372,11 @@ export class ComerciosComponent implements OnInit {
 		this.ubicacionService.getDistritos(this.data.provincia, canton)
 		.subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
 	  }
+
+	  markerDragEnd($event: any) {
+		this.data.latitud = $event.latLng.lat()
+		this.data.longitud = $event.latLng.lng()
+	}
 
   }
   
@@ -432,10 +442,12 @@ export class ComerciosComponent implements OnInit {
   export class DialogArchivo implements OnInit {
   
 	constructor(
+	  public dialog: MatDialog,
 	  public dialogRef: MatDialogRef<DialogArchivo>,
 	  @Inject(MAT_DIALOG_DATA) public data: any, 
 	  private archivoService: ArchivoService) { }
   
+	displayedColumns: string[] = ['id', 'nombre', 'tipo', 'ver'];
 	onNoClick(): void {
 	  this.dialogRef.close();
 	}
@@ -443,11 +455,18 @@ export class ComerciosComponent implements OnInit {
 	ngOnInit(){
 		this.archivoService.get().subscribe(archivos=>{
 			archivos = archivos.filter((i)=>i.idComercio==this.data.cedJuridica);
-			this.data.archivos = archivos;
+			this.data.archivos = new MatTableDataSource(archivos);
 		})
 	}
 
-
+	ver(archivo: Archivo): void {
+		const dialogRef = this.dialog.open(DialogImagen, {
+			maxWidth: "500px",
+			data: {
+				img: archivo.link
+			}
+		  });
+	}
 
   }
   

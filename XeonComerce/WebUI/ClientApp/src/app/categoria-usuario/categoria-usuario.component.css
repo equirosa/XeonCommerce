@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  height: calc(100vh - 5rem);
+}
+
+table {
+  width: 100%;
+}
+
+.divCategoriaUsuario {
+  padding: 2% 25%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+h2 {
+  padding-bottom: 35px;
+}
+
+.btnEliminarTodo{
+    margin-left: 20px;
+    background-color: #DB4437;
+    color: #ffff;
+}
+

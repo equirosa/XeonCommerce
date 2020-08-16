@@ -1,3 +1,7 @@
+import { Bitacora } from './../_models/bitacora';
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
+import { BitacoraService } from './../_services/bitacora.service';
 import { ArchivoService } from './../_services/archivo.service';
 import { Component, OnInit, Input, NgZone, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -17,6 +21,7 @@ export class UploadComercioFilesComponent implements OnInit {
 
   public hasBaseDropZoneOver: boolean = false;
   public uploader: FileUploader;
+  user: User;
 
   constructor(
 	public dialogRef: MatDialogRef<UploadComercioFilesComponent>,
@@ -24,9 +29,12 @@ export class UploadComercioFilesComponent implements OnInit {
     private cloudinary: Cloudinary,
     private zone: NgZone,
 	private http: HttpClient,
-	private archivoService: ArchivoService
+	private archivoService: ArchivoService,
+	private bitacoraService: BitacoraService,
+	private accountService: AccountService
   ) {
     this.responses = [];
+	this.user = this.accountService.userValue;
   }
 
 
@@ -86,11 +94,21 @@ export class UploadComercioFilesComponent implements OnInit {
 		  arc = {
 			  id: -1,
 			  link: fileItem.data.secure_url,
-			  nombre: "PAPEL",
+			  nombre: "Papel",
 			  tipo:fileItem.data.secure_url.split(".")[fileItem.data.secure_url.split(".").length-1],
 			  idComercio: this.data.idComercio
 		  }
-		  this.archivoService.create(arc).subscribe()
+		  this.archivoService.create(arc).subscribe(()=>{
+			var log: Bitacora;
+			log = {
+				idUsuario: this.user.id,
+				accion: "Nuevo archivo",
+				detalle: `Se agregó un archivo (${arc.idComercio})`,
+				id: -1,
+				fecha: new Date()
+			}
+			this.bitacoraService.create(log).subscribe();
+		  });
 		  }
         } else {
           // Create new response

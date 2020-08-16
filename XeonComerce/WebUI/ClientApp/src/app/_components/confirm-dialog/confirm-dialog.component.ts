@@ -4,20 +4,22 @@ import { Component, OnInit, Inject } from '@angular/core';
 
 export interface DialogData {
     title: string;
-    message: string;
+	message: string;
+	editar?: boolean;
 }
 
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.sass']
+  styleUrls: ['./confirm-dialog.component.css']
 })
 
 export class ConfirmDialogComponent implements OnInit {
 
     dialogData: DialogData;
     title:string;
-    message:string;
+	message:string;
+	editar:boolean;
 
     constructor(
         public dialogRef: MatDialogRef<ConfirmDialogComponent>,

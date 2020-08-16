@@ -28,8 +28,9 @@
               "src/assets"
             ],
             "styles": [
-			  "src/styles.css",
-			  "src/theme.css",
+              "./node_modules/font-awesome/css/font-awesome.css",
+              "src/styles.css",
+              "src/theme.css",
               "./node_modules/@syncfusion/ej2-material-theme/styles/material.css"
             ],
             "scripts": []
@@ -53,13 +54,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "10mb",
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "60kb",
+                  "maximumError": "100kb"
                 }
               ]
             }

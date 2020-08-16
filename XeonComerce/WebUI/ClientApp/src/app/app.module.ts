@@ -1,6 +1,16 @@
+import { RecomendacionesComponent } from './recomendaciones/recomendaciones.component';
+import { HistorialVentasComponent } from './historial-ventas/historial-ventas.component';
+import { HistorialComprasComponent } from './historial-compras/historial-compras.component';
+import { ArchivoComponent, DialogImagen, DialogEditarArchivo } from './archivo/archivo.component';
+import { ConfiguracionesComponent } from './configuraciones/configuraciones.component';
+import { CarritoDialogFinComponent } from './_components/carrito/fin/fin.dialog';
+import { CarritoDialogPayPalComponent } from './_components/carrito/paypal/paypal.dialog';
+import { CarritoDialogSinpeComponent } from './_components/carrito/sinpe/sinpe.dialog';
+import { CarritoDialogMetodoPagoComponent } from './_components/carrito/metodo-pago/metodo-pago.dialog';
+import { CarritoDialogDireccionComponent } from './_components/carrito/destino/destino.dialog';
 import { DiaFeriadoComponent, DialogDiaFeriado } from './diaferiado/dia-feriado.component';
 import { PromocionComponent, PromocionDialog } from './promocion/promocion.component';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -26,6 +36,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatBadgeModule} from '@angular/material/badge';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -46,16 +57,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ComerciosComponent, DialogComercio, DialogDireccion, DialogArchivo } from './comercios/comercios.component';;
-import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component'
-;
-import { SolicitudesComponent } from './solicitudes/solicitudes.component'
-;
+import { ConfirmDialogComponent } from './_components/confirm-dialog/confirm-dialog.component';
+import { SolicitudesComponent } from './solicitudes/solicitudes.component';
+import { ComerciosCardComponent, FiltroComerciosPipe } from './comercios-card/comercios-card.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component'
 import { ProductoFormComponent, DialogProducto, DialogEditarProducto } from './producto-form/producto-form.component';
 import { ImpuestoComponent, DialogImpuesto } from './impuesto/impuesto.component';
 import { ServicioComponent, DialogServicio, DialogEditarServicio } from './servicio/servicio.component'
+import { LandingPageAppComponent } from './landing-page-app/landing-page-app.component'
 
 import { MatNativeDateModule } from '@angular/material/core';
 import { RecuperarContrasennaComponent } from './recuperar-contrasenna/recuperar-contrasenna.component';
@@ -74,13 +85,27 @@ import { CategoriaComponent, DialogCategoria } from './categoria/categoria.compo
 import { NavComponent } from './nav/nav.component';
 import { NavlistComponent } from './navlist/navlist.component';
 import { SucursalesComponent, DialogSucursal, DialogDireccionSucursal } from './sucursales/sucursales.component';
-import { ConfigComponent, DialogConfig } from './config/config.component';
+import { ConfigComponent } from './config/config.component';
 import { PerfilComercioComponent } from './perfil/comercio/comercio.component';
 import { ComercioRolComponent } from './comercio-rol/comercio-rol.component';
 import { ListRolComponent } from './list-rol/list-rol.component';
 import { FormRolComponent } from './form-rol/form-rol.component';
+import { LandingPageXeonSquadComponent } from './landing-page-xeon-squad/landing-page-xeon-squad.component';
+import { DashboardComercioComponent } from './dashboard-comercio/dashboard-comercio.component';
+import { ListarUsuariosComponent, DialogDireccionUsuario } from './listar-usuarios/listar-usuarios.component';
+import { CarritoComponent } from './carrito/carrito.component';
+import { PerfilSucursalComponent } from './perfil/sucursal/perfil-sucursal.component';
+import { FormHorarioSucursalComponent } from './form-horario-sucursal/form-horario-sucursal.component';
+
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './categoria-usuario/categoria-usuario.component';
+import { ProductoCitaComponent } from './_components/producto-cita/producto-cita.component';
+import { FormCitaProductoComponent } from './form-cita-producto/form-cita-producto.component';
+import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
+
 @NgModule({
     imports: [
+		ReactiveFormsModule, 
 		FormsModule,
 		CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'de99h9v43', api_secret: 'szrKGouDzr9bgYSTXF_a8LO7nMI', api_key: '664882358892716'}),
         FileUploadModule,
@@ -121,7 +146,8 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		MatSortModule,
 		MatNativeDateModule,
 		MatPaginatorModule,
-		MatDividerModule,
+		MatBadgeModule,
+    	MatDividerModule,
 		AgmCoreModule.forRoot({
 		  apiKey: 'AIzaSyBHWLv4zAfQsEsZoRzI2aHKCpcYy_QjLOk'
 		}),
@@ -132,20 +158,29 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 	entryComponents: [
 		DialogComercio,
 		ConfirmDialogComponent,
-    DialogDireccion,
-    DialogProducto,
-    DialogImpuesto,
-    DialogServicio,
-    DialogEditarProducto,
+		DialogDireccion,
+		DialogProducto,
+		DialogImpuesto,
+		DialogServicio,
+		DialogEditarProducto,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		DialogUsuario,
 		DialogCategoria,
 		PromocionDialog,
+    	DialogEditarServicio,
 		DialogSucursal,
+		DialogDiaFeriado,
 		DialogDireccionSucursal,
-    DialogEditarServicio,
-		DialogDiaFeriado
+		DialogDireccionUsuario,
+		DialogUsuario,
+		CarritoDialogDireccionComponent,
+		CarritoDialogMetodoPagoComponent,
+		CarritoDialogSinpeComponent,
+		CarritoDialogPayPalComponent,
+		CarritoDialogFinComponent,
+		DialogImagen,
+		DialogEditarArchivo
 	],
     declarations: [
         AppComponent,
@@ -162,19 +197,18 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		RegistroUsuarioComponent,
 		RecuperarContrasennaComponent,
 		FiltroComerciosPipe,
-     ProductoFormComponent,
-    DialogProducto,
-    ImpuestoComponent,
-    DialogImpuesto,
-    ServicioComponent,
-    DialogServicio,
-	DialogEditarProducto,
-	PromocionDialog,
+		ProductoFormComponent,
+		DialogProducto,
+		ImpuestoComponent,
+		DialogImpuesto,
+		ServicioComponent,
+		DialogServicio,
+		DialogEditarProducto,
+		PromocionDialog,
 		CambiarContrasennaComponent,
 		UploadComercioFilesComponent,
 		DialogArchivo,
 		BitacoraComponent,
-		DialogConfig,
     	DialogEditarServicio,
 		DialogUsuario,
 		CategoriaComponent,
@@ -186,11 +220,37 @@ import { FormRolComponent } from './form-rol/form-rol.component';
 		DialogDireccionSucursal,
 		PromocionComponent,
 		ConfigComponent,
-		DialogConfig,
 		PerfilComercioComponent,
 		ComercioRolComponent,
 		ListRolComponent,
-		FormRolComponent
+		FormRolComponent,
+		LandingPageXeonSquadComponent,
+		DashboardComercioComponent,
+		ListarUsuariosComponent,
+		DialogDireccionUsuario,
+		CarritoComponent,
+		FormRolComponent,
+		PerfilSucursalComponent,
+		FormHorarioSucursalComponent,
+		DashboardAdminComponent,
+		CarritoDialogDireccionComponent,
+		CarritoDialogMetodoPagoComponent,
+		CarritoDialogSinpeComponent,
+		CarritoDialogPayPalComponent,
+		CarritoDialogFinComponent,
+		ConfiguracionesComponent,
+		ArchivoComponent,
+		DialogImagen,
+		DialogEditarArchivo,
+	CategoriaUsuarioComponent,
+	RecomendacionesComponent,
+    //DialogAgregarCategorias
+		ProductoCitaComponent,
+		FormCitaProductoComponent,
+		ListCitaComercioComponent,
+		
+		HistorialComprasComponent,
+		HistorialVentasComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

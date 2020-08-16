@@ -22,9 +22,9 @@ export class EmpleadoAdminComponent implements OnInit {
 
 
   constructor( 
-    public dialog: MatDialog, 
-    private empleadoService: EmpleadoService, 
-    private sucursalService: SucursalService, 
+    public dialog: MatDialog,
+    private empleadoService: EmpleadoService,
+    private sucursalService: SucursalService,
     private comercioService: ComercioService ) { }
 
   ngOnInit(): void {
@@ -35,11 +35,11 @@ export class EmpleadoAdminComponent implements OnInit {
     const dialogRef = this.dialog.open(FormEmpleadoComponent, {
       width: '750px',
       height: '400px',
-      data: { empleado: '1' }
+      data: { idComercio: this.idComercio, idSucursal: this.idSucursal }
     });
 
     dialogRef.afterClosed().subscribe( result => {
-      this.actualizarDatos = true;
+      this.actualizarDatos = !this.actualizarDatos;
     });
   }
 

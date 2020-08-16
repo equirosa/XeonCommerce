@@ -60,7 +60,7 @@ export class EmpleadoHorarioComponent implements OnInit {
 
   verificarTipoUsuario(): void {
     const user = JSON.parse(localStorage.getItem('user'));
-    if(user.tipo === 'C'){
+    if(user.tipo === 'C' || user.tipo === 'A'){
       this.permitirCargar = true; 
     } else if( user.tipo === 'E') {
       this.permitirCargar = false;

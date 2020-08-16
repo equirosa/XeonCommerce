@@ -42,7 +42,7 @@ export class ServiciosService {
 
     const url = `${this.urlApi}/${serv.id}`;
 
-    return this.http.delete<Servicio>(url).pipe(catchError(this.handleError));
+    return this.http.delete<Servicio>(url).pipe(tap(_ => this.log(`Se eliminó`)),catchError(this.handleError));
   }
 
   postServicio(servicio: Servicio) {
@@ -52,7 +52,7 @@ export class ServiciosService {
 
     return this.http
       .post<Servicio>(this.urlApi, servicio)
-      .pipe(catchError(this.handleError));
+      .pipe(tap(_ => this.log(`Se creó`)),catchError(this.handleError));
   }
 
   putServicio(serv: Servicio): Observable<any> {

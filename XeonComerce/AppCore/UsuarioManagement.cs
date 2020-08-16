@@ -53,5 +53,10 @@ namespace Management
             crud.Verification(user);
             return crud.Retrieve<Usuario>(user);
         }
+
+        public void UpdateToAdmin(Usuario usuario)
+        {
+            crud.UpdateToAdmin(usuario);
+        }
     }
 }

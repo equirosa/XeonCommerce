@@ -1,5 +1,6 @@
 
 @import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
+@import '../node_modules//font-awesome/css/font-awesome.css';
 @import "theme.css";
 code {
   color: #e01a76;
@@ -151,5 +152,9 @@ body {
 
 .mmat-form-field {
   font-size: 14px;
+  width: 100%;
+}
+
+.bloque {
   width: 100%;
 }

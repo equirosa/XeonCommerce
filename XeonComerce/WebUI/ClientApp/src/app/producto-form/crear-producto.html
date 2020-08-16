@@ -3,13 +3,13 @@
 <div mat-dialog-content>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Nombre</mat-label>
-    <input required matInput [(ngModel)]="data.nombre">
+    <input minlength = "3" required matInput [(ngModel)]="data.nombre">
   </mat-form-field>
 
   <br>
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Precio</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.precio">
+    <input min="1" type="number" required matInput [(ngModel)]="data.precio">
   </mat-form-field>
   <br>
 
@@ -25,20 +25,15 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Cantidad</mat-label>
-    <input minlength="1" type="number" required matInput [(ngModel)]="data.cantidad">
-  </mat-form-field>
-  <br>
-  <mat-form-field style="width:400px" appearance="standard">
-    <mat-label>Descuento</mat-label>
-    <input minlength="1" type="number" matInput [(ngModel)]="data.descuento" disabled>
+    <input min="1" type="number" required matInput [(ngModel)]="data.cantidad">
   </mat-form-field>
   <br>
 
-  <mat-form-field style="width:400px !important" appearance="fill">
+  <mat-form-field style="width:400px !important" appearance="fill" [hidden]="data.noEsAdmin">
     <mat-label>Comercio</mat-label>
     <mat-select [(ngModel)]="data.comercio" required>
       <mat-option></mat-option>
-      <mat-option *ngFor="let comercio of data.comercios" [value]="comercio">
+      <mat-option *ngFor="let comercio of data.comercios" [value]="comercio.cedJuridica">
         {{comercio.nombreComercial}}
       </mat-option>
     </mat-select>
@@ -46,7 +41,7 @@
 
   <mat-form-field style="width:400px !important" appearance="standard">
     <mat-label>Duracion en minutos estimados</mat-label>
-    <input minlength="1" type="number" matInput [(ngModel)]="data.duracion" required>
+    <input min="1" type="number" matInput [(ngModel)]="data.duracion" required>
   </mat-form-field>
   <br>
 </div>
