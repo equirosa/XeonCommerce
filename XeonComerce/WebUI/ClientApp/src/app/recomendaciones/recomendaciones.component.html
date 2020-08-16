@@ -1,0 +1,48 @@
+<div class="divComercios">
+  <h2>Recomendaciones</h2>
+
+  <div class="mat-elevation-z8">
+
+    <mat-grid-list cols="4" rowHeight="1:1.8">
+
+
+      <mat-grid-tile colspan=3>
+        <div class="lista">
+          <mat-list style="width: 100vw;">
+            <div mat-subheader>Productos recomendados</div>
+            <mat-list-item *ngFor="let item of prodyserv">
+				<mat-icon mat-list-icon *ngIf="item.tipo==1">local_pizza</mat-icon>
+				<mat-icon mat-list-icon *ngIf="item.tipo==2">local_convenience_store</mat-icon>
+              <div mat-line><a href="/comercio/{{item.idComercio}}">{{item.nombre}}</a></div>
+              <div mat-line> {{item.precio | currency:'₡'}} </div>
+              <div mat-line *ngIf="item.tipo==1"> <button mat-button (click)=agregarCarrito(item)>Agregar a
+                  carrito</button> <button mat-button>Agregar a cita</button></div>
+              <div mat-line *ngIf="item.tipo!=1"> <button mat-button>Agregar a cita</button> </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-grid-tile>
+
+
+      <mat-grid-tile>
+        <div class="lista">
+			<mat-list>
+            <div mat-subheader>Comercios recomendados</div>
+            <mat-list-item *ngFor="let item of comercios">
+              <mat-icon mat-list-icon>business</mat-icon>
+              <div mat-line>{{item.nombreComercial}}</div>
+              <div mat-line>{{item.cedJuridica}}</div>
+              <div mat-line><button mat-button (click)=verDireccion(item)>Ver direccion</button> <button mat-button
+                  routerLink="/comercio/{{item.cedJuridica}}">Ir</button></div>
+
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-grid-tile>
+
+
+
+    </mat-grid-list>
+
+  </div>
+</div>

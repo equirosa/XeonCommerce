@@ -70,7 +70,7 @@
 		<mat-card class="card" *ngFor="let item of sucursales |slice:((paginator.pageIndex)*pageSize):((paginator.pageIndex+1)*pageSize)">
 			<mat-card-header>
 			  <div mat-card-avatar><mat-icon aria-hidden="false" aria-label="Comercio">business</mat-icon></div>
-			  <mat-card-title>Sucursal {{item.id.split("-")[1]}}</mat-card-title>
+			  <mat-card-title>Sucursal {{item.nombre}}</mat-card-title>
 			  <mat-card-subtitle>{{item.id}}</mat-card-subtitle>
 			</mat-card-header>
 			<mat-card-actions>

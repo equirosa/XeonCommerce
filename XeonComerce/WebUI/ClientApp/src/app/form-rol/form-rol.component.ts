@@ -76,7 +76,7 @@ export class FormRolComponent implements OnInit {
         });
       },
       error: err => {
-        this._snackBar.open('No se logro registrar la sección del horario', '', {
+        this._snackBar.open('No se logro registrar el rol', '', {
           duration: 2500,
         });
       }
@@ -84,6 +84,9 @@ export class FormRolComponent implements OnInit {
   }
 
   compararOpciones(o1: any, o2: any): boolean {
-    return o1.id === o2.id;
+    if(o1 && o2){
+      return o1.id === o2.id;
+    }
+    
   }
 }

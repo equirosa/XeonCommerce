@@ -19,7 +19,7 @@ namespace DataAccess.Mapper
             var operation = new SqlOperation { ProcedureName = "CRE_HORARIO_SUCURSAL_PR" };
 
             var hs = (HorarioSucursal)entity;
-            operation.AddIntParam(DB_COL_ID, hs.Id);
+            
             operation.AddVarcharParam(DB_COL_ID_SUCURSAL, hs.IdSucursal);
             operation.AddDateTimeParam(DB_COL_HORA_INICIO, hs.HoraInicio);
             operation.AddDateTimeParam(DB_COL_HORA_FINAL, hs.HoraFinal);
@@ -88,7 +88,7 @@ namespace DataAccess.Mapper
             {
                 Id = GetIntValue(row, DB_COL_ID),
                 IdSucursal = GetStringValue(row, DB_COL_ID_SUCURSAL),
-                HoraInicio = GetDateValue(row, DB_COL_HORA_FINAL),
+                HoraInicio = GetDateValue(row, DB_COL_HORA_INICIO),
                 HoraFinal = GetDateValue(row, DB_COL_HORA_FINAL),
                 DiaSemana = GetIntValue(row, DB_COL_DIA_SEMANA)
 

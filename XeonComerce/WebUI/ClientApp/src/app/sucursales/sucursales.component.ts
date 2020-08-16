@@ -18,17 +18,20 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 // import { MouseEvent } from '@agm/core';
-import { ComercioService } from '../_services/comercio.service'
+import { ComercioService } from '../_services/comercio.service';
+
+import { FormHorarioSucursalComponent } from '../form-horario-sucursal/form-horario-sucursal.component';
+
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
   styleUrls: ['./sucursales.component.css']
 })
 export class SucursalesComponent implements OnInit {
-  user: User;
+  user: any;
   sucursales: Sucursal[];
   sucursalCrear: Sucursal;
-  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'horario', 'editar', 'eliminar'];
   datos;
   provincias: Ubicacion[];
   cantones: Ubicacion[];
@@ -38,6 +41,7 @@ export class SucursalesComponent implements OnInit {
   // latitud: number = 9.7489;
   marker: marker;
   comercios: Comercio[];
+  comercio: Comercio;
 
   constructor(private comercioService: ComercioService, private accountService: AccountService, public dialog: MatDialog,
     private archivoService: ArchivoService, private sucursalService: SucursalService, private direccionService: DireccionService,
@@ -48,6 +52,8 @@ export class SucursalesComponent implements OnInit {
 
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    this.getComercios();
     this.getSucursales();
     this.getProvincias();
   }
@@ -61,7 +67,19 @@ export class SucursalesComponent implements OnInit {
     this.comercioService.get().subscribe(comercios => {
       this.comercios = comercios.sort((a, b) => {
         return a.cedJuridica.localeCompare(b.cedJuridica);
-      })
+	  });
+	  
+	  let idComercio = "";
+
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+
+	  if (this.user.tipo != 'A') {
+		this.comercios = this.comercios.filter((a) => a.cedJuridica == idComercio)
+	  }
     })
   }
 
@@ -76,6 +94,20 @@ export class SucursalesComponent implements OnInit {
 
 
   abrirCrear(): void {
+
+	let idComercio = "", esAdmin = false;
+	
+	if (this.user.tipo != 'A') {
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+	}else{
+		esAdmin = true;
+	}
+
+
     this.ubicacionService.getProvincias()
       .subscribe(provincias => {
         this.provincias = Object.keys(provincias).map(key => ({ value: Number(key), nombre: provincias[key] }))
@@ -83,10 +115,10 @@ export class SucursalesComponent implements OnInit {
           width: '500px',
           data: {
             accion: "crear",
-            noEsAdmin: true,
+            noEsAdmin: !esAdmin,
             permitir: true,
             id: "",
-            idComercio: "",
+            idComercio: idComercio,
             disposiciones: "",
             idUsuario: this.user.id,
             estado: "A",
@@ -168,10 +200,16 @@ export class SucursalesComponent implements OnInit {
   }
 
   abrirEditar(sucursal: Sucursal): void {
+	let esAdmin = false;
+	
+	if (this.user.tipo == 'A') {
+		esAdmin = true;
+	}
     const dialogRef = this.dialog.open(DialogSucursal, {
       width: '500px',
       data: {
         accion: "editar",
+		noEsAdmin: !esAdmin,
         permitir: !false,
         id: sucursal.id,
         idComercio: sucursal.idComercio,
@@ -182,6 +220,7 @@ export class SucursalesComponent implements OnInit {
         provincias: this.provincias,
         cantones: this.cantones,
         distritos: this.distritos,
+		comercios: this.comercios,
         provincia: "",
         canton: "",
         distrito: "",
@@ -210,12 +249,22 @@ export class SucursalesComponent implements OnInit {
         this.sucursales = sucursales.sort((a, b) => {
           return a.id.localeCompare(b.id);
         });
-        this.sucursales = sucursales.filter((a) => a.estado == 'A');
-        this.datos = new MatTableDataSource(this.sucursales);
-        this.datos.sort = this.sort;
-        this.datos.paginator = this.paginator;
+		this.sucursales = sucursales.filter((a) => a.estado == 'A');
+		
+		let idComercio = "";
+
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+        if (this.user.tipo != 'A') {
+          this.sucursales = sucursales.filter((a) => a.idComercio == idComercio)
+        }
+			this.datos = new MatTableDataSource(this.sucursales);
+			this.datos.sort = this.sort;
+			this.datos.paginator = this.paginator;
       });
-    this.getComercios();
   }
 
   delete(sucursal: Sucursal): void {
@@ -255,7 +304,20 @@ export class SucursalesComponent implements OnInit {
       });
     });
   }
+
+
+  abrirHorario(sucursal: Sucursal): void {
+    const dialogRef = this.dialog.open(FormHorarioSucursalComponent, {
+      width: '680px',
+      height: '500px',
+      data: {sucursal}
+    });
+
+  }
+  
 }
+
+
 
 
 @Component({
@@ -292,7 +354,7 @@ export class DialogSucursal {
       .subscribe(distritos => this.data.distritos = Object.keys(distritos).map(key => ({ value: Number(key), nombre: distritos[key] })));
   }
 
-  getComercios():void{
+  getComercios(): void {
     console.log("Obteniendo comercios...");
     let comercios: Comercio[];
     this.comercioService.get().subscribe(comercios => this.data.comercios);

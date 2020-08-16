@@ -40,6 +40,13 @@ httpOptions = {
     );
   }
 
+  update(log: TransaccionFinanciera): Observable<any> {
+    return this.http.put<any>(this.urlApi+"/"+log.id, log, this.httpOptions).pipe(
+      tap(),
+      catchError(this.handleError<any>('actualizar'))
+    );
+  }
+
   private log(message: string) {
 	this.mensajeService.add(`TransaccionFinanciera: ${message}`);
   }

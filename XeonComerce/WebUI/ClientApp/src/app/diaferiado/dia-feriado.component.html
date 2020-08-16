@@ -2,9 +2,9 @@
 	<h2>Días Feriados</h2>
 	<button mat-raised-button color="primary" (click)="abrirCrear()">Crear</button>
 	<button mat-raised-button color="primary" (click)="pdf(datos)" style="margin-left:1%;">Descargar</button>
-<mat-form-field>
-	<mat-label>Filter</mat-label>
-	<input matInput (keyup)="filtrar($event)" placeholder="Ex. Lacoste" #input>
+<mat-form-field style="margin-top: 1%;" >
+	<mat-label>Buscar</mat-label>
+	<input matInput (keyup)="filtrar($event)" placeholder="Ex. Navidad" #input>
   </mat-form-field>
 	<div class="mat-elevation-z8">
 		<table mat-table matSort [dataSource]="datos">
@@ -42,7 +42,7 @@
 	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 	<tr class="mat-row" *matNoDataRow>
-		<td class="mat-cell" colspan="4">No se han encontraron datos</td>
+		<td class="mat-cell" colspan="4">No se ha encontrado datos</td>
 	  </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
