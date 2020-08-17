@@ -109,11 +109,7 @@ import {
   MonthAgendaService,
 } from "@syncfusion/ej2-angular-schedule";
 
-import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
-import { CategoriaUsuarioComponent/*, DialogAgregarCategorias*/ } from './categoria-usuario/categoria-usuario.component';
-import { ProductoCitaComponent } from './_components/producto-cita/producto-cita.component';
-import { FormCitaProductoComponent } from './form-cita-producto/form-cita-producto.component';
-import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
+
 import { ListCitasEmpleadoComponent } from './list-citas-empleado/list-citas-empleado.component';
 import { FinalizarCitaEmpleadoComponent } from './finalizar-cita-empleado/finalizar-cita-empleado.component';
 import { FinalizarCitaDatosComponent } from './finalizar-cita-datos/finalizar-cita-datos.component';
