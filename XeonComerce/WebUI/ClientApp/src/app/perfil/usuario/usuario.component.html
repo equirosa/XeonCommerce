@@ -1,0 +1,38 @@
+<div class="divUsuario" *ngIf="usuario">
+  <mat-grid-list cols="2" rowHeight="2.5:1">
+    <mat-grid-tile rowspan="0.5">
+
+      <mat-card class="cardUsuario">
+        <mat-card-header>
+          <div mat-card-avatar><mat-icon aria-hidden="false" aria-label="Usuario">account_box</mat-icon></div>
+          <mat-card-title>{{usuario.nombre}}</mat-card-title>
+          <mat-card-subtitle>{{usuario.apellidoUno}} {{usuario.apellidoDos}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            <strong>+506 </strong><span>{{usuario.numeroTelefono}}</span>
+            <br>
+            <strong>Contacto </strong><span><a href="mailto:{{usuario.correoElectronico}}">{{usuario.correoElectronico}}</a></span>
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+    </mat-grid-tile>
+    <mat-grid-tile rowspan="2">
+
+
+      <mat-card class="cardUsuario">
+        <mat-card-title>Género</mat-card-title>
+        <mat-card-subtitle>{{usuario.genero}}</mat-card-subtitle>
+        <mat-card-title>Fecha de nacimiento</mat-card-title>
+        <mat-card-subtitle>{{usuario.fechaNacimiento}}</mat-card-subtitle>
+
+        <mat-form-field style="width:400px !important" appearance="fill">
+          <mat-label>Otras señas</mat-label>
+          <textarea disabled required matInput [(ngModel)]="direccion.sennas"> </textarea>
+        </mat-form-field>
+      </mat-card>
+
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

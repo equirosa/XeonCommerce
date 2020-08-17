@@ -53,5 +53,21 @@ namespace WebAPI.Controllers
             }
         }
 
+
+        [HttpPut]
+        public IActionResult CancelarUsr(CitaProducto citaProducto)
+        {
+            try
+            {
+                var citaManag = new CitaManagement();
+                citaManag.CancelarCitaUsuario(citaProducto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+        }
+
     }
 }
