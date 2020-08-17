@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Cita</h2>
+<mat-dialog-content>
+    <mat-tab-group mat-align-tabs="start">
+        <mat-tab label="Datos">
+          <app-finalizar-cita-datos [cita]="cita"></app-finalizar-cita-datos>
+        </mat-tab>
+        <mat-tab label="Productos" [disabled]="cita.tipo === 'S'">
+            <app-finalizar-cita-productos [cita]="cita" (finalizarProductos)="recibirProductos($event)"></app-finalizar-cita-productos>
+        </mat-tab>
+
+    </mat-tab-group>    
+    <mat-form-field>
+        <mat-label>Estado Final</mat-label>
+        <mat-select matNativeControl (selectionChange)="selectEstado($event.value)" >
+            <mat-option *ngFor="let e of estados" [value]="e.valor">
+                {{e.nombre}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content >
+<mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close class="example-button-row" >Cancelar</button>
+    <button 
+      mat-flat-button 
+      [mat-dialog-close]="true" 
+      (click)="finalizar()" 
+      class="example-button-row" 
+      [disabled]="!estado"
+      
+    >
+       Finalizar
+      </button>
+  </mat-dialog-actions>

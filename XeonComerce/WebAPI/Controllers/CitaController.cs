@@ -64,6 +64,22 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpPut]
+        public IActionResult Finalizar(CitaProducto citaProducto)
+        {
+            try
+            {
+                var citaManag = new CitaManagement();
+                citaManag.FinalizarCita(citaProducto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+
+        }
+
 
         private static async Task Excecute(string info, Usuario user)
         {

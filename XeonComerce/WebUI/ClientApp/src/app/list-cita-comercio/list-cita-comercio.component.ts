@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ListCitaComercioComponent implements OnInit {
 
-  idComercio = '31015606';
+  idComercio: string;
   citas = new MatTableDataSource<CitaProducto>();
   columnas: string[] = ['sucursal', 'fecha', 'estado', 'tipo', 'ver', 'cancelar'];
 
@@ -23,7 +23,12 @@ export class ListCitaComercioComponent implements OnInit {
     this.citas.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor( private citaService: CitaService, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
+  constructor(
+    private citaService: CitaService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar) {
+      this.idComercio = JSON.parse(localStorage.getItem('user')).comercio.cedJuridica;
+     }
 
   ngOnInit(): void {
     this.cargarCitas();
