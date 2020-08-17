@@ -107,7 +107,7 @@ export class ProductoFormComponent implements OnInit {
 
   formularioCompleto(prod) {
     let formularioCompleto = true;
-    if (prod.nombre == "" || prod.precio == "" || prod.impuesto == "" || prod.cantidad == "" || prod.comercio == "" || prod.duracion == "") {
+    if (prod.nombre == "" || prod.precio == "" || prod.impuesto == "" || prod.cantidad == "" || prod.duracion == "") {
       formularioCompleto = false;
     }
     return formularioCompleto;
@@ -115,7 +115,7 @@ export class ProductoFormComponent implements OnInit {
 
   datosCorrectosValoresPositivos(prod) {
     let datosCorrectos = true;
-    if (parseInt(prod.precio) < 1 || parseInt(prod.cantidad) < 1 || parseInt(prod.duracion) < 0) {
+    if (parseInt(prod.precio) < 0 || parseInt(prod.cantidad) < 0 || parseInt(prod.duracion) < 0) {
       datosCorrectos = false;
     }
     return datosCorrectos;
@@ -165,7 +165,6 @@ openDialog(): void {
 
   dialogRef.afterClosed().subscribe(result => {
     console.log(`Resultado: ${result}`); 
-
     if (!this.formularioCompleto(result)) {
       this.mensajeService.add("¡Favor llene todos los datos!");
       return;
