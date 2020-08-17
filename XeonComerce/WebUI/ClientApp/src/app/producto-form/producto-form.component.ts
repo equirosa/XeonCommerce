@@ -84,11 +84,20 @@ export class ProductoFormComponent implements OnInit {
 			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.comercio.cedJuridica)];
 		  }else if( this.user.empleado ) {
 			this.comercios = [comercios.find((i)=>i.cedJuridica==this.user.empleado.idComercio)];
-		  }else{
+      } else {
+
 			this.comercios = comercios;
-		  }
+      }
         console.log(this.comercios);
       });
+  }
+
+  obtenerComerciosFiltrados(lista1: Producto[], lista2:   Producto[]): Producto[] {
+
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return lista2.indexOf(elemento) == -1;
+    });
+    return elementosFiltrados;
   }
 
   getImpuestos(): void {
