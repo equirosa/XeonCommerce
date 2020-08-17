@@ -4,10 +4,11 @@ using Management;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot
@@ -15,10 +16,10 @@ namespace TelegramBot
     class Program
     {
         private static ITelegramBotClient botClient;
-        private static UsuarioTelegramManagement usuarioTelegramManagement = new UsuarioTelegramManagement();
-        private static ComercioManagement comercioManagement = new ComercioManagement();
-        private static SucursalManagement sucursalManagement = new SucursalManagement();
-        private static DireccionManagement direccionManagement = new DireccionManagement();
+        private static readonly UsuarioTelegramManagement usuarioTelegramManagement = new UsuarioTelegramManagement();
+        private static readonly ComercioManagement comercioManagement = new ComercioManagement();
+        private static readonly SucursalManagement sucursalManagement = new SucursalManagement();
+        private static readonly DireccionManagement direccionManagement = new DireccionManagement();
 
         static void Main()
         {
@@ -50,7 +51,9 @@ namespace TelegramBot
         {
             var query = queryArgs.CallbackQuery;
             Console.WriteLine($"Got callback, contains {query.Data}");
-            switch (query.Data)
+            await botClient.SendChatActionAsync(query.Message.Chat.Id, ChatAction.Typing);
+            await Task.Delay(50);
+            switch (query.Data.Split("_")[0])
             {
                 case "login":
                     await botClient.SendTextMessageAsync(
@@ -67,7 +70,66 @@ namespace TelegramBot
                         replyMarkup: listadoComercios
                         );
                     break;
+                case "comercio":
+                    var listadoSucursales = ListarSucursales(query.Data.Split("_")[1]);
+                    Comercio comercio = ObtenerComercio(query.Data.Split("_")[1]);
+                    SendVenue(query.Message, comercioManagement.RetrieveById(comercio));
+                    await Task.Delay(50);
+                    await botClient.SendTextMessageAsync(
+                        chatId: query.Message.Chat,
+                        text: "Estas son las sucursales del comercio " + comercio.NombreComercial,
+                        replyMarkup: listadoSucursales
+                        );
+                    break;
+                case "sucursal":
+                    var sucursal = ObtenerSucursal(query.Data.Split("_")[1]);
+                    SendVenue(query.Message, sucursalManagement.RetriveById(sucursal));
+                    break;
             }
+        }
+
+        private static Sucursal ObtenerSucursal(string idSucursal)
+        {
+            return sucursalManagement.RetriveById(
+                new Sucursal()
+                {
+                    Id = idSucursal
+                });
+        }
+
+        private static Comercio ObtenerComercio(string idComercio)
+        {
+            return comercioManagement.RetrieveById(
+                new Comercio()
+                {
+                    CedJuridica = idComercio
+                }) ;
+        }
+
+        private static InlineKeyboardMarkup ListarSucursales(string comercioId)
+        {
+            List<Sucursal> listaSucursales = sucursalManagement.RetriveAll();
+            List<Sucursal> sucursalesComercio = new List<Sucursal>();
+            foreach (var sucursal in listaSucursales)
+            {
+                if (sucursal.IdComercio == comercioId)
+                    sucursalesComercio.Add(sucursal);
+            }
+
+            var btns = new InlineKeyboardButton[sucursalesComercio.Count()][];
+
+            int counter=0;
+            foreach (var sucursal in sucursalesComercio)
+            {
+                btns[counter] = new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(sucursal.Nombre, "sucursal_"+sucursal.Id)
+                };
+
+                counter++;
+            }
+
+            return new InlineKeyboardMarkup(btns);
         }
 
         static async void BotOnMessageAsync(object sender, MessageEventArgs msgArgs)
@@ -96,10 +158,10 @@ namespace TelegramBot
                                 {
                                     InlineKeyboardButton.WithCallbackData(
                                         text:"Iniciar Sesión",
-                                        callbackData: "login"),
+                                        callbackData: "login_"),
                                     InlineKeyboardButton.WithCallbackData(
                                         text: "Comercios",
-                                        callbackData: "listar-comercios")
+                                        callbackData: "listar-comercios_")
                                 }
                             });
 
@@ -130,28 +192,6 @@ namespace TelegramBot
             return text.Length == 9 && int.TryParse(text, out _);
         }
 
-        private static void ManejarCedula(MessageEventArgs e)
-        {
-            string cedula = e.Message.Text.Split("/")[1];
-            string msg = "No se encontraron resultados para esa cédula...";
-            if (cedula.StartsWith("3") && cedula.Length > 1)
-            {
-                SendVenue(e,comercioManagement.RetrieveById(new Comercio() { CedJuridica = cedula })); ;
-                msg = "Lista de sucursales del comercio:\n" +
-                    "-------------------------\n";
-                List<Sucursal> sucursales = sucursalManagement.RetriveAll();
-                foreach (var c in sucursales)
-                {
-                    if (c.IdComercio == cedula)
-                    {
-                        msg += c.Nombre + " - /" + c.Id + "\n";
-                    }
-                }
-                msg += "------------------------\n";
-            }
-            SendText(e.Message, msg);
-        }
-
         public static InlineKeyboardMarkup ListarComercios()
         {
             List<Comercio> comercios = comercioManagement.RetrieveAll();
@@ -161,7 +201,7 @@ namespace TelegramBot
             {
                 var row = new[]
                 {
-                    InlineKeyboardButton.WithCallbackData(comercio.NombreComercial, "comercio"+comercio.CedJuridica)
+                    InlineKeyboardButton.WithCallbackData(comercio.NombreComercial, "comercio_"+comercio.CedJuridica)
                 };
                 btns[counter] = row;
                 counter++;
@@ -192,14 +232,14 @@ namespace TelegramBot
                 );
         }
 
-        private static async void SendVenue(MessageEventArgs e, BaseEntity entity)
+        private static async void SendVenue(Message e, BaseEntity entity)
         {
             string nombre = "nulo";
             Direccion dir = new Direccion() { Latitud = "9.7489", Longitud= "-83.7534", Sennas = "Señas" };
             switch (entity.GetType().ToString().Split(".")[1])
             {
                 default:
-                    SendText(e.Message, entity.GetType().ToString());
+                    SendText(e, entity.GetType().ToString());
                     break;
                 case "Comercio":
                     var comercio = (Comercio)entity;
@@ -215,7 +255,7 @@ namespace TelegramBot
             float.TryParse(dir.Latitud, out float lat);
             float.TryParse(dir.Longitud, out float lng);
             await botClient.SendVenueAsync(
-                chatId: e.Message.Chat,
+                chatId: e.Chat,
                 latitude: lat,
                 longitude: lng,
                 title: nombre,
