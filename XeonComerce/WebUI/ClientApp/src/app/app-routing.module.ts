@@ -105,8 +105,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   // { path: 'empleado', component: EmpleadoAdminComponent },
- 
-  },
   {
     path: "dashboardAdmin",
     component: DashboardAdminComponent,
