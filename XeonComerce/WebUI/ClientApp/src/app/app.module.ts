@@ -106,6 +106,8 @@ import { ListCitasEmpleadoComponent } from './list-citas-empleado/list-citas-emp
 import { FinalizarCitaEmpleadoComponent } from './finalizar-cita-empleado/finalizar-cita-empleado.component';
 import { FinalizarCitaDatosComponent } from './finalizar-cita-datos/finalizar-cita-datos.component';
 import { FinalizarCitaProductosComponent } from './finalizar-cita-productos/finalizar-cita-productos.component';
+import { ListCitasClienteComponent } from './list-citas-cliente/list-citas-cliente.component';
+import { PerfilCitaClienteComponent } from './perfil-cita-cliente/perfil-cita-cliente.component';
 
 @NgModule({
     imports: [
@@ -258,7 +260,9 @@ import { FinalizarCitaProductosComponent } from './finalizar-cita-productos/fina
 		ListCitasEmpleadoComponent,
 		FinalizarCitaEmpleadoComponent,
 		FinalizarCitaDatosComponent,
-		FinalizarCitaProductosComponent
+		FinalizarCitaProductosComponent,
+		ListCitasClienteComponent,
+		PerfilCitaClienteComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

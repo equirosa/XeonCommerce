@@ -40,6 +40,7 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 import { CategoriaUsuarioComponent } from './categoria-usuario/categoria-usuario.component';
 import { ListCitaComercioComponent } from './list-cita-comercio/list-cita-comercio.component';
 import { ListCitasEmpleadoComponent } from './list-citas-empleado/list-citas-empleado.component';
+import { ListCitasClienteComponent } from './list-citas-cliente/list-citas-cliente.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -81,6 +82,7 @@ const routes: Routes = [
 	
     { path: 'citasComercio', component: ListCitaComercioComponent, canActivate: [AuthGuard]},
     { path: 'citasEmpleado', component: ListCitasEmpleadoComponent, canActivate: [AuthGuard]},
+    { path: 'citasCliente', component: ListCitasClienteComponent, canActivate: [AuthGuard]},
 
   { path: 'categoriasUsuario', component: CategoriaUsuarioComponent, canActivate: [AuthGuard] },
     // otherwise redirect to home
