@@ -16,7 +16,10 @@ export class ListCitaComercioComponent implements OnInit {
 
   idComercio: string;
   citas = new MatTableDataSource<CitaProducto>();
-  columnas: string[] = ['sucursal', 'fecha', 'estado', 'tipo', 'ver', 'cancelar'];
+  columnas: string[] = ['sucursal', 'fecha', 'estado', 'tipo', 'notificar' , 'cancelar'];
+
+  // Consultado segun la configuracion del comercio
+  diasAntelacion = 3;
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -43,6 +46,34 @@ export class ListCitaComercioComponent implements OnInit {
     });
   }
 
+  habilitarNotificacion(cita: CitaProducto): boolean {
+    const hoy = new Date();
+    const diaCita = new Date(cita.horaFinal);
+    const diff =  diaCita.getDate() - hoy.getDate();
+
+    if ( diaCita.getFullYear() === hoy.getFullYear() &&
+         diaCita.getMonth === hoy.getMonth && diff >= 0 && diff <= this.diasAntelacion ){
+        return true;
+    } else {
+      return false;
+    }
+  }
+
+  enviarNotificacion(cita: CitaProducto): void {
+    this.citaService.notificar(cita).subscribe({
+      next: res => {
+        this._snackBar.open('Se ha notificado al cliente de la cita', '', {
+          duration: 2500
+        });
+      },
+      error: err => {
+        this._snackBar.open('No se logrado notificar al cliente de la cita', '', {
+          duration: 2500
+        });
+      }
+    });
+
+  }
 
   ver(cita: CitaProducto): void {
 

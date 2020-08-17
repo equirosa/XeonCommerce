@@ -22,14 +22,22 @@
             <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.tipo}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="ver">
+        <ng-container matColumnDef="notificar">
+            <mat-header-cell *matHeaderCellDef>Enviar Notificación</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-raised-button color="crear" (click)="enviarNotificacion(element)" [disabled]="!habilitarNotificacion(element)">
+                    Enviar Notificación
+                </button>
+            </mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="ver">
             <mat-header-cell *matHeaderCellDef>Ver</mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <button mat-raised-button color="ver" (click)="ver(element)">
                     Ver
                 </button>
             </mat-cell>
-        </ng-container>
+        </ng-container> -->
         <ng-container matColumnDef="cancelar">
             <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
             <mat-cell  *matCellDef="let element">

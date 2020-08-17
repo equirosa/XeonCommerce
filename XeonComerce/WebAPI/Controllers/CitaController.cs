@@ -28,8 +28,8 @@ namespace WebAPI.Controllers
                 citaManag.Create(citaProducto);
 
                 Usuario usuario = um.RetrieveById(new Usuario { Id = citaProducto.IdCliente });
-
-                var info = citaProducto.HoraInicio.ToString("MM/dd/yy");
+                
+                var info = "Bienvenido a GetItSafely se ha agendado su cita, información: " + citaProducto.HoraInicio.ToString("MM/dd/yy") + ".";
 
                 Excecute(info, usuario).Wait();
 
@@ -80,6 +80,28 @@ namespace WebAPI.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult NotificarCliente(CitaProducto citaProducto)
+        {
+            try
+            {
+                var citaManag = new CitaManagement();
+                var um = new UsuarioManagement();
+                Usuario usuario = um.RetrieveById(new Usuario { Id = citaProducto.IdCliente });
+
+
+                var msg = "Le recordamos que tiene una cita para el dia: " + citaProducto.HoraInicio.ToString("yyyy-MM-dd") +". Gracias por confiar en nosotros, lo esperamos!!";
+                Excecute(msg, usuario).Wait();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+
+        }
+
 
         private static async Task Excecute(string info, Usuario user)
         {
@@ -89,8 +111,8 @@ namespace WebAPI.Controllers
             var subject = "Inofrmacion de la cita con GetItSafely";
             //var to = new EmailAddress(user.CorreoElectronico, user.Nombre);
             var to = new EmailAddress("jarguelloq@ucenfotec.ac.cr", user.Nombre);
-            var plainTextContent = ("Bienvenido a GetItSafely se ha agendado su cita, información: " + info + ".");
-            var htmlContent = "<strong>Gracias por preferir GetItSafely, la información de su cita es: '" + info + "' ." + "</strong>";
+            var plainTextContent = (info);
+            var htmlContent = "<strong>"+info+ "</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
