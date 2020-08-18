@@ -304,11 +304,6 @@ namespace TelegramBot
             }
         }
 
-        //private static bool IsCedula(string text)
-        //{
-        //    return text.Length == 9 && int.TryParse(text, out _);
-        //}
-
         public static InlineKeyboardMarkup ListarComercios()
         {
             List<Comercio> comercios = comercioManagement.RetrieveAll();
