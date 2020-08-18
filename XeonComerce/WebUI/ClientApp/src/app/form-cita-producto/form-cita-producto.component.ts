@@ -87,7 +87,7 @@ export class FormCitaProductoComponent implements OnInit {
       this.nuevaCita.idComercio = this.sucursal.idComercio;
       this.nuevaCita.productos = this.productos;
 
-      console.log(this.nuevaCita);
+     
 
       this.citaService.create(this.nuevaCita).subscribe({
         next: res => {

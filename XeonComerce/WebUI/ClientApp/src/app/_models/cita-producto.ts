@@ -2,8 +2,8 @@ import { Producto } from "./producto";
 
 export class CitaProducto {
     id: number;
-    horaInicio: Date;
-    horaFinal: Date;
+    horaInicio: any;
+    horaFinal: any;
     estado: string;
     tipo: string;
     idEmpleado: number;

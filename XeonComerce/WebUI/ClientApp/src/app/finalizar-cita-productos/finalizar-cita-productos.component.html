@@ -1,0 +1,16 @@
+<form [formGroup]="f" *ngFor="let f of formProductos.controls; let i = index" class="mt-lg">
+    <strong class="nombre-producto">{{cita.productos[i].nombre}}: </strong>
+    <mat-form-field class="form-field-producto">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" formControlName="Cantidad">
+        <!-- <mat-error *ngIf="f.controls['Cantidad'].errors?.e-min-count">
+            La cantidad no puede ser cero!
+        </mat-error>
+        <mat-error *ngIf="f.controls['Cantidad'].errors?.max">
+            No existen tantas unidades en stock!
+        </mat-error> -->
+    </mat-form-field>
+</form>
+<button  mat-flat-button (click)="guardarProductos()" >
+    Guardar
+</button>

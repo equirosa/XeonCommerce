@@ -1,5 +1,5 @@
 <div class="div">
-	<h2>Citas</h2>
+    <h2>Citas</h2>
 <mat-form-field>
     <mat-label>Buscar</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Buscar...">
@@ -16,33 +16,18 @@
         </ng-container>
         <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.estado}}</mat-cell>
+            <mat-cell *matCellDef="let element">Pendiente</mat-cell>
         </ng-container>
         <ng-container matColumnDef="tipo">
             <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.tipo}}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="notificar">
-            <mat-header-cell *matHeaderCellDef>Enviar Notificación</mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <button mat-raised-button color="crear" (click)="enviarNotificacion(element)" [disabled]="!habilitarNotificacion(element)">
-                    Enviar Notificación
-                </button>
-            </mat-cell>
-        </ng-container>
-        <!-- <ng-container matColumnDef="ver">
-            <mat-header-cell *matHeaderCellDef>Ver</mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <button mat-raised-button color="ver" (click)="ver(element)">
-                    Ver
-                </button>
-            </mat-cell>
-        </ng-container> -->
-        <ng-container matColumnDef="cancelar">
-            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.tipo === 'P' ? 'Producto': 'Servicio'}}</mat-cell>
+        </ng-container>       
+        <ng-container matColumnDef="finalizar">
+            <mat-header-cell *matHeaderCellDef>Finalizar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
-                <button mat-raised-button color="eliminar" (click)="cancelar(element)">
-                    Cancelar
+                <!-- [disabled]="element.horaFinal > hoy" -->
+                <button mat-raised-button color="eliminar" (click)="finalizar(element)" >
+                    Finalizar
                 </button>
             </mat-cell>
         </ng-container>  

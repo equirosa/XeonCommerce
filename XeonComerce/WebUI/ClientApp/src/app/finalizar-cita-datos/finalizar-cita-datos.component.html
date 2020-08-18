@@ -1,0 +1,14 @@
+<form [formGroup]="formGroupDatos" class="mt-lg" >
+    <mat-form-field class="mat-form">
+        <mat-label>Fecha</mat-label>
+        <input matInput type="date" formControlName="Fecha" >
+    </mat-form-field>
+    <mat-form-field class="mat-form">
+        <mat-label>Tipo</mat-label>
+        <input matInput type="text" formControlName="Tipo" readonly>
+    </mat-form-field>
+    <mat-form-field class="mat-form">
+        <mat-label>Cliente</mat-label>
+        <input matInput type="text" formControlName="Cliente" readonly>
+    </mat-form-field>
+</form>
