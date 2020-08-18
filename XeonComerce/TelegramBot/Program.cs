@@ -20,6 +20,8 @@ namespace TelegramBot
         private static readonly ComercioManagement comercioManagement = new ComercioManagement();
         private static readonly SucursalManagement sucursalManagement = new SucursalManagement();
         private static readonly DireccionManagement direccionManagement = new DireccionManagement();
+        private static readonly UsuarioManagement usuarioManagement = new UsuarioManagement();
+        private static readonly ProductoServicioManagement productoServicioManagement = new ProductoServicioManagement();
 
         static void Main()
         {
@@ -58,7 +60,8 @@ namespace TelegramBot
                 case "login":
                     await botClient.SendTextMessageAsync(
                         chatId: query.Message.Chat,
-                        text: "¡Envíame tu número de cédula, con ceros y sin guiones ni espacios, para asociar tu cuenta!",
+                        text: "¡Envíame tu número de cédula, para asociar tu cuenta!\n" +
+                        "Usa el siguiente formato: usuario_12345678",
                         replyMarkup: new ForceReplyMarkup()
                         );
                     break;
@@ -77,15 +80,100 @@ namespace TelegramBot
                     await Task.Delay(50);
                     await botClient.SendTextMessageAsync(
                         chatId: query.Message.Chat,
-                        text: "Estas son las sucursales del comercio " + comercio.NombreComercial,
+                        text: "Estas son las sucursales de " + comercio.NombreComercial,
                         replyMarkup: listadoSucursales
                         );
                     break;
                 case "sucursal":
-                    var sucursal = ObtenerSucursal(query.Data.Split("_")[1]);
+                    string idSucursal = query.Data.Split("_")[1];
+                    var sucursal = ObtenerSucursal(idSucursal);
                     SendVenue(query.Message, sucursalManagement.RetriveById(sucursal));
+                    if (IsLoggedInChat(query.Message))
+                    {
+                        await botClient.SendTextMessageAsync(
+                            chatId: query.Message.Chat,
+                            text: "¿Desea reservar una cita?",
+                            replyMarkup: new InlineKeyboardMarkup(new[]
+                            {
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData("Servicio","servicio_"+idSucursal),
+                                    InlineKeyboardButton.WithCallbackData("Producto","producto_"+idSucursal)
+                                }
+                            })
+                            );
+                    }
+                    else
+                    {
+                        SendText(query.Message, "¡Inicia sesión para agendar una cita!");
+                    }
+                    break;
+                case "servicio":
+                    var listaServicios = ListarServicios(query.Data.Split("_")[1]);
+                    await botClient.SendTextMessageAsync(
+                        chatId: query.Message.Chat,
+                        text: "Por favor, seleccione el producto para el que desea sacar cita:",
+                        replyMarkup: listaServicios
+                        );
+                    break;
+                case "producto":
+                    var listaProductos = ListarProductos(query.Data.Split("_")[1]);
+                    await botClient.SendTextMessageAsync(
+                        chatId: query.Message.Chat,
+                        text: "Por favor, seleccione el producto para el que desea sacar cita:",
+                        replyMarkup: listaProductos
+                        );
+                    break;
+                case "citaproducto":
                     break;
             }
+        }
+
+        private static InlineKeyboardMarkup ListarProductos(string idSucursal)
+        {
+            List<Producto> listaProductos = productoServicioManagement.RetrieveAllProductos();
+            List<Producto> productosComercio = new List<Producto>();
+            foreach (var producto in listaProductos)
+            {
+                if (producto.IdComercio == idSucursal.Split("-")[0])
+                    productosComercio.Add(producto);
+            }
+
+            var btns = new InlineKeyboardButton[productosComercio.Count()][];
+            int count = 0;
+            foreach (var row in productosComercio)
+            {
+                btns[count] = new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(row.Nombre, "citaproducto_"+row.Id+"_"+idSucursal)
+                };
+                count++;
+            }
+            return btns;
+        }
+
+        private static InlineKeyboardMarkup ListarServicios(string idSucursal)
+        {
+            List<Servicio> listaServicios = productoServicioManagement.RetrieveAllServicios();
+            List<Servicio> serviciosComercio = new List<Servicio>();
+            foreach (var servicio in listaServicios)
+            {
+                if (servicio.IdComercio == idSucursal.Split("-")[0])
+                    serviciosComercio.Add(servicio);
+            }
+
+            var btns = new InlineKeyboardButton[serviciosComercio.Count()][];
+            int count = 0;
+            foreach (var row in serviciosComercio)
+            {
+                btns[count] = new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(row.Nombre, "citaservicio_"+row.Id+"_"+idSucursal)
+                };
+                count++;
+            }
+            return btns;
+
         }
 
         private static Sucursal ObtenerSucursal(string idSucursal)
@@ -137,60 +225,89 @@ namespace TelegramBot
             var mensaje = msgArgs.Message;
             if (mensaje == null) return;
             Console.WriteLine($"Received a message from {msgArgs.Message.Chat.Id} that says {mensaje.Text}");
-               switch (mensaje.Text)
-               {
-                    default:
-                    case "/menu":
-                    if (IsCedula(mensaje.Text) && !IsLoggedIn(mensaje.Text))
+            switch (mensaje.Text.Split("_")[0])
+            {
+                case "usuario":
+                    if (!IsLoggedInChat(mensaje) && !IsLoggedIn(mensaje.Text.Split("_")[1]))
                     {
                         IniciarSesion(mensaje);
                     }
                     else
                     {
-                        if (IsCedula(mensaje.Text) && IsLoggedIn(mensaje.Text)){
-                            SendText(mensaje, "Ya iniciaste sesión.");
-                        }
-                        else {
-                            SendText(mensaje, "Este es el menú");
-                            var menuPrincipal = new InlineKeyboardMarkup(new[]
-                            {
-                                new[]
-                                {
-                                    InlineKeyboardButton.WithCallbackData(
-                                        text:"Iniciar Sesión",
-                                        callbackData: "login_"),
-                                    InlineKeyboardButton.WithCallbackData(
-                                        text: "Comercios",
-                                        callbackData: "listar-comercios_")
-                                }
-                            });
-
-                            await botClient.SendTextMessageAsync(
-                                    chatId: mensaje.Chat,
-                                    text: "Seleccione una opción...",
-                                    replyMarkup: menuPrincipal
-                                    );
-                        }
+                        SendText(mensaje, "Ya iniciaste sesión.");
                     }
                     break;
-               }
+                default:
+                    if (!IsLoggedInChat(mensaje))
+                    {
+                        SendText(mensaje, "Este es el menú");
+                        var menuPrincipal = new InlineKeyboardMarkup(new[]
+                        {
+                            new[]
+                            {
+                                InlineKeyboardButton.WithCallbackData(
+                                    text:"Iniciar Sesión",
+                                    callbackData: "login_"),
+                                InlineKeyboardButton.WithCallbackData(
+                                    text: "Comercios",
+                                    callbackData: "listar-comercios_")
+                            }
+                        });
+                        await botClient.SendTextMessageAsync(
+                            chatId: mensaje.Chat,
+                            text: "Seleccione una opción...",
+                            replyMarkup: menuPrincipal
+                            );
+                    }
+                    else
+                    {
+                        var listadoComercios = ListarComercios();
+                        await botClient.SendTextMessageAsync(
+                            chatId: mensaje.Chat,
+                            text: "¡Selecciona un comercio!",
+                            replyMarkup: listadoComercios
+                            );
+                    }
+                    break;
+            }
+        }
+        
+        private static bool IsLoggedInChat(Message mensaje)
+        {
+            List<UsuarioTelegram> usuarios = usuarioTelegramManagement.RetrieveAll();
+            foreach (UsuarioTelegram user in usuarios)
+            {
+                if (user.IdChat == mensaje.Chat.Id.ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static void IniciarSesion(Message mensaje)
         {
-            usuarioTelegramManagement.Create(
-                new UsuarioTelegram()
-                {
-                    IdChat = mensaje.Chat.Id.ToString(),
-                    IdUsuario = mensaje.Text
-                });
-            SendText(mensaje, "¡Sesión iniciada!");
+            Usuario user = usuarioManagement.RetrieveById(new Usuario() { Id = mensaje.Text.Split("_")[1] });
+            if (user != null)
+            {
+                usuarioTelegramManagement.Create(
+                    new UsuarioTelegram()
+                    {
+                        IdChat = mensaje.Chat.Id.ToString(),
+                        IdUsuario = mensaje.Text
+                    });
+                SendText(mensaje, "¡Sesión iniciada!");
+            }
+            else
+            {
+                SendText(mensaje, "Lo siento, pero no sé de ningún usuario registrado con esa cédula.");
+            }
         }
 
-        private static bool IsCedula(string text)
-        {
-            return text.Length == 9 && int.TryParse(text, out _);
-        }
+        //private static bool IsCedula(string text)
+        //{
+        //    return text.Length == 9 && int.TryParse(text, out _);
+        //}
 
         public static InlineKeyboardMarkup ListarComercios()
         {
