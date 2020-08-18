@@ -52,8 +52,7 @@ export class FinalizarCitaEmpleadoComponent implements OnInit {
     horaInicio.setMinutes(-1 * duracion - offset);
 
     this.cita.horaInicio = horaInicio;
-    this.cita.estado = "F";
-    
+    this.cita.estado = this.estado; 
 
     this.citaService.finalizar(this.cita).subscribe({
       next: res => {

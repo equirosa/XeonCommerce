@@ -3,6 +3,7 @@ using Entities;
 using Management;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -22,6 +23,7 @@ namespace AppCore
         private FacturaDetalleCrudFactory crudFacturaDetalle;
         private ProductoServicioCrudFactory crudProducto;
         private EspecialidadCrudFactory crudEspecialidad;
+        private UsuarioCrudFactory crudUsuario; 
 
 
         public CitaManagement()
@@ -37,6 +39,7 @@ namespace AppCore
             crudFacturaDetalle = new FacturaDetalleCrudFactory();
             crudProducto = new ProductoServicioCrudFactory();
             crudEspecialidad = new EspecialidadCrudFactory();
+            crudUsuario = new UsuarioCrudFactory();
 
         }
 
@@ -402,6 +405,7 @@ namespace AppCore
             if (c == null) c = new Config { Id = "MIN_DIAS_CANCELAR_CI", Valor = 0 };
             if (DateTime.Now > cita.HoraInicio.AddDays(-c.Valor))
             {
+                //-------------------------
                 //Se debe multar
                 AusenciasManagement aM = new AusenciasManagement();
                 List<Ausencias> parametros = aM.RetrieveAll();
@@ -454,6 +458,8 @@ namespace AppCore
 
              }
 
+            //---------------
+
             cita.Estado = "C";
             crudCita.Update(cita);
 
@@ -499,6 +505,31 @@ namespace AppCore
             crudProducto.Update(producto);
         }
 
+        private void BloquearUsuario(string idCliente)
+        {
+            ConfigManagement cM = new ConfigManagement();
+            Config c = cM.RetrieveById(new Config { Id = "MAXAUSENCIAS" });
+            if (c == null) c = new Config { Id = "MAXAUSENCIAS", Valor = 0 };
+
+            var citas = crudCita.RetrieveAll<Cita>();
+            int citasAusente = 0;
+            foreach(var cita in citas)
+            {
+                if( cita.IdCliente == idCliente && cita.Estado == "A")
+                {
+                    citasAusente += 1;
+                }
+            }
+            
+
+            if( citasAusente == Convert.ToInt32(c.Valor )&& c.Valor > 0)
+            {
+                var usuario = crudUsuario.Retrieve<Usuario>(new Usuario() { Id = idCliente });
+                usuario.Estado = "B";
+                crudUsuario.Update(usuario);
+            }
+        }
+
         public void FinalizarCita(CitaProducto citaProducto)
         {
             var facturaM = crudFacturaMaestro.Retrieve<FacturaMaestro>(new FacturaMaestro() { IdFactura = citaProducto.IdFactura });
@@ -508,22 +539,36 @@ namespace AppCore
 
             if ( citaProducto.Estado == "A")
             {
-                // Estado Ausente:
-                // - Regresar el stock 
-                // - Actualizar cantidad a la factura detalle
-                // - Actualizar estado de la cita 
-                // - Actualizar estado de la transaccion
 
-                transaccion.Estado = "C";
-                crudTransaccion.Update(transaccion);
+                if (citaProducto.Tipo == "P") {
+                    // Estado Ausente:
+                    // - Regresar el stock 
+                    // - Actualizar cantidad a la factura detalle
+                    // - Actualizar estado de la cita 
+                    // - Actualizar estado de la transaccion
 
-                //var cita = this.CrearCita(citaProducto);
+                    this.BloquearUsuario(citaProducto.IdCliente);
+
+                    transaccion.Estado = "C";
+                    crudTransaccion.Update(transaccion);
+
+                    cita.Estado = "A";
+                    crudCita.Update(cita);
+
+                    this.RegresarStock(facturasDetalle);
+                } else
+                {
+
+                    cita.Estado = "F";
+                    crudCita.Update(cita);
+
+
+                    // Actualizar el monto de la transaccion 
+                    transaccion.Monto = this.calcularMontoTransaccion(facturaM);
+                    crudTransaccion.Update(transaccion);
+
+                }
                 
-                cita.Estado = "A";
-                crudCita.Update(cita);
-
-                
-                this.RegresarStock(facturasDetalle);
 
             }else if( citaProducto.Estado == "F")
             {
@@ -572,6 +617,8 @@ namespace AppCore
                         }
                     }
                 }
+
+                //
 
                 // Se actualiza la cita                 
                 cita.Estado = "F";
