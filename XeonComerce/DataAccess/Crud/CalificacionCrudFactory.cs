@@ -1,5 +1,4 @@
-﻿using System;
-#region libraries
+﻿#region libraries
 using System;
 using System.Collections.Generic;
 using DataAccess.Dao;

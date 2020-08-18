@@ -163,7 +163,6 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
   agregarCarrito(producto: Producto) {
-    debugger;
     if (this.clienteBloqueado) {
       this.router.navigate(['historial']);
       this.mensajeService.add("¡Multa Pendiente!");
@@ -260,11 +259,17 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
   contratar(servicio: Producto): void {
-    const dialoRef = this.dialog.open(FormCitaServicioComponent, {
-      width: '400px',
-      height: '500px',
-      data: { servicio, sucursal: this.sucursal}
-    });
+    if (this.clienteBloqueado) {
+      this.router.navigate(['historial']);
+      this.mensajeService.add("¡Multa Pendiente!");
+      return;
+    } else {
+      const dialoRef = this.dialog.open(FormCitaServicioComponent, {
+        width: '400px',
+        height: '500px',
+        data: { servicio, sucursal: this.sucursal }
+      });
+    }
   
   }
 
