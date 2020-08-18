@@ -21,6 +21,7 @@ namespace AppCore
         private FacturaMasterCrudFactory crudFacturaMaestro;
         private FacturaDetalleCrudFactory crudFacturaDetalle;
         private ProductoServicioCrudFactory crudProducto;
+        private EspecialidadCrudFactory crudEspecialidad;
 
 
         public CitaManagement()
@@ -35,6 +36,7 @@ namespace AppCore
             crudDiaFeriado = new DiaFeriadoCrudFactory();
             crudFacturaDetalle = new FacturaDetalleCrudFactory();
             crudProducto = new ProductoServicioCrudFactory();
+            crudEspecialidad = new EspecialidadCrudFactory();
 
         }
 
@@ -70,8 +72,19 @@ namespace AppCore
 
             var validHorarioSucursal = this.ValidarHorarioSucursal(cita);
 
+            var empleado = this.AsignarEmpleadoServicio(cita, citaProducto.Productos[0].Id);
+
             if (!validHorarioSucursal) throw new Exception("La sucursal se encuentra cerrada en las horas seleccionadas");
+            if (empleado == null) throw new Exception("No hay personal disponible para atender la cita");
             if (!this.ValidarDiaFeriado(cita)) throw new Exception("La fecha seleccionada es un dia feriado");
+
+            var transaccion = this.CrearTransaccion(cita);
+            var factura = this.crearFacturaMaestro(cita, transaccion.Id);
+            cita.IdFactura = factura.IdFactura;
+            cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
+            crudCita.Create(cita);
+            var citaCreada = crudCita.RetrieveUltimo<Cita>();
+            this.CrearFacturasDetalle(citaCreada, citaProducto.Productos);
         }
 
         public Cita RetriveById(Cita cita)
@@ -214,6 +227,48 @@ namespace AppCore
             }
             
             return null;
+        }
+
+        private Empleado AsignarEmpleadoServicio(Cita cita, int idServicio)
+        {
+            var empleados = crudEmpleado.GetEmpleadosByIdSucursal<Empleado>(cita.IdSucursal);
+
+            foreach (var e in empleados)
+            {
+                SeccionHorario sc = new SeccionHorario() { IdEmpleado = e.IdEmpleado, DiaSemana = (int)cita.HoraInicio.DayOfWeek + 1 };
+                var horarioEmpleado = crudSeccionHorario.GetHorarioEmpleado<SeccionHorario>(sc);
+                
+
+                foreach (var h in horarioEmpleado)
+                {
+                    if (
+                        h.Estado == "A" &&
+                        (h.HoraInicio.Hour < cita.HoraInicio.Hour || (h.HoraInicio.Hour == cita.HoraInicio.Hour && h.HoraInicio.Minute <= cita.HoraInicio.Minute)) &&
+                        (h.HoraFinal.Hour > cita.HoraFinal.Hour || (h.HoraFinal.Hour == cita.HoraFinal.Hour && h.HoraFinal.Minute >= cita.HoraFinal.Minute)) &&
+                        this.ValidarDisponibilidadEmpleado(cita, e.IdEmpleado) && this.ValidarEspecialidad(e, idServicio)
+                        )
+                    {
+                        return e;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private bool ValidarEspecialidad(Empleado empleado, int idServicio)
+        {
+            var especialidades = crudEspecialidad.GetEspecialidadRol<Especialidad>(empleado.IdRol);
+
+            foreach(var e in especialidades)
+            {
+                if(e.IdServicio == idServicio)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool ValidarDisponibilidadEmpleado(Cita cita, int idEmpleado)
