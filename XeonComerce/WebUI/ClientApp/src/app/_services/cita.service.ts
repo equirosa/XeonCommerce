@@ -34,4 +34,9 @@ export class CitaService {
     var cita = JSON.stringify(data);
     return this.http.post<CitaProducto>(this.urlApi + `/notificarCliente`, cita, {headers: this.headers});
   }
+
+  finalizar(data: CitaProducto): Observable<CitaProducto>{
+    var cita = JSON.stringify(data);
+    return this.http.put<CitaProducto>(this.urlApi + `/finalizar`, cita, {headers: this.headers});
+  }
 }

@@ -170,6 +170,7 @@ namespace AppCore
 
         private void CrearFD(int idFactura, Producto producto)
         {
+            
             var facturaDetalle = new FacturaDetalle()
             {
                 IdLinea = 0,
@@ -179,8 +180,16 @@ namespace AppCore
                 Cantidad = producto.Cantidad,
                 IVA = producto.Impuesto,
                 IdFactura = idFactura,
-                TotalLinea = (producto.Precio * producto.Cantidad) - (producto.Descuento * producto.Cantidad)
+                
             };
+
+            if (producto.Tipo == 1)
+            {
+                facturaDetalle.TotalLinea = (producto.Precio * producto.Cantidad) - (producto.Descuento * producto.Cantidad);
+            } else
+            {
+                facturaDetalle.TotalLinea = producto.Precio - producto.Descuento;
+            }
 
             crudFacturaDetalle.Create(facturaDetalle);
         }
@@ -543,9 +552,9 @@ namespace AppCore
                                 f.Cantidad = p.Cantidad;
                                 f.TotalLinea = (p.Precio * p.Cantidad) - (p.Descuento * p.Cantidad);
                                 crudFacturaDetalle.Update(f);
-                            }
+                            } 
 
-                            if(p.Cantidad == 0)
+                            if(p.Cantidad == 0 && cita.Tipo != "S")
                             {
                                 // No se compro el produto reservado
                                 this.Rstock(f.IdProducto, f.Cantidad);
