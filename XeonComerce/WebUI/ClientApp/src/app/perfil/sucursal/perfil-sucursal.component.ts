@@ -47,7 +47,6 @@ export class PerfilSucursalComponent implements OnInit {
   facturasConMulta: FacturaDetalle[];
   facturasMaestro: FacturaMaestro[];
   servicios: Servicio[];
-  direccion: Direccion; 
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];

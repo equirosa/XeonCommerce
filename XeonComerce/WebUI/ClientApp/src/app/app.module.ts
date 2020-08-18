@@ -334,7 +334,10 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
 		FinalizarCitaProductosComponent,
 		ListCitasClienteComponent,
 		PerfilCitaClienteComponent,
-		FormCitaServicioComponent
+    FormCitaServicioComponent,
+    ListaDeseosComponent,
+    CalificacionDialogComponent,
+    ListaCalificacionesComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -346,23 +349,6 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
 		WorkWeekService, 
 		MonthService, 
 		MonthAgendaService
-		
-    ],
-    bootstrap: [AppComponent]
-    ListaDeseosComponent,
-    CalificacionDialogComponent,
-    ListaCalificacionesComponent
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    MatDatepickerModule,
-    MatNativeDateModule,
-    DayService,
-    WeekService,
-    WorkWeekService,
-    MonthService,
-    MonthAgendaService,
   ],
   bootstrap: [AppComponent],
 })
