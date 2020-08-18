@@ -37,7 +37,6 @@ export class FormCitaProductoComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.productos = this.data.productos;
     this.sucursal = this.data.sucursal;
-    console.log(this.productos);
     this.agregarForms();
   }
 

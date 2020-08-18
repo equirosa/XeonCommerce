@@ -22,16 +22,16 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var citaManag = new CitaManagement();
-                var um = new UsuarioManagement();
+                //var citaManag = new CitaManagement();
+                //var um = new UsuarioManagement();
 
-                citaManag.Create(citaProducto);
+                //citaManag.Create(citaProducto);
 
-                Usuario usuario = um.RetrieveById(new Usuario { Id = citaProducto.IdCliente });
+                //Usuario usuario = um.RetrieveById(new Usuario { Id = citaProducto.IdCliente });
                 
-                var info = "Bienvenido a GetItSafely se ha agendado su cita, información: " + citaProducto.HoraInicio.ToString("MM/dd/yy") + ".";
+                //var info = "Bienvenido a GetItSafely se ha agendado su cita, información: " + citaProducto.HoraInicio.ToString("MM/dd/yy") + ".";
 
-                Excecute(info, usuario).Wait();
+                //Excecute(info, usuario).Wait();
 
                 return Ok();
             } 
