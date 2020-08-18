@@ -1,0 +1,25 @@
+<mat-dialog-content>
+    <h2 mat-dialog-title>Agendar cita para el servicio</h2>
+    <form [formGroup]="formGroupCitaServicio" class="mt-lg">        
+        <mat-form-field>
+            <mat-label>Fecha: </mat-label>
+            <input matInput type="date" formControlName="Fecha">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Hora: </mat-label>
+            <input matInput type="time" formControlName="Hora">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Servicio: </mat-label>
+            <input matInput type="text" formControlName="Servicio" readonly>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Precio: ₡ </mat-label>
+            <input matInput type="text" formControlName="Precio" readonly>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button (click)="agendarCita()" cdkFocusInitial>Agendar</button>
+</mat-dialog-actions>

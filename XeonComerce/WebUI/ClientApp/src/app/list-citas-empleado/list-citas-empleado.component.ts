@@ -60,6 +60,12 @@ export class ListCitasEmpleadoComponent implements OnInit {
       height: '500px',
       data: {cita}
     });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.cargarCitas();
+    });
+
+    
   }
 
   convertirFecha(): void {

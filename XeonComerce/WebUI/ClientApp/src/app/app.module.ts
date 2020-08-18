@@ -165,6 +165,7 @@ import { ProductoCitaComponent } from "./_components/producto-cita/producto-cita
 import { FormCitaProductoComponent } from "./form-cita-producto/form-cita-producto.component";
 import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comercio.component";
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
+import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -328,7 +329,8 @@ import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
 		FinalizarCitaDatosComponent,
 		FinalizarCitaProductosComponent,
 		ListCitasClienteComponent,
-		PerfilCitaClienteComponent
+		PerfilCitaClienteComponent,
+		FormCitaServicioComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

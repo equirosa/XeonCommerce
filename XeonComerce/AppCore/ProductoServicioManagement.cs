@@ -12,12 +12,14 @@ namespace AppCore
     {
         #region properties
         private ProductoServicioCrudFactory crudProdAndServ;
+        private EspecialidadCrudFactory crudEspecialidad; 
         #endregion
 
         #region constructor
         public ProductoServicioManagement()
         {
             this.crudProdAndServ = new ProductoServicioCrudFactory();
+            crudEspecialidad = new EspecialidadCrudFactory();
         }
         #endregion
 
@@ -54,7 +56,9 @@ namespace AppCore
 
         public void Delete(Producto prodAndServ)
         {
+            crudEspecialidad.DeleteEspecialidadXServicio(prodAndServ);
             crudProdAndServ.Delete(prodAndServ);
+            // se debe de eliminar la especialidad 
         }
         #endregion
     }
