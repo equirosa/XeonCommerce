@@ -40,22 +40,7 @@ namespace AppCore
 
         public void Create(CitaProducto citaProducto)
         {
-            // Validar disponibilidad de horario de la sucursal ( tambien se puede agregar esta validacion en el frontend) **
-            // Validar Disponibilidad de empleados  (Debe de coincidir con su horario y no puede tener otra cita asignada para esa fecha y hora) **
-            // Validar que la fecha no sea un dia feriado **
-            // Validar disponibilidad de empleado **
-            // Asignar empleado a la cita **
-            // Crear Transaccion **
-            // Crear Factura maestro **
-            // Crear Cita **
-
-            // Crear Facturas detalle para cada producto**
-
-            // Restar la cantidad reservada de los productos del stock!!!
-
-            
-            
-
+                    
             // Si la cita es tipo producto 
 
             var cita = this.CrearCita(citaProducto);
@@ -77,6 +62,16 @@ namespace AppCore
             this.CrearFacturasDetalle(citaCreada, citaProducto.Productos);
 
             this.EliminarStock(citaProducto.Productos);
+        }
+
+        public void CreateCitaServicio(CitaProducto citaProducto)
+        {
+            var cita = this.CrearCita(citaProducto);
+
+            var validHorarioSucursal = this.ValidarHorarioSucursal(cita);
+
+            if (!validHorarioSucursal) throw new Exception("La sucursal se encuentra cerrada en las horas seleccionadas");
+            if (!this.ValidarDiaFeriado(cita)) throw new Exception("La fecha seleccionada es un dia feriado");
         }
 
         public Cita RetriveById(Cita cita)

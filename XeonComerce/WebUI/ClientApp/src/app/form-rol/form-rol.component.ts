@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Vista } from '../_models/vista';
 import { RolService } from '../_services/rol.service';
 import { VistaRol } from '../_models/vista-rol';
+import { ServiciosService } from '../_services/servicios.service';
+import { Servicio } from '../_models/servicio';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class FormRolComponent implements OnInit {
   FormGroupRol = new FormGroup({
     Nombre: new FormControl('', Validators.required),
     Descripcion: new FormControl('', Validators.required),
-    Vistas: new FormControl()
+    Vistas: new FormControl(),
+    Especialidades: new FormControl(),
   });
 
   idComercio: string;
@@ -25,10 +28,14 @@ export class FormRolComponent implements OnInit {
 
   nuevaVistaRol = new VistaRol();
 
+  servicios: Servicio[];
+  serviciosEspecialidades: Servicio[]
   vistas: Vista[];
+  especialidades: any[];
 
   constructor(  
     private rolService: RolService,
+    private servicioService: ServiciosService,
     public dialogRef: MatDialogRef<FormRolComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar ) {
@@ -38,15 +45,20 @@ export class FormRolComponent implements OnInit {
         },
         error: err => console.log(err)
       });
+
+      this.cargarServicios();
+      
      }
 
   ngOnInit(): void {
+    this.cargarServicios();
 
     if ( this.data.tipo === 'editar'){
       this.nuevaVistaRol = this.data.vistaRol;
       this.FormGroupRol.get('Nombre').setValue(this.nuevaVistaRol.nombre);
       this.FormGroupRol.get('Descripcion').setValue(this.nuevaVistaRol.descripcion);
       this.FormGroupRol.get('Vistas').setValue(this.nuevaVistaRol.vistas);
+      
     }
 
     this.idComercio = this.data.idComercio;
@@ -87,6 +99,36 @@ export class FormRolComponent implements OnInit {
     if(o1 && o2){
       return o1.id === o2.id;
     }
-    
   }
+
+  cargarServicios(): void {
+    this.servicioService.getServicio().subscribe({
+      next: res => {
+        this.servicios = res.filter( s => s.idComercio === this.nuevaVistaRol.idComercio );
+        if( this.data.tipo === 'editar'){
+          this.cargarEspecialidadesServicios();
+        }
+      },
+      error: err => {
+        this._snackBar.open(err, '', {
+          duration: 2500
+        });
+      }
+    });
+  }
+
+  cargarEspecialidadesServicios(): void{
+    this.serviciosEspecialidades =  this.servicios.map( s => {
+      for(let e of this.nuevaVistaRol.especialidades){
+        if( e.idServicio === s.id){
+          return s;
+        }
+      }
+    });
+
+    if ( this.serviciosEspecialidades.length > 0 && this.FormGroupRol.get('Especialidades')){
+      this.FormGroupRol.get('Especialides').setValue(this.serviciosEspecialidades);
+    }
+  }
+  
 }
