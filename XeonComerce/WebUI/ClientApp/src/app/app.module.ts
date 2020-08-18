@@ -109,6 +109,13 @@ import {
   MonthAgendaService,
 } from "@syncfusion/ej2-angular-schedule";
 
+
+import { ListCitasEmpleadoComponent } from './list-citas-empleado/list-citas-empleado.component';
+import { FinalizarCitaEmpleadoComponent } from './finalizar-cita-empleado/finalizar-cita-empleado.component';
+import { FinalizarCitaDatosComponent } from './finalizar-cita-datos/finalizar-cita-datos.component';
+import { FinalizarCitaProductosComponent } from './finalizar-cita-productos/finalizar-cita-productos.component';
+import { ListCitasClienteComponent } from './list-citas-cliente/list-citas-cliente.component';
+import { PerfilCitaClienteComponent } from './perfil-cita-cliente/perfil-cita-cliente.component';
 import { CrearComercioComponent } from "./crear-comercio/crear-comercio.component";
 import {
   CloudinaryModule,
@@ -162,6 +169,7 @@ import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
 import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 import { CalificacionDialogComponent } from './calificacion-dialog/calificacion-dialog.component';
 import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
+import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -317,6 +325,30 @@ import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calif
     DashboardComercioComponent,
     DashboardAdminComponent,
     PerfilUsuarioComponent,
+    ProductoCitaComponent,
+		FormCitaProductoComponent,
+		ListCitaComercioComponent,
+    ListCitasEmpleadoComponent,
+		FinalizarCitaEmpleadoComponent,
+		FinalizarCitaDatosComponent,
+		FinalizarCitaProductosComponent,
+		ListCitasClienteComponent,
+		PerfilCitaClienteComponent,
+		FormCitaServicioComponent
+  ], 
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+		MatDatepickerModule,
+		MatNativeDateModule,
+		DayService, 
+		WeekService,
+		WorkWeekService, 
+		MonthService, 
+		MonthAgendaService
+		
+    ],
+    bootstrap: [AppComponent]
     ListaDeseosComponent,
     CalificacionDialogComponent,
     ListaCalificacionesComponent

@@ -78,6 +78,14 @@
         <td mat-cell *matCellDef="let element"> <button mat-raised-button color="danger" (click)=delete(element)>Deshabilitar</button> </td>
       </ng-container>
 
+      <ng-container matColumnDef="desbloquear">
+        <th mat-header-cell *matHeaderCellDef> Desbloquear </th>
+        <td mat-cell *matCellDef="let element"> 
+          <button mat-raised-button color="danger" (click)=desbloquear(element) [disabled]="!(element.estado == 'B')"      
+          >
+          Desbloquear</button> </td>
+      </ng-container>
+
       <ng-container matColumnDef="ver">
         <th mat-header-cell *matHeaderCellDef> Perfil </th>
         <td mat-cell *matCellDef="let element" routerLink="/usuario/{{element.id}}"> ver </td>

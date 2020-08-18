@@ -24,6 +24,10 @@ import { FacturaDetalleService } from '../../_services/facturaDetalle.service';
 import { FacturaDetalle } from '../../_models/facturaDetalle';
 import { FacturaMaestro } from '../../_models/facturaMaestro';
 import { FacturaMaestroService } from '../../_services/facturaMaestro.service';
+import { ServiciosService } from '../../_services/servicios.service';
+import { Servicio } from '../../_models/servicio';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormCitaServicioComponent } from '../../form-cita-servicio/form-cita-servicio.component';
 
 
 @Component({
@@ -33,7 +37,7 @@ import { FacturaMaestroService } from '../../_services/facturaMaestro.service';
 })
 export class PerfilSucursalComponent implements OnInit {
 
-  //'1234567-1';
+  
   idSucursal: string;
   sucursal: Sucursal;
   productos: Producto[];
@@ -42,6 +46,8 @@ export class PerfilSucursalComponent implements OnInit {
   transaccionesPendientes: TransaccionFinanciera[];
   facturasConMulta: FacturaDetalle[];
   facturasMaestro: FacturaMaestro[];
+  servicios: Servicio[];
+  direccion: Direccion; 
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
@@ -57,6 +63,7 @@ export class PerfilSucursalComponent implements OnInit {
     public dialog: MatDialog,
     private surcursalService: SucursalService,
     private productoService: ProductoService,
+    private servicioService: ServiciosService,
     private direccionService: DireccionService,
     private ubicacionService: UbicacionService,
     private carritoService: CarritoService,
@@ -65,7 +72,8 @@ export class PerfilSucursalComponent implements OnInit {
     private facturaMaestroService: FacturaMaestroService, 
     private facturaDetalleService: FacturaDetalleService,
     private transaccionFinancieraService: TransaccionFinancieraService,
-    private accountService: AccountService) {
+    private accountService: AccountService,
+    private _snackBar: MatSnackBar ) {
     this.accountService.user.subscribe(x => {
       this.user = x;
     });
@@ -87,6 +95,7 @@ export class PerfilSucursalComponent implements OnInit {
         this.sucursal = res;
         this.cargarDireccion();
         this.cargarProductos();
+        this.cargarServicios();
       },
       error: err => console.log(err)
     });
@@ -97,7 +106,24 @@ export class PerfilSucursalComponent implements OnInit {
       next: res => {
         this.productos = res.filter(p => p.idComercio === this.sucursal.idComercio);
       },
-      error: err => console.log(err)
+      error: err => {
+        this._snackBar.open(err, '', {
+          duration: 2500
+        });
+      }
+    });
+  }
+
+  cargarServicios(): void {
+    this.servicioService.getServicio().subscribe({
+      next: res => {
+        this.servicios = res.filter( s => s.idComercio === this.sucursal.idComercio);
+      },
+      error: err => {
+        this._snackBar.open(err, '', {
+          duration: 2500
+        });
+      }
     });
   }
 
@@ -232,6 +258,15 @@ export class PerfilSucursalComponent implements OnInit {
       this.transaccionesPendientes = transaccionFinanciera.filter((i) => i.estado == "P");
         this.bloquearCliente(facturasConMulta, this.transaccionesPendientes);
     });
+  }
+
+  contratar(servicio: Producto): void {
+    const dialoRef = this.dialog.open(FormCitaServicioComponent, {
+      width: '400px',
+      height: '500px',
+      data: { servicio, sucursal: this.sucursal}
+    });
+  
   }
 
   bloquearCliente(facturasConMulta: FacturaMaestro[], tranPendiente : TransaccionFinanciera[]): void {

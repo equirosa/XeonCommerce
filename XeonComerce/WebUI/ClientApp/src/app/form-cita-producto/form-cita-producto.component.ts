@@ -37,7 +37,6 @@ export class FormCitaProductoComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.productos = this.data.productos;
     this.sucursal = this.data.sucursal;
-    console.log(this.productos);
     this.agregarForms();
   }
 
@@ -87,7 +86,7 @@ export class FormCitaProductoComponent implements OnInit {
       this.nuevaCita.idComercio = this.sucursal.idComercio;
       this.nuevaCita.productos = this.productos;
 
-      console.log(this.nuevaCita);
+     
 
       this.citaService.create(this.nuevaCita).subscribe({
         next: res => {

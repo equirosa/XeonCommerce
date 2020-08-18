@@ -45,6 +45,9 @@ import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comerc
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
 import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 
+import { ListCitasEmpleadoComponent } from './list-citas-empleado/list-citas-empleado.component';
+import { ListCitasClienteComponent } from './list-citas-cliente/list-citas-cliente.component';
+
 const routes: Routes = [
   { path: "", component: HomeComponent, canActivate: [AuthGuard] },
   {
@@ -105,52 +108,28 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   // { path: 'empleado', component: EmpleadoAdminComponent },
-  { path: "rol", component: ComercioRolComponent, canActivate: [AuthGuard] },
-  { path: "carrito", component: CarritoComponent, canActivate: [AuthGuard] },
-  { path: "config", component: ConfigComponent, canActivate: [AuthGuard] },
-  {
-    path: "sucursales",
-    component: SucursalesComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "listar-usuarios",
-    component: ListarUsuariosComponent,
-    canActivate: [AuthGuard],
-  },
-  { path: "config", component: ConfigComponent, canActivate: [AuthGuard] },
-  { path: "rol", component: ComercioRolComponent, canActivate: [AuthGuard] },
-  {
-    path: "sucursal/:id",
-    component: PerfilSucursalComponent,
-    canActivate: [AuthGuard],
-  },
+  { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
+  { path: 'carrito', component: CarritoComponent, canActivate: [AuthGuard] },
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+    { path: 'sucursales', component: SucursalesComponent, canActivate: [AuthGuard] },
+    { path: 'listar-usuarios', component: ListarUsuariosComponent, canActivate: [AuthGuard]},
+  { path: 'config', component: ConfigComponent, canActivate: [AuthGuard] },
+    { path: 'rol', component: ComercioRolComponent, canActivate: [AuthGuard] },
+    { path: 'sucursal/:id', component: PerfilSucursalComponent, canActivate: [AuthGuard]},
   {
     path: "dashboardAdmin",
     component: DashboardAdminComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: "configuraciones",
-    component: ConfiguracionesComponent,
-    canActivate: [AuthGuard],
-  },
-  { path: "archivos", component: ArchivoComponent, canActivate: [AuthGuard] },
-  {
-    path: "historial",
-    component: HistorialComprasComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "ventas",
-    component: HistorialVentasComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "recomendaciones",
-    component: RecomendacionesComponent,
-    canActivate: [AuthGuard],
-  },
+  { path: 'configuraciones', component: ConfiguracionesComponent, canActivate: [AuthGuard]},
+	{ path: 'archivos', component: ArchivoComponent, canActivate: [AuthGuard]},
+	{ path: 'historial', component: HistorialComprasComponent, canActivate: [AuthGuard]},
+	{ path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard]},
+	{ path: 'recomendaciones', component: RecomendacionesComponent, canActivate: [AuthGuard]},  
+
+    { path: 'citasComercio', component: ListCitaComercioComponent, canActivate: [AuthGuard]},
+    { path: 'citasEmpleado', component: ListCitasEmpleadoComponent, canActivate: [AuthGuard]},
+    { path: 'citasCliente', component: ListCitasClienteComponent, canActivate: [AuthGuard]},
 
   {
     path: "citasComercio",

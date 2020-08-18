@@ -53,6 +53,7 @@ export class ListarUsuariosComponent implements OnInit {
     "estado",
     "codigo",
     "eliminar",
+    'desbloquear',
     "ver",
   ];
   datos;
@@ -99,7 +100,7 @@ export class ListarUsuariosComponent implements OnInit {
       this.usuarios = usuarios.sort((a, b) => {
         return a.id.localeCompare(b.id);
       });
-      this.usuarios = usuarios.filter((a) => a.estado == "A");
+      this.usuarios = usuarios.filter((a) => a.estado == "A" || a.estado == "B");
       this.datos = new MatTableDataSource(this.usuarios);
       this.datos.sort = this.sort;
       this.datos.paginator = this.paginator;
@@ -142,6 +143,26 @@ export class ListarUsuariosComponent implements OnInit {
           // 	fecha: new Date()
           // }
           // this.bitacoraService.create(log).subscribe();
+        });
+      }
+    });
+  }
+
+
+  desbloquear(usuario: Usuario): void {
+    usuario.estado = "A";
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: {
+        title: "¿Está seguro?",
+        message: "Usted está apunto de desbloquear un usuario. ",
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+        this.usuarioService.desbloquear(usuario).subscribe(() => {
+          this.getUsuarios();
         });
       }
     });

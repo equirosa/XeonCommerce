@@ -9,10 +9,12 @@ namespace Management
     public class UsuarioManagement
     {
         private UsuarioCrudFactory crud;
+        private CitaCrudFactory crudCita;
 
         public UsuarioManagement()
         {
             crud = new UsuarioCrudFactory();
+            crudCita = new CitaCrudFactory();
         }
 
         public void Create(Usuario ent)
@@ -57,6 +59,22 @@ namespace Management
         public void UpdateToAdmin(Usuario usuario)
         {
             crud.UpdateToAdmin(usuario);
+        }
+
+        public void desbloquearUsuario(Usuario usuario)
+        {
+            var citas = crudCita.RetrieveAll<Cita>();
+
+            foreach (var c in citas)
+            {
+                if(c.IdCliente == usuario.Id && c.Estado == "A")
+                {
+                    c.Estado = "C";
+                    crudCita.Update(c);
+                }
+            }
+
+            crud.Update(usuario);
         }
     }
 }

@@ -111,4 +111,12 @@ httpOptions = {
 	};
   }
 
+
+  desbloquear(usuario: Usuario): Observable<Usuario> {
+    return this.http.put(`${this.urlApi}/desbloquear`, usuario, this.httpOptions).pipe(
+      tap(_ => this.log(`Se desloqueo el usuario`)),
+      catchError(this.handleError<any>('update'))
+    );
+  }
+
 }

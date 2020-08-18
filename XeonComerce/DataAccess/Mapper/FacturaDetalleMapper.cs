@@ -100,7 +100,19 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetUpdateStatement(BaseEntity entity)
         {
-            throw new NotImplementedException();
+            var operation = new SqlOperation { ProcedureName = "UPD_FACTURA_DETALLE" };
+
+            var e = (FacturaDetalle)entity;
+            operation.AddIntParam(DB_COL_ID_LINEA, e.IdLinea);
+            operation.AddIntParam(DB_COL_ID_PRODUCTO, e.IdProducto);
+            operation.AddDoubleParam(DB_COL_VALOR, e.Valor);
+            operation.AddDoubleParam(DB_COL_DESCUENTO, e.Descuento);
+            operation.AddIntParam(DB_COL_CANTIDAD, e.Cantidad);
+            operation.AddIntParam(DB_COL_IVA, e.IVA);
+            operation.AddIntParam(DB_COL_ID_FACTURA, e.IdFactura);
+            operation.AddDoubleParam(DB_COL_TOTAL_LINEA, e.TotalLinea);
+
+            return operation;
         }
     }
 }
