@@ -1,10 +1,13 @@
 ﻿using DataAccess.Crud;
 using Entities;
 using Management;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AppCore
 {
@@ -332,11 +335,13 @@ namespace AppCore
                 List<Ausencias> parametros = aM.RetrieveAll();
                 var p = parametros.Find((i) => ((i.Id == "MULTA") && (i.Id_Comercio==cita.IdComercio)));
                 if (p == null) p = new Ausencias { Id = "MULTA", Id_Comercio = cita.IdComercio, Valor = 0 };
-                // p.valor es la multa
-                //Notificar
+                UsuarioManagement um = new UsuarioManagement();
+                Usuario us = um.RetrieveById(new Usuario { Id = cita.IdCliente });
 
-                if(p.Valor > 0)
+                if (p.Valor > 0)
                 {
+                    if (us != null)
+                        Execute(us, p).Wait();
 
                     crudTransaccion.Create(new TranFin
                     {
@@ -344,7 +349,7 @@ namespace AppCore
                         Fecha = DateTime.Now,
                         Id = -1,
                         IdCliente = cita.IdCliente,
-                        IdComercio = "3105100",//Comercio 'quemado'
+                        IdComercio = "1234567",//Comercio 'quemado'
                         Metodo = "",
                         Monto = p.Valor
                     });
@@ -352,7 +357,7 @@ namespace AppCore
                     TranFin tran = crudTransaccion.RetrieveUltimo<TranFin>();
 
                     crudFacturaMaestro.Create(new FacturaMaestro {
-                                   CedulaJuridica= "3105100",//Comercio 'quemado'
+                                   CedulaJuridica= "1234567",//Comercio 'quemado'
                                    Fecha =DateTime.Now,
                                    IdCliente=cita.IdCliente,
                                    IdFactura=-1,
@@ -367,7 +372,7 @@ namespace AppCore
                            Descuento=0,
                            IdFactura=facMaestro.IdFactura,
                            IdLinea=-1,
-                           IdProducto=5, //'Quemar' producto que se llame multa
+                           IdProducto= 97, //'Quemar' producto que se llame multa
                            IVA=0,
                            Valor=p.Valor,
                            TotalLinea=p.Valor
@@ -379,12 +384,27 @@ namespace AppCore
 
              }
 
-            cita.Estado = "C";
-            crudCita.Update(cita);
+            //cita.Estado = "C";
+            //crudCita.Update(cita);
 
-            var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
-            this.RegresarStock(facturasDetalle);
+            //var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
+            //this.RegresarStock(facturasDetalle);
 
+        }
+
+        private static async Task Execute(Usuario user, Ausencias p)
+        {
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
+            var to = new EmailAddress(user.CorreoElectronico.ToString(), user.Nombre.ToString());
+            var plainTextContent = ("Usted ha cancelado una cita después del tiempo establecido.");
+            var htmlContent = "<strong>Usted ha cancelado una cita después del tiempo establecido.</strong>" +
+                "<br>" + "<strong>El monto de la multa es: " + "₡" + string.Format("{0:#,0.00}", p.Valor) + "</strong>";
+            var subject = "Notificación de multa";
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
 
         private void RegresarStock(List<FacturaDetalle> facturasDetalle)

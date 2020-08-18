@@ -29,8 +29,10 @@
 
       <ng-container matColumnDef="cantidad">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad </th>
-        <td mat-cell *matCellDef="let element">{{element.cantidad}}
-        <i class="fa fa-plus plus" aria-hidden="true" (click)=anadirProducto(element)></i></td>
+        <td mat-cell *matCellDef="let element">
+          {{element.cantidad}}
+          <i class="fa fa-plus plus" aria-hidden="true" (click)=anadirProducto(element)></i>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="eliminar">
@@ -46,4 +48,5 @@
       </tr>
     </table>
   </div>
+
 

@@ -75,7 +75,6 @@ export class ListaDeseosComponent implements OnInit {
           }
           this.datos = new MatTableDataSource(this.productos);
           this.datos.sort = this.sort;
-          this.productosPP = this.productos;
         })
 
     });
@@ -174,7 +173,7 @@ export class ListaDeseosComponent implements OnInit {
   }
 
   anadirProducto(element) {
-   this.ltsDeseosService.get(this.user.id)
+    this.ltsDeseosService.get(this.user.id)
       .subscribe(ltsDeseos => {
         this.ltsDeseos = ltsDeseos;
         for (var i = 0; i < this.ltsDeseos.length; i++) {
@@ -182,7 +181,7 @@ export class ListaDeseosComponent implements OnInit {
             this.ltsDeseos[i].cantidad = this.ltsDeseos[i].cantidad + 1;
             this.ltsDeseosService.update(this.ltsDeseos[i]).subscribe(() => {
               this.getProductos();
-      });
+            });
           }
         }
       });
@@ -193,10 +192,10 @@ export class ListaDeseosComponent implements OnInit {
         element.cantidad = this.productosTotales[i].cantidad - 1;
       }
     }
-    
-      this.productoService.putProductoSilencioso(element).subscribe(() => {
-      });
 
-      
+    this.productoService.putProductoSilencioso(element).subscribe(() => {
+    });
+
+
   }
 }

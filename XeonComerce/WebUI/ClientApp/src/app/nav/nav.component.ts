@@ -18,7 +18,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
 	this.accountService.user.subscribe(x => {
-		this.user = x;
+    this.user = x;
 		if(this.user.tipo == "U" || this.user.tipo == "E"){
 			setInterval(()=>{
 				this.carritoService.get(this.user.id).subscribe((car)=>{

@@ -8,9 +8,9 @@ describe('ListaDeseosComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListaDeseosComponent ]
+      declarations: [ListaDeseosComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -23,3 +23,4 @@ describe('ListaDeseosComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

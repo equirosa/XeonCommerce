@@ -9,11 +9,26 @@
 				<mat-card-subtitle>{{comercio.cedJuridica}}</mat-card-subtitle>
 			</mat-card-header>
 			<mat-card-content>
-			  <p>
-				<strong>+506 </strong><span>{{comercio.telefono}}</span>
-				<br>
-				<strong>Contacto </strong><span><a href="mailto:{{comercio.correoElectronico}}">{{comercio.correoElectronico}}</a></span>
-			  </p>
+				<p>
+					<strong>+506 </strong><span>{{comercio.telefono}}</span>
+					<br>
+					<strong>Contacto </strong><span><a href="mailto:{{comercio.correoElectronico}}">{{comercio.correoElectronico}}</a></span>
+				</p>
+				<div class="raiting">
+					<p>Calificación: {{promCalificacion}}</p>
+					<div class="crop"
+							 [style.width.px]="starWidth"
+							 [title]="rating">
+						<div style="width: 130.5px">
+							<span class="fa fa-star fa-2x"></span>
+							<span class="fa fa-star fa-2x"></span>
+							<span class="fa fa-star fa-2x"></span>
+							<span class="fa fa-star fa-2x"></span>
+							<span class="fa fa-star fa-2x"></span>
+						</div>
+					</div>
+				</div>
+
 			</mat-card-content>
 		  </mat-card>
 

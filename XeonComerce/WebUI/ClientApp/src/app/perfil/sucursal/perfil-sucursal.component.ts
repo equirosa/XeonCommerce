@@ -6,7 +6,7 @@ import { AccountService } from '@app/_services';
 import { CarritoService } from './../../_services/carrito.service';
 import { Component, OnInit } from '@angular/core';
 import { SucursalService } from '../../_services/sucursal.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Sucursal } from '../../_models/sucursal';
 import { ProductoService } from '../../_services/producto.service';
 import { DireccionService } from '../../_services/direccion.service';
@@ -18,6 +18,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ProductoCitaComponent } from '../../_components/producto-cita/producto-cita.component';
 import { FormCitaProductoComponent } from '../../form-cita-producto/form-cita-producto.component';
 import { MensajeService } from '../../_services/mensaje.service';
+import { TransaccionFinancieraService } from '../../_services/transaccionFinanciera.service';
+import { TransaccionFinanciera } from '../../_models/transaccionFinanciera';
+import { FacturaDetalleService } from '../../_services/facturaDetalle.service';
+import { FacturaDetalle } from '../../_models/facturaDetalle';
+import { FacturaMaestro } from '../../_models/facturaMaestro';
+import { FacturaMaestroService } from '../../_services/facturaMaestro.service';
 
 
 @Component({
@@ -31,18 +37,23 @@ export class PerfilSucursalComponent implements OnInit {
   idSucursal: string;
   sucursal: Sucursal;
   productos: Producto[];
+  clienteBloqueado: boolean = false;
   direccion: Direccion;
+  transaccionesPendientes: TransaccionFinanciera[];
+  facturasConMulta: FacturaDetalle[];
+  facturasMaestro: FacturaMaestro[];
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
-    user: User;
-    listaDeseos: ListaDeseos[];
+  user: User;
+  listaDeseos: ListaDeseos[];
 
 
   productosCita: Producto[] = [];
 
   constructor( 
     private route: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog,
     private surcursalService: SucursalService,
     private productoService: ProductoService,
@@ -51,6 +62,9 @@ export class PerfilSucursalComponent implements OnInit {
     private carritoService: CarritoService,
     private ltsDeseosService: ListaDeseosService,
     private mensajeService: MensajeService,
+    private facturaMaestroService: FacturaMaestroService, 
+    private facturaDetalleService: FacturaDetalleService,
+    private transaccionFinancieraService: TransaccionFinancieraService,
     private accountService: AccountService) {
     this.accountService.user.subscribe(x => {
       this.user = x;
@@ -58,6 +72,7 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.obtenerFacturasConMulta();
     this.idSucursal = this.route.snapshot.params['id'];
     this.cargarSucursal();
     this.getListaDeseos();
@@ -123,13 +138,21 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
   agregarCarrito(producto: Producto) {
-    let car: Carrito;
-    car = {
-      cantidad: 1,
-      idUsuario: this.user.id,
-      idProducto: producto.id
+    debugger;
+    if (this.clienteBloqueado) {
+      this.router.navigate(['historial']);
+      this.mensajeService.add("¡Multa Pendiente!");
+      return;
+    } else {
+
+      let car: Carrito;
+      car = {
+        cantidad: 1,
+        idUsuario: this.user.id,
+        idProducto: producto.id
+      }
+      this.carritoService.create(car).subscribe();
     }
-    this.carritoService.create(car).subscribe();
   }
 
   agregarListaDeseos(producto: Producto) {
@@ -180,6 +203,46 @@ export class PerfilSucursalComponent implements OnInit {
         this.listaDeseos= ltsDeseos;
         console.log(this.listaDeseos);
       });
+  }
+
+  obtenerFacturasConMulta(): void {
+    this.facturaDetalleService.get().subscribe((detalles) => {
+      this.facturasConMulta = detalles.filter((i) => i.idProducto == 97);
+      this.obtenerFacturasMaestroConMulta(this.facturasConMulta);
+    });
+  }
+
+  obtenerFacturasMaestroConMulta(facDetalle: FacturaDetalle[]): void {
+    let facturasMulta: FacturaMaestro[];
+    this.facturaMaestroService.get().subscribe((facMaestro) => {
+      facturasMulta = new Array(facMaestro.lenght);
+      for (var i = 0; i < facDetalle.length; i++) {
+        for (var j = 0; j < facMaestro.length; j++) {
+          if (facDetalle[i].idFactura == facMaestro[j].idFactura && facMaestro[j].idCliente == this.user.id) {
+            facturasMulta[i] = facMaestro[j];
+          }
+        }
+      }
+      this.obtenerEstadoFacturaCliente(facturasMulta);
+    });
+  }
+
+  obtenerEstadoFacturaCliente(facturasConMulta : FacturaMaestro[]): void {
+    this.transaccionFinancieraService.get().subscribe((transaccionFinanciera) => {
+      this.transaccionesPendientes = transaccionFinanciera.filter((i) => i.estado == "P");
+        this.bloquearCliente(facturasConMulta, this.transaccionesPendientes);
+    });
+  }
+
+  bloquearCliente(facturasConMulta: FacturaMaestro[], tranPendiente : TransaccionFinanciera[]): void {
+    for (var i = 0; i < facturasConMulta.length; i++) {
+      for (var j = 0; j < tranPendiente.length; j++) {
+        if (facturasConMulta[i].idTransaccion == tranPendiente[j].id) {
+          this.clienteBloqueado = true;
+        }
+      }
+    }
+    console.log(this.clienteBloqueado);
   }
 
 }

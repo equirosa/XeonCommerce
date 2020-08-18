@@ -152,12 +152,16 @@ import { FormHorarioSucursalComponent } from "./form-horario-sucursal/form-horar
 
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 import {
-  CategoriaUsuarioComponent /*, DialogAgregarCategorias*/,
+  CategoriaUsuarioComponent,
 } from "./categoria-usuario/categoria-usuario.component";
 import { ProductoCitaComponent } from "./_components/producto-cita/producto-cita.component";
 import { FormCitaProductoComponent } from "./form-cita-producto/form-cita-producto.component";
 import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comercio.component";
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
+
+import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
+import { CalificacionDialogComponent } from './calificacion-dialog/calificacion-dialog.component';
+import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -240,6 +244,7 @@ import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
     CarritoDialogFinComponent,
     DialogImagen,
     DialogEditarArchivo,
+    CalificacionDialogComponent
   ],
   declarations: [
     AppComponent,
@@ -303,7 +308,6 @@ import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
     DialogEditarArchivo,
     CategoriaUsuarioComponent,
     RecomendacionesComponent,
-    //DialogAgregarCategorias
     ProductoCitaComponent,
     FormCitaProductoComponent,
     ListCitaComercioComponent,
@@ -313,6 +317,9 @@ import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
     DashboardComercioComponent,
     DashboardAdminComponent,
     PerfilUsuarioComponent,
+    ListaDeseosComponent,
+    CalificacionDialogComponent,
+    ListaCalificacionesComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

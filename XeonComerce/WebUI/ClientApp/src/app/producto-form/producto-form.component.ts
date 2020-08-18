@@ -118,17 +118,19 @@ export class ProductoFormComponent implements OnInit {
           comercios.find((i) => i.cedJuridica == this.user.empleado.idComercio),
         ];
       } else {
-        this.comercios = comercios;
+        debugger;
+        this.comercios = this.obtenerComerciosFiltrados(comercios);
       }
       console.log(this.comercios);
     });
   }
 
-  obtenerComerciosFiltrados(lista1: Producto[], lista2:   Producto[]): Producto[] {
-
+  obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
+    debugger;
     let elementosFiltrados = lista1.filter(function (elemento) {
-      return lista2.indexOf(elemento) == -1;
+      return elemento.cedJuridica != "1234567";
     });
+    console.log(elementosFiltrados);
     return elementosFiltrados;
   }
 

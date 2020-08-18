@@ -18,6 +18,11 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { DireccionService } from "../_services/direccion.service";
 
+interface SelectUsuario {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: "app-listar-usuarios",
   templateUrl: "./listar-usuarios.component.html",
@@ -26,6 +31,15 @@ import { DireccionService } from "../_services/direccion.service";
 export class ListarUsuariosComponent implements OnInit {
   usuarios: Usuario[];
   usuario: Usuario;
+  usuariosCiente: Usuario[];
+  selectUsuario: SelectUsuario[] = [
+    { value: 'U', viewValue: 'Clientes' },
+    { value: 'todos', viewValue: 'Todos' }
+  ];
+
+  selectedValue: string;
+
+
   displayedColumns: string[] = [
     "id",
     "nombre",
@@ -87,6 +101,18 @@ export class ListarUsuariosComponent implements OnInit {
       });
       this.usuarios = usuarios.filter((a) => a.estado == "A");
       this.datos = new MatTableDataSource(this.usuarios);
+      this.datos.sort = this.sort;
+      this.datos.paginator = this.paginator;
+    });
+  }
+
+  getUsuarioCliente(): void {
+    this.usuarioService.get().subscribe((usuarios) => {
+      this.usuarios = usuarios.sort((a, b) => {
+        return a.id.localeCompare(b.id);
+      });
+      this.usuariosCiente = usuarios.filter((a) => a.estado == "A" && a.tipo == "U");
+      this.datos = new MatTableDataSource(this.usuariosCiente);
       this.datos.sort = this.sort;
       this.datos.paginator = this.paginator;
     });
@@ -157,6 +183,15 @@ export class ListarUsuariosComponent implements OnInit {
       });
     });
   }
+
+  seleccionUsuario() {
+    if (this.selectedValue == "U") {
+      this.getUsuarioCliente();
+    } else {
+      this.getUsuarios();
+    }
+  }
+
 }
 
 @Component({
@@ -168,7 +203,7 @@ export class DialogDireccionUsuario implements OnInit {
     public dialogRef: MatDialogRef<DialogDireccionUsuario>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private ubicacionService: UbicacionService
-  ) {}
+  ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
