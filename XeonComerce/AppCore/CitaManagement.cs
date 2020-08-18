@@ -3,6 +3,7 @@ using Entities;
 using Management;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -21,6 +22,8 @@ namespace AppCore
         private FacturaMasterCrudFactory crudFacturaMaestro;
         private FacturaDetalleCrudFactory crudFacturaDetalle;
         private ProductoServicioCrudFactory crudProducto;
+        private EspecialidadCrudFactory crudEspecialidad;
+        private UsuarioCrudFactory crudUsuario; 
 
 
         public CitaManagement()
@@ -35,6 +38,8 @@ namespace AppCore
             crudDiaFeriado = new DiaFeriadoCrudFactory();
             crudFacturaDetalle = new FacturaDetalleCrudFactory();
             crudProducto = new ProductoServicioCrudFactory();
+            crudEspecialidad = new EspecialidadCrudFactory();
+            crudUsuario = new UsuarioCrudFactory();
 
         }
 
@@ -70,8 +75,19 @@ namespace AppCore
 
             var validHorarioSucursal = this.ValidarHorarioSucursal(cita);
 
+            var empleado = this.AsignarEmpleadoServicio(cita, citaProducto.Productos[0].Id);
+
             if (!validHorarioSucursal) throw new Exception("La sucursal se encuentra cerrada en las horas seleccionadas");
+            if (empleado == null) throw new Exception("No hay personal disponible para atender la cita");
             if (!this.ValidarDiaFeriado(cita)) throw new Exception("La fecha seleccionada es un dia feriado");
+
+            var transaccion = this.CrearTransaccion(cita);
+            var factura = this.crearFacturaMaestro(cita, transaccion.Id);
+            cita.IdFactura = factura.IdFactura;
+            cita.IdEmpleadoComercioSucursal = empleado.IdEmpleado;
+            crudCita.Create(cita);
+            var citaCreada = crudCita.RetrieveUltimo<Cita>();
+            this.CrearFacturasDetalle(citaCreada, citaProducto.Productos);
         }
 
         public Cita RetriveById(Cita cita)
@@ -157,6 +173,7 @@ namespace AppCore
 
         private void CrearFD(int idFactura, Producto producto)
         {
+            
             var facturaDetalle = new FacturaDetalle()
             {
                 IdLinea = 0,
@@ -166,8 +183,16 @@ namespace AppCore
                 Cantidad = producto.Cantidad,
                 IVA = producto.Impuesto,
                 IdFactura = idFactura,
-                TotalLinea = (producto.Precio * producto.Cantidad) - (producto.Descuento * producto.Cantidad)
+                
             };
+
+            if (producto.Tipo == 1)
+            {
+                facturaDetalle.TotalLinea = (producto.Precio * producto.Cantidad) - (producto.Descuento * producto.Cantidad);
+            } else
+            {
+                facturaDetalle.TotalLinea = producto.Precio - producto.Descuento;
+            }
 
             crudFacturaDetalle.Create(facturaDetalle);
         }
@@ -214,6 +239,48 @@ namespace AppCore
             }
             
             return null;
+        }
+
+        private Empleado AsignarEmpleadoServicio(Cita cita, int idServicio)
+        {
+            var empleados = crudEmpleado.GetEmpleadosByIdSucursal<Empleado>(cita.IdSucursal);
+
+            foreach (var e in empleados)
+            {
+                SeccionHorario sc = new SeccionHorario() { IdEmpleado = e.IdEmpleado, DiaSemana = (int)cita.HoraInicio.DayOfWeek + 1 };
+                var horarioEmpleado = crudSeccionHorario.GetHorarioEmpleado<SeccionHorario>(sc);
+                
+
+                foreach (var h in horarioEmpleado)
+                {
+                    if (
+                        h.Estado == "A" &&
+                        (h.HoraInicio.Hour < cita.HoraInicio.Hour || (h.HoraInicio.Hour == cita.HoraInicio.Hour && h.HoraInicio.Minute <= cita.HoraInicio.Minute)) &&
+                        (h.HoraFinal.Hour > cita.HoraFinal.Hour || (h.HoraFinal.Hour == cita.HoraFinal.Hour && h.HoraFinal.Minute >= cita.HoraFinal.Minute)) &&
+                        this.ValidarDisponibilidadEmpleado(cita, e.IdEmpleado) && this.ValidarEspecialidad(e, idServicio)
+                        )
+                    {
+                        return e;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private bool ValidarEspecialidad(Empleado empleado, int idServicio)
+        {
+            var especialidades = crudEspecialidad.GetEspecialidadRol<Especialidad>(empleado.IdRol);
+
+            foreach(var e in especialidades)
+            {
+                if(e.IdServicio == idServicio)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private bool ValidarDisponibilidadEmpleado(Cita cita, int idEmpleado)
@@ -338,6 +405,7 @@ namespace AppCore
             if (c == null) c = new Config { Id = "MIN_DIAS_CANCELAR_CI", Valor = 0 };
             if (DateTime.Now > cita.HoraInicio.AddDays(-c.Valor))
             {
+                //-------------------------
                 //Se debe multar
                 AusenciasManagement aM = new AusenciasManagement();
                 List<Ausencias> parametros = aM.RetrieveAll();
@@ -390,6 +458,8 @@ namespace AppCore
 
              }
 
+            //---------------
+
             cita.Estado = "C";
             crudCita.Update(cita);
 
@@ -435,6 +505,31 @@ namespace AppCore
             crudProducto.Update(producto);
         }
 
+        private void BloquearUsuario(string idCliente)
+        {
+            ConfigManagement cM = new ConfigManagement();
+            Config c = cM.RetrieveById(new Config { Id = "MAXAUSENCIAS" });
+            if (c == null) c = new Config { Id = "MAXAUSENCIAS", Valor = 0 };
+
+            var citas = crudCita.RetrieveAll<Cita>();
+            int citasAusente = 0;
+            foreach(var cita in citas)
+            {
+                if( cita.IdCliente == idCliente && cita.Estado == "A")
+                {
+                    citasAusente += 1;
+                }
+            }
+            
+
+            if( citasAusente == Convert.ToInt32(c.Valor )&& c.Valor > 0)
+            {
+                var usuario = crudUsuario.Retrieve<Usuario>(new Usuario() { Id = idCliente });
+                usuario.Estado = "B";
+                crudUsuario.Update(usuario);
+            }
+        }
+
         public void FinalizarCita(CitaProducto citaProducto)
         {
             var facturaM = crudFacturaMaestro.Retrieve<FacturaMaestro>(new FacturaMaestro() { IdFactura = citaProducto.IdFactura });
@@ -444,22 +539,36 @@ namespace AppCore
 
             if ( citaProducto.Estado == "A")
             {
-                // Estado Ausente:
-                // - Regresar el stock 
-                // - Actualizar cantidad a la factura detalle
-                // - Actualizar estado de la cita 
-                // - Actualizar estado de la transaccion
 
-                transaccion.Estado = "C";
-                crudTransaccion.Update(transaccion);
+                if (citaProducto.Tipo == "P") {
+                    // Estado Ausente:
+                    // - Regresar el stock 
+                    // - Actualizar cantidad a la factura detalle
+                    // - Actualizar estado de la cita 
+                    // - Actualizar estado de la transaccion
 
-                //var cita = this.CrearCita(citaProducto);
+                    this.BloquearUsuario(citaProducto.IdCliente);
+
+                    transaccion.Estado = "C";
+                    crudTransaccion.Update(transaccion);
+
+                    cita.Estado = "A";
+                    crudCita.Update(cita);
+
+                    this.RegresarStock(facturasDetalle);
+                } else
+                {
+
+                    cita.Estado = "F";
+                    crudCita.Update(cita);
+
+
+                    // Actualizar el monto de la transaccion 
+                    transaccion.Monto = this.calcularMontoTransaccion(facturaM);
+                    crudTransaccion.Update(transaccion);
+
+                }
                 
-                cita.Estado = "A";
-                crudCita.Update(cita);
-
-                
-                this.RegresarStock(facturasDetalle);
 
             }else if( citaProducto.Estado == "F")
             {
@@ -488,9 +597,9 @@ namespace AppCore
                                 f.Cantidad = p.Cantidad;
                                 f.TotalLinea = (p.Precio * p.Cantidad) - (p.Descuento * p.Cantidad);
                                 crudFacturaDetalle.Update(f);
-                            }
+                            } 
 
-                            if(p.Cantidad == 0)
+                            if(p.Cantidad == 0 && cita.Tipo != "S")
                             {
                                 // No se compro el produto reservado
                                 this.Rstock(f.IdProducto, f.Cantidad);
@@ -508,6 +617,8 @@ namespace AppCore
                         }
                     }
                 }
+
+                //
 
                 // Se actualiza la cita                 
                 cita.Estado = "F";
