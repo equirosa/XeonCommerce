@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
             try
             {
                 var citaManag = new CitaManagement();
-                citaManag.CancelarCitaUsuario(citaProducto);
+                citaManag.CancelarCita(citaProducto);
                 return Ok();
             }
             catch(Exception ex)
