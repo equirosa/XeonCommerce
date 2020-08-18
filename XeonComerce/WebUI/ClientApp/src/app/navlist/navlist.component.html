@@ -171,9 +171,13 @@
 <a mat-list-item routerLink="/empleado/calendario" (click)="onSidenavClose()">
 	<span class="nav-caption">Calendario</span>
 </a>
+<a mat-list-item routerLink="/citasEmpleado" (click)="onSidenavClose()">
+	<span class="nav-caption">Mis Citas</span>
+</a>
 <a *ngFor="let v of vistasEmpleado" mat-list-item routerLink="{{v.url}}" (click)="onSidenavClose()">
 		<span class="nav-caption">{{v.nombre}}</span>
 </a>
+
 
 
 <mat-divider></mat-divider>
@@ -206,6 +210,9 @@
 	<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
 		<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
 	</a>
+	<a mat-list-item routerLink="/citasCliente" (click)="onSidenavClose()">
+		<mat-icon>article</mat-icon><span class="nav-caption">Mis Citas</span>
+	</a>
 
 	<a mat-list-item routerLink="/categoriasUsuario" (click)="onSidenavClose()">
 		<mat-icon>category</mat-icon><span class="nav-caption">Administrar Categorias</span>
@@ -217,7 +224,7 @@
 		<mat-icon>unfold_more</mat-icon>
 	</mat-list-item>
 	<mat-menu #menu2="matMenu">
-		<button mat-menu-item (click)="onSidenavClose()" routerLink="/usuario/{{usuario.id}}">Perfil</button>
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/usuario/{{user.id}}">Perfil</button>
 		<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
 		<button mat-menu-item (click)="onSidenavClose()" routerLink="/recomendaciones">Recomendaciones</button>
 		<button mat-menu-item (click)="onSidenavClose()" routerLink="/historial">Historial de compras</button>

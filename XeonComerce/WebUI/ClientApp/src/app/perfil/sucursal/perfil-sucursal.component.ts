@@ -15,6 +15,10 @@ import { Ubicacion } from '../../_models/ubicacion';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductoCitaComponent } from '../../_components/producto-cita/producto-cita.component';
 import { FormCitaProductoComponent } from '../../form-cita-producto/form-cita-producto.component';
+import { ServiciosService } from '../../_services/servicios.service';
+import { Servicio } from '../../_models/servicio';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormCitaServicioComponent } from '../../form-cita-servicio/form-cita-servicio.component';
 
 
 @Component({
@@ -24,10 +28,11 @@ import { FormCitaProductoComponent } from '../../form-cita-producto/form-cita-pr
 })
 export class PerfilSucursalComponent implements OnInit {
 
-  //'1234567-1';
+  
   idSucursal: string;
   sucursal: Sucursal;
   productos: Producto[];
+  servicios: Servicio[];
   direccion: Direccion; 
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
@@ -41,10 +46,12 @@ export class PerfilSucursalComponent implements OnInit {
     public dialog: MatDialog,
     private surcursalService: SucursalService,
     private productoService: ProductoService,
+    private servicioService: ServiciosService,
     private direccionService: DireccionService,
     private ubicacionService: UbicacionService,
     private carritoService: CarritoService,
-    private accountService: AccountService,) {
+    private accountService: AccountService,
+    private _snackBar: MatSnackBar, ) {
     this.accountService.user.subscribe(x => {
       this.user = x;
 		});
@@ -52,7 +59,7 @@ export class PerfilSucursalComponent implements OnInit {
 
   ngOnInit(): void {
     this.idSucursal = this.route.snapshot.params['id'];
-	this.cargarSucursal();
+	   this.cargarSucursal();
     
   }
 
@@ -64,6 +71,7 @@ export class PerfilSucursalComponent implements OnInit {
         this.sucursal = res;
         this.cargarDireccion();
         this.cargarProductos();
+        this.cargarServicios();
       },
       error: err => console.log(err)
     });
@@ -74,7 +82,24 @@ export class PerfilSucursalComponent implements OnInit {
       next: res => {
         this.productos = res.filter( p => p.idComercio === this.sucursal.idComercio);
       },
-      error: err => console.log(err)
+      error: err => {
+        this._snackBar.open(err, '', {
+          duration: 2500
+        });
+      }
+    });
+  }
+
+  cargarServicios(): void {
+    this.servicioService.getServicio().subscribe({
+      next: res => {
+        this.servicios = res.filter( s => s.idComercio === this.sucursal.idComercio);
+      },
+      error: err => {
+        this._snackBar.open(err, '', {
+          duration: 2500
+        });
+      }
     });
   }
 
@@ -151,5 +176,14 @@ export class PerfilSucursalComponent implements OnInit {
       this.productosCita = [];
       this.cargarProductos();
     });
+  }
+
+  contratar(servicio: Producto): void {
+    const dialoRef = this.dialog.open(FormCitaServicioComponent, {
+      width: '400px',
+      height: '500px',
+      data: { servicio, sucursal: this.sucursal}
+    });
+  
   }
 }

@@ -213,5 +213,23 @@ namespace WebAPI.Controllers
                 return StatusCode(500, new { msg = ex.Message });
             }
         }
+
+        [HttpPut]
+        public IActionResult Desbloquear(Usuario usuario)
+        {
+            try
+            {
+                var usuarioMang = new UsuarioManagement();
+
+                usuarioMang.desbloquearUsuario(usuario);
+               
+                return Ok(new { msg = "Se desbloqueo el usuario" });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+        }
     }
 }

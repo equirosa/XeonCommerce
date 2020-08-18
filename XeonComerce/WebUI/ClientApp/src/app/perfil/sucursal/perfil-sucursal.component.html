@@ -91,14 +91,31 @@
                     <mat-card-title>{{producto.nombre}}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <strong>Precio</strong><span>{{producto.precio | currency:'₡'}}</span>
+                    <strong>Precio  </strong><span>{{producto.precio | currency:'₡'}}</span>
                 </mat-card-content>
                 <mat-card-action>
                     <button mat-button (click)=agregarCarrito(producto)>Agregar a carrito</button>
                     <button mat-button (click)="agregarProductoCita(producto)">Agregar a cita</button>
                 </mat-card-action>
             </mat-card>
-
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="6" rowHeight="250px" class=" mt-lg">
+        <mat-grid-tile colspan="6" rowspan="1">
+            <h2>Servicios</h2>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2" rowspan="1" *ngFor="let servicio of servicios">
+            <mat-card class="card-servicio card mr-md ml-md">
+                <mat-card-header>
+                    <mat-card-title>{{servicio.nombre}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <strong>Precio  </strong><span>{{servicio.precio | currency:'₡'}}</span>
+                </mat-card-content>
+                <mat-card-action>
+                    <button mat-button (click)="contratar(servicio)">Contratar</button>
+                </mat-card-action>
+            </mat-card>
         </mat-grid-tile>
     </mat-grid-list>
 
