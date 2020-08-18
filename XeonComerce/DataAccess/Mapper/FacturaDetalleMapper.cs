@@ -2,6 +2,7 @@
 using Entities;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace DataAccess.Mapper
@@ -35,26 +36,35 @@ namespace DataAccess.Mapper
 
         public SqlOperation GetRetriveStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "RET_FACTURA_MAESTRO" };
+            var operation = new SqlOperation { ProcedureName = "RET_FACTURA_DETALLE" };
 
             var e = (FacturaDetalle)entity;
-            operation.AddIntParam(DB_COL_ID_LINEA, e.IdLinea);
+            operation.AddIntParam(DB_COL_ID_FACTURA, e.IdFactura);
 
             return operation;
         }
 
         public SqlOperation GetRetriveAllStatement()
         {
-            var operation = new SqlOperation { ProcedureName = "RET_ALL_FACTURA_MAESTRO" };
+            var operation = new SqlOperation { ProcedureName = "RET_ALL_FACTURA_DETALLE" };
             return operation;
         }
 
         public SqlOperation GetDeleteStatement(BaseEntity entity)
         {
-            var operation = new SqlOperation { ProcedureName = "DEL_FACTURA_MAESTRO" };
+            var operation = new SqlOperation { ProcedureName = "DEL_FACTURA_DETALLE" };
 
             var e = (FacturaDetalle)entity;
             operation.AddIntParam(DB_COL_ID_LINEA, e.IdLinea);
+            return operation;
+        }
+
+        public SqlOperation GetFacturasDetalleCita(BaseEntity entity)
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_FACTURA_DETALLE_CITA_PR" };
+
+            var facturaM = (FacturaMaestro)entity;
+            operation.AddIntParam(DB_COL_ID_FACTURA, facturaM.IdFactura);
             return operation;
         }
 

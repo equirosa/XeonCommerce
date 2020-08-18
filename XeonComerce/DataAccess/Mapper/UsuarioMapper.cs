@@ -40,6 +40,26 @@ namespace DataAccess.Mapper
             return operation;
         }
 
+        internal SqlOperation UpdateToAdmin(Usuario usuario)
+        {
+            var operation = new SqlOperation { ProcedureName = "UPD_TOADMIN_PR" };
+
+            var c = usuario;
+            operation.AddVarcharParam(DB_COL_ID, c.Id);
+            operation.AddVarcharParam(DB_COL_NOMBRE, c.Nombre);
+            operation.AddVarcharParam(DB_COL_APELLIDO1, c.ApellidoUno);
+            operation.AddVarcharParam(DB_COL_APELLIDO2, c.ApellidoDos);
+            operation.AddVarcharParam(DB_COL_GENERO, c.Genero);
+            operation.AddDateTimeParam(DB_COL_FECHA_NACIMIENTO, c.FechaNacimiento);
+            operation.AddVarcharParam(DB_COL_CORREO_ELECTRONICO, c.CorreoElectronico);
+            operation.AddVarcharParam(DB_COL_TELEFONO, c.NumeroTelefono);
+            operation.AddIntParam(DB_COL_ID_DIRECCION, c.IdDireccion);
+            operation.AddVarcharParam(DB_COL_ESTADO, c.Estado);
+            operation.AddVarcharParam(DB_COL_TIPO, "A");
+
+            return operation;
+        }
+
         internal SqlOperation Verification(BaseEntity user)
         {
             var operation = new SqlOperation { ProcedureName = "MAIL_VERIFICATION" };

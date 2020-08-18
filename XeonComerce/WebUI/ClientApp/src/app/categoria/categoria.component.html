@@ -1,8 +1,8 @@
 <div class="divCategorias">
 	<h2>Categorias</h2>
-	<button mat-raised-button color="primary" (click)="abrirCrear()">Crear</button>
+	<button style="margin-bottom: 1%;" mat-raised-button color="primary" (click)="abrirCrear()">Crear</button>
 <mat-form-field>
-	<mat-label>Filter</mat-label>
+	<mat-label>Buscar</mat-label>
 	<input matInput (keyup)="filtrar($event)" placeholder="Ex. Lacoste" #input>
   </mat-form-field>
 	<div class="mat-elevation-z8">
@@ -36,7 +36,7 @@
 	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 	<tr class="mat-row" *matNoDataRow>
-		<td class="mat-cell" colspan="4">No se han encontraron datos</td>
+		<td class="mat-cell" colspan="4">No se ha encontrado datos</td>
 	  </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

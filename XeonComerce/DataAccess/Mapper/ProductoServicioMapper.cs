@@ -21,6 +21,8 @@ namespace DataAccess
         private const string DB_COL_ID_COMERCIO = "ID_COMERCIO";
         private const string DB_COL_IMPUESTO = "IMPUESTO";
         private const string DB_COL_DURACION = "DURACION";
+        
+        private const string DB_COL_ID_FACTURA = "ID_FACTURA";
         #endregion
 
         #region methods
@@ -184,6 +186,15 @@ namespace DataAccess
             operation.AddIntParam(DB_COL_IMPUESTO, pys.Impuesto);
 
             return operation;
+        }
+
+        public SqlOperation GetProductosCita(BaseEntity entity)
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_PRODUCTO_SERVICIO_CITA_PR" };
+
+            var cita = (Cita)entity;
+            operation.AddIntParam(DB_COL_ID_FACTURA, cita.IdFactura);
+            return operation; 
         }
         #endregion
     }

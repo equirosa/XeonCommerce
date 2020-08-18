@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using AppCore;
 using Entities;
+using Management;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace WebAPI.Controllers
 {
@@ -87,6 +90,65 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(500, new { msg = ex.Message });
             }
+        }
+
+
+        [HttpPost("enviar/{id}")]
+        public ActionResult Correo(string id, Producto producto)
+        {
+            try
+            {
+                UsuarioManagement um = new UsuarioManagement();
+                ComercioManagement cm = new ComercioManagement();
+                Usuario us = um.RetrieveById(new Usuario { Id = id });
+                Comercio com = cm.RetrieveById(new Comercio { CedJuridica = producto.IdComercio });
+                if(us != null)
+                {
+                    if (com != null)
+                    {
+                        Execute(us, producto, com).Wait();
+                    }
+                    else
+                    {
+                        throw new Exception("El comercio no se encontró");
+                    }
+                }
+                else
+                {
+                    throw new Exception("El usuario no se encontró");
+                }
+                return Ok(new { msg = "Se envió con éxito" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { msg = ex.Message });
+            }
+        }
+
+        private static async Task Execute(Usuario user, Producto prod, Comercio com)
+        {
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
+            var to = new EmailAddress(user.CorreoElectronico.ToString(), user.Nombre.ToString());
+            var plainTextContent = "";
+            var htmlContent = "";
+            var subject = "";
+            if (prod.Tipo == 1)
+            {
+                subject = "Un producto que te podría interesar está en descuento";
+                plainTextContent = ($"El producto {prod.Nombre} del comercio {com.NombreComercial} está en descuento. Ahora está en ₡{String.Format("{0:n}", prod.Precio - prod.Descuento)}, antes: ₡{String.Format("{0:n}", prod.Precio)}");
+                htmlContent = $"<strong>El producto {prod.Nombre} del comercio {com.NombreComercial} está en descuento. </strong> Ahora está en ₡{String.Format("{0:n}", prod.Precio - prod.Descuento)}, antes: ₡{String.Format("{0:n}", prod.Precio)}";
+            }
+            else
+            {
+                subject = "Un servicio que te podría interesar está en descuento";
+                plainTextContent = ($"El servicio {prod.Nombre} del comercio {com.NombreComercial} está en descuento. Ahora está en ₡{String.Format("{0:n}", prod.Precio - prod.Descuento)}, antes: ₡{String.Format("{0:n}", prod.Precio)}");
+                htmlContent = $"<strong>El servicio {prod.Nombre} del comercio {com.NombreComercial} está en descuento. </strong> Ahora está en ₡{String.Format("{0:n}", prod.Precio - prod.Descuento)}, antes: ₡{String.Format("{0:n}", prod.Precio)}";
+            }
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
 
         [HttpPut("{id}")]

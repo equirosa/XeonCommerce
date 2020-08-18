@@ -1,13 +1,20 @@
+import { Producto } from './../../_models/producto';
+import { Carrito } from './../../_models/carrito';
+import { User } from '@app/_models';
+import { AccountService } from '@app/_services';
+import { CarritoService } from './../../_services/carrito.service';
 import { Component, OnInit } from '@angular/core';
 import { SucursalService } from '../../_services/sucursal.service';
 import { ActivatedRoute } from '@angular/router';
 import { Sucursal } from '../../_models/sucursal';
 import { ProductoService } from '../../_services/producto.service';
-import { Producto } from '../../_models/producto';
 import { DireccionService } from '../../_services/direccion.service';
 import { UbicacionService } from '../../_services/ubicacion.service';
 import { Direccion } from '../../_models/Direccion';
 import { Ubicacion } from '../../_models/ubicacion';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ProductoCitaComponent } from '../../_components/producto-cita/producto-cita.component';
+import { FormCitaProductoComponent } from '../../form-cita-producto/form-cita-producto.component';
 
 
 @Component({
@@ -25,17 +32,27 @@ export class PerfilSucursalComponent implements OnInit {
   provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
+  user: User;
+
+  productosCita: Producto[] = [];
 
   constructor( 
-    private route: ActivatedRoute, 
-    private surcursalService: SucursalService, 
-    private productoService: ProductoService, 
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
+    private surcursalService: SucursalService,
+    private productoService: ProductoService,
     private direccionService: DireccionService,
-    private ubicacionService: UbicacionService) { }
+    private ubicacionService: UbicacionService,
+    private carritoService: CarritoService,
+    private accountService: AccountService,) {
+    this.accountService.user.subscribe(x => {
+      this.user = x;
+		});
+	 }
 
   ngOnInit(): void {
     this.idSucursal = this.route.snapshot.params['id'];
-    this.cargarSucursal();
+	this.cargarSucursal();
     
   }
 
@@ -70,6 +87,8 @@ export class PerfilSucursalComponent implements OnInit {
           this.direccion = res;
           this.direccion.longitud = Number(this.direccion.longitud);
           this.direccion.latitud = Number(this.direccion.latitud);
+		  this.getCantonesE();
+		  this.getDistritosE();
         }
       },
       error: err => console.log(err)
@@ -93,5 +112,44 @@ export class PerfilSucursalComponent implements OnInit {
     let canton = this.direccion.canton;
     this.ubicacionService.getDistritos(this.direccion.provincia, canton)
     .subscribe(distritos => this.distritos = Object.keys(distritos).map(key => ({value: Number(key), nombre: distritos[key]})));
-    }
+	}
+	
+	agregarCarrito(producto: Producto){
+		let car: Carrito;
+		car = {
+			cantidad: 1,
+			idUsuario: this.user.id,
+			idProducto: producto.id
+		}
+		this.carritoService.create(car).subscribe();
+  }
+
+  agregarProductoCita(producto: Producto): void{
+    const dialogRef = this.dialog.open(ProductoCitaComponent, {
+      width: '300px',
+      height: '200px',
+      data: { producto }
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      console.log('Producto', producto);
+      console.log('Cantidad', dialogResult);
+      const productoCita = producto;
+      productoCita.cantidad = dialogResult;
+      this.productosCita.push(productoCita);
+    });
+  }
+
+  agendarCita(): void {
+    const dialogRef = this.dialog.open(FormCitaProductoComponent, {
+      width: '400px',
+      height: '500px',
+      data: { productos: this.productosCita, sucursal: this.sucursal}
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.productosCita = [];
+      this.cargarProductos();
+    });
+  }
 }
