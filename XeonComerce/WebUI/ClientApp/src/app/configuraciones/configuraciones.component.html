@@ -2,13 +2,6 @@
   <h2>Configuraciones</h2>
   <div class="mat-elevation-z8">
 	<form [formGroup]="configuracion" style="width: 33%; padding: 2%;">
-
-		<mat-form-field appearance="outline">
-			<mat-label>Máxima cantidad de ausencias por cliente</mat-label>
-			<input matInput type="number" min="0" formControlName="maxAusencias">
-			<span matPrefix>#&nbsp;</span>
-		  </mat-form-field>
-
 		<mat-form-field appearance="outline">
 		  <mat-label>Multa por cancelación de cita</mat-label>
 		  <input matInput type="number" min="0" formControlName="multa">

@@ -57,6 +57,7 @@ namespace DataAccess.Mapper
             operation.AddVarcharParam(DB_COL_METODO, e.Metodo);
             operation.AddDateTimeParam(DB_COL_FECHA, e.Fecha);
             operation.AddVarcharParam(DB_COL_ESTADO, e.Estado);
+            operation.AddDoubleParam(DB_COL_MONTO, e.Monto);
 
             return operation;
         }
