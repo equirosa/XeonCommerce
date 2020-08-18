@@ -21,6 +21,9 @@ namespace Entities
 
         [JsonPropertyName("vistas")]
         public Vista[] Vistas { get; set; }
+
+        [JsonPropertyName("especialidades")]
+        public Especialidad[] Especialidades { get; set; }
         public VistaRol () { }
 
 

@@ -10,11 +10,13 @@ namespace AppCore
     {
         private RolCrudFactory crud;
         private RolVistaCrudFactory crudRolVista;
+        private EspecialidadCrudFactory crudEspecialidad; 
 
         public RolManagement()
         {
             crud = new RolCrudFactory();
             crudRolVista = new RolVistaCrudFactory();
+            crudEspecialidad = new EspecialidadCrudFactory();
         }
 
         public void Create(VistaRol obj)
@@ -32,7 +34,12 @@ namespace AppCore
             if (obj.Vistas != null)
             {
                 this.CreateRolVistas(obj.Vistas, rolUltimo.Id);
+                //aca se debe de crear las especialidades 
             }
+
+
+            if (obj.Especialidades != null)
+                this.CreateEspecialidades(obj.Especialidades);
             
 
         }
@@ -49,6 +56,15 @@ namespace AppCore
 
                 crudRolVista.Create(rolVista);
             }
+        }
+
+        private void CreateEspecialidades(Especialidad[] especialidades)
+        {
+            foreach (var e in especialidades)
+            {                
+                crudEspecialidad.Create(e);
+            }
+
         }
 
         public List<Rol> RetriveAll()
@@ -87,17 +103,21 @@ namespace AppCore
 
             // Eliminar todas las rolVistas con el idRol 
             crudRolVista.DeleteByRol(vistaRol.Id);
-
+            crudEspecialidad.DeleteEspecialidadXRol(rol);
 
             // Crear Todas las nuevas vistasRol
             this.CreateRolVistas(vistaRol.Vistas, vistaRol.Id);
+            this.CreateEspecialidades(vistaRol.Especialidades);
         }
       
 
         public void Delete(Rol obj)
         {
             crudRolVista.DeleteByRol(obj.Id);
+            crudEspecialidad.DeleteEspecialidadXRol(obj);
             crud.Delete(obj);
+
+            // se debe de eliminar las especialidades 
         }
 
               
@@ -105,6 +125,11 @@ namespace AppCore
         public List<Vista> GetVistasRol(int rol)
         {
             return crudRolVista.GetVistasRol<Vista>(rol);
+        }
+
+        public List<Especialidad> GetEspecialidadesRol(int rol)
+        {
+            return crudEspecialidad.GetEspecialidadRol<Especialidad>(rol);
         }
 
         public List<VistaRol> GetRolesComercio(string idComercio)
@@ -116,13 +141,15 @@ namespace AppCore
             foreach( var rc in rolesComercio)
             {               
                 var vistas = this.GetVistasRol(rc.Id);
+                var especialidades = this.GetEspecialidadesRol(rc.Id);
                 var vistaRol = new VistaRol()
                 {
                     Id = rc.Id,
                     IdComercio = rc.IdComercio,
                     Nombre = rc.Nombre,
                     Descripcion = rc.Descripcion,
-                    Vistas = vistas.ToArray()
+                    Vistas = vistas.ToArray(),
+                    Especialidades = especialidades.ToArray()
                 };
 
             resultado.Add(vistaRol);
