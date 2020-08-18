@@ -18,7 +18,7 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Especialidades</mat-label>
-            <mat-select formControlName="Especialidades" [compareWith]="compararOpciones" multiple>
+            <mat-select formControlName="Especialidades" [compareWith]="compraraOpcionesEspecialidad" multiple>
                 <mat-option *ngFor="let s of servicios"  [value]="s">
                     {{s.nombre}}
                 </mat-option>

@@ -7,6 +7,7 @@ import { RolService } from '../_services/rol.service';
 import { VistaRol } from '../_models/vista-rol';
 import { ServiciosService } from '../_services/servicios.service';
 import { Servicio } from '../_models/servicio';
+import { Especialidad } from '../_models/especialidad';
 
 
 @Component({
@@ -46,18 +47,27 @@ export class FormRolComponent implements OnInit {
         error: err => console.log(err)
       });
 
-      this.cargarServicios();
-      
+      this.servicioService.getServicio().subscribe({
+        next: res => {
+          this.servicios = res.filter( s => s.idComercio === this.nuevaVistaRol.idComercio );
+        },
+        error: err => {
+          this._snackBar.open(err, '', {
+            duration: 2500
+          });
+        }
+      });
      }
 
   ngOnInit(): void {
-    this.cargarServicios();
+    //this.cargarServicios();
 
     if ( this.data.tipo === 'editar'){
       this.nuevaVistaRol = this.data.vistaRol;
       this.FormGroupRol.get('Nombre').setValue(this.nuevaVistaRol.nombre);
       this.FormGroupRol.get('Descripcion').setValue(this.nuevaVistaRol.descripcion);
       this.FormGroupRol.get('Vistas').setValue(this.nuevaVistaRol.vistas);
+      this.FormGroupRol.get('Especialidades').setValue(this.nuevaVistaRol.especialidades);
       
     }
 
@@ -70,14 +80,15 @@ export class FormRolComponent implements OnInit {
       this.nuevaVistaRol.nombre = this.FormGroupRol.get('Nombre').value;
       this.nuevaVistaRol.descripcion = this.FormGroupRol.get('Descripcion').value;
       this.nuevaVistaRol.vistas = this.FormGroupRol.get('Vistas').value;
-
+      this.nuevaVistaRol.especialidades = this.crearEspecialidad(this.FormGroupRol.get('Especialidades').value);
+      console.log(this.FormGroupRol.get('Especialidades').value);
     } else {
       this.nuevaVistaRol.id = 0;
       this.nuevaVistaRol.idComercio = this.idComercio;
       this.nuevaVistaRol.nombre = this.FormGroupRol.get('Nombre').value;
       this.nuevaVistaRol.descripcion = this.FormGroupRol.get('Descripcion').value;
-      this.nuevaVistaRol.vistas = this.FormGroupRol.get('Vistas').value;
-
+      this.nuevaVistaRol.vistas = this.FormGroupRol.get('Vistas').value;      
+      this.nuevaVistaRol.especialidades = this.crearEspecialidad(this.FormGroupRol.get('Especialidades').value);
     }
 
 
@@ -96,39 +107,28 @@ export class FormRolComponent implements OnInit {
   }
 
   compararOpciones(o1: any, o2: any): boolean {
-    if(o1 && o2){
+    if (o1 && o2){
       return o1.id === o2.id;
     }
   }
-
-  cargarServicios(): void {
-    this.servicioService.getServicio().subscribe({
-      next: res => {
-        this.servicios = res.filter( s => s.idComercio === this.nuevaVistaRol.idComercio );
-        if( this.data.tipo === 'editar'){
-          this.cargarEspecialidadesServicios();
-        }
-      },
-      error: err => {
-        this._snackBar.open(err, '', {
-          duration: 2500
-        });
-      }
-    });
-  }
-
-  cargarEspecialidadesServicios(): void{
-    this.serviciosEspecialidades =  this.servicios.map( s => {
-      for(let e of this.nuevaVistaRol.especialidades){
-        if( e.idServicio === s.id){
-          return s;
-        }
-      }
-    });
-
-    if ( this.serviciosEspecialidades.length > 0 && this.FormGroupRol.get('Especialidades')){
-      this.FormGroupRol.get('Especialides').setValue(this.serviciosEspecialidades);
+  
+  compraraOpcionesEspecialidad(o1: any, o2: any): boolean {
+    if(o1 && o2){
+      return o1.id === o2.idServicio;
     }
   }
-  
+
+  crearEspecialidad(servicios: Servicio[]): Especialidad[] {
+    
+    let especialidad: Especialidad[] = new Array();
+
+    for(let s of servicios){
+      let  e = new Especialidad();
+        e.id = 0,
+        e.idRol = this.nuevaVistaRol.id,
+        e.idServicio = s.id
+        especialidad.push(e);
+    }  
+    return especialidad;
+  }
 }
