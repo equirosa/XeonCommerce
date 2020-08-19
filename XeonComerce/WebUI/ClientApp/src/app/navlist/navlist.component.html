@@ -133,7 +133,7 @@
 	<mat-icon>settings</mat-icon><span class="nav-caption">Configuraciones</span>
 </a>
 <a mat-list-item routerLink="/citasComercio" (click)="onSidenavClose()">
-	<span class="nav-caption">Citas</span>
+	<mat-icon>book_online</mat-icon><span class="nav-caption">Citas</span>
 </a>
 
 	<mat-divider></mat-divider>
@@ -165,6 +165,9 @@
 	</a>
 
 	<mat-divider></mat-divider>
+	<a mat-list-item routerLink="/categoriasUsuario" (click)="onSidenavClose()">
+		<mat-icon>category</mat-icon><span class="nav-caption">Administrar Categorias</span>
+	</a>
 <a mat-list-item routerLink="/empleado/horario/{{user.empleado.id}}" (click)="onSidenavClose()">
 	<span class="nav-caption">Horario</span>
 </a>
@@ -189,6 +192,7 @@
 </mat-list-item>
 <mat-menu #menu2="matMenu">
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/recomendaciones">Recomendaciones</button>
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/historial">Historial de compras</button>
 </mat-menu>
 

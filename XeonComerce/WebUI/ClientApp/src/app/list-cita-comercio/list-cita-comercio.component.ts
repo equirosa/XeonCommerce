@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CitaService } from '../_services/cita.service';
 import { CitaProducto } from '../_models/cita-producto';
 import { ConfirmDialogComponent } from '../_components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { MatPaginator } from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-list-cita-comercio',
@@ -32,6 +33,9 @@ export class ListCitaComercioComponent implements OnInit {
     private _snackBar: MatSnackBar) {
       this.idComercio = JSON.parse(localStorage.getItem('user')).comercio.cedJuridica;
      }
+	 
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+	@ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
     this.cargarCitas();
@@ -40,7 +44,9 @@ export class ListCitaComercioComponent implements OnInit {
   cargarCitas(): void {
     this.citaService.get().subscribe({
       next: res => {
-        this.citas.data = res.filter( c => c.idComercio === this.idComercio);
+        this.citas.data = res.filter( c => c.idComercio === this.idComercio).sort((a, b) => a.horaInicio - b.horaInicio);
+		this.citas.paginator = this.paginator;
+		this.citas.sort = this.sort;
         console.log(this.citas.data);
       }, error: err => console.log(err)
     });

@@ -190,6 +190,9 @@ export class ServicioComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Resultado: ${result}`);
+
+      if (result) {
+
       if (!this.formularioCompleto(result)) {
         this.mensajeService.add("¡Favor llene todos los datos!");
         return;
@@ -209,7 +212,6 @@ export class ServicioComponent implements OnInit {
         return;
       }
 
-      if (result) {
         let servicio: Servicio;
         servicio = {
           id: result.id,
@@ -297,6 +299,8 @@ export class ServicioComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Resultado: ${result}`);
 
+      if (result) {
+		  
       if (!this.formularioCompleto(result)) {
         this.mensajeService.add("¡Favor llene todos los datos!");
         return;
@@ -315,8 +319,6 @@ export class ServicioComponent implements OnInit {
         );
         return;
       }
-
-      if (result) {
         servicio = {
           id: servicio.id,
           tipo: 2,
