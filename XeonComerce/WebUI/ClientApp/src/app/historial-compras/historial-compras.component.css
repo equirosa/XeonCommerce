@@ -22,6 +22,11 @@
 	width: 100%;
   }
 
+.calificar {
+  background-color: #D2691E;
+  color : #000000;
+}
+
 .divHistorial {
 	padding: 2% 10%;
 }
@@ -36,4 +41,8 @@
 
 .pendiente:hover {
 	background-color: #f7cb4d !important;
+}
+
+.calificar {
+  background-color: #D2691E;
 }

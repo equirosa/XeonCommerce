@@ -89,6 +89,7 @@
             <mat-card class="card mr-md ml-md">
                 <mat-card-header>
                     <mat-card-title>{{producto.nombre}}</mat-card-title>
+                    <i class="fa fa-heart corazon" aria-hidden="true" (click)=agregarListaDeseos(producto)></i>
                 </mat-card-header>
                 <mat-card-content>
                     <strong>Precio  </strong><span>{{producto.precio | currency:'₡'}}</span>

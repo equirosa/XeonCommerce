@@ -207,7 +207,7 @@
 
   /*inicio citas*/
 
-  .citas-realizadas, .citas-canceladas {
+  .citas-realizadas, .citas-canceladas, .citas-pendientes {
     display: grid;
     grid-template-columns: 2fr 7fr;
     margin-left: 20%;
@@ -227,11 +227,18 @@
       min-width: 20%;
     }
 
-  .barra-porcentaje {
-    display: grid;
-    width: 95%;
-    height: 25px;
-  }
+    .citas-pendientes p {
+      display: grid;
+      font-size: 20px;
+      margin-right: 35px;
+      min-width: 20%;
+    }
+
+    .barra-porcentaje {
+      display: grid;
+      width: 95%;
+      height: 25px;
+    }
 
   .valor-porcentaje {
     height: 25px;

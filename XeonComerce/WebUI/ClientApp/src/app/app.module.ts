@@ -159,12 +159,16 @@ import { FormHorarioSucursalComponent } from "./form-horario-sucursal/form-horar
 
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 import {
-  CategoriaUsuarioComponent /*, DialogAgregarCategorias*/,
+  CategoriaUsuarioComponent,
 } from "./categoria-usuario/categoria-usuario.component";
 import { ProductoCitaComponent } from "./_components/producto-cita/producto-cita.component";
 import { FormCitaProductoComponent } from "./form-cita-producto/form-cita-producto.component";
 import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comercio.component";
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
+
+import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
+import { CalificacionDialogComponent } from './calificacion-dialog/calificacion-dialog.component';
+import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
 @NgModule({
   imports: [
@@ -248,6 +252,7 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
     CarritoDialogFinComponent,
     DialogImagen,
     DialogEditarArchivo,
+    CalificacionDialogComponent
   ],
   declarations: [
     AppComponent,
@@ -311,7 +316,6 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
     DialogEditarArchivo,
     CategoriaUsuarioComponent,
     RecomendacionesComponent,
-    //DialogAgregarCategorias
     ProductoCitaComponent,
     FormCitaProductoComponent,
     ListCitaComercioComponent,
@@ -330,7 +334,10 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
 		FinalizarCitaProductosComponent,
 		ListCitasClienteComponent,
 		PerfilCitaClienteComponent,
-		FormCitaServicioComponent
+    FormCitaServicioComponent,
+    ListaDeseosComponent,
+    CalificacionDialogComponent,
+    ListaCalificacionesComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -342,8 +349,7 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
 		WorkWeekService, 
 		MonthService, 
 		MonthAgendaService
-		
-    ],
-    bootstrap: [AppComponent]
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -22,7 +22,7 @@ export class CategoriaUsuarioComponent implements OnInit {
   categorias: Categoria[];
   categoria: Categoria;
   categoriasSelect = new Array<Categoria>();
-  categoriasPorUsuario = new Array<Categoria>();
+  categoriasPorUsuario : Categoria[];
   displayedColumns: string[] = ['id', 'valor', 'descripcion', 'eliminar'];
   datos;
   public httpClient: HttpClient;
@@ -41,24 +41,14 @@ export class CategoriaUsuarioComponent implements OnInit {
     let catsUsuario: CategoriaUsuario[];
     let cont = 0;
 
-    this.catUsuarioService.getByUsuario(this.user.id)
-      .subscribe(categorias => {
-        catsUsuario = categorias;
-        for (var i = 0; i < categorias.length; i++) {
-          for (var j = 0; j < this.categorias.length; j++) {
-            if (catsUsuario[i].idCategoria == this.categorias[j].id) {
-       
-              this.categoriasPorUsuario[cont] = this.categorias[j];
-              cont++;
-            }
-          }
-        }
-        this.categoriasSelect = this.obtenerElementosDiferentes(this.categorias, this.categoriasPorUsuario);
-        console.log(this.categoriasSelect);
-        console.log(this.categoriasPorUsuario);
-		this.datos = new MatTableDataSource(this.categoriasPorUsuario);
-		this.datos.sort = this.sort;
-      });
+    this.categoriaService.get().subscribe((todasLasCategorias) => {
+      this.catUsuarioService.getByUsuario(this.user.id).subscribe(categoriasUsuario => {
+        this.categoriasPorUsuario = todasLasCategorias.filter(a => categoriasUsuario.find((i) => i.idCategoria == a.id));
+        this.categoriasSelect = this.obtenerElementosDiferentes(todasLasCategorias, this.categoriasPorUsuario);
+        this.datos = new MatTableDataSource(this.categoriasPorUsuario);
+        this.datos.sort = this.sort;
+      })
+    });
   }
 
   getTodasLasCategorias(): void {
@@ -72,6 +62,15 @@ export class CategoriaUsuarioComponent implements OnInit {
 
     let elementosFiltrados = lista1.filter(function (elemento) {
       return lista2.indexOf(elemento) == -1;
+    });
+    return elementosFiltrados;
+  }
+
+
+  obtenerElementosEnComun(lista1: Categoria[], lista2: Categoria[]): Categoria[] {
+
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return lista2.indexOf(elemento) != -1;
     });
     return elementosFiltrados;
   }
@@ -98,7 +97,7 @@ export class CategoriaUsuarioComponent implements OnInit {
       maxWidth: "500px",
       data: {
         title: "¿Está seguro?",
-        message: "Usted está apunto de eliminar una categoria. "
+        message: "Usted está apunto de eliminar una categoría. "
       }
     });
 
@@ -116,7 +115,7 @@ export class CategoriaUsuarioComponent implements OnInit {
       maxWidth: "500px",
       data: {
         title: "¿Está seguro?",
-        message: "Usted está apunto de eliminar todas las categoria. "
+        message: "Usted está apunto de eliminar todas las categorías. "
       }
     });
     dialogRef.afterClosed().subscribe(dialogResult => {

@@ -10,7 +10,7 @@
 
   .cardComercio{
 	  width: 80%;
-	  height: 60%;
+	  height: 80%;
 	  background-color: #f3f3f3;
   }
 
@@ -38,3 +38,14 @@
 	text-align: center;
 	margin: 0 auto;
   }
+
+.crop {
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.raiting{
+   width: 300px;
+   display: inline;
+   text-align: left;
+}

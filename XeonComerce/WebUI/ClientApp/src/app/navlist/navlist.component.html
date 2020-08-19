@@ -207,6 +207,9 @@
 	<a mat-list-item routerLink="/comercio" (click)="onSidenavClose()">
 		<mat-icon>business</mat-icon><span class="nav-caption">Ver Comercios</span>
 	</a>
+	<a mat-list-item routerLink="/listaDeseos" (click)="onSidenavClose()">
+		<mat-icon>favorite</mat-icon><span class="nav-caption">Mi lista de deseos</span>
+	</a>
 	<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
 		<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
 	</a>

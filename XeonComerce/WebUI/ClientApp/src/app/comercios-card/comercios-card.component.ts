@@ -37,10 +37,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 				return a.nombreComercial.localeCompare(b.nombreComercial);
 			  });
 			  console.log(this.comercios)
-			this.comercios = comercios.filter((a)=> a.estado == 'A' || a.estado == "");
+      this.comercios = comercios.filter((a) => a.estado == 'A' || a.estado == "");
+      this.comercios = this.obtenerComerciosFiltrados(this.comercios);
 			this.length = this.comercios.length;
 		});
-	}
+  }
+
+  obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return elemento.cedJuridica != "1234567";
+    });
+    console.log(elementosFiltrados);
+    return elementosFiltrados;
+  }
 	
 	verDireccion(comercio: Comercio): void {
 		this.direccionService.getBy(comercio.direccion).subscribe((dir)=>{
