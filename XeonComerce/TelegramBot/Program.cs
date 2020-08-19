@@ -10,6 +10,8 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace TelegramBot
 {
@@ -23,8 +25,9 @@ namespace TelegramBot
         private static readonly UsuarioManagement usuarioManagement = new UsuarioManagement();
         private static readonly ProductoServicioManagement productoServicioManagement = new ProductoServicioManagement();
         private static readonly CitaManagement citaManagement = new CitaManagement();
+        private static readonly Random random = new Random();
         private static Dictionary<string, CitaProducto> citasEnProceso = new Dictionary<string, CitaProducto>();
-        private static Dictionary<string, string> clientesIniciandoSesión = new Dictionary<string, string>();
+        private static Dictionary<string, Usuario> clientesIniciandoSesión = new Dictionary<string, Usuario>();
 
         static void Main()
         {
@@ -38,7 +41,6 @@ namespace TelegramBot
             botClient.OnMessage += BotOnMessageAsync;
             botClient.OnCallbackQuery += BotOnCallbackQuery;
             botClient.OnReceiveError += BotOnReceiveError;
-            botClient.OnInlineQuery += BotOnInlineQuery;
             botClient.StartReceiving();
 
             Console.WriteLine("Press any key to exit");
@@ -318,7 +320,17 @@ namespace TelegramBot
                     }
                     catch(Exception e) { SendText(query.Message, e.Message); }
                     break;
+                case "cerrar-sesion":
+                    CerrarSesion(query.Message);
+                    break;
             }
+        }
+
+        private static void CerrarSesion(Message message)
+        {
+            UsuarioTelegram usuarioEliminar = new UsuarioTelegram() { IdUsuario = GetClienteId(message.Chat.Id) };
+            usuarioTelegramManagement.Delete(usuarioEliminar);
+            SendText(message, "Listo, cerré tu sesión.");
         }
 
         private static InlineKeyboardMarkup ListarCitas(long id)
@@ -545,10 +557,30 @@ namespace TelegramBot
                     }
                     else { SendText(mensaje, "Lo siento, pero no tienes ninguna cita en proceso."); }
                     break;
-
+                case "codigo":
+                    ProcesarCodigo(mensaje);
+                    break;
             }
         }
-        
+
+        private static void ProcesarCodigo(Message mensaje)
+        {
+            Usuario user = clientesIniciandoSesión.GetValueOrDefault(mensaje.Chat.Id.ToString());
+            if (user != null && mensaje.Text.Split("_")[1] == user.Token)
+            {
+                UsuarioTelegram newUser = new UsuarioTelegram()
+                {
+                    IdChat = mensaje.Chat.Id.ToString(),
+                    IdUsuario = user.Id
+                };
+
+                usuarioTelegramManagement.Create(newUser);
+                clientesIniciandoSesión.Remove(newUser.IdChat);
+                SendText(mensaje, $"¡Listo! Bienvenido, {user.Nombre}.");
+            }
+            else { SendText(mensaje, "Lo siento, el código que me enviaste no coincide."); }
+        }
+
         private static bool IsLoggedInChat(Message mensaje)
         {
             List<UsuarioTelegram> usuarios = usuarioTelegramManagement.RetrieveAll();
@@ -567,19 +599,44 @@ namespace TelegramBot
             Usuario user = usuarioManagement.RetrieveById(new Usuario() { Id = mensaje.Text.Split("_")[1] });
             if (user != null)
             {
-                usuarioTelegramManagement.Create(
-                    new UsuarioTelegram()
-                    {
-                        IdChat = mensaje.Chat.Id.ToString(),
-                        IdUsuario = mensaje.Text
-                    });
-                SendText(mensaje, "¡Sesión iniciada!");
+                char[] letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+                char[] numeros = "0123456789".ToCharArray();
+                string codigo = "";
+                for (int i = 0; i < 4; i++)
+                {
+                    codigo += letras[random.Next(26)];
+                    codigo += numeros[random.Next(10)];
+                }
+
+                user.Token = codigo;
+
+                Execute(user).Wait();
+
+                clientesIniciandoSesión.Remove(mensaje.Chat.Id.ToString());
+                clientesIniciandoSesión.Add(mensaje.Chat.Id.ToString(),user);
+
+                SendText(mensaje, "¡OK! Te debió llegar un correo con un código de verificación, ¿me lo podrías enviar con el siguiente formato?\n" +
+                    "Formato: codigo_<el código que recibiste>, es decir, si tu código es 123 entonces sería 'codigo_123'");
             }
             else
             {
                 SendText(mensaje, "Lo siento, pero no sé de ningún usuario registrado con esa cédula.");
             }
         }
+
+        private static async Task Execute(Usuario user)
+        {
+            var apiKey = "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";
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
+            var subject = "Codigo de verificacion de Telegram";
+            var to = new EmailAddress(user.CorreoElectronico.ToString(), user.Nombre.ToString());
+            var plainTextContent = ("Bienvenido a GetItSafely su codigo de verificacion es: " + user.Token.ToString() + ".");
+            var htmlContent = "<strong>Bienvenido a GetItSafely su codigo de verificacion es: " + user.Token.ToString() + "." + "</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            _ = client.SendEmailAsync(msg);
+        }
+
 
         public static InlineKeyboardMarkup ListarComercios()
         {
