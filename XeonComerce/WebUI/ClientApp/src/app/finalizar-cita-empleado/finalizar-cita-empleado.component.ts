@@ -56,7 +56,7 @@ export class FinalizarCitaEmpleadoComponent implements OnInit {
 
     this.citaService.finalizar(this.cita).subscribe({
       next: res => {
-        this._snackBar.open('Se ha finalizado al cita', '', {
+        this._snackBar.open('Se ha finalizado la cita', '', {
           duration: 2500
         });
       },

@@ -74,7 +74,6 @@ httpOptions = {
 
   private handleError<T>(operation = 'operation', result?: T) {
 	return (error: any): Observable<T> => {
-	  console.error(error);
 	 	this.log(`${error}`);
 	  
 	  return of(result as T);

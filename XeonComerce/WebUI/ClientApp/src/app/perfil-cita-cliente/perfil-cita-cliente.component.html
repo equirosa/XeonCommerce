@@ -18,12 +18,12 @@
         </ng-container>  
         <ng-container matColumnDef="cantidad" >
             <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.cantidad}}</mat-cell> 
+            <mat-cell *matCellDef="let element">{{element.cantidad == 0 ? "El servicio no tiene cantidad":element.cantidad}}</mat-cell> 
         </ng-container>     
         <mat-header-row  *matHeaderRowDef="columnas"></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnas;"></mat-row>      
     </mat-table>
-    <button>
+    <button mat-button color="eliminar" (click)="cancelar()">
         Cancelar
     </button>
 </mat-dialog-content>

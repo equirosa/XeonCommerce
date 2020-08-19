@@ -30,6 +30,11 @@ export class CitaService {
     return this.http.put<CitaProducto>(this.urlApi + `/cancelar`, cita, {headers: this.headers});
   }
 
+  
+  cancelarUsr(cita: CitaProducto): Observable<CitaProducto>{
+    return this.http.put<CitaProducto>(this.urlApi + `/cancelarusr`, cita, {headers: this.headers});
+  }
+
   notificar(data: CitaProducto): Observable<CitaProducto> {
     var cita = JSON.stringify(data);
     return this.http.post<CitaProducto>(this.urlApi + `/notificarCliente`, cita, {headers: this.headers});
