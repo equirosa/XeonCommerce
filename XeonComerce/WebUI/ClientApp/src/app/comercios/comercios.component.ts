@@ -24,12 +24,14 @@ import {MatSort} from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 import { UploadComercioFilesComponent } from '../crear-comercio/upload-comercio-files.dialog';
 import { CategoriaComercio } from '../_models/categoriaComercio';
+
 @Component({
   selector: 'app-comercios',
   templateUrl: './comercios.component.html',
   styleUrls: ['./comercios.component.css']
 })
 export class ComerciosComponent implements OnInit {
+
 	user: User;
 	comercios: Comercio[];
 	comercioCrear: Comercio;
@@ -43,7 +45,7 @@ export class ComerciosComponent implements OnInit {
 	constructor(private bitacoraService: BitacoraService, private accountService : AccountService, public dialog: MatDialog,
 		 private categoriaComercioService: CategoriaComercioService, private categoriaService: CategoriaService,
 		  private archivoService: ArchivoService, private comercioService: ComercioService, private direccionService: DireccionService, 
-		  private mensajeService: MensajeService, private ubicacionService: UbicacionService) { this.user = this.accountService.userValue; }
+    private mensajeService: MensajeService, private ubicacionService: UbicacionService) { this.user = this.accountService.userValue; }
   
 	categorias = new FormControl();
 
@@ -271,12 +273,21 @@ export class ComerciosComponent implements OnInit {
 			this.comercios = comercios.sort((a, b) => {
 				return a.nombreComercial.localeCompare(b.nombreComercial);
 			  });
-			this.comercios = comercios.filter((a)=> a.estado == 'A');
+      this.comercios = comercios.filter((a) => a.estado == 'A');
+      this.comercios = this.obtenerComerciosFiltrados(this.comercios);
 			this.datos = new MatTableDataSource(this.comercios);
 			this.datos.sort = this.sort;
 			this.datos.paginator = this.paginator;
 		});
-	}
+  }
+
+  obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return elemento.cedJuridica != "1234567";
+    });
+    console.log(elementosFiltrados);
+    return elementosFiltrados;
+  }
   
   
 	delete(comercio: Comercio): void {
@@ -469,4 +480,3 @@ export class ComerciosComponent implements OnInit {
 	}
 
   }
-  

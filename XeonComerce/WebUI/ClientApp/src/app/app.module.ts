@@ -159,17 +159,22 @@ import { FormHorarioSucursalComponent } from "./form-horario-sucursal/form-horar
 
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 import {
-  CategoriaUsuarioComponent /*, DialogAgregarCategorias*/,
+  CategoriaUsuarioComponent,
 } from "./categoria-usuario/categoria-usuario.component";
 import { ProductoCitaComponent } from "./_components/producto-cita/producto-cita.component";
 import { FormCitaProductoComponent } from "./form-cita-producto/form-cita-producto.component";
 import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comercio.component";
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
+
+import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
+import { CalificacionDialogComponent } from './calificacion-dialog/calificacion-dialog.component';
+import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
 import { ScannerQrComponent } from './scanner-qr/scanner-qr.component';
 import { NgQrScannerModule } from 'angular2-qrscanner';
 import { InfoScannerComponent } from './_components/info-scanner/info-scanner.component';
 import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-producto/finalizar-nuevo-producto.component';
+import { EditarClienteComponent } from './editar-cliente/editar-cliente.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -253,6 +258,8 @@ import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-p
     CarritoDialogFinComponent,
     DialogImagen,
     DialogEditarArchivo,
+    CalificacionDialogComponent,
+    EditarClienteComponent
   ],
   declarations: [
     AppComponent,
@@ -316,7 +323,6 @@ import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-p
     DialogEditarArchivo,
     CategoriaUsuarioComponent,
     RecomendacionesComponent,
-    //DialogAgregarCategorias
     ProductoCitaComponent,
     FormCitaProductoComponent,
     ListCitaComercioComponent,
@@ -335,7 +341,11 @@ import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-p
 		FinalizarCitaProductosComponent,
 		ListCitasClienteComponent,
 		PerfilCitaClienteComponent,
-		FormCitaServicioComponent,
+    FormCitaServicioComponent,
+    ListaDeseosComponent,
+    CalificacionDialogComponent,
+    ListaCalificacionesComponent,
+    EditarClienteComponent
 		ScannerQrComponent,
 		InfoScannerComponent,
 		FinalizarNuevoProductoComponent
@@ -350,8 +360,7 @@ import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-p
 		WorkWeekService, 
 		MonthService, 
 		MonthAgendaService
-		
-    ],
-    bootstrap: [AppComponent]
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

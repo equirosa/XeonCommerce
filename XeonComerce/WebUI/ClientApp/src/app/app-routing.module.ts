@@ -23,6 +23,7 @@ import { EmpleadoAdminComponent } from "./empleado/pages/empleado-admin/empleado
 import { ProductoFormComponent } from "./producto-form/producto-form.component";
 import { ImpuestoComponent } from "./impuesto/impuesto.component";
 import { ServicioComponent } from "./servicio/servicio.component";
+import {ListaDeseosComponent } from "./lista-deseos/lista-deseos.component"
 
 const accountModule = () =>
   import("./account/account.module").then((x) => x.AccountModule);
@@ -42,6 +43,7 @@ import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.compo
 import { CategoriaUsuarioComponent } from "./categoria-usuario/categoria-usuario.component";
 import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comercio.component";
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
+import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 
 import { ListCitasEmpleadoComponent } from './list-citas-empleado/list-citas-empleado.component';
 import { ListCitasClienteComponent } from './list-citas-cliente/list-citas-cliente.component';
@@ -64,6 +66,7 @@ const routes: Routes = [
   { path: "empleado", loadChildren: empleadoModule },
   { path: "cuenta/recuperar", component: RecuperarContrasennaComponent },
   { path: "cambiarcontrasenna", component: CambiarContrasennaComponent },
+  { path: "listaCalificaciones", component: ListaCalificacionesComponent },
   {
     path: "productos",
     component: ProductoFormComponent,
@@ -136,6 +139,11 @@ const routes: Routes = [
   {
     path: "usuario/:id",
     component: PerfilUsuarioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "listaDeseos",
+    component: ListaDeseosComponent,
     canActivate: [AuthGuard],
   },
   {

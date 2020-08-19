@@ -2,6 +2,11 @@
     padding: 2% 10%;
 }
 
+.corazon:hover {
+  color: red;
+  cursor: pointer;
+}
+
 .card-servicio {
     width: 290px;
 }

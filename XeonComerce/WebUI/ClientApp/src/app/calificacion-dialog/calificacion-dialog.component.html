@@ -1,0 +1,21 @@
+<h2 class="titulo" mat-dialog-title>Calificacion</h2>
+
+<mat-dialog-content>
+  <div class="estrellas" style="width: 250px;">
+    <span class="fa fa-star-o estrella1 fa-3x" (click)="calificarClick(1)"></span>
+    <span class="fa fa-star-o estrella2 fa-3x" (click)="calificarClick(2)"></span>
+    <span class="fa fa-star-o estrella3 fa-3x" (click)="calificarClick(3)"></span>
+    <span class="fa fa-star-o estrella4 fa-3x" (click)="calificarClick(4)"></span>
+    <span class="fa fa-star-o estrella5 fa-3x" (click)="calificarClick(5)"></span>
+  </div>
+  <div>
+    Calificacion: {{this.valorCalificacion}}
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button [disabled]="!data.puedeCalificar" class="calificar" mat-button mat-dialog-close [mat-dialog-close]="true" (click)="guardarCalificacion()">
+    Calificar
+  </button>
+  <button mat-button mat-dialog-close [mat-dialog-close]="false">Cerrar</button>
+</mat-dialog-actions>
