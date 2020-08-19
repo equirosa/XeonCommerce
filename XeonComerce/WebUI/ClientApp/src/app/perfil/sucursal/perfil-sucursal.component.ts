@@ -179,11 +179,16 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
   contratar(servicio: Producto): void {
-    const dialoRef = this.dialog.open(FormCitaServicioComponent, {
+    const dialogRef = this.dialog.open(FormCitaServicioComponent, {
       width: '400px',
       height: '500px',
       data: { servicio, sucursal: this.sucursal}
     });
   
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.productosCita = [];
+      this.cargarServicios();
+    });
   }
 }

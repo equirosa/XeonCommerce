@@ -166,6 +166,9 @@ import { FormCitaProductoComponent } from "./form-cita-producto/form-cita-produc
 import { ListCitaComercioComponent } from "./list-cita-comercio/list-cita-comercio.component";
 import { PerfilUsuarioComponent } from "./perfil/usuario/usuario.component";
 import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
+import { ScannerQrComponent } from './scanner-qr/scanner-qr.component';
+import { NgQrScannerModule } from 'angular2-qrscanner';
+import { InfoScannerComponent } from './_components/info-scanner/info-scanner.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -221,6 +224,7 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
     ScheduleModule,
     RecurrenceEditorModule,
     EmpleadoModule,
+    NgQrScannerModule,
   ],
   entryComponents: [
     DialogComercio,
@@ -330,7 +334,9 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
 		FinalizarCitaProductosComponent,
 		ListCitasClienteComponent,
 		PerfilCitaClienteComponent,
-		FormCitaServicioComponent
+		FormCitaServicioComponent,
+		ScannerQrComponent,
+		InfoScannerComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
