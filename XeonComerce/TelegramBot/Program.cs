@@ -125,6 +125,25 @@ namespace TelegramBot
                         );
                     break;
                 case "citaproducto":
+                    string sucursalCita = query.Data.Split("_")[2];
+                    int productoCitaId;
+                    if (int.TryParse(query.Data.Split("_")[1], out productoCitaId))
+                    {
+                        Producto producto = productoServicioManagement.RetrieveByIdProducto(new Producto() { Id = productoCitaId });
+                        if (producto.Cantidad > 0)
+                        {
+
+                        }
+                        else
+                        {
+                            SendText(query.Message, "Lo siento...\n" +
+                                "Ya no tenemos ese producto por el momento.");
+                        }
+                    }
+                    else
+                    {
+                        SendText(query.Message, "Producto no encontrado...");
+                    }
                     break;
             }
         }
