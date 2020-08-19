@@ -118,10 +118,20 @@ export class ProductoFormComponent implements OnInit {
           comercios.find((i) => i.cedJuridica == this.user.empleado.idComercio),
         ];
       } else {
-        this.comercios = comercios;
+        debugger;
+        this.comercios = this.obtenerComerciosFiltrados(comercios);
       }
       console.log(this.comercios);
     });
+  }
+
+  obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
+    debugger;
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return elemento.cedJuridica != "1234567";
+    });
+    console.log(elementosFiltrados);
+    return elementosFiltrados;
   }
 
   getImpuestos(): void {
@@ -138,14 +148,7 @@ export class ProductoFormComponent implements OnInit {
 
   formularioCompleto(prod) {
     let formularioCompleto = true;
-    if (
-      prod.nombre == "" ||
-      prod.precio == "" ||
-      prod.impuesto == "" ||
-      prod.cantidad == "" ||
-      prod.comercio == "" ||
-      prod.duracion == ""
-    ) {
+    if (prod.nombre == "" || prod.precio == "" || prod.impuesto == "" || prod.cantidad == "" || prod.duracion == "") {
       formularioCompleto = false;
     }
     return formularioCompleto;

@@ -24,6 +24,11 @@ import { DireccionService } from '../_services/direccion.service';
 import { DialogDireccion } from '../comercios/comercios.component';
 import {PageEvent} from '@angular/material/paginator';
 import { Pipe, PipeTransform } from '@angular/core';
+import { CalificacionDialogComponent } from '../calificacion-dialog/calificacion-dialog.component';
+import { Producto } from '../_models/producto';
+import { TransaccionFinanciera } from '../_models/transaccionFinanciera';
+import { CalificacionService } from '../_services/calificacion.service';
+import { Calificacion } from '../_models/Calificacion';
 
 @Component({
 	selector: 'app-historial-compras',
@@ -34,25 +39,50 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 	historial: any[] = [];
 	user: User;
-	prodservs: any[] = [];
-	datos;
-	displayedColumns: string[] = ['id', 'nombre', 'cantidad', 'impuesto', 'precio'];
+  prodservs: any[] = [];
+  datos;
+  displayedColumns: string[] = ['id', 'nombre', 'cantidad', 'impuesto', 'precio', 'calificar'];
 	@ViewChild(MatSort, {static: true}) sort: MatSort;
 
 	constructor(public dialog: MatDialog, private comercioService: ComercioService, private facturaDetalleService: FacturaDetalleService,
-		private productoService: ProductoService, private serviciosService: ServiciosService,
+    private productoService: ProductoService, private calificacionService: CalificacionService, private serviciosService: ServiciosService,
 		 private facturaMaestroService: FacturaMaestroService, private transaccionFinancieraService: TransaccionFinancieraService, private direccionService: DireccionService,
 		  private mensajeService: MensajeService, private ubicacionService: UbicacionService, private accountService: AccountService, private carritoService: CarritoService) {
 			this.accountService.user.subscribe(x => {
 				this.user = x;
-			});
+      });
 		  }
   
 
 	
 	ngOnInit() {
-	  this.getCompras();
-	}
+    this.getCompras();
+  }
+
+  usuarioPuedeCalificar(element : any): void {
+    let calificacionesFiltradas: Calificacion[];
+    let puedeCalificar: boolean = true;
+    this.calificacionService.obtenerCalificaciones().subscribe((calificaciones) => {
+      calificacionesFiltradas = new Array(calificaciones.length);
+      calificacionesFiltradas = calificaciones.filter(i => i.idProducto == element.id);
+      if (calificacionesFiltradas.length == 0) {
+        this.calificar(element, puedeCalificar);
+      } else {
+        puedeCalificar = this.filtrarCalificacionPorCliente(calificacionesFiltradas);
+        this.calificar(element, puedeCalificar);
+      }
+    });
+  }
+
+  filtrarCalificacionPorCliente(calificaciones: Calificacion[]): boolean {
+    let puedeCalificar = true;
+    for (var i = 0; i < calificaciones.length; i++) {
+      if (calificaciones[i].idUsuario == this.user.id) {
+        return puedeCalificar = false;
+      }
+    }
+    return puedeCalificar;
+  }
 	
 	  getCompras(): void {
 		this.facturaMaestroService.get()
@@ -107,10 +137,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 		this.datos = new MatTableDataSource(this.prodservs);
 	}
 
-	getProductos(detalles){
+  getProductos(detalles) {
+    let puedecalificar: boolean = true;
 		detalles.forEach(i => {
-			this.productoService.getProductoById(i.idProducto).subscribe((producto)=>{
-				if(producto){
+      this.productoService.getProductoById(i.idProducto).subscribe((producto) => {
+        if (producto) {
 					let obj = {
 						id: producto.id,
 						precio: i.valor-i.descuento,
@@ -120,9 +151,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 						nombre: producto.nombre,
 						cantidadCarrito: i.cantidad,
 						porcientoImpuesto: i.iva,
-						idComercio: producto.idComercio
-					}
-					this.prodservs.push(obj);
+            idComercio: producto.idComercio
+          }
+          this.prodservs.push(obj);
 					this.datos = new MatTableDataSource(this.prodservs);
 					this.datos.sort = this.sort;
 				}else{
@@ -137,7 +168,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 							nombre: servicio.nombre,
 							cantidadCarrito: i.cantidad,
 							porcientoImpuesto: i.iva,
-							idComercio: servicio.idComercio
+              idComercio: servicio.idComercio,
 						}
 						this.prodservs.push(obj);
 						this.datos = new MatTableDataSource(this.prodservs);
@@ -349,7 +380,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 			return acc+= ((cv.precio-cv.descuento)*cv.cantidad);
 		}, 0);
 		}
-	}
+  }
 
-	
+  calificar(element: Producto, usuarioPuedeCalificar: boolean): void {
+    let dialogRef = this.dialog.open(CalificacionDialogComponent, {
+      data: { idProducto: element.id, idUsuario: this.user.id, puedeCalificar: usuarioPuedeCalificar}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
 }

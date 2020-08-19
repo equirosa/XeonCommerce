@@ -4,7 +4,7 @@
 
   <div>
     <mat-form-field style="width:400px" appearance="fill">
-      <mat-label>Agregue una categoria de interés</mat-label>
+      <mat-label>Agregue una categoría de interés</mat-label>
       <mat-select [(value)]="categoria" (selectionChange)="agregarCategoria($event.value)">
         <mat-option></mat-option>
         <mat-option *ngFor="let categoria of categoriasSelect" [value]="categoria">

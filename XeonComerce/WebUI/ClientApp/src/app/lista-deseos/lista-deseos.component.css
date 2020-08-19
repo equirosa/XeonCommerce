@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  height: calc(100vh - 5rem);
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.divListaDeseos {
+  padding: 2% 10%;
+}
+
+h2 {
+  margin-bottom: 25px;
+}
+
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+div.mat-elevation-z8 {
+  margin-top: 1%;
+}
+
+.plus:hover {
+  color: #1b6ec2;
+  cursor: pointer;
+}
+
+/*Código de David Darnes, gracias*/
+.sale {
+  position: relative;
+  display: inline-block;
+  background: orange;
+  color: white;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 30px;
+  margin: 1vh 1vw;
+  transform: rotate(-20deg);
+  animation: beat 1s ease infinite alternate;
+  font-size: 0.8rem;
+}
+
+  .sale:before, .sale:after {
+    content: "";
+    position: absolute;
+    background: inherit;
+    height: inherit;
+    width: inherit;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transform: rotate(30deg);
+  }
+
+  .sale:after {
+    transform: rotate(60deg);
+  }
+
+@keyframes beat {
+  from {
+    transform: rotate(-20deg) scale(1);
+  }
+
+  to {
+    transform: rotate(-20deg) scale(1.1);
+  }
+}

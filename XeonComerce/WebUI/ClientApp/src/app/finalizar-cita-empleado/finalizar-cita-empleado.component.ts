@@ -72,16 +72,21 @@ export class FinalizarCitaEmpleadoComponent implements OnInit {
     if ( estadoCita ) { this.estado = estadoCita; }
   }
 
-  recibirProductos(form: FormArray): void{
-    for(let f of form.controls){
-      this.cita.productos = this.cita.productos.map( p => {
-        if (p.id === f.value.Id){
-          p.cantidad = f.value.Cantidad;
-        }
-        return p;
-      });
-    }
-   }
+  recibirProductos(productos: Producto[]){
+    console.log('productos', productos);
+    console.log('cita Productos:', this.cita);
+  }
+
+  // recibirProductos(form: FormArray): void{
+  //   for(let f of form.controls){
+  //     this.cita.productos = this.cita.productos.map( p => {
+  //       if (p.id === f.value.Id){
+  //         p.cantidad = f.value.Cantidad;
+  //       }
+  //       return p;
+  //     });
+  //   }
+  //  }
 
 
 

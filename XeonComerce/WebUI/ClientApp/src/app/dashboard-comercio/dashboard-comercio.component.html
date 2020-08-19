@@ -6,33 +6,40 @@
     <div class="cantidad-ventas">
       <div class="ventas-titulo">Cantidad de ventas</div>
       <i class="fa fa-line-chart" aria-hidden="true"></i>
-      <div class="ventas-valores">0</div>
+      <div class="ventas-valores">{{totalVentasFinalizadas}}</div>
     </div>
     <div class="total-vendido">
       <div class="ventas-titulo">Monto total en ventas</div>
       <i class="moneda" aria-hidden="true">₡</i>
-      <div class="ventas-valores">0.00</div>
+      <div class="ventas-valores">{{'₡' + montoTotalVendido}}</div>
     </div>
   </div>
   <div class="citas">
     <div class="citas-titulo">Citas</div>
+    <div class="citas-titulo">{{totalCitasPorSucursal}}</div>
     <div class="citas-realizadas">
       <p>Citas realizadas</p>
       <div class="barra-porcentaje">
-        <div class="valor-porcentaje" [style.width.px]='widthPorcentajeCitasRealizadas'><div class="porcentaje">0%</div></div>
+        <div class="valor-porcentaje" [style.width.px]='porcentajeCitasRealizadas'><div class="porcentaje">{{totalCitasRealizadas}}</div></div>
       </div>
     </div>
     <div class="citas-canceladas">
-      <p>Citas canceladas</p>
+      <p>Citas no realizadas</p>
       <div class="barra-porcentaje">
-        <div class="valor-porcentaje" [style.width.px]='widthPorcentajeCitasRealizadas'><div class="porcentaje">0%</div></div>
+        <div class="valor-porcentaje" [style.width.px]='porcentajeCitasCanceladas'><div class="porcentaje">{{totalCitasCaceladas}}</div></div>
+      </div>
+    </div>
+    <div class="citas-pendientes">
+      <p>Citas pendientes</p>
+      <div class="barra-porcentaje">
+        <div class="valor-porcentaje" [style.width.px]='porcentajeCitasPendientes'><div class="porcentaje">{{totalCitasPendientes}}</div></div>
       </div>
     </div>
   </div>
   <div class="pagos">
     <div>
       <div class="pagos-titulo">
-        <div class="monto">0</div><i class="fa fa-mobile" aria-hidden="true"></i>
+        <div class="monto">{{cantidadTranFinSimpeMovil}}</div><i class="fa fa-mobile" aria-hidden="true"></i>
       </div>
       <div class="pagos-descripcion">
         <p class="tituloP_1">Cantidad de pagos</p>
@@ -41,7 +48,7 @@
     </div>
     <div>
       <div class="pagos-titulo">
-        <div class="monto">0.00</div>
+        <div class="monto">{{'₡' + montoTotalSimpeMovil}}</div>
       </div>
       <div class="pagos-descripcion-2">
         <p class="tituloP_2">Monto total</p>
@@ -50,7 +57,7 @@
     </div>
     <div>
       <div class="pagos-titulo">
-        <div class="monto">0</div><i class="fa fa-paypal" aria-hidden="true"></i>
+        <div class="monto">{{cantidadTranFinPaypal}}</div><i class="fa fa-paypal" aria-hidden="true"></i>
         </div>
         <div class="pagos-descripcion">
           <p class="tituloP_1">Cantidad de pagos</p>
@@ -58,7 +65,7 @@
         </div>
     </div>
     <div>
-      <div class="pagos-titulo"><div class ="monto"> 0.00 </div></div>
+      <div class="pagos-titulo"><div class="monto"> {{'₡' + montoTotalPaypal }} </div></div>
       <div class="pagos-descripcion-2">
         <p class="tituloP_2">Monto total</p>
         <p class="paypall">PayPal</p>
