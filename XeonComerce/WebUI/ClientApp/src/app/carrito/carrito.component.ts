@@ -24,6 +24,8 @@ import { MensajeService } from './../_services/mensaje.service';
 import { CarritoService } from './../_services/carrito.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CarritoDialogFinComponent } from '../_components/carrito/fin/fin.dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-carrito',
@@ -31,6 +33,12 @@ import { CarritoDialogFinComponent } from '../_components/carrito/fin/fin.dialog
   styleUrls: ['./carrito.component.css']
 })
 export class CarritoComponent implements OnInit {
+
+  clienteBloqueado: boolean = false;
+
+  transaccionesPendientes: TransaccionFinanciera[];
+  facturasConMulta: FacturaDetalle[];
+  facturasMaestro: FacturaMaestro[];
 	productos: any[];
 	displayedColumns: string[] = ['id', 'nombre', 'precio', 'cantidad', 'impuesto', 'eliminar'];
 	datos;
@@ -40,7 +48,7 @@ export class CarritoComponent implements OnInit {
 	productosPP: any[];
   constructor(public dialog: MatDialog, private carritoService:CarritoService, private mensajeService:MensajeService,
 	 private accountService:AccountService, private productoService:ProductoService, private impuestoService:ImpuestoService,
-	 private transaccionFinancieraService:TransaccionFinancieraService, private facturaDetalleService:FacturaDetalleService,
+    private transaccionFinancieraService: TransaccionFinancieraService, private router: Router, private facturaDetalleService:FacturaDetalleService,
 		private facturaMaestroService:FacturaMaestroService, private comercioService:ComercioService, private direccionService:DireccionService) {
 	this.accountService.user.subscribe(x => {
 		this.user = x;
@@ -50,6 +58,7 @@ export class CarritoComponent implements OnInit {
 	 @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
+    this.obtenerFacturasConMulta();
 	  this.getImpuestos();
 	  this.getProductos();
   }
@@ -227,54 +236,103 @@ onChange($event, element){
 		}
 	 });
 
-}
+  }
 
-comprar(tabla): void{
-	let dialogRef: any;
-	dialogRef = this.dialog.open(CarritoDialogDireccionComponent, {maxWidth: "500px"});
-	
-	  dialogRef.afterClosed().subscribe(direccionEntrega => {
-		if(direccionEntrega){ 		
-			dialogRef = this.dialog.open(CarritoDialogMetodoPagoComponent, {maxWidth: "500px"});
-			dialogRef.afterClosed().subscribe(metodoPago => {
-				if(metodoPago){
-					console.log(direccionEntrega, metodoPago);
+  obtenerFacturasConMulta(): void {
+    this.facturaDetalleService.get().subscribe((detalles) => {
+      this.facturasConMulta = detalles.filter((i) => i.idProducto == 97);
+      this.obtenerFacturasMaestroConMulta(this.facturasConMulta);
+    });
+  }
+
+  obtenerFacturasMaestroConMulta(facDetalle: FacturaDetalle[]): void {
+    let facturasMulta: FacturaMaestro[];
+    this.facturaMaestroService.get().subscribe((facMaestro) => {
+      facturasMulta = new Array(facMaestro.length);
+      for (var i = 0; i < facDetalle.length; i++) {
+        for (var j = 0; j < facMaestro.length; j++) {
+          if (facDetalle[i].idFactura == facMaestro[j].idFactura && facMaestro[j].idCliente == this.user.id) {
+            facturasMulta[i] = facMaestro[j];
+          }
+        }
+      }
+      this.obtenerEstadoFacturaCliente(facturasMulta);
+    });
+  }
+
+  obtenerEstadoFacturaCliente(facturasConMulta: FacturaMaestro[]): void {
+    this.transaccionFinancieraService.get().subscribe((transaccionFinanciera) => {
+      this.transaccionesPendientes = transaccionFinanciera.filter((i) => i.estado == "P");
+      this.bloquearCliente(facturasConMulta, this.transaccionesPendientes);
+    });
+  }
+
+  bloquearCliente(facturasConMulta: FacturaMaestro[], tranPendiente: TransaccionFinanciera[]): void {
+    for (var i = 0; i < facturasConMulta.length; i++) {
+      for (var j = 0; j < tranPendiente.length; j++) {
+        if (facturasConMulta[i].idTransaccion == tranPendiente[j].id) {
+          this.clienteBloqueado = true;
+        }
+      }
+    }
+    console.log(this.clienteBloqueado);
+  }
+
+  comprar(tabla): void{
+
+    if (this.clienteBloqueado) {
+      this.router.navigate(['historial']);
+      this.mensajeService.add("¡Multa Pendiente!");
+      return;
+    } else {
+      let dialogRef: any;
+      dialogRef = this.dialog.open(CarritoDialogDireccionComponent, { maxWidth: "500px" });
+
+      dialogRef.afterClosed().subscribe(direccionEntrega => {
+        if (direccionEntrega) {
+          dialogRef = this.dialog.open(CarritoDialogMetodoPagoComponent, { maxWidth: "500px" });
+          dialogRef.afterClosed().subscribe(metodoPago => {
+            if (metodoPago) {
+              console.log(direccionEntrega, metodoPago);
 
 
-					if(metodoPago == 1){
-						dialogRef = this.dialog.open(CarritoDialogPayPalComponent, {maxWidth: "600px", data: { productosPP: this.productosPP }});
-						dialogRef.afterClosed().subscribe(paypal => {
-							console.log("Pago exitoso (PayPal):", !!paypal);
-							if(paypal){
-								this.despuesDePago(tabla, "PAYPAL");
-							}
-						});
-					}else{
-						this.comercioService.getBy(tabla.filteredData[0].idComercio).subscribe((comercio)=>{
-							if(comercio && comercio.telefono){
-								dialogRef = this.dialog.open(CarritoDialogSinpeComponent, {maxWidth: "600px", data: {
-									telefono: comercio.telefono,
-									cantidad: Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100
-								}});
+              if (metodoPago == 1) {
+                dialogRef = this.dialog.open(CarritoDialogPayPalComponent, { maxWidth: "600px", data: { productosPP: this.productosPP } });
+                dialogRef.afterClosed().subscribe(paypal => {
+                  console.log("Pago exitoso (PayPal):", !!paypal);
+                  if (paypal) {
+                    this.despuesDePago(tabla, "PAYPAL");
+                  }
+                });
+              } else {
+                this.comercioService.getBy(tabla.filteredData[0].idComercio).subscribe((comercio) => {
+                  if (comercio && comercio.telefono) {
+                    dialogRef = this.dialog.open(CarritoDialogSinpeComponent, {
+                      maxWidth: "600px", data: {
+                        telefono: comercio.telefono,
+                        cantidad: Math.round((this.getCosto(tabla, true) + Number.EPSILON) * 100) / 100
+                      }
+                    });
 
-								dialogRef.afterClosed().subscribe(sinpe => {
-									console.log("Pago exitoso (Sinpe):", !!sinpe);
-									if(sinpe){
-										this.despuesDePago(tabla, "SINPE");
-									}
-								});
+                    dialogRef.afterClosed().subscribe(sinpe => {
+                      console.log("Pago exitoso (Sinpe):", !!sinpe);
+                      if (sinpe) {
+                        this.despuesDePago(tabla, "SINPE");
+                      }
+                    });
 
-							}else{
-								this.mensajeService.add("No se encontró el comercio. Por favor reintente en unos minutos");
-							}
-						});
-						
+                  } else {
+                    this.mensajeService.add("No se encontró el comercio. Por favor reintente en unos minutos");
+                  }
+                });
 
-					}
-				}
-			});
-		}
-	 });
+
+              }
+            }
+          });
+        }
+      });
+    }
 }
 
 despuesDePago(tabla, metodo): void {

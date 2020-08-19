@@ -196,8 +196,6 @@ export class PerfilSucursalComponent implements OnInit {
       return;
     } else {
       this.ltsDeseosService.create(ltsDeseos).subscribe();
-      producto.cantidad = producto.cantidad - 1;
-      this.productoService.putProductoSilencioso(producto).subscribe();
     }
   }
 
@@ -239,7 +237,7 @@ export class PerfilSucursalComponent implements OnInit {
   obtenerFacturasMaestroConMulta(facDetalle: FacturaDetalle[]): void {
     let facturasMulta: FacturaMaestro[];
     this.facturaMaestroService.get().subscribe((facMaestro) => {
-      facturasMulta = new Array(facMaestro.lenght);
+      facturasMulta = new Array(facMaestro.length);
       for (var i = 0; i < facDetalle.length; i++) {
         for (var j = 0; j < facMaestro.length; j++) {
           if (facDetalle[i].idFactura == facMaestro[j].idFactura && facMaestro[j].idCliente == this.user.id) {

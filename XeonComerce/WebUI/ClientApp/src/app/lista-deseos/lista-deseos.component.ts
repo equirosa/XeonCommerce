@@ -139,14 +139,6 @@ export class ListaDeseosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(dialogResult => {
       if (dialogResult) {
-        let producto = element;
-        console.log(producto);
-        for (var i = 0; i < this.productosTotales.length; i++) {
-          if (producto.id == this.productosTotales[i].id) {
-            producto.cantidad = this.productosTotales[i].cantidad + producto.cantidad;
-          }
-        }
-        this.productoService.putProductoSilencioso(producto).subscribe();
         this.ltsDeseosService.delete(this.user.id, element.id).subscribe(() => {
           this.getProductos();
         });
@@ -156,8 +148,6 @@ export class ListaDeseosComponent implements OnInit {
   }
 
   limpiar() {
-    this.getProductos();
-    this.getAllProductos();
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
@@ -174,47 +164,47 @@ export class ListaDeseosComponent implements OnInit {
           this.getProductos();
         });
 
-        for (var i = 0; i < this.productosTotales.length; i++) {
-          for (var j = 0; j < this.productosTotales.length; j++) {
-            if (this.productosTotales[i].id == this.productos[j].id) {
-              console.log(this.productosTotales[i]);
-              this.productosTotales[i].cantidad = this.productosTotales[i].cantidad + this.productos[j].cantidad;
-              console.log(this.productosTotales[i]);
-              this.productoService.putProductoSilencioso(this.productosTotales[i]).subscribe(() => {
-              });
-              break;
-            }
-          }
-        }
+        //for (var i = 0; i < this.productosTotales.length; i++) {
+        //  for (var j = 0; j < this.productosTotales.length; j++) {
+        //    if (this.productosTotales[i].id == this.productos[j].id) {
+        //      console.log(this.productosTotales[i]);
+        //      this.productosTotales[i].cantidad = this.productosTotales[i].cantidad + this.productos[j].cantidad;
+        //      console.log(this.productosTotales[i]);
+        //      this.productoService.putProductoSilencioso(this.productosTotales[i]).subscribe(() => {
+        //      });
+        //      break;
+        //    }
+        //  }
+        //}
 
       }
     });
   }
 
-  anadirProducto(element) {
-    this.ltsDeseosService.get(this.user.id)
-      .subscribe(ltsDeseos => {
-        this.ltsDeseos = ltsDeseos;
-        for (var i = 0; i < this.ltsDeseos.length; i++) {
-          if (element.id == this.ltsDeseos[i].idProducto) {
-            this.ltsDeseos[i].cantidad = this.ltsDeseos[i].cantidad + 1;
-            this.ltsDeseosService.update(this.ltsDeseos[i]).subscribe(() => {
-              this.getProductos();
-            });
-          }
-        }
-      });
-    this.getAllProductos();
+  //anadirProducto(element) {
+  //  this.ltsDeseosService.get(this.user.id)
+  //    .subscribe(ltsDeseos => {
+  //      this.ltsDeseos = ltsDeseos;
+  //      for (var i = 0; i < this.ltsDeseos.length; i++) {
+  //        if (element.id == this.ltsDeseos[i].idProducto) {
+  //          this.ltsDeseos[i].cantidad = this.ltsDeseos[i].cantidad + 1;
+  //          this.ltsDeseosService.update(this.ltsDeseos[i]).subscribe(() => {
+  //            this.getProductos();
+  //          });
+  //        }
+  //      }
+  //    });
+  //  this.getAllProductos();
 
-    for (var i = 0; i < this.productosTotales.length; i++) {
-      if (element.id == this.productosTotales[i].id) {
-        element.cantidad = this.productosTotales[i].cantidad - 1;
-      }
-    }
+  //  for (var i = 0; i < this.productosTotales.length; i++) {
+  //    if (element.id == this.productosTotales[i].id) {
+  //      element.cantidad = this.productosTotales[i].cantidad - 1;
+  //    }
+  ////  }
 
-    this.productoService.putProductoSilencioso(element).subscribe(() => {
-    });
-  }
+  //  this.productoService.putProductoSilencioso(element).subscribe(() => {
+  //  });
+  //}
 
   agregarCarrito(producto: Producto) {
     if (this.clienteBloqueado) {

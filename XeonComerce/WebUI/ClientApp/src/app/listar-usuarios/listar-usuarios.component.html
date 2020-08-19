@@ -8,7 +8,7 @@
   <div>
     <mat-form-field style="width:400px" appearance="fill">
       <mat-label>Seleccione el tipo de usuario</mat-label>
-      <mat-select [(ngModel)]="selectedValue" (selectionChange)="seleccionUsuario($event.value)">
+      <mat-select [(ngModel)]="selectedValue" (selectionChange)="seleccionUsuario()">
         <mat-option *ngFor="let tipo of selectUsuario" [value]="tipo.value">
           {{tipo.viewValue}}
         </mat-option>

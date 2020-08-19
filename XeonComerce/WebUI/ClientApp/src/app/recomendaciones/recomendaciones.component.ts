@@ -142,7 +142,6 @@ import { FacturaMaestroService } from './../_services/facturaMaestro.service';
 	}
 
   agregarCarrito(producto: Producto) {
-    debugger;
     if (this.clienteBloqueado) {
       this.router.navigate(['historial']);
       this.mensajeService.add("¡Multa Pendiente!");
@@ -168,7 +167,7 @@ import { FacturaMaestroService } from './../_services/facturaMaestro.service';
   obtenerFacturasMaestroConMulta(facDetalle: FacturaDetalle[]): void {
     let facturasMulta: FacturaMaestro[];
     this.facturaMaestroService.get().subscribe((facMaestro) => {
-      facturasMulta = new Array(facMaestro.lenght);
+      facturasMulta = new Array(facMaestro.length);
       for (var i = 0; i < facDetalle.length; i++) {
         for (var j = 0; j < facMaestro.length; j++) {
           if (facDetalle[i].idFactura == facMaestro[j].idFactura && facMaestro[j].idCliente == this.user.id) {
