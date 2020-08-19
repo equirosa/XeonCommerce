@@ -118,7 +118,6 @@ export class ProductoFormComponent implements OnInit {
           comercios.find((i) => i.cedJuridica == this.user.empleado.idComercio),
         ];
       } else {
-        debugger;
         this.comercios = this.obtenerComerciosFiltrados(comercios);
       }
       console.log(this.comercios);
@@ -126,7 +125,6 @@ export class ProductoFormComponent implements OnInit {
   }
 
   obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
-    debugger;
     let elementosFiltrados = lista1.filter(function (elemento) {
       return elemento.cedJuridica != "1234567";
     });

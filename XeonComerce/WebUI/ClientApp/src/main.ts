@@ -14,6 +14,10 @@ const providers = [
 
 if (environment.production) {
   enableProdMode();
+  window.console.warn = () => { }
+  window.console.error = () => { }
+  window.console.time = () => { }
+  window.console.timeEnd = () => { }
 }
 
 platformBrowserDynamic(providers).bootstrapModule(AppModule)
