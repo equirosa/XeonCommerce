@@ -169,6 +169,7 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
 import { ScannerQrComponent } from './scanner-qr/scanner-qr.component';
 import { NgQrScannerModule } from 'angular2-qrscanner';
 import { InfoScannerComponent } from './_components/info-scanner/info-scanner.component';
+import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-producto/finalizar-nuevo-producto.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -336,7 +337,8 @@ import { InfoScannerComponent } from './_components/info-scanner/info-scanner.co
 		PerfilCitaClienteComponent,
 		FormCitaServicioComponent,
 		ScannerQrComponent,
-		InfoScannerComponent
+		InfoScannerComponent,
+		FinalizarNuevoProductoComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

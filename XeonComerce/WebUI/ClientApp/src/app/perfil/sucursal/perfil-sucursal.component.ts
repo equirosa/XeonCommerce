@@ -157,8 +157,7 @@ export class PerfilSucursalComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(dialogResult => {
-      console.log('Producto', producto);
-      console.log('Cantidad', dialogResult);
+     
       const productoCita = producto;
       productoCita.cantidad = dialogResult;
       this.productosCita.push(productoCita);

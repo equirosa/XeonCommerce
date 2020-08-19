@@ -57,7 +57,7 @@ export class ListCitasEmpleadoComponent implements OnInit {
 
   finalizar(cita: CitaProducto): void {
     const dialogRef = this.dialog.open(FinalizarCitaEmpleadoComponent, {
-      width: '500px',
+      width: '650px',
       height: '500px',
       data: {cita}
     });
