@@ -16,8 +16,7 @@
               <div mat-line><a href="/comercio/{{item.idComercio}}">{{item.nombre}}</a></div>
               <div mat-line> {{item.precio | currency:'₡'}} </div>
               <div mat-line *ngIf="item.tipo==1"> <button mat-button (click)=agregarCarrito(item)>Agregar a
-                  carrito</button> <button mat-button>Agregar a cita</button></div>
-              <div mat-line *ngIf="item.tipo!=1"> <button mat-button>Agregar a cita</button> </div>
+                  carrito</button></div>
             </mat-list-item>
           </mat-list>
         </div>
