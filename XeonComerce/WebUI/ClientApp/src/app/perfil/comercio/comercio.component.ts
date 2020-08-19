@@ -56,7 +56,8 @@ export class PerfilComercioComponent implements OnInit {
 
 					this.sucursalService.get().subscribe((sucursales)=>{
 						this.sucursales = sucursales.filter((i)=>i.idComercio==this.comercio.cedJuridica);
-						if(this.sucursales.length==0) this.sucursales = null;
+						if(this.sucursales.length==0){ this.sucursales = null; this.length=0 }
+						else
 						this.length = this.sucursales.length;
 					});
 
@@ -83,7 +84,6 @@ export class PerfilComercioComponent implements OnInit {
     this.calificacionService.obtenerCalificaciones().subscribe((calificacion) => {
       this.productoService.getProducto().subscribe(productos => {
         let calificacionesComercio = this.obtenerCalificacionesPorComercio(calificacion, productos, comercio);
-        debugger;
         if (calificacionesComercio.length == 0) {
           this.starWidth = 5 * 130 / 5;
           this.promCalificacion = 5;

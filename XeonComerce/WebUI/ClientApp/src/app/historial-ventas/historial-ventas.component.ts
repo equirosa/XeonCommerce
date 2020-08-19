@@ -94,6 +94,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 						this.historial = this.historial.sort((a, b) => {
 							return b.idFactura - a.idFactura;
 						});
+						this.historial = this.historial.filter((i)=>i.transaccionFinanciera.monto > 0);	
+						this.historial = this.historial.filter((i)=>i.transaccionFinanciera.estado != "C");				
 
 					});
 
