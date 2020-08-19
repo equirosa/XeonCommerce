@@ -1,4 +1,5 @@
 import { Vista } from "./vista";
+import { Especialidad } from './especialidad';
 
 export class VistaRol {
     id: number;
@@ -6,4 +7,5 @@ export class VistaRol {
     nombre: string;
     descripcion: string;
     vistas: Vista[];
+    especialidades: Especialidad[];
 }

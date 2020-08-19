@@ -1,0 +1,58 @@
+<div class="div">
+	<h2>Citas</h2>
+<mat-form-field>
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar...">
+</mat-form-field>
+<div class="mat-elevation-8">
+    <table mat-table matSort [dataSource]="citas">
+        <ng-container matColumnDef="sucursal">
+            <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.idSucursal}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaInicio}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.estado}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="tipo">
+            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.tipo}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="notificar">
+            <mat-header-cell *matHeaderCellDef>Enviar Notificación</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-raised-button color="crear" (click)="enviarNotificacion(element)" [disabled]="!habilitarNotificacion(element)">
+                    Enviar Notificación
+                </button>
+            </mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="ver">
+            <mat-header-cell *matHeaderCellDef>Ver</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-raised-button color="ver" (click)="ver(element)">
+                    Ver
+                </button>
+            </mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="cancelar">
+            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-raised-button color="eliminar" (click)="cancelar(element)">
+                    Cancelar
+                </button>
+            </mat-cell>
+        </ng-container>  
+        <mat-header-row  *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+    </table>
+    <mat-paginator [length]="100"
+                  [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>  
+
+</div>
+</div>

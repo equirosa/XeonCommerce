@@ -8,7 +8,7 @@
   <mat-form-field style="width:400px !important" appearance="standard" *ngIf="!data.permitir">
 	<mat-label>Producto o Servicio</mat-label>
 	<mat-select [(ngModel)]="data.productoSelecionado" name="type_list">
-		<mat-option *ngFor="let prod of data.productos" [value]="prod"> {{prod.id}} {{prod.nombre}}</mat-option>
+		<mat-option *ngFor="let prod of data.productos" [value]="prod"> ({{prod.id}}) {{prod.nombre}}</mat-option>
 	 </mat-select>
   </mat-form-field>
   <br *ngIf="!data.permitir">

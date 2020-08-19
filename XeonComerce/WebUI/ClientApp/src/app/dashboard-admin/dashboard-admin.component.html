@@ -11,13 +11,13 @@
       <div class="total-vendido">
         <div class="ventas-titulo">Ganancias del Mes</div>
         <i class="moneda" aria-hidden="true">₡</i>
-        <div class="ventas-valores">0.00</div>
+        <div class="ventas-valores">{{montoTotalVendido}}</div>
       </div>
     </div>
     <div class="pagos">
       <div>
         <div class="pagos-titulo">
-          <div>0  <i class="fa fa-mobile" aria-hidden="true"></i></div>
+          <div> {{cantidadTranFinSimpeMovil}} <i class="fa fa-mobile" aria-hidden="true"></i></div>
         </div>
         <div class="pagos-descripcion">
           <p>Cantidad de pagos</p>
@@ -26,7 +26,7 @@
       </div>
       <div>
         <div class="pagos-titulo">
-          <div>0.00</div>
+          <div>{{montoTotalSimpeMovil}} </div>
         </div>
         <div class="pagos-descripcion">
           <p>Monto total</p>
@@ -35,7 +35,7 @@
       </div>
       <div>
         <div class="pagos-titulo">
-          <div>0  <i class="fa fa-paypal" aria-hidden="true"></i></div>
+          <div>{{cantidadTranFinPaypal}} <i class="fa fa-paypal" aria-hidden="true"></i></div>
           </div>
           <div class="pagos-descripcion">
             <p>Cantida de pagos</p>
@@ -43,7 +43,7 @@
           </div>
       </div>
       <div>
-        <div class="pagos-titulo">0.00 </div>
+        <div class="pagos-titulo">{{montoTotalPaypal}} </div>
         <div class="pagos-descripcion">
           <p>Monto total</p>
           <p class="paypall2">PayPal</p>
@@ -51,4 +51,3 @@
       </div>
     </div>
   </div>
-  

@@ -1,1 +1,51 @@
-<p>form-horario-sucursal works!</p>
+<mat-dialog-content>
+    <form [formGroup]="FormHorario">
+        <h2 mat-dialog-title>Horario</h2>
+        <mat-form-field class="mr-sm">
+            <mat-label>Día de la semana</mat-label>
+            <mat-select formControlName="Dia">
+                <mat-option *ngFor="let d of dias" [value]="d.valor">
+                    {{d.nombre}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="mr-sm">
+            <mat-label>Hora Inicio </mat-label>
+            <input matInput type="time" formControlName="HoraInicio" required>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Hora Final </mat-label>
+            <input matInput type="time" formControlName="HoraFinal" required>
+        </mat-form-field>
+        <button mat-button (click)="guardarHorario()">
+            <mat-icon>add_circle_outline</mat-icon>
+        </button>
+    </form>
+    <mat-table [dataSource]="horario">
+        <ng-container matColumnDef="dia">
+            <mat-header-cell *matHeaderCellDef>Día</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.diaSemana}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="horaInicio">
+            <mat-header-cell *matHeaderCellDef>Hora Inicio</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaInicio}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="horaFinal">
+            <mat-header-cell *matHeaderCellDef>Hora Final</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaFinal}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <button mat-raised-button color="eliminar" (click)="eliminar(element)">
+                    Eliminar
+                </button>
+            </mat-cell>
+        </ng-container>  
+        <mat-header-row *matHeaderRowDef="columnas"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+    </mat-table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

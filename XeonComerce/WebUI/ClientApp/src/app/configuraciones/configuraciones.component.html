@@ -1,0 +1,20 @@
+<div class="divComercios">
+  <h2>Configuraciones</h2>
+  <div class="mat-elevation-z8">
+	<form [formGroup]="configuracion" style="width: 33%; padding: 2%;">
+		<mat-form-field appearance="outline">
+		  <mat-label>Multa por cancelación de cita</mat-label>
+		  <input matInput type="number" min="0" formControlName="multa">
+		  <span matPrefix>₡&nbsp;</span>
+		  <span matSuffix>.00</span>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+		  <mat-label>Máxima cantidad de citas por usuario</mat-label>
+		  <input matInput type="number" min="1" formControlName="maxCitas">
+		  <span matPrefix>#&nbsp;</span>
+		</mat-form-field>
+    <button (click)="update()" color="editar" mat-flat-button>Guardar Cambios</button>
+</form>
+	</div>
+</div>

@@ -41,6 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
+                tF.Fecha = DateTime.Now;
                 var cm = new FacturaMaestroManagement();
                 cm.Create(tF);
                 return Ok(new { msg = "Se creó la factura" });

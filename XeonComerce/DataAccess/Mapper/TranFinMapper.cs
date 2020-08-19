@@ -24,7 +24,7 @@ namespace DataAccess.Mapper
             var e = (TranFin)entity;
             operation.AddDoubleParam(DB_COL_MONTO, e.Monto);
             operation.AddVarcharParam(DB_COL_METODO, e.Metodo);
-            operation.AddVarcharParam(DB_COL_ID_CLIENTE, e.idCliente);
+            operation.AddVarcharParam(DB_COL_ID_CLIENTE, e.IdCliente);
             operation.AddVarcharParam(DB_COL_ID_COMERCIO, e.IdComercio);
             operation.AddDateTimeParam(DB_COL_FECHA, e.Fecha);
             operation.AddVarcharParam(DB_COL_ESTADO, e.Estado);
@@ -56,10 +56,9 @@ namespace DataAccess.Mapper
             operation.AddIntParam(DB_COL_ID, e.Id);
             operation.AddDoubleParam(DB_COL_MONTO, e.Monto);
             operation.AddVarcharParam(DB_COL_METODO, e.Metodo);
-            operation.AddVarcharParam(DB_COL_ID_CLIENTE, e.idCliente);
-            operation.AddVarcharParam(DB_COL_ID_COMERCIO, e.IdComercio);
             operation.AddDateTimeParam(DB_COL_FECHA, e.Fecha);
             operation.AddVarcharParam(DB_COL_ESTADO, e.Estado);
+            operation.AddDoubleParam(DB_COL_MONTO, e.Monto);
 
             return operation;
         }
@@ -71,6 +70,12 @@ namespace DataAccess.Mapper
             var e = (TranFin)entity;
             operation.AddIntParam(DB_COL_ID, e.Id);
             return operation;
+        }
+
+        public SqlOperation GetRetrieveUltimo()
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_ULT_TRANFIN_PR" };
+            return operation; 
         }
 
         public List<BaseEntity> BuildObjects(List<Dictionary<string, object>> lstRows)
@@ -93,7 +98,7 @@ namespace DataAccess.Mapper
                 Id = GetIntValue(row, DB_COL_ID),
                 Monto = GetDoubleValue(row, DB_COL_MONTO),
                 Metodo = GetStringValue(row, DB_COL_METODO),
-                idCliente = GetStringValue(row, DB_COL_ID_CLIENTE),
+                IdCliente = GetStringValue(row, DB_COL_ID_CLIENTE),
                 IdComercio = GetStringValue(row, DB_COL_ID_COMERCIO),
                 Fecha = GetDateValue(row, DB_COL_FECHA),
                 Estado = GetStringValue(row, DB_COL_ESTADO)

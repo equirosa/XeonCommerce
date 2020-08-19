@@ -12,8 +12,8 @@
                 </mat-card-header>
                 <mat-card-content>
                     <p>
-                        <strong>Disposiciones de Ingreso</strong>
-                        <strong>{{sucursal.disposiciones}}</strong>
+                        <strong>Disposiciones de Ingreso: </strong>
+                        {{sucursal.disposiciones}}
                     </p>
                 </mat-card-content>
             </mat-card>
@@ -61,26 +61,62 @@
             </mat-card>
 
         </mat-grid-tile>
-      
-        <mat-grid-tile colspan="2">            
-            <mat-grid-tile-header>
-                <h1>Productos</h1>
-            </mat-grid-tile-header>
+    </mat-grid-list>
 
-            <mat-card class="card mr-md" *ngFor="let producto of productos">
+    <mat-grid-list cols="2" rowHeight="200px" class="mt-lg">
+        <mat-grid-tile colspan="2" rowspan="1">
+            <div fxLayout="column" class="bloque">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <h2 class="text-center">Productos</h2>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start none" class="mt-md  ml-lg">
+                    <button mat-button class="mat-success" (click)="agendarCita()">
+                        Agendar Cita
+                    </button>
+                </div>
+                <div class="mt-lg">
+                    <p class="text-center">
+                        Si desea ver los productos de manera presencial, por favor agregue los productos deseados a la cita 
+                        y agende una fecha para visitar la sucursal.
+                    </p>
+                </div>
+            </div>
+            <hr>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="6" rowHeight="250px" class=" mt-lg">
+        <mat-grid-tile colspan="2" rowspan="1"  *ngFor="let producto of productos">
+            <mat-card class="card mr-md ml-md">
                 <mat-card-header>
                     <mat-card-title>{{producto.nombre}}</mat-card-title>
+                    <i class="fa fa-heart corazon" aria-hidden="true" (click)=agregarListaDeseos(producto)></i>
                 </mat-card-header>
                 <mat-card-content>
-                    <strong>Precio</strong><span>{{producto.precio}}</span>
+                    <strong>Precio  </strong><span>{{producto.precio | currency:'₡'}}</span>
                 </mat-card-content>
                 <mat-card-action>
-                    <button mat-button>Agregar a carrito</button>
-                    <button mat-button>Agregar a cita</button>
+                    <button mat-button (click)=agregarCarrito(producto)>Agregar a carrito</button>
+                    <button mat-button (click)="agregarProductoCita(producto)">Agregar a cita</button>
                 </mat-card-action>
             </mat-card>
-
-
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="6" rowHeight="250px" class=" mt-lg">
+        <mat-grid-tile colspan="6" rowspan="1">
+            <h2>Servicios</h2>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2" rowspan="1" *ngFor="let servicio of servicios">
+            <mat-card class="card-servicio card mr-md ml-md">
+                <mat-card-header>
+                    <mat-card-title>{{servicio.nombre}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <strong>Precio  </strong><span>{{servicio.precio | currency:'₡'}}</span>
+                </mat-card-content>
+                <mat-card-action>
+                    <button mat-button (click)="contratar(servicio)">Contratar</button>
+                </mat-card-action>
+            </mat-card>
         </mat-grid-tile>
     </mat-grid-list>
 

@@ -1,0 +1,25 @@
+.titulo {
+  text-align: center;
+}
+
+.estrellas {
+  text-align: center;
+}
+
+.calificar {
+  background-color: #D2691E;
+  color: #000000;
+}
+
+.fa-star-o:hover {
+  color: #D2691E;
+}
+
+span:hover ~ span {
+  color: black;
+}
+
+
+
+
+

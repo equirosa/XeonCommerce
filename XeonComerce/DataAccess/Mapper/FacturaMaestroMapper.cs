@@ -52,6 +52,12 @@ namespace DataAccess.Mapper
             return operation;
         }
 
+        public SqlOperation GetRetrieveUltimo()
+        {
+            var operation = new SqlOperation { ProcedureName = "RET_ULT_FACTURA_MAESTRO_PR" };
+            return operation;
+        }
+
         public List<BaseEntity> BuildObjects(List<Dictionary<string, object>> lstRows)
         {
             var lstResults = new List<BaseEntity>();
