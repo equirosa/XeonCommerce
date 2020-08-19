@@ -34,7 +34,7 @@ export class FormRolComponent implements OnInit {
   vistas: Vista[];
   especialidades: any[];
 
-  constructor(  
+  constructor(
     private rolService: RolService,
     private servicioService: ServiciosService,
     public dialogRef: MatDialogRef<FormRolComponent>,
@@ -49,7 +49,7 @@ export class FormRolComponent implements OnInit {
 
       this.servicioService.getServicio().subscribe({
         next: res => {
-          this.servicios = res.filter( s => s.idComercio === this.nuevaVistaRol.idComercio );
+          this.servicios = res.filter( s => s.idComercio === this.idComercio );
         },
         error: err => {
           this._snackBar.open(err, '', {
@@ -60,15 +60,13 @@ export class FormRolComponent implements OnInit {
      }
 
   ngOnInit(): void {
-    //this.cargarServicios();
-
+    
     if ( this.data.tipo === 'editar'){
       this.nuevaVistaRol = this.data.vistaRol;
       this.FormGroupRol.get('Nombre').setValue(this.nuevaVistaRol.nombre);
       this.FormGroupRol.get('Descripcion').setValue(this.nuevaVistaRol.descripcion);
       this.FormGroupRol.get('Vistas').setValue(this.nuevaVistaRol.vistas);
       this.FormGroupRol.get('Especialidades').setValue(this.nuevaVistaRol.especialidades);
-      
     }
 
     this.idComercio = this.data.idComercio;
@@ -81,13 +79,12 @@ export class FormRolComponent implements OnInit {
       this.nuevaVistaRol.descripcion = this.FormGroupRol.get('Descripcion').value;
       this.nuevaVistaRol.vistas = this.FormGroupRol.get('Vistas').value;
       this.nuevaVistaRol.especialidades = this.crearEspecialidad(this.FormGroupRol.get('Especialidades').value);
-      console.log(this.FormGroupRol.get('Especialidades').value);
     } else {
       this.nuevaVistaRol.id = 0;
       this.nuevaVistaRol.idComercio = this.idComercio;
       this.nuevaVistaRol.nombre = this.FormGroupRol.get('Nombre').value;
       this.nuevaVistaRol.descripcion = this.FormGroupRol.get('Descripcion').value;
-      this.nuevaVistaRol.vistas = this.FormGroupRol.get('Vistas').value;      
+      this.nuevaVistaRol.vistas = this.FormGroupRol.get('Vistas').value;
       this.nuevaVistaRol.especialidades = this.crearEspecialidad(this.FormGroupRol.get('Especialidades').value);
     }
 

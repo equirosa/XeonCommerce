@@ -53,7 +53,7 @@ export class ListRolComponent implements OnInit {
     const dialogRef = this.dialog.open(FormRolComponent, {
       width: '400px',
       height: '500px',
-      data: {tipo: 'editar', vistaRol}
+      data: {tipo: 'editar', vistaRol, idComercio: vistaRol.idComercio}
     });
 
     dialogRef.afterClosed().subscribe( result => {
