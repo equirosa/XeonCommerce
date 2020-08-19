@@ -114,7 +114,8 @@ import { Calificacion } from '../_models/Calificacion';
 						subir["pendiente"] = transaccionFinanciera.estado == "P";
 						this.historial.push(subir);
 
-						this.historial = this.historial.filter((i)=>i.transaccionFinanciera.monto > 0);						
+						this.historial = this.historial.filter((i)=>i.transaccionFinanciera.monto > 0);			
+						this.historial = this.historial.filter((i)=>i.transaccionFinanciera.estado != "C");						
 						this.historial = this.historial.sort((a, b) => {
 							return b.idFactura - a.idFactura;
 						});

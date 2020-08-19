@@ -1,26 +1,26 @@
 <div class="div">
 	<h2>Citas</h2>
-<mat-form-field>
+<mat-form-field style="width:100%">
     <mat-label>Buscar</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Buscar...">
 </mat-form-field>
 <div class="mat-elevation-8">
     <table mat-table matSort [dataSource]="citas">
         <ng-container matColumnDef="sucursal">
-            <mat-header-cell *matHeaderCellDef>Sucursal</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.idSucursal}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="fecha">
-            <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.horaInicio}}</mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.horaInicio | date:'dd/MM/yyyy, h:mm a'}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.estado}}</mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.estado == "F" ? "Finalizado": element.estado == "P" ? "Pendiente":element.estado == "C" ? "Cancelado":"Ausente" }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="tipo">
-            <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.tipo}}</mat-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.tipo == "P" ? "Producto":"Servicio"}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="notificar">
             <mat-header-cell *matHeaderCellDef>Enviar Notificación</mat-header-cell>
@@ -39,7 +39,7 @@
             </mat-cell>
         </ng-container> -->
         <ng-container matColumnDef="cancelar">
-            <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Cancelar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
                 <button mat-raised-button color="eliminar" (click)="cancelar(element)">
                     Cancelar
