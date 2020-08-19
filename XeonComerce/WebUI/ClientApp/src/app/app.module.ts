@@ -170,6 +170,7 @@ import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 import { CalificacionDialogComponent } from './calificacion-dialog/calificacion-dialog.component';
 import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
+import { EditarClienteComponent } from './editar-cliente/editar-cliente.component';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -252,7 +253,8 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
     CarritoDialogFinComponent,
     DialogImagen,
     DialogEditarArchivo,
-    CalificacionDialogComponent
+    CalificacionDialogComponent,
+    EditarClienteComponent
   ],
   declarations: [
     AppComponent,
@@ -337,7 +339,8 @@ import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servic
     FormCitaServicioComponent,
     ListaDeseosComponent,
     CalificacionDialogComponent,
-    ListaCalificacionesComponent
+    ListaCalificacionesComponent,
+    EditarClienteComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

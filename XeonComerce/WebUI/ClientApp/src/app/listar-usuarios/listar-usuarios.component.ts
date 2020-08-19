@@ -9,6 +9,7 @@ import { Component, OnInit, Inject, ViewChild } from "@angular/core";
 import { UsuarioService } from "../_services/usuario.service";
 import { MensajeService } from "../_services/mensaje.service";
 import { UbicacionService } from "../_services/ubicacion.service";
+import { EditarClienteComponent } from '../editar-cliente/editar-cliente.component';
 import {
   MatDialog,
   MatDialogRef,
@@ -32,6 +33,8 @@ export class ListarUsuariosComponent implements OnInit {
   usuarios: Usuario[];
   usuario: Usuario;
   usuariosCiente: Usuario[];
+  UsuariosTodos: boolean = true;
+  cliente: boolean = false;
   selectUsuario: SelectUsuario[] = [
     { value: 'U', viewValue: 'Clientes' },
     { value: 'todos', viewValue: 'Todos' }
@@ -39,6 +42,24 @@ export class ListarUsuariosComponent implements OnInit {
 
   selectedValue: string;
 
+  displayedColumnsCliente: string[] = [
+    "id",
+    "nombre",
+    "apellidoUno",
+    "apellidoDos",
+    "genero",
+    "fechaNacimiento",
+    "correoElectronico",
+    "numeroTelefono",
+    "idDireccion",
+    "estado",
+    "codigo",
+    "modificar",
+    "eliminar",
+    'desbloquear',
+    "ver",
+  ];
+  dataSource;
 
   displayedColumns: string[] = [
     "id",
@@ -96,6 +117,8 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   getUsuarios(): void {
+    this.cliente = false;
+    this.UsuariosTodos = true;
     this.usuarioService.get().subscribe((usuarios) => {
       this.usuarios = usuarios.sort((a, b) => {
         return a.id.localeCompare(b.id);
@@ -108,14 +131,16 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   getUsuarioCliente(): void {
+    this.cliente = true;
+    this.UsuariosTodos = false;
     this.usuarioService.get().subscribe((usuarios) => {
       this.usuarios = usuarios.sort((a, b) => {
         return a.id.localeCompare(b.id);
       });
       this.usuariosCiente = usuarios.filter((a) => a.estado == "A" && a.tipo == "U");
-      this.datos = new MatTableDataSource(this.usuariosCiente);
-      this.datos.sort = this.sort;
-      this.datos.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource(this.usuariosCiente);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
@@ -213,6 +238,30 @@ export class ListarUsuariosComponent implements OnInit {
     }
   }
 
+  editar(element: Usuario): void {
+    let dialogRef = this.dialog.open(EditarClienteComponent, {
+      data:
+      {
+        id: element.id,
+        nombre: element.nombre,
+        apellidoUno: element.apellidoUno,
+        apellidoDos: element.apellidoDos,
+        genero: element.genero,
+        fechaNacimiento: element.fechaNacimiento,
+        correoElectronico: element.correoElectronico,
+        numeroTelefono: element.numeroTelefono,
+        idDireccion: element.idDireccion,
+        estado: element.estado,
+        codigo: element.codigo,
+        tipo: "U"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getUsuarioCliente();
+    });
+    this.getUsuarioCliente();
+  }
 }
 
 @Component({

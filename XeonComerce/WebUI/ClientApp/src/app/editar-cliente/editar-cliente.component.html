@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Editar Cliente</h1>
+<div mat-dialog-content>
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label> Nombre </mat-label>
+    <input required matInput [(ngModel)]="data.nombre" minlength="5">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label> Apellido Uno </mat-label>
+    <input required matInput [(ngModel)]="data.apellidoUno" minlength="5">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label> Apellido Dos </mat-label>
+    <input required matInput [(ngModel)]="data.apellidoDos" minlength="5">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Correo Electrónico</mat-label>
+    <input type="email" required matInput [(ngModel)]="data.correoElectronico">
+  </mat-form-field>
+  <br>
+
+  <mat-form-field style="width:400px !important" appearance="standard">
+    <mat-label>Teléfono</mat-label>
+    <input minlength="1" required matInput [(ngModel)]="data.numeroTelefono">
+  </mat-form-field>
+  <br>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial (click)="guardarActualizacion()">Actualizar</button>
+</div>
