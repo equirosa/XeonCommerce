@@ -22,9 +22,9 @@ namespace TelegramBot
         private static readonly DireccionManagement direccionManagement = new DireccionManagement();
         private static readonly UsuarioManagement usuarioManagement = new UsuarioManagement();
         private static readonly ProductoServicioManagement productoServicioManagement = new ProductoServicioManagement();
-        private static readonly HorarioSucursalManagement horarioManagement = new HorarioSucursalManagement();
         private static readonly CitaManagement citaManagement = new CitaManagement();
         private static Dictionary<string, CitaProducto> citasEnProceso = new Dictionary<string, CitaProducto>();
+        private static Dictionary<string, string> clientesIniciandoSesión = new Dictionary<string, string>();
 
         static void Main()
         {
