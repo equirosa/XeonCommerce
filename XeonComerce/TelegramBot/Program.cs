@@ -242,7 +242,7 @@ namespace TelegramBot
             string userId = GetClienteId(id);
             foreach (var cita in listaCitas)
             {
-                if (cita.IdCliente == userId)
+                if (cita.IdCliente == userId && cita.Estado == "P")
                     citasCliente.Add(cita);
             }
 
