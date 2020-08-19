@@ -22,7 +22,9 @@ namespace TelegramBot
         private static readonly DireccionManagement direccionManagement = new DireccionManagement();
         private static readonly UsuarioManagement usuarioManagement = new UsuarioManagement();
         private static readonly ProductoServicioManagement productoServicioManagement = new ProductoServicioManagement();
-        private Dictionary<string, CitaProducto> citasEnProceso = new Dictionary<string, CitaProducto>();
+        private static readonly HorarioSucursalManagement horarioManagement = new HorarioSucursalManagement();
+        private static readonly CitaManagement citaManagement = new CitaManagement();
+        private static Dictionary<string, CitaProducto> citasEnProceso = new Dictionary<string, CitaProducto>();
 
         static void Main()
         {
@@ -145,13 +147,13 @@ namespace TelegramBot
                                 text: "¿Cuándo desea su cita?",
                                 replyMarkup: new InlineKeyboardMarkup(new[] { new[]
                                 {
-                                    InlineKeyboardButton.WithCallbackData("En 2 días.", "date_2_"+productoCitaId.ToString()+"_"+sucursalCita),
-                                    InlineKeyboardButton.WithCallbackData("En 3 días.", "date_3_"+productoCitaId.ToString()+"_"+sucursalCita)
+                                    InlineKeyboardButton.WithCallbackData("En 2 días.", "dateprod_2_"+productoCitaId.ToString()+"_"+sucursalCita),
+                                    InlineKeyboardButton.WithCallbackData("En 3 días.", "dateprod_3_"+productoCitaId.ToString()+"_"+sucursalCita)
                                 },
                                     new[]
                                     {
-                                        InlineKeyboardButton.WithCallbackData("En 5 días.", "date_5_"+productoCitaId.ToString()+"_"+sucursalCita),
-                                        InlineKeyboardButton.WithCallbackData("En 7 días.", "date_7_"+productoCitaId.ToString()+"_"+sucursalCita)
+                                        InlineKeyboardButton.WithCallbackData("En 5 días.", "dateprod_5_"+productoCitaId.ToString()+"_"+sucursalCita),
+                                        InlineKeyboardButton.WithCallbackData("En 7 días.", "dateprod_7_"+productoCitaId.ToString()+"_"+sucursalCita)
                                     }
                                 }));
                         }
@@ -166,7 +168,115 @@ namespace TelegramBot
                         SendText(query.Message, "Producto no encontrado...");
                     }
                     break;
+                case "dateprod":
+                    string[] texto = query.Data.Split("_");
+                    double dias;
+                    int idProd;
+                    if (double.TryParse(texto[1], out dias) && int.TryParse(texto[2], out idProd)) {
+                        DateTime fecha = DateTime.Today.AddDays(dias);
+                        Producto producto = productoServicioManagement.RetrieveByIdProducto(new Producto() { Id = idProd });
+                        CitaProducto citaNueva = new CitaProducto()
+                        {
+                            Productos = new[] { producto },
+                            IdSucursal = texto[3],
+                            IdComercio = texto[3].Split("-")[0],
+                            IdCliente = GetClienteId(query.Message.Chat.Id),
+                            HoraInicio = fecha,
+                            HoraFinal = fecha,
+                            Estado = "P",
+                            Tipo = "P"
+                        };
+                        
+                        if (citaNueva.IdCliente != null)
+                        {
+                            citasEnProceso.Remove(query.Message.Chat.Id.ToString());
+                            citasEnProceso.Add(query.Message.Chat.Id.ToString(), citaNueva);
+                            await botClient.SendTextMessageAsync(
+                                chatId: query.Message.Chat,
+                                text: "Perfecto, ahora solamente necesito que me envíes una hora.\n" +
+                                "Envíala en el siguiente formato: 'hora_<la hora que deseas>', es decir, algo como 'hora_13', para una cita a la 1 PM.\n" +
+                                "Ten en mente el horario de la sucursal y por favor solamente usa horas enteras.",
+                                replyMarkup: new ForceReplyMarkup());
+                        }
+                        else { SendText(query.Message, "Lo siento, no puedo encontrarte en la base de datos..."); }            
+                    }
+                    else
+                    {
+                        SendText(query.Message, "Lo siento, ocurrió un error al procesar la fecha...");
+                    }
+                    break;
+                case "cancelar-cita":
+                    InlineKeyboardMarkup listaCitas = ListarCitas(query.Message.Chat.Id);
+                    if (listaCitas != null)
+                    {
+                        await botClient.SendTextMessageAsync(
+                            chatId: query.Message.Chat.Id,
+                            text: "Estas son tus citas pendientes:",
+                            replyMarkup: listaCitas);
+                    }
+                    else { SendText(query.Message, "No tienes citas pendientes para cancelar."); }
+                    break;
+                case "cancCita":
+                    int.TryParse(query.Data.Split("_")[1], out int citaId);
+                    List<CitaProducto> listaCancelar = citaManagement.RetrieveAll();
+                    CitaProducto citaCancelar = new CitaProducto() { Id = citaId };
+                    foreach (var row in listaCancelar)
+                    {
+                        if (row.Id == citaId)
+                            citaCancelar = row;
+                    }
+                    try
+                    {
+                        citaManagement.CancelarCita(citaCancelar);
+                        SendText(query.Message, "Cita cancelada.");
+                    }
+                    catch(Exception e) { SendText(query.Message, e.Message); }
+                    break;
             }
+        }
+
+        private static InlineKeyboardMarkup ListarCitas(long id)
+        {
+            List<CitaProducto> listaCitas = citaManagement.RetrieveAll();
+            List<CitaProducto> citasCliente = new List<CitaProducto>();
+            string userId = GetClienteId(id);
+            foreach (var cita in listaCitas)
+            {
+                if (cita.IdCliente == userId)
+                    citasCliente.Add(cita);
+            }
+
+            var btns = new InlineKeyboardButton[citasCliente.Count()][];
+            int count = 0;
+            if (citasCliente.Count > 0)
+            {
+                foreach (var row in citasCliente)
+                {
+                    Comercio comercio = comercioManagement.RetrieveById(new Comercio() { CedJuridica = row.IdComercio });
+                    btns[count] = new[]
+                    {
+                    InlineKeyboardButton.WithCallbackData(
+                        row.Productos[0].Nombre+" - "+comercio.NombreComercial +" - "+row.HoraInicio.Date.ToShortDateString()
+                        , "cancCita_"+row.Id)
+                };
+                    count++;
+                }
+                return btns;
+            }
+            else { return null; }
+        }
+
+        private static string GetClienteId(long id)
+        {
+            List<UsuarioTelegram> usuarios = usuarioTelegramManagement.RetrieveAll();
+            foreach (var user in usuarios)
+            {
+                if (user.IdChat == id.ToString())
+                {
+                    return user.IdUsuario;
+                }
+            }
+            return null;
         }
 
         private static InlineKeyboardMarkup ListarProductos(string idSucursal)
@@ -303,20 +413,43 @@ namespace TelegramBot
                     {
                         await botClient.SendTextMessageAsync(
                             chatId: mensaje.Chat,
-                            text: "Si deseas, puedes cerrar sesión.",
+                            text: "Puedes hacer lo siguiente:",
                             replyMarkup: new InlineKeyboardMarkup(new[]{
                                 new[]{
                                     InlineKeyboardButton.WithCallbackData(
                                         "Cerrar Sesión",
-                                        "cerrar-sesion_") } }));
-                        var listadoComercios = ListarComercios();
-                        await botClient.SendTextMessageAsync(
-                            chatId: mensaje.Chat,
-                            text: "¡Selecciona un comercio!",
-                            replyMarkup: listadoComercios
-                            );
+                                        "cerrar-sesion_"),
+                                    InlineKeyboardButton.WithCallbackData(
+                                        "Cancelar Cita",
+                                        "cancelar-cita")
+                                },
+                            new[]{ InlineKeyboardButton.WithCallbackData("Lista Comercios","listar-comercios")} }));
                     }
                     break;
+                case "hora":
+                    CitaProducto cita = citasEnProceso.GetValueOrDefault(mensaje.Chat.Id.ToString());
+                    if (cita != null)
+                    {
+                        if (int.TryParse(mensaje.Text.Split("_")[1], out int hora))
+                        {
+                            cita.HoraInicio = cita.HoraInicio.AddHours(hora);
+                            cita.HoraFinal = cita.HoraInicio.AddMinutes(cita.Productos[0].Duracion);
+
+                            try
+                            {
+                                citaManagement.Create(cita);
+                                citasEnProceso.Remove(mensaje.Chat.Id.ToString());
+                            }
+                            catch (Exception e)
+                            {
+                                SendText(mensaje, e.Message);
+                            }
+                        }
+                        else { SendText(mensaje, "Hubo un problema procesado la hora que enviaste."); }
+                    }
+                    else { SendText(mensaje, "Lo siento, pero no tienes ninguna cita en proceso."); }
+                    break;
+
             }
         }
         
