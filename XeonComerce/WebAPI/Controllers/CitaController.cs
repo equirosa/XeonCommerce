@@ -123,8 +123,7 @@ namespace WebAPI.Controllers
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
             var subject = "Inofrmacion de la cita con GetItSafely";
-            //var to = new EmailAddress(user.CorreoElectronico, user.Nombre);
-            var to = new EmailAddress("jarguelloq@ucenfotec.ac.cr", user.Nombre);
+            var to = new EmailAddress(user.CorreoElectronico, user.Nombre);
             var plainTextContent = (info);
             var htmlContent = "<strong>"+info+ "</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
@@ -148,8 +147,7 @@ namespace WebAPI.Controllers
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("brutchm@ucenfotec.ac.cr", "GetItSafely");
             var subject = "Inofrmacion de la cita con GetItSafely";
-            //var to = new EmailAddress(user.CorreoElectronico, user.Nombre);
-            var to = new EmailAddress("jarguelloq@ucenfotec.ac.cr", user.Nombre);
+            var to = new EmailAddress(user.CorreoElectronico, user.Nombre);
             var plainTextContent = (info);
             var htmlContent = "<strong>" + info + "</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
@@ -177,21 +175,14 @@ namespace WebAPI.Controllers
        
         private Bitmap GenerarQR(CitaProducto cita)
         {
-            //var cm = new CitaManagement();
-
-            //Cita cita = new Cita();
-            //cita.Id = Int32.Parse(id);
-            //cita = cm.RetriveById(cita);
-
+           
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode("Cliente: "+cita.IdCliente+"IDCita:"+cita.Id, QRCodeGenerator.ECCLevel.Q);
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
 
-            //pictureBoxGenerar.Image = qrCodeImage;
 
             return qrCodeImage;
-            //la persona encargada de enviar los correos puede llamar a este metood o agregar la logica del envío por acá
         }
 
     }

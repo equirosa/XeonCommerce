@@ -196,5 +196,4 @@ import { FacturaMaestroService } from './../_services/facturaMaestro.service';
     }
     console.log(this.clienteBloqueado);
   }
-  
 }

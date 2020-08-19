@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CitaService } from '../_services/cita.service';
 import { CitaProducto } from '../_models/cita-producto';
@@ -36,6 +38,10 @@ export class ListCitasEmpleadoComponent implements OnInit {
       this.hoy = new Date();
      }
 
+	 
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+	@ViewChild(MatSort, {static: true}) sort: MatSort;
+
   ngOnInit(): void {
     this.idEmpleado = JSON.parse(localStorage.getItem('user')).empleado.id;
     this.cargarCitas();
@@ -45,7 +51,8 @@ export class ListCitasEmpleadoComponent implements OnInit {
     this.citaService.get().subscribe({
       next: res => {
         this.citas.data = res.filter( c => c.idEmpleado === this.idEmpleado && c.estado === 'P' );
-        this.convertirFecha();
+		this.citas.paginator = this.paginator;
+		this.citas.sort = this.sort;
         this.formatearFecha();
       },
       error: err => {

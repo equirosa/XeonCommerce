@@ -16,7 +16,7 @@
         </ng-container>
         <ng-container matColumnDef="estado">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.estado == "F" ? "Finalizado": element.estado == "P" ? "Pendiente":element.estado == "C" ? "Cancelado":"Ausente" }}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.estado == "F" ? "Finalizado": element.estado == "P" ? "Pendiente":element.estado == "C" ? "Cancelada":"Ausente" }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="tipo">
             <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</mat-header-cell>
@@ -25,7 +25,7 @@
         <ng-container matColumnDef="notificar">
             <mat-header-cell *matHeaderCellDef>Enviar Notificación</mat-header-cell>
             <mat-cell *matCellDef="let element">
-                <button mat-raised-button color="crear" (click)="enviarNotificacion(element)" [disabled]="!habilitarNotificacion(element)">
+                <button mat-raised-button color="crear" (click)="enviarNotificacion(element)" [disabled]="element.estado != 'P' || !habilitarNotificacion(element)">
                     Enviar Notificación
                 </button>
             </mat-cell>
@@ -41,7 +41,7 @@
         <ng-container matColumnDef="cancelar">
             <mat-header-cell *matHeaderCellDef>Cancelar</mat-header-cell>
             <mat-cell  *matCellDef="let element">
-                <button mat-raised-button color="eliminar" (click)="cancelar(element)">
+                <button mat-raised-button color="eliminar" [disabled]="element.estado != 'P'" (click)="cancelar(element)">
                     Cancelar
                 </button>
             </mat-cell>

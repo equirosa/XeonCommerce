@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { CitaService } from '../_services/cita.service';
 import { CitaProducto } from '../_models/cita-producto';
@@ -33,6 +35,10 @@ export class ListCitasClienteComponent implements OnInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,) { }
  
+
+	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+	@ViewChild(MatSort, {static: true}) sort: MatSort;
+
   ngOnInit(): void {
     this.idCliente = JSON.parse(localStorage.getItem('user')).id;
     this.cargarCitas();

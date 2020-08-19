@@ -53,7 +53,6 @@ export class ListarUsuariosComponent implements OnInit {
     "numeroTelefono",
     "idDireccion",
     "estado",
-    "codigo",
     "modificar",
     "eliminar",
     'desbloquear',
@@ -72,7 +71,6 @@ export class ListarUsuariosComponent implements OnInit {
     "numeroTelefono",
     "idDireccion",
     "estado",
-    "codigo",
     "eliminar",
     'desbloquear',
     "ver",
@@ -123,7 +121,6 @@ export class ListarUsuariosComponent implements OnInit {
       this.usuarios = usuarios.sort((a, b) => {
         return a.id.localeCompare(b.id);
       });
-      this.usuarios = usuarios.filter((a) => a.estado == "A" || a.estado == "B");
       this.datos = new MatTableDataSource(this.usuarios);
       this.datos.sort = this.sort;
       this.datos.paginator = this.paginator;
@@ -145,7 +142,6 @@ export class ListarUsuariosComponent implements OnInit {
   }
 
   delete(usuario: Usuario): void {
-    usuario.estado = "I";
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: "500px",
       data: {
@@ -156,23 +152,34 @@ export class ListarUsuariosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogResult) => {
       if (dialogResult) {
+		usuario.estado = "I";
         this.usuarioService.update(usuario).subscribe(() => {
           this.getUsuarios();
-
-          // var log: Bitacora;
-          // log = {
-          // 	idUsuario: this.user.id,
-          // 	accion: "Intento de eliminación de usuario",
-          // 	detalle: `Se intento eliminar de el usuario (${usuario.cedJuridica}) ${usuario.nombreComercial}`,
-          // 	id: -1,
-          // 	fecha: new Date()
-          // }
-          // this.bitacoraService.create(log).subscribe();
         });
       }
     });
   }
 
+  
+  habilitar(usuario: Usuario): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: {
+        title: "¿Está seguro?",
+		message: "Usted está apunto de habilitar un usuario. ",
+		editar: true
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((dialogResult) => {
+      if (dialogResult) {
+		usuario.estado = "A";
+        this.usuarioService.update(usuario).subscribe(() => {
+          this.getUsuarios();
+        });
+      }
+    });
+  }
 
   desbloquear(usuario: Usuario): void {
     usuario.estado = "A";

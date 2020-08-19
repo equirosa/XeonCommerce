@@ -73,7 +73,7 @@ export class ListCitaComercioComponent implements OnInit {
         });
       },
       error: err => {
-        this._snackBar.open('No se logrado notificar al cliente de la cita', '', {
+        this._snackBar.open('No se ha logrado notificar al cliente de la cita', '', {
           duration: 2500
         });
       }
