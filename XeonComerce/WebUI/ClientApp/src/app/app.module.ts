@@ -345,7 +345,7 @@ import { EditarClienteComponent } from './editar-cliente/editar-cliente.componen
     ListaDeseosComponent,
     CalificacionDialogComponent,
     ListaCalificacionesComponent,
-    EditarClienteComponent
+    EditarClienteComponent,
 		ScannerQrComponent,
 		InfoScannerComponent,
 		FinalizarNuevoProductoComponent
