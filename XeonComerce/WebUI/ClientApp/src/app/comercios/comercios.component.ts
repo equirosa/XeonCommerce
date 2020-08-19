@@ -1,3 +1,5 @@
+import { DialogImagen } from './../archivo/archivo.component';
+import { Archivo } from './../_models/archivo';
 import { MatPaginator } from '@angular/material/paginator';
 import { AccountService } from './../_services/account.service';
 import { User } from './../_models/user';
@@ -22,12 +24,14 @@ import {MatSort} from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 import { UploadComercioFilesComponent } from '../crear-comercio/upload-comercio-files.dialog';
 import { CategoriaComercio } from '../_models/categoriaComercio';
+
 @Component({
   selector: 'app-comercios',
   templateUrl: './comercios.component.html',
   styleUrls: ['./comercios.component.css']
 })
 export class ComerciosComponent implements OnInit {
+
 	user: User;
 	comercios: Comercio[];
 	comercioCrear: Comercio;
@@ -41,7 +45,7 @@ export class ComerciosComponent implements OnInit {
 	constructor(private bitacoraService: BitacoraService, private accountService : AccountService, public dialog: MatDialog,
 		 private categoriaComercioService: CategoriaComercioService, private categoriaService: CategoriaService,
 		  private archivoService: ArchivoService, private comercioService: ComercioService, private direccionService: DireccionService, 
-		  private mensajeService: MensajeService, private ubicacionService: UbicacionService) { this.user = this.accountService.userValue; }
+    private mensajeService: MensajeService, private ubicacionService: UbicacionService) { this.user = this.accountService.userValue; }
   
 	categorias = new FormControl();
 
@@ -269,12 +273,21 @@ export class ComerciosComponent implements OnInit {
 			this.comercios = comercios.sort((a, b) => {
 				return a.nombreComercial.localeCompare(b.nombreComercial);
 			  });
-			this.comercios = comercios.filter((a)=> a.estado == 'A');
+      this.comercios = comercios.filter((a) => a.estado == 'A');
+      this.comercios = this.obtenerComerciosFiltrados(this.comercios);
 			this.datos = new MatTableDataSource(this.comercios);
 			this.datos.sort = this.sort;
 			this.datos.paginator = this.paginator;
 		});
-	}
+  }
+
+  obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
+    let elementosFiltrados = lista1.filter(function (elemento) {
+      return elemento.cedJuridica != "1234567";
+    });
+    console.log(elementosFiltrados);
+    return elementosFiltrados;
+  }
   
   
 	delete(comercio: Comercio): void {
@@ -326,7 +339,7 @@ export class ComerciosComponent implements OnInit {
 	
 	verDocumentos(comercio: Comercio): void {
 			const dialogRef = this.dialog.open(DialogArchivo, {
-				maxWidth: "500px",
+				maxWidth: "800px",
 				data: { cedJuridica: comercio.cedJuridica }
 			  });
 	}
@@ -440,10 +453,12 @@ export class ComerciosComponent implements OnInit {
   export class DialogArchivo implements OnInit {
   
 	constructor(
+	  public dialog: MatDialog,
 	  public dialogRef: MatDialogRef<DialogArchivo>,
 	  @Inject(MAT_DIALOG_DATA) public data: any, 
 	  private archivoService: ArchivoService) { }
   
+	displayedColumns: string[] = ['id', 'nombre', 'tipo', 'ver'];
 	onNoClick(): void {
 	  this.dialogRef.close();
 	}
@@ -451,9 +466,17 @@ export class ComerciosComponent implements OnInit {
 	ngOnInit(){
 		this.archivoService.get().subscribe(archivos=>{
 			archivos = archivos.filter((i)=>i.idComercio==this.data.cedJuridica);
-			this.data.archivos = archivos;
+			this.data.archivos = new MatTableDataSource(archivos);
 		})
 	}
 
+	ver(archivo: Archivo): void {
+		const dialogRef = this.dialog.open(DialogImagen, {
+			maxWidth: "500px",
+			data: {
+				img: archivo.link
+			}
+		  });
+	}
+
   }
-  

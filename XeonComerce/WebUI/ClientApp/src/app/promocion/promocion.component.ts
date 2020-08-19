@@ -1,3 +1,9 @@
+import { Servicio } from './../_models/servicio';
+import { CategoriaUsuario } from './../_models/categoriaUsuario';
+import { CategoriaComercio } from './../_models/categoriaComercio';
+import { CategoriaComercioService } from './../_services/categoriaComercio.service';
+import { CategoriaUsuarioService } from './../_services/categoriaUsuario.service';
+import { UsuarioService } from './../_services/usuario.service';
 import { ServiciosService } from './../_services/servicios.service';
 import { User } from '@app/_models';
 import { AccountService } from '@app/_services';
@@ -28,8 +34,14 @@ export class PromocionComponent implements OnInit {
 	displayedColumns: string[] = ['id', 'nombre', 'descuento', 'editar', 'eliminar'];
 	datos;
 	user: any;
+	categorias: number[] = [];
+	catCom: CategoriaComercio[] = [];
+	catUsr: CategoriaUsuario[] = [];
+	usuarios: any[] = [];
 	
-	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private productoService: ProductoService, private servicioService: ServiciosService, private accountService: AccountService) {
+	constructor(public dialog: MatDialog, private mensajeService: MensajeService, private productoService: ProductoService, 
+		private servicioService: ServiciosService, private accountService: AccountService, private usuarioService: UsuarioService, 
+		private categoriaUsuarioService: CategoriaUsuarioService, private categoriaComercioService: CategoriaComercioService) {
 		this.accountService.user.subscribe(x => {
 			this.user = x;
 		});
@@ -88,6 +100,7 @@ export class PromocionComponent implements OnInit {
 						if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el precio del producto!");
 						this.productoService.putProducto(prod).subscribe(()=>{
 							this.mensajeService.add("Se creó la promoción.");
+							this.enviarPromociones(prod.idComercio, prod);
 							this.getProductos();
 						});
 					});
@@ -97,6 +110,7 @@ export class PromocionComponent implements OnInit {
 						if(prod.descuento>prod.precio) return this.mensajeService.add("¡El descuento no puede ser mayor que el precio del servicio!");
 						this.servicioService.putServicio(prod).subscribe(()=>{
 							this.mensajeService.add("Se creó la promoción.");
+							this.enviarPromociones(prod.idComercio, prod);
 							this.getProductos();
 						});
 					});
@@ -114,6 +128,34 @@ export class PromocionComponent implements OnInit {
 
   
 	  
+	}
+
+	enviarPromociones(comercio, prodoserv: (Producto|Servicio)){
+		this.categoriaComercioService.getByComercio(comercio).subscribe((i)=>{
+			this.catCom=i;
+			this.categorias = this.catCom.map(a => a.idCategoria);
+			this.categoriaUsuarioService.get().subscribe((catUsr)=>{
+				this.catUsr=catUsr;
+				console.log("Todo",this.catUsr);
+
+				
+				this.catUsr = this.catUsr.filter((a)=>{
+					return this.categorias.some(r=> this.categorias.includes(a.idCategoria))
+				});
+
+				console.log("Filtrado",this.catUsr);
+
+				this.usuarios = this.catUsr.map(a => a.idUsuario);
+				if(this.usuarios.length>0){
+				this.usuarios = [...new Set(this.usuarios)];
+				console.log(this.usuarios);
+				this.usuarios.forEach((usr) => {
+					this.productoService.enviar(usr, prodoserv).subscribe();
+				});
+				}
+
+			});
+		});
 	}
   
   

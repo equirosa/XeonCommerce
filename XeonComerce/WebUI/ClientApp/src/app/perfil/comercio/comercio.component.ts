@@ -10,6 +10,10 @@ import { ComercioService } from './../../_services/comercio.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Comercio } from '../../_models/comercio';
+import { Producto } from '../../_models/producto';
+import { CalificacionService } from '../../_services/calificacion.service';
+import { Calificacion } from '../../_models/Calificacion';
+import { ProductoService } from '../../_services/producto.service';
 
 @Component({
   selector: 'app-perfil-comercio',
@@ -23,22 +27,25 @@ export class PerfilComercioComponent implements OnInit {
 	provincias: Ubicacion[];
 	cantones: Ubicacion[];
 	distritos: Ubicacion[];
-	sucursales: Sucursal[];
+  sucursales: Sucursal[];
 	length = 0;
 	pageSize = 1;
 	filtro: string;
-	pageEvent: PageEvent;
+  pageEvent: PageEvent;
+  starWidth: number;
+  promCalificacion: number = 0;
 
-  constructor(private route : ActivatedRoute, private comercioService : ComercioService, private mensajeService : MensajeService,
+  constructor(private productoService: ProductoService,private route : ActivatedRoute, private comercioService : ComercioService, private mensajeService : MensajeService,
 	 private router : Router, private direccionService:DireccionService, private ubicacionService: UbicacionService,
-	 private sucursalService:SucursalService) { }
+    private sucursalService: SucursalService ,private calificacionService: CalificacionService) { }
 
   ngOnInit(): void {
 	this.getProvincias();
 	let id = this.route.snapshot.params['id'];
 	this.comercioService.getBy(id).subscribe((comercio)=>{
 		if(comercio!=null){
-			this.comercio=comercio;
+      this.comercio = comercio;
+
 			this.direccionService.getBy(comercio.direccion).subscribe((direccion)=>{
 				if(direccion!=null){
 					this.direccion = direccion;
@@ -62,9 +69,8 @@ export class PerfilComercioComponent implements OnInit {
 			this.mensajeService.add("No existe dicho comercio");
 			this.router.navigate(["/comercio"]);
 		}
-
-		console.log(this.comercio);
-	});
+    this.calcularPromedio(this.comercio);
+  });
   }
 
 
@@ -72,7 +78,48 @@ export class PerfilComercioComponent implements OnInit {
 
 
 
+  calcularPromedio(comercio : Comercio) {
+    let promCalificaciones: number = 0;
+    this.calificacionService.obtenerCalificaciones().subscribe((calificacion) => {
+      this.productoService.getProducto().subscribe(productos => {
+        let calificacionesComercio = this.obtenerCalificacionesPorComercio(calificacion, productos, comercio);
+        debugger;
+        if (calificacionesComercio.length == 0) {
+          this.starWidth = 5 * 130 / 5;
+          this.promCalificacion = 5;
+        } else {
+          promCalificaciones = this.obtenerCalificacionFinal(calificacion);
+          this.starWidth = promCalificaciones * 130 / 5;
+          this.promCalificacion = promCalificaciones;
+        }
+      });
+    });
+  }
 
+  obtenerCalificacionFinal(calificaciones: Calificacion[]): number {
+    let ratingComercio: number = 0;
+    for (var i = 0; i < calificaciones.length; i++) {
+      ratingComercio = ratingComercio + calificaciones[i].calificacion;
+    }
+    ratingComercio = Math.round(ratingComercio / calificaciones.length * 10) / 10;
+    console.log(ratingComercio);
+    return ratingComercio;
+  }
+
+  obtenerCalificacionesPorComercio(calificaciones: Calificacion[], productos: Producto[], comercio: Comercio): Calificacion[] {
+    let calificacionesPorComercio: Calificacion[] = new Array(0);
+    let cont: number = 0;
+    for (var i = 0; i < calificaciones.length; i++) {
+      for (var j = 0; j < productos.length; j++) {
+        if (calificaciones[i].idProducto == productos[j].id && productos[j].idComercio == comercio.cedJuridica) {
+          calificacionesPorComercio[cont] = calificaciones[i];
+          cont++;
+        }
+      }
+    }
+    console.log(calificacionesPorComercio);
+    return calificacionesPorComercio;
+  }
 
 
   getProvincias(): void {

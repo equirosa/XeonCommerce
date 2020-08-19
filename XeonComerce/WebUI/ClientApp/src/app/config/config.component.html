@@ -1,15 +1,27 @@
 <div class="divComercios">
   <h2>Configuración</h2>
   <div class="mat-elevation-z8">
-    <form [formGroup]="configuracion">
-      <mat-form-field>
-        <mat-label>Dias Máximos de antelación para cancelar citas:</mat-label>
-        <input matInput type="number" min="0" id="maxCancelar" formControlName="diasAntelacion">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Mínima cantidad de contraseñas del historial:</mat-label>
-        <input type="number" min="0" matInput id="minContrasennas" formControlName="contrasennas">
-      </mat-form-field>
+	<form [formGroup]="configuracion" style="width: 33%; padding: 2%;">
+		<mat-form-field appearance="outline">
+			<mat-label>Dias Máximos de antelación para cancelar citas</mat-label>
+			<input matInput type="number" min="0" id="maxCancelar" formControlName="diasAntelacion">
+			<span matPrefix>#&nbsp;</span>
+			<span matSuffix>días</span>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Mínima cantidad de contraseñas del historial</mat-label>
+			<input type="number" min="0" matInput id="minContrasennas" formControlName="contrasennas">
+			<span matPrefix>#&nbsp;</span>
+			<span matSuffix>contraseñas</span>
+		</mat-form-field>
+
+		
+		<mat-form-field appearance="outline">
+			<mat-label>Máxima cantidad de ausencias por cliente</mat-label>
+			<input matInput type="number" min="0" formControlName="maxAusencias">
+			<span matPrefix>#&nbsp;</span>
+		  </mat-form-field>
+		<button (click)="update()" color="editar" mat-flat-button>Guardar Cambios</button>
     </form>
-    <button (click)="update()" mat-flat-button>Guardar Cambios</button>
   </div>

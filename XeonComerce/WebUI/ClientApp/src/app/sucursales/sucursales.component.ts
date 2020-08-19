@@ -18,7 +18,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DireccionService } from '../_services/direccion.service';
 // import { MouseEvent } from '@agm/core';
-import { ComercioService } from '../_services/comercio.service'
+import { ComercioService } from '../_services/comercio.service';
+
+import { FormHorarioSucursalComponent } from '../form-horario-sucursal/form-horario-sucursal.component';
+
 @Component({
   selector: 'app-sucursales',
   templateUrl: './sucursales.component.html',
@@ -28,7 +31,7 @@ export class SucursalesComponent implements OnInit {
   user: any;
   sucursales: Sucursal[];
   sucursalCrear: Sucursal;
-  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'editar', 'eliminar'];
+  displayedColumns: string[] = ['id', 'idComercio', 'nombre', 'idDireccion', 'disposiciones', 'horario', 'editar', 'eliminar'];
   datos;
   provincias: Ubicacion[];
   cantones: Ubicacion[];
@@ -64,7 +67,19 @@ export class SucursalesComponent implements OnInit {
     this.comercioService.get().subscribe(comercios => {
       this.comercios = comercios.sort((a, b) => {
         return a.cedJuridica.localeCompare(b.cedJuridica);
-      })
+	  });
+	  
+	  let idComercio = "";
+
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+
+	  if (this.user.tipo != 'A') {
+		this.comercios = this.comercios.filter((a) => a.cedJuridica == idComercio)
+	  }
     })
   }
 
@@ -79,6 +94,20 @@ export class SucursalesComponent implements OnInit {
 
 
   abrirCrear(): void {
+
+	let idComercio = "", esAdmin = false;
+	
+	if (this.user.tipo != 'A') {
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
+	}else{
+		esAdmin = true;
+	}
+
+
     this.ubicacionService.getProvincias()
       .subscribe(provincias => {
         this.provincias = Object.keys(provincias).map(key => ({ value: Number(key), nombre: provincias[key] }))
@@ -86,10 +115,10 @@ export class SucursalesComponent implements OnInit {
           width: '500px',
           data: {
             accion: "crear",
-            noEsAdmin: true,
+            noEsAdmin: !esAdmin,
             permitir: true,
             id: "",
-            idComercio: "",
+            idComercio: idComercio,
             disposiciones: "",
             idUsuario: this.user.id,
             estado: "A",
@@ -171,10 +200,16 @@ export class SucursalesComponent implements OnInit {
   }
 
   abrirEditar(sucursal: Sucursal): void {
+	let esAdmin = false;
+	
+	if (this.user.tipo == 'A') {
+		esAdmin = true;
+	}
     const dialogRef = this.dialog.open(DialogSucursal, {
       width: '500px',
       data: {
         accion: "editar",
+		noEsAdmin: !esAdmin,
         permitir: !false,
         id: sucursal.id,
         idComercio: sucursal.idComercio,
@@ -185,6 +220,7 @@ export class SucursalesComponent implements OnInit {
         provincias: this.provincias,
         cantones: this.cantones,
         distritos: this.distritos,
+		comercios: this.comercios,
         provincia: "",
         canton: "",
         distrito: "",
@@ -213,14 +249,21 @@ export class SucursalesComponent implements OnInit {
         this.sucursales = sucursales.sort((a, b) => {
           return a.id.localeCompare(b.id);
         });
-        this.sucursales = sucursales.filter((a) => a.estado == 'A');
-        debugger
+		this.sucursales = sucursales.filter((a) => a.estado == 'A');
+		
+		let idComercio = "";
+
+		if(this.user.tipo == 'C'){
+			idComercio = this.user.comercio.cedJuridica;
+		}else if(this.user.tipo == 'E'){
+			idComercio = this.user.empleado.idComercio;
+		}
         if (this.user.tipo != 'A') {
-          this.sucursales = sucursales.filter((a) => a.idComercio == this.user.comercio.cedJuridica)
+          this.sucursales = sucursales.filter((a) => a.idComercio == idComercio)
         }
-        this.datos = new MatTableDataSource(this.sucursales);
-        this.datos.sort = this.sort;
-        this.datos.paginator = this.paginator;
+			this.datos = new MatTableDataSource(this.sucursales);
+			this.datos.sort = this.sort;
+			this.datos.paginator = this.paginator;
       });
   }
 
@@ -261,7 +304,20 @@ export class SucursalesComponent implements OnInit {
       });
     });
   }
+
+
+  abrirHorario(sucursal: Sucursal): void {
+    const dialogRef = this.dialog.open(FormHorarioSucursalComponent, {
+      width: '680px',
+      height: '500px',
+      data: {sucursal}
+    });
+
+  }
+  
 }
+
+
 
 
 @Component({

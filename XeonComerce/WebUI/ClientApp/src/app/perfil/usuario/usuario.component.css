@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  height: calc(100vh - 5rem);
+}
+
+
+.divUsuario {
+  padding: 2% 10%;
+}
+
+.cardUsuario {
+  width: 80%;
+  height: 60%;
+  background-color: #f3f3f3;
+}
+
+.cardDir {
+  text-align: center;
+  background-color: #f3f3f3;
+}
+
+.cardDiv {
+  text-align: center;
+  margin: 0 auto;
+  padding: 5%;
+}
+
+.card {
+  padding: 2% !important;
+  text-align: center;
+  margin: 0 auto;
+}

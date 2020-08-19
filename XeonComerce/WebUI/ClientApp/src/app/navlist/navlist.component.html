@@ -103,42 +103,54 @@
 	<mat-divider></mat-divider>
 
 <a mat-list-item routerLink="/dashboardComercio" (click)="onSidenavClose()">
-	<span class="nav-caption">Dashboard</span>
+	<mat-icon>dashboard</mat-icon><span class="nav-caption">Dashboard</span>
 </a>
 <a mat-list-item routerLink="/sucursales" (click)="onSidenavClose()">
-	<span class="nav-caption">Sucursales</span>
+	<mat-icon>storefront</mat-icon><span class="nav-caption">Sucursales</span>
 </a>
 <a mat-list-item routerLink="/productos" (click)="onSidenavClose()">
-	<span class="nav-caption">Productos</span>
+	<mat-icon>local_pizza</mat-icon><span class="nav-caption">Productos</span>
 </a>
 <a mat-list-item routerLink="/servicios" (click)="onSidenavClose()">
-	<span class="nav-caption">Servicios</span>
+	<mat-icon>local_convenience_store</mat-icon><span class="nav-caption">Servicios</span>
 </a>
 <a mat-list-item routerLink="/empleado/comercio" (click)="onSidenavClose()">
-	<span class="nav-caption">Empleados</span>
+	<mat-icon>people</mat-icon><span class="nav-caption">Empleados</span>
 </a>
 <a mat-list-item routerLink="/promocion" (click)="onSidenavClose()">
-	<span class="nav-caption">Promociones</span>
+	<mat-icon>local_offer</mat-icon><span class="nav-caption">Promociones</span>
 </a>
 <a mat-list-item routerLink="/rol" (click)="onSidenavClose()">
-	<span class="nav-caption">Roles</span>
+	<mat-icon>security</mat-icon><span class="nav-caption">Roles</span>
+</a>
+<a mat-list-item routerLink="/archivos" (click)="onSidenavClose()">
+	<mat-icon>folder</mat-icon><span class="nav-caption">Archivos</span>
+</a>
+<a mat-list-item routerLink="/ventas" (click)="onSidenavClose()">
+	<mat-icon>point_of_sale</mat-icon><span class="nav-caption">Historial de Ventas</span>
+</a>
+<a mat-list-item routerLink="/configuraciones" (click)="onSidenavClose()">
+	<mat-icon>settings</mat-icon><span class="nav-caption">Configuraciones</span>
+</a>
+<a mat-list-item routerLink="/citasComercio" (click)="onSidenavClose()">
+	<span class="nav-caption">Citas</span>
 </a>
 
-<mat-divider></mat-divider>
+	<mat-divider></mat-divider>
 
-<mat-list-item [matMenuTriggerFor]="menu2">
-    <mat-icon>account_circle</mat-icon>
-    <a matline>Mi Cuenta</a>
-    <mat-icon>unfold_more</mat-icon>
-</mat-list-item>
-<mat-menu #menu2="matMenu">
-	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
-</mat-menu>
+	<mat-list-item [matMenuTriggerFor]="menu2">
+		<mat-icon>account_circle</mat-icon>
+		<a matline>Mi Cuenta</a>
+		<mat-icon>unfold_more</mat-icon>
+	</mat-list-item>
+	<mat-menu #menu2="matMenu">
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+	</mat-menu>
 
-<mat-divider></mat-divider>
-<a mat-list-item routerLink="/" (click)="onSidenavClose()">
-	<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
-</a>
+	<mat-divider></mat-divider>
+	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
+		<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
+	</a>
 </mat-nav-list>
 
 <!-- Menu para Empleado -->
@@ -159,9 +171,13 @@
 <a mat-list-item routerLink="/empleado/calendario" (click)="onSidenavClose()">
 	<span class="nav-caption">Calendario</span>
 </a>
+<a mat-list-item routerLink="/citasEmpleado" (click)="onSidenavClose()">
+	<span class="nav-caption">Mis Citas</span>
+</a>
 <a *ngFor="let v of vistasEmpleado" mat-list-item routerLink="{{v.url}}" (click)="onSidenavClose()">
 		<span class="nav-caption">{{v.nombre}}</span>
 </a>
+
 
 
 <mat-divider></mat-divider>
@@ -173,6 +189,7 @@
 </mat-list-item>
 <mat-menu #menu2="matMenu">
 	<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+	<button mat-menu-item (click)="onSidenavClose()" routerLink="/historial">Historial de compras</button>
 </mat-menu>
 
 <mat-divider></mat-divider>
@@ -190,20 +207,34 @@
 	<a mat-list-item routerLink="/comercio" (click)="onSidenavClose()">
 		<mat-icon>business</mat-icon><span class="nav-caption">Ver Comercios</span>
 	</a>
+	<a mat-list-item routerLink="/listaDeseos" (click)="onSidenavClose()">
+		<mat-icon>favorite</mat-icon><span class="nav-caption">Mi lista de deseos</span>
+	</a>
 	<a mat-list-item routerLink="/crearcomercio" (click)="onSidenavClose()" *ngIf="yaTieneComercio">
 		<mat-icon>create</mat-icon><span class="nav-caption">Crear Comercio</span>
 	</a>
+	<a mat-list-item routerLink="/citasCliente" (click)="onSidenavClose()">
+		<mat-icon>article</mat-icon><span class="nav-caption">Mis Citas</span>
+	</a>
+
+	<a mat-list-item routerLink="/categoriasUsuario" (click)="onSidenavClose()">
+		<mat-icon>category</mat-icon><span class="nav-caption">Administrar Categorias</span>
+	</a>
+
 	<mat-list-item [matMenuTriggerFor]="menu2">
 		<mat-icon>account_circle</mat-icon>
 		<a matline>Mi Cuenta</a>
 		<mat-icon>unfold_more</mat-icon>
 	</mat-list-item>
 	<mat-menu #menu2="matMenu">
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/usuario/{{user.id}}">Perfil</button>
 		<button mat-menu-item (click)="onSidenavClose()" routerLink="/cambiarcontrasenna">Cambiar Contraseña</button>
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/recomendaciones">Recomendaciones</button>
+		<button mat-menu-item (click)="onSidenavClose()" routerLink="/historial">Historial de compras</button>
 	</mat-menu>
-	
-	
-	
+
+
+
 	<mat-divider></mat-divider>
 	<a mat-list-item routerLink="/" (click)="onSidenavClose()">
 		<mat-icon>exit_to_app</mat-icon><span class="nav-caption" (click)="logout()">Cerrar sesión</span>
