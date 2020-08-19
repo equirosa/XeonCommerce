@@ -125,6 +125,7 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("xml/{cedula}")]
+        [DisableRequestSizeLimit]
         public IActionResult Xml(PdfXml pdfXml, string cedula)
         {
             try

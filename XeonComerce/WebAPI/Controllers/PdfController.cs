@@ -20,6 +20,7 @@ namespace WebAPI.Controllers
     {
 
     [HttpPost]
+    [DisableRequestSizeLimit]
         public IActionResult GeneratePDF(Pdf pdfDto)
         {
             try
