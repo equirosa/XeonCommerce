@@ -190,10 +190,10 @@ export class PerfilSucursalComponent implements OnInit {
       idComercio: producto.idComercio
     }
     if (!this.verificarCantidadDeProductos(producto.cantidad)) {
-      this.mensajeService.add("¡Este producto no esta disponible, no se puede agregar a lista de Deseos!");
+      this.mensajeService.add("¡Este producto no está disponible, no se puede agregar a lista de Deseos!");
       return;
     } else if (this.verificarSiProductoExiste(producto.id)){
-      this.mensajeService.add("¡Este producto ya a sido agregado a su lista de Deseos!");
+      this.mensajeService.add("¡Este producto ya ha sido agregado a su lista de Deseos!");
       return;
     } else {
       this.ltsDeseosService.create(ltsDeseos).subscribe();
