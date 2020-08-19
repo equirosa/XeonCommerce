@@ -464,8 +464,8 @@ namespace AppCore
             crudCita.Update(cita);
 
             var facturasDetalle = crudFacturaDetalle.RetrieveDetalleCita<FacturaDetalle>(facturaM);
-            this.RegresarStock(facturasDetalle);
-
+            if (cita.Tipo == "P")
+                this.RegresarStock(facturasDetalle);
         }
 
         private void RegresarStock(List<FacturaDetalle> facturasDetalle)
