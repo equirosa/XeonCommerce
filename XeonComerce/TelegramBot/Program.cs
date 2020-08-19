@@ -133,6 +133,41 @@ namespace TelegramBot
                         replyMarkup: listaProductos
                         );
                     break;
+                case "citaservicio":
+                    string sucursalCitaServicio = query.Data.Split("_")[2];
+                    int servicioCitaId;
+                    if (int.TryParse(query.Data.Split("_")[1], out servicioCitaId))
+                    {
+                        Servicio serv = productoServicioManagement.RetrieveByIdServicio(new Servicio() { Id = servicioCitaId });
+                        if (serv != null)
+                        {
+                            SendText(query.Message, "¡Perfecto!");
+                            await botClient.SendTextMessageAsync(
+                                chatId: query.Message.Chat,
+                                text: "¿Cuándo desea su cita?",
+                                replyMarkup: new InlineKeyboardMarkup(new[] { new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData("En 2 días.", "dateser_2_"+servicioCitaId.ToString()+"_"+sucursalCitaServicio),
+                                    InlineKeyboardButton.WithCallbackData("En 3 días.", "dateser_3_"+servicioCitaId.ToString()+"_"+sucursalCitaServicio)
+                                },
+                                    new[]
+                                    {
+                                        InlineKeyboardButton.WithCallbackData("En 5 días.", "dateser_5_"+servicioCitaId.ToString()+"_"+sucursalCitaServicio),
+                                        InlineKeyboardButton.WithCallbackData("En 7 días.", "dateser_7_"+servicioCitaId.ToString()+"_"+sucursalCitaServicio)
+                                    }
+                                }));
+                        }
+                        else
+                        {
+                            SendText(query.Message, "Lo siento...\n" +
+                                "Ya no proveemos ese servicio por el momento.");
+                        }
+                    }
+                    else
+                    {
+                        SendText(query.Message, "Producto no encontrado...");
+                    }
+                    break;
                 case "citaproducto":
                     string sucursalCita = query.Data.Split("_")[2];
                     int productoCitaId;
@@ -172,7 +207,8 @@ namespace TelegramBot
                     string[] texto = query.Data.Split("_");
                     double dias;
                     int idProd;
-                    if (double.TryParse(texto[1], out dias) && int.TryParse(texto[2], out idProd)) {
+                    if (double.TryParse(texto[1], out dias) && int.TryParse(texto[2], out idProd))
+                    {
                         DateTime fecha = DateTime.Today.AddDays(dias);
                         Producto producto = productoServicioManagement.RetrieveByIdProducto(new Producto() { Id = idProd });
                         CitaProducto citaNueva = new CitaProducto()
@@ -186,7 +222,7 @@ namespace TelegramBot
                             Estado = "P",
                             Tipo = "P"
                         };
-                        
+
                         if (citaNueva.IdCliente != null)
                         {
                             citasEnProceso.Remove(query.Message.Chat.Id.ToString());
@@ -198,7 +234,57 @@ namespace TelegramBot
                                 "Ten en mente el horario de la sucursal y por favor solamente usa horas enteras.",
                                 replyMarkup: new ForceReplyMarkup());
                         }
-                        else { SendText(query.Message, "Lo siento, no puedo encontrarte en la base de datos..."); }            
+                        else { SendText(query.Message, "Lo siento, no puedo encontrarte en la base de datos..."); }
+                    }
+                    else
+                    {
+                        SendText(query.Message, "Lo siento, ocurrió un error al procesar la fecha...");
+                    }
+                    break;
+                case "dateser":
+                    string[] text = query.Data.Split("_");
+                    double diasSer;
+                    int idSer;
+                    if (double.TryParse(text[1], out diasSer) && int.TryParse(text[2], out idSer))
+                    {
+                        DateTime fecha = DateTime.Today.AddDays(diasSer);
+                        Servicio serv = productoServicioManagement.RetrieveByIdServicio(new Servicio() { Id = idSer });
+                        Producto servicio = new Producto()
+                        {
+                            Id = serv.Id,
+                            IdComercio = serv.IdComercio,
+                            Impuesto = serv.Impuesto,
+                            Descuento = serv.Descuento,
+                            Duracion = serv.Duracion,
+                            Precio = serv.Precio,
+                            Nombre = serv.Nombre,
+                            Tipo = serv.Tipo,
+                            Cantidad = 0
+                        };
+                        CitaProducto citaNueva = new CitaProducto()
+                        {
+                            Productos = new[] { servicio },
+                            IdSucursal = text[3],
+                            IdComercio = text[3].Split("-")[0],
+                            IdCliente = GetClienteId(query.Message.Chat.Id),
+                            HoraInicio = fecha,
+                            HoraFinal = fecha,
+                            Estado = "P",
+                            Tipo = "S"
+                        };
+
+                        if (citaNueva.IdCliente != null)
+                        {
+                            citasEnProceso.Remove(query.Message.Chat.Id.ToString());
+                            citasEnProceso.Add(query.Message.Chat.Id.ToString(), citaNueva);
+                            await botClient.SendTextMessageAsync(
+                                chatId: query.Message.Chat,
+                                text: "Perfecto, ahora solamente necesito que me envíes una hora.\n" +
+                                "Envíala en el siguiente formato: 'hora_<la hora que deseas>', es decir, algo como 'hora_13', para una cita a la 1 PM.\n" +
+                                "Ten en mente el horario de la sucursal y por favor solamente usa horas enteras.",
+                                replyMarkup: new ForceReplyMarkup());
+                        }
+                        else { SendText(query.Message, "Lo siento, no puedo encontrarte en la base de datos..."); }
                     }
                     else
                     {
@@ -227,7 +313,7 @@ namespace TelegramBot
                     }
                     try
                     {
-                        citaManagement.CancelarCita(citaCancelar);
+                        citaManagement.CancelarCitaUsuario(citaCancelar);
                         SendText(query.Message, "Cita cancelada.");
                     }
                     catch(Exception e) { SendText(query.Message, e.Message); }
@@ -437,8 +523,18 @@ namespace TelegramBot
 
                             try
                             {
-                                citaManagement.Create(cita);
+                                switch (cita.Tipo)
+                                {
+                                    case "P":
+                                        citaManagement.Create(cita);
+                                        break;
+                                    case "S":
+                                        citaManagement.CreateCitaServicio(cita);
+                                        break;
+                                }
                                 citasEnProceso.Remove(mensaje.Chat.Id.ToString());
+                                SendText(mensaje, $"¡Listo!\n" +
+                                    $"Tu cita quedó registrada para la fecha {cita.HoraInicio}");
                             }
                             catch (Exception e)
                             {
