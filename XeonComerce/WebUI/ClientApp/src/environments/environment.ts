@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:59819'
+  //apiUrl: 'http://localhost:59819',
+  apiUrl: 'https://xeonapi.azurewebsites.net'
 };
 
 /*

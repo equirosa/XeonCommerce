@@ -26,10 +26,9 @@ export class CalificacionService {
   }
 
   guardarCalificacion(calificacion: Calificacion): Observable<Calificacion> {
-    debugger;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<Calificacion>(this.urlApi, calificacion, this.httpOptions).pipe(
-      tap((nuevo: Calificacion) => this.log(`Se se registro la calificación`)),
+      tap((nuevo: Calificacion) => this.log(`Se registró la calificación`)),
       catchError(this.handleError<Calificacion>('create'))
     );
   }

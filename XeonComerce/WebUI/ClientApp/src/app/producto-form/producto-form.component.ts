@@ -118,7 +118,6 @@ export class ProductoFormComponent implements OnInit {
           comercios.find((i) => i.cedJuridica == this.user.empleado.idComercio),
         ];
       } else {
-        debugger;
         this.comercios = this.obtenerComerciosFiltrados(comercios);
       }
       console.log(this.comercios);
@@ -126,7 +125,6 @@ export class ProductoFormComponent implements OnInit {
   }
 
   obtenerComerciosFiltrados(lista1: Comercio[]): Comercio[] {
-    debugger;
     let elementosFiltrados = lista1.filter(function (elemento) {
       return elemento.cedJuridica != "1234567";
     });
@@ -208,7 +206,8 @@ export class ProductoFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Resultado: ${result}`);
 
-      if (!this.formularioCompleto(result)) {
+      if (result) {
+		if (!this.formularioCompleto(result)) {
         this.mensajeService.add("¡Favor llene todos los datos!");
         return;
       }
@@ -226,8 +225,6 @@ export class ProductoFormComponent implements OnInit {
         );
         return;
       }
-
-      if (result) {
         let producto: Producto;
         producto = {
           id: result.id,
@@ -287,7 +284,9 @@ export class ProductoFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Resultado: ${result}`);
 
-      if (!this.formularioCompleto(result)) {
+
+      if (result) {
+	if (!this.formularioCompleto(result)) {
         this.mensajeService.add("¡Favor llene todos los datos!");
         return;
       }
@@ -306,7 +305,6 @@ export class ProductoFormComponent implements OnInit {
         return;
       }
 
-      if (result) {
         producto = {
           id: producto.id,
           tipo: 1,
