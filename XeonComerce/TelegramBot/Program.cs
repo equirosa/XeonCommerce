@@ -22,6 +22,7 @@ namespace TelegramBot
         private static readonly DireccionManagement direccionManagement = new DireccionManagement();
         private static readonly UsuarioManagement usuarioManagement = new UsuarioManagement();
         private static readonly ProductoServicioManagement productoServicioManagement = new ProductoServicioManagement();
+        private Dictionary<string, CitaProducto> citasEnProceso = new Dictionary<string, CitaProducto>();
 
         static void Main()
         {
@@ -35,12 +36,18 @@ namespace TelegramBot
             botClient.OnMessage += BotOnMessageAsync;
             botClient.OnCallbackQuery += BotOnCallbackQuery;
             botClient.OnReceiveError += BotOnReceiveError;
+            botClient.OnInlineQuery += BotOnInlineQuery;
             botClient.StartReceiving();
 
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
 
             botClient.StopReceiving();
+        }
+
+        private static void BotOnInlineQuery(object sender, InlineQueryEventArgs args)
+        {
+            throw new NotImplementedException();
         }
 
         private static void BotOnReceiveError(object sender, ReceiveErrorEventArgs errorArgs)
@@ -112,7 +119,7 @@ namespace TelegramBot
                     var listaServicios = ListarServicios(query.Data.Split("_")[1]);
                     await botClient.SendTextMessageAsync(
                         chatId: query.Message.Chat,
-                        text: "Por favor, seleccione el producto para el que desea sacar cita:",
+                        text: "Por favor, seleccione el servicio para el que desea sacar cita:",
                         replyMarkup: listaServicios
                         );
                     break;
@@ -132,7 +139,21 @@ namespace TelegramBot
                         Producto producto = productoServicioManagement.RetrieveByIdProducto(new Producto() { Id = productoCitaId });
                         if (producto.Cantidad > 0)
                         {
-
+                            SendText(query.Message, "¡Perfecto!");
+                            await botClient.SendTextMessageAsync(
+                                chatId: query.Message.Chat,
+                                text: "¿Cuándo desea su cita?",
+                                replyMarkup: new InlineKeyboardMarkup(new[] { new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData("En 2 días.", "date_2_"+productoCitaId.ToString()+"_"+sucursalCita),
+                                    InlineKeyboardButton.WithCallbackData("En 3 días.", "date_3_"+productoCitaId.ToString()+"_"+sucursalCita)
+                                },
+                                    new[]
+                                    {
+                                        InlineKeyboardButton.WithCallbackData("En 5 días.", "date_5_"+productoCitaId.ToString()+"_"+sucursalCita),
+                                        InlineKeyboardButton.WithCallbackData("En 7 días.", "date_7_"+productoCitaId.ToString()+"_"+sucursalCita)
+                                    }
+                                }));
                         }
                         else
                         {
@@ -280,6 +301,14 @@ namespace TelegramBot
                     }
                     else
                     {
+                        await botClient.SendTextMessageAsync(
+                            chatId: mensaje.Chat,
+                            text: "Si deseas, puedes cerrar sesión.",
+                            replyMarkup: new InlineKeyboardMarkup(new[]{
+                                new[]{
+                                    InlineKeyboardButton.WithCallbackData(
+                                        "Cerrar Sesión",
+                                        "cerrar-sesion_") } }));
                         var listadoComercios = ListarComercios();
                         await botClient.SendTextMessageAsync(
                             chatId: mensaje.Chat,
