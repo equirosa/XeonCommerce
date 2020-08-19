@@ -178,7 +178,8 @@ export class PerfilSucursalComponent implements OnInit {
       this.carritoService.create(car).subscribe();
     }
   }
-
+  
+  
   agregarListaDeseos(producto: Producto) {
     this.getListaDeseos();
     let ltsDeseos: ListaDeseos;
@@ -256,19 +257,47 @@ export class PerfilSucursalComponent implements OnInit {
     });
   }
 
-  contratar(servicio: Producto): void {
-    if (this.clienteBloqueado) {
-      this.router.navigate(['historial']);
-      this.mensajeService.add("¡Multa Pendiente!");
-      return;
-    } else {
-      const dialoRef = this.dialog.open(FormCitaServicioComponent, {
-        width: '400px',
-        height: '500px',
-        data: { servicio, sucursal: this.sucursal }
-      });
-    }
   
+  agregarProductoCita(producto: Producto): void{
+    const dialogRef = this.dialog.open(ProductoCitaComponent, {
+      width: '300px',
+      height: '200px',
+      data: { producto }
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+     
+      const productoCita = producto;
+      productoCita.cantidad = dialogResult;
+      this.productosCita.push(productoCita);
+    });
+  }
+
+  agendarCita(): void {
+    const dialogRef = this.dialog.open(FormCitaProductoComponent, {
+      width: '400px',
+      height: '500px',
+      data: { productos: this.productosCita, sucursal: this.sucursal}
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.productosCita = [];
+      this.cargarProductos();
+    });
+  }
+
+  contratar(servicio: Producto): void {
+    const dialogRef = this.dialog.open(FormCitaServicioComponent, {
+      width: '400px',
+      height: '500px',
+      data: { servicio, sucursal: this.sucursal}
+    });
+  
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.productosCita = [];
+      this.cargarServicios();
+    });
   }
 
   bloquearCliente(facturasConMulta: FacturaMaestro[], tranPendiente : TransaccionFinanciera[]): void {
@@ -283,3 +312,6 @@ export class PerfilSucursalComponent implements OnInit {
   }
 
 }
+
+
+

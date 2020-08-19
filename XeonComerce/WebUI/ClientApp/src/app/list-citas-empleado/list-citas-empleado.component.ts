@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { FinalizarCitaEmpleadoComponent } from '../finalizar-cita-empleado/finalizar-cita-empleado.component';
 import * as moment from 'moment';
+import { ScannerQrComponent } from '../scanner-qr/scanner-qr.component';
 
 @Component({
   selector: 'app-list-citas-empleado',
@@ -20,7 +21,7 @@ export class ListCitasEmpleadoComponent implements OnInit {
   hoy: Date;
 
   citas = new MatTableDataSource<CitaProducto>();
-  columnas: string[] = ['sucursal', 'fecha', 'estado', 'tipo', 'finalizar'];
+  columnas: string[] = ['sucursal', 'fecha', 'estado', 'tipo', 'scanner', 'finalizar'];
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -56,7 +57,7 @@ export class ListCitasEmpleadoComponent implements OnInit {
 
   finalizar(cita: CitaProducto): void {
     const dialogRef = this.dialog.open(FinalizarCitaEmpleadoComponent, {
-      width: '500px',
+      width: '650px',
       height: '500px',
       data: {cita}
     });
@@ -82,4 +83,16 @@ export class ListCitasEmpleadoComponent implements OnInit {
     });
   }
 
+  scanner(cita: CitaProducto): void {
+    const dialogRef = this.dialog.open(ScannerQrComponent, {
+      width: '500px',
+      height: '500px',
+      data: {cita}
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.cargarCitas();
+    });
+
+  }
 }

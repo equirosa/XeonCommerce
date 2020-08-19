@@ -21,7 +21,16 @@
         <ng-container matColumnDef="tipo">
             <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
             <mat-cell *matCellDef="let element">{{element.tipo === 'P' ? 'Producto': 'Servicio'}}</mat-cell>
-        </ng-container>       
+        </ng-container>      
+        <ng-container matColumnDef="scanner">
+            <mat-header-cell *matHeaderCellDef>Scanner</mat-header-cell>
+            <mat-cell  *matCellDef="let element">
+                <!-- [disabled]="element.horaFinal > hoy" -->
+                <button mat-raised-button color="ver" (click)="scanner(element)" >
+                    Verificar
+                </button>
+            </mat-cell>
+        </ng-container>   
         <ng-container matColumnDef="finalizar">
             <mat-header-cell *matHeaderCellDef>Finalizar</mat-header-cell>
             <mat-cell  *matCellDef="let element">

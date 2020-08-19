@@ -1,16 +1,47 @@
-<form [formGroup]="f" *ngFor="let f of formProductos.controls; let i = index" class="mt-lg">
+<!-- <form [formGroup]="f" *ngFor="let f of formProductos.controls; let i = index" class="mt-lg">
     <strong class="nombre-producto">{{cita.productos[i].nombre}}: </strong>
     <mat-form-field class="form-field-producto">
         <mat-label>Cantidad</mat-label>
-        <input matInput type="number" formControlName="Cantidad">
-        <!-- <mat-error *ngIf="f.controls['Cantidad'].errors?.e-min-count">
+        <input matInput type="number" formControlName="Cantidad"> -->
+<!-- <mat-error *ngIf="f.controls['Cantidad'].errors?.e-min-count">
             La cantidad no puede ser cero!
         </mat-error>
         <mat-error *ngIf="f.controls['Cantidad'].errors?.max">
             No existen tantas unidades en stock!
         </mat-error> -->
-    </mat-form-field>
+<!-- </mat-form-field>
 </form>
 <button  mat-flat-button (click)="guardarProductos()" >
     Guardar
+</button> -->
+<button mat-raised-button color="crear"  (click)="agregarProducto()" class="mt-md mb-sm" >
+    Agregar Producto
 </button>
+<mat-table class="overflow-md" [dataSource]="productosCitaTabla">
+    <ng-container matColumnDef="producto">
+        <mat-header-cell *matHeaderCellDef>Producto</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.nombre}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="cantidad">
+        <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.cantidad}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="editar">
+        <mat-header-cell *matHeaderCellDef>Editar</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <button mat-icon-button  (click)="editar(element)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="eliminar">
+        <mat-header-cell *matHeaderCellDef>Eliminar</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <button mat-icon-button  (click)="eliminar(element)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </mat-cell>
+    </ng-container>
+    <mat-header-row  *matHeaderRowDef="columnas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnas;"></mat-row>
+</mat-table>

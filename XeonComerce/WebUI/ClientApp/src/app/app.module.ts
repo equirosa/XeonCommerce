@@ -170,6 +170,10 @@ import { ListaDeseosComponent } from './lista-deseos/lista-deseos.component';
 import { CalificacionDialogComponent } from './calificacion-dialog/calificacion-dialog.component';
 import { ListaCalificacionesComponent } from './lista-calificaciones/lista-calificaciones.component';
 import { FormCitaServicioComponent } from './form-cita-servicio/form-cita-servicio.component';
+import { ScannerQrComponent } from './scanner-qr/scanner-qr.component';
+import { NgQrScannerModule } from 'angular2-qrscanner';
+import { InfoScannerComponent } from './_components/info-scanner/info-scanner.component';
+import { FinalizarNuevoProductoComponent } from './_components/finalizar-nuevo-producto/finalizar-nuevo-producto.component';
 import { EditarClienteComponent } from './editar-cliente/editar-cliente.component';
 @NgModule({
   imports: [
@@ -226,6 +230,7 @@ import { EditarClienteComponent } from './editar-cliente/editar-cliente.componen
     ScheduleModule,
     RecurrenceEditorModule,
     EmpleadoModule,
+    NgQrScannerModule,
   ],
   entryComponents: [
     DialogComercio,
@@ -340,7 +345,10 @@ import { EditarClienteComponent } from './editar-cliente/editar-cliente.componen
     ListaDeseosComponent,
     CalificacionDialogComponent,
     ListaCalificacionesComponent,
-    EditarClienteComponent
+    EditarClienteComponent,
+		ScannerQrComponent,
+		InfoScannerComponent,
+		FinalizarNuevoProductoComponent
   ], 
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
