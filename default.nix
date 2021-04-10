@@ -4,5 +4,6 @@ pkgs.mkShell {
     dotnet-sdk_3
     dotnetCorePackages.netcore_3_1
     dotnetCorePackages.aspnetcore_3_1
+    nodejs
   ];
 }
